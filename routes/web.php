@@ -52,6 +52,21 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('admin.reports');
     Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('admin.events');
     Route::get('/payroll', [\App\Http\Controllers\PayrollController::class, 'index'])->name('admin.payroll');
+    
+    // AI Modules
+    Route::prefix('ai')->name('admin.ai.')->group(function () {
+        Route::get('/attendance', [\App\Http\Controllers\Admin\AiAttendanceController::class, 'index'])->name('attendance');
+        Route::post('/attendance/predict', [\App\Http\Controllers\Admin\AiAttendanceController::class, 'predict'])->name('attendance.predict');
+        
+        Route::get('/risk', [\App\Http\Controllers\Admin\AiStudentRiskController::class, 'index'])->name('risk');
+        Route::post('/risk/analyze', [\App\Http\Controllers\Admin\AiStudentRiskController::class, 'analyze'])->name('risk.analyze');
+        
+        Route::get('/timetable', [\App\Http\Controllers\Admin\AiTimetableController::class, 'index'])->name('timetable');
+        Route::post('/timetable/generate', [\App\Http\Controllers\Admin\AiTimetableController::class, 'generate'])->name('timetable.generate');
+        
+        Route::get('/reports', [\App\Http\Controllers\Admin\AiReportController::class, 'index'])->name('reports');
+        Route::post('/reports/generate', [\App\Http\Controllers\Admin\AiReportController::class, 'generate'])->name('reports.generate');
+    });
 });
 
 // TEACHER ROUTES

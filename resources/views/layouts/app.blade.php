@@ -254,7 +254,34 @@
                         <span class="font-label-md text-label-md">Staff Payroll</span>
                     </a>
                 </li>
+                <li class="px-md py-xs mt-sm">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">AI Modules</span>
+                </li>
                 <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.attendance*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.attendance') }}">
+                        <span class="material-symbols-outlined" data-icon="online_prediction">online_prediction</span>
+                        <span class="font-label-md text-label-md">Attendance Prediction</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.risk*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.risk') }}">
+                        <span class="material-symbols-outlined" data-icon="psychology_alt">psychology_alt</span>
+                        <span class="font-label-md text-label-md">Student Risk Analysis</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.timetable*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.timetable') }}">
+                        <span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+                        <span class="font-label-md text-label-md">Timetable Generator</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.reports*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.reports') }}">
+                        <span class="material-symbols-outlined" data-icon="document_scanner">document_scanner</span>
+                        <span class="font-label-md text-label-md">AI Report Generator</span>
+                    </a>
+                </li>
+                <li class="mt-sm border-t border-outline-variant pt-sm">
                     <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out" href="{{ route('parent.dashboard') }}" target="_blank">
                         <span class="material-symbols-outlined" data-icon="family_home">family_home</span>
                         <span class="font-label-md text-label-md">Parent Portal</span>
