@@ -37,7 +37,7 @@
                         @forelse($homeworks as $hw)
                         <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
                             <td class="py-3 px-4 font-medium text-on-surface">{{ $hw->title }}</td>
-                            <td class="py-3 px-4 text-secondary">{{ $hw->class->name ?? 'N/A' }}</td>
+                            <td class="py-3 px-4 text-secondary">{{ $hw->class_->name ?? 'N/A' }}</td>
                             <td class="py-3 px-4 text-secondary">{{ $hw->subject->name ?? 'N/A' }}</td>
                             <td class="py-3 px-4 text-secondary">{{ \Carbon\Carbon::parse($hw->due_date)->format('d M, Y') }}</td>
                             <td class="py-3 px-4 text-center">

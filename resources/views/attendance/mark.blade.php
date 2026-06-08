@@ -211,7 +211,7 @@
             });
 
             if (attendanceData.length === 0) {
-                alert('Please mark attendance for at least one student.');
+                UI.showToast('Please mark attendance for at least one student.', 'error');
                 return;
             }
 
@@ -228,12 +228,12 @@
                     const statusBadge = document.getElementById('attendance-status');
                     statusBadge.textContent = 'Submitted';
                     statusBadge.className = 'bg-[#e6f4ea] text-[#137333] px-sm py-[2px] rounded-full text-label-md font-label-md border border-[#137333]/20';
-                    alert(res.message);
+                    UI.showToast(res.message, 'success');
                 } else {
-                    alert(res.message || 'Error saving attendance');
+                    UI.showToast(res.message || 'Error saving attendance', 'error');
                 }
             }).catch(err => {
-                alert('Failed to save attendance.');
+                UI.showToast('Failed to save attendance.', 'error');
                 console.error(err);
             });
         });

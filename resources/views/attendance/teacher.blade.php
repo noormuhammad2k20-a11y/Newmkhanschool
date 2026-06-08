@@ -8,7 +8,7 @@
         <!-- Page Header -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
             <div>
-                <h2 class="font-headline-xl text-headline-xl text-on-surface">Daily Attendance &amp; Leave Management</h2>
+                <h1 class="text-headline-lg font-headline-lg font-semibold text-on-surface">Daily Attendance &amp; Leave Management</h1>
                 <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Overview for <span id="current-date">{{ date('l, F j, Y') }}</span></p>
             </div>
             <button class="inline-flex items-center gap-sm px-lg py-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:opacity-90 transition-opacity whitespace-nowrap shadow-[0_4px_12px_rgba(26,35,126,0.08)]">
@@ -236,12 +236,12 @@
             if (response.status === 'success') {
                 fetchDashboardData();
             } else {
-                alert(response.message || 'Error updating status');
+                UI.showToast(response.message || 'Error updating status', 'error');
             }
         })
         .catch(error => {
             console.error('Error updating leave status:', error);
-            alert('An error occurred. Check console for details.');
+            UI.showToast('An error occurred. Check console for details.', 'error');
         });
     }
 </script>

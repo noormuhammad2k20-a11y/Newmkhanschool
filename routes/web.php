@@ -64,6 +64,8 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
         Route::get('/timetable', [\App\Http\Controllers\Admin\AiTimetableController::class, 'index'])->name('timetable');
         Route::get('/timetable/fetch', [\App\Http\Controllers\Admin\AiTimetableController::class, 'fetch'])->name('timetable.fetch');
         Route::post('/timetable/generate', [\App\Http\Controllers\Admin\AiTimetableController::class, 'generate'])->name('timetable.generate');
+        Route::get('/timetable/versions', [\App\Http\Controllers\Admin\AiTimetableController::class, 'getVersions'])->name('timetable.versions');
+        Route::post('/timetable/versions/{id}/approve', [\App\Http\Controllers\Admin\AiTimetableController::class, 'approve'])->name('timetable.approve');
         Route::post('/timetable/suggestions', [\App\Http\Controllers\Admin\AiTimetableController::class, 'getSuggestions'])->name('timetable.suggestions');
         Route::post('/timetable/slot/{id}', [\App\Http\Controllers\Admin\AiTimetableController::class, 'updateSlot'])->name('timetable.update');
         Route::get('/timetable/history', [\App\Http\Controllers\Admin\AiTimetableController::class, 'history'])->name('timetable.history');
@@ -185,6 +187,7 @@ Route::middleware(['auth', 'same_school'])->prefix('api')->group(function () {
     Route::post('/teachers', [\App\Http\Controllers\Api\TeacherController::class, 'store'])->name('api.teachers.store');
     Route::put('/teachers/{id}', [\App\Http\Controllers\Api\TeacherController::class, 'update'])->name('api.teachers.update');
     Route::delete('/teachers/{id}', [\App\Http\Controllers\Api\TeacherController::class, 'destroy'])->name('api.teachers.destroy');
+    Route::get('/classes/filters', [\App\Http\Controllers\Api\ClassController::class, 'filters'])->name('api.classes.filters');
     Route::get('/classes/timetable', [\App\Http\Controllers\Api\ClassController::class, 'timetable'])->name('api.classes.timetable');
     Route::get('/attendance', [\App\Http\Controllers\Api\AttendanceController::class, 'index'])->name('api.attendance.index');
     Route::post('/attendance', [\App\Http\Controllers\Api\AttendanceController::class, 'store'])->name('api.attendance.store');

@@ -7,7 +7,7 @@
             <!-- Page Header & Actions -->
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
                 <div>
-                    <h2 class="font-headline-xl text-headline-xl text-on-surface">School Events &amp; News</h2>
+                    <h1 class="text-headline-lg font-headline-lg font-semibold text-on-surface">School Events &amp; News</h1>
                     <p class="font-body-md text-body-md text-secondary mt-xs">Manage district announcements, academic
                         calendars, and school highlights.</p>
                 </div>
@@ -85,7 +85,7 @@
                 closeAddEventModal();
                 loadEvents();
             } else {
-                alert('Error: ' + response.message);
+                UI.showToast('Error: ' + response.message, 'error');
             }
         });
     });

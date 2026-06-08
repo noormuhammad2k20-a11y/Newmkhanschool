@@ -8,7 +8,7 @@
                 <!-- Page Header -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-md">
                     <div>
-                        <h2 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Fee Management</h2>
+                        <h1 class="text-headline-lg font-headline-lg font-semibold text-on-surface mb-xs">Fee Management</h1>
                         <p class="font-body-md text-body-md text-secondary">Monitor collections, dues, and generate payment challans.</p>
                     </div>
                     <button class="bg-primary text-on-primary px-lg py-2.5 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center gap-sm shadow-sm">

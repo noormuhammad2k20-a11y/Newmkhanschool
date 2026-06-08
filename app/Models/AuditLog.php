@@ -14,4 +14,6 @@ class AuditLog extends Model
         'description',
         'ip_address',
     ];
+
+    public const UPDATED_AT = null;
 }

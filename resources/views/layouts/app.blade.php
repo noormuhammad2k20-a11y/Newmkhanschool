@@ -103,7 +103,7 @@
         }
     </script>
     <style>
-        .material-symbols-outlined {
+        .material-symbols-outlined, .material-symbols-rounded {
             font-family: 'Material Symbols Outlined';
             font-weight: normal;
             font-style: normal;
@@ -419,6 +419,100 @@
                     </a>
                 </li>
                 @endif
+            @elseif(auth()->check() && auth()->user()->role_id == 4)
+                <!-- Student Links -->
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.dashboard*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.dashboard') }}">
+                        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                        <span class="font-label-md text-label-md">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.marks*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.marks') }}">
+                        <span class="material-symbols-outlined" data-icon="grade">grade</span>
+                        <span class="font-label-md text-label-md">My Marks</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.fees*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.fees') }}">
+                        <span class="material-symbols-outlined" data-icon="payments">payments</span>
+                        <span class="font-label-md text-label-md">Fee Status</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.timetable*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.timetable') }}">
+                        <span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                        <span class="font-label-md text-label-md">Timetable</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.assignments*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.assignments') }}">
+                        <span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                        <span class="font-label-md text-label-md">Assignments</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.announcements*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.announcements') }}">
+                        <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+                        <span class="font-label-md text-label-md">Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.leave*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.leave.index') }}">
+                        <span class="material-symbols-outlined" data-icon="event_busy">event_busy</span>
+                        <span class="font-label-md text-label-md">Leave Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.messages*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.messages') }}">
+                        <span class="material-symbols-outlined" data-icon="forum">forum</span>
+                        <span class="font-label-md text-label-md">Messages</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.profile*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.profile') }}">
+                        <span class="material-symbols-outlined" data-icon="person">person</span>
+                        <span class="font-label-md text-label-md">My Profile</span>
+                    </a>
+                </li>
+            @elseif(auth()->check() && auth()->user()->role_id == 5)
+                <!-- Parent Links -->
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('parent.dashboard*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('parent.dashboard') }}">
+                        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                        <span class="font-label-md text-label-md">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('parent.children*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('parent.children') }}">
+                        <span class="material-symbols-outlined" data-icon="family_restroom">family_restroom</span>
+                        <span class="font-label-md text-label-md">My Children</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('parent.announcements*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('parent.announcements') }}">
+                        <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+                        <span class="font-label-md text-label-md">Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('parent.messages*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('parent.messages') }}">
+                        <span class="material-symbols-outlined" data-icon="forum">forum</span>
+                        <span class="font-label-md text-label-md">Messages</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('parent.transport*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('parent.transport') }}">
+                        <span class="material-symbols-outlined" data-icon="directions_bus">directions_bus</span>
+                        <span class="font-label-md text-label-md">Transport</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('parent.profile*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('parent.profile') }}">
+                        <span class="material-symbols-outlined" data-icon="person">person</span>
+                        <span class="font-label-md text-label-md">My Profile</span>
+                    </a>
+                </li>
             @endif
         </ul>
         <div class="px-sm mt-auto">
@@ -432,7 +526,7 @@
         </div>
     </nav>
     <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col md:ml-64 w-full min-h-screen">
+    <div class="flex flex-col md:ml-64 w-full md:w-[calc(100%-16rem)] min-h-screen min-w-0">
         <!-- TopNavBar -->
         <header class="bg-surface-container-lowest w-full h-16 border-b border-outline-variant flex justify-between items-center px-lg sticky top-0 z-30">
             <div class="flex items-center gap-md">
@@ -491,19 +585,24 @@
                 const toastContainer = document.getElementById('global-toast');
                 const toast = document.createElement('div');
                 
-                // Using solid vibrant colors for maximum visibility
+                // Premium glassmorphism design with solid typography
+                const isDark = document.documentElement.classList.contains('dark');
                 const styleObj = type === 'success' 
-                    ? 'background-color: #10b981; color: #ffffff; border-color: #059669;' 
-                    : 'background-color: #ef4444; color: #ffffff; border-color: #b91c1c;';
+                    ? `background-color: ${isDark ? 'rgba(16, 185, 129, 0.15)' : 'rgba(236, 253, 245, 0.9)'}; border-color: rgba(16, 185, 129, 0.3); backdrop-filter: blur(12px);` 
+                    : `background-color: ${isDark ? 'rgba(239, 68, 68, 0.15)' : 'rgba(254, 242, 242, 0.9)'}; border-color: rgba(239, 68, 68, 0.3); backdrop-filter: blur(12px);`;
                 const icon = type === 'success' ? 'check_circle' : 'error';
+                const iconColor = type === 'success' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400';
+                const textColor = type === 'success' ? 'text-emerald-800 dark:text-emerald-100' : 'text-red-800 dark:text-red-100';
                 
-                toast.className = `flex items-center gap-3 p-4 rounded-xl shadow-lg border -translate-y-full opacity-0 transition-all duration-300 pointer-events-auto`;
+                toast.className = `flex items-center gap-4 p-4 min-w-[320px] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border -translate-y-full opacity-0 transition-all duration-500 ease-out pointer-events-auto z-[9999]`;
                 toast.style.cssText = styleObj;
                 toast.innerHTML = `
-                    <span class="material-symbols-outlined">${icon}</span>
-                    <span class="text-body-md font-medium">${message}</span>
-                    <button onclick="this.parentElement.remove()" class="ml-auto opacity-70 hover:opacity-100 transition-opacity">
-                        <span class="material-symbols-outlined text-[18px]">close</span>
+                    <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full shadow-sm ${type === 'success' ? 'bg-emerald-100 dark:bg-emerald-900/40' : 'bg-red-100 dark:bg-red-900/40'}">
+                        <span class="material-symbols-outlined ${iconColor} text-[22px]">${icon}</span>
+                    </div>
+                    <span class="text-body-md font-semibold ${textColor} flex-1 tracking-wide">${message}</span>
+                    <button onclick="this.parentElement.style.opacity='0'; setTimeout(()=>this.parentElement.remove(), 300)" class="ml-auto flex items-center justify-center w-8 h-8 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${textColor}">
+                        <span class="material-symbols-outlined text-[20px]">close</span>
                     </button>
                 `;
                 

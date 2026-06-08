@@ -155,7 +155,7 @@
                     if (response.status === 'success') {
                         fetchStudents(); // Refresh the list
                     } else {
-                        alert('Error removing student');
+                        UI.showToast('Error removing student', 'error');
                     }
                 });
             }

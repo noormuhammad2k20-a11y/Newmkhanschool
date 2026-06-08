@@ -22,7 +22,7 @@ class AiTimetableGeneratorService
     ];
 
     /**
-     * Generate a collision-free timetable and save it to the database.
+     * Generate a collision-free timetable and save it to the database as a new draft version.
      */
     public function generateTimetable()
     {
@@ -30,8 +30,17 @@ class AiTimetableGeneratorService
         $subjects = Subject::all();
         $teachers = Teacher::all();
 
-        // Clear existing timetable
-        Timetable::query()->delete();
+        // Get active academic year
+        $activeYear = \App\Models\AcademicYear::where('is_active', 1)->first();
+
+        // Create a new Timetable Version
+        $versionName = 'AI Generated - ' . date('Y-m-d H:i');
+        $version = \App\Models\TimetableVersion::create([
+            'name' => $versionName,
+            'status' => 'Draft',
+            'academic_year_id' => $activeYear ? $activeYear->id : null,
+            'created_by' => auth()->id() ?? 1
+        ]);
 
         $timetableData = [];
         $teacherSchedule = []; // To track and prevent double booking
@@ -91,6 +100,7 @@ class AiTimetableGeneratorService
 
                         // Save to DB
                         $slot = Timetable::create([
+                            'timetable_version_id' => $version->id,
                             'class_id' => $class->id,
                             'section_id_ref' => $section ? $section->id : null,
                             'subject' => $subjectName,
@@ -106,7 +116,9 @@ class AiTimetableGeneratorService
                         $timetableData[$className][$day][$periodName] = [
                             'id' => $slot->id,
                             'subject' => $subjectName,
+                            'subject_id' => $subjectId,
                             'teacher' => $teacherName,
+                            'teacher_id' => $teacherId,
                             'time' => $timeStr,
                             'room' => $room
                         ];
@@ -114,17 +126,34 @@ class AiTimetableGeneratorService
                 }
             }
         }
+        $version->load(['createdBy', 'approvedBy', 'publishedBy']);
 
         return [
             'status' => 'success',
-            'message' => 'Timetable generated successfully with zero conflicts.',
-            'data' => $timetableData
+            'message' => 'Timetable generated successfully. Please review and click Approve to make it live.',
+            'data' => $timetableData,
+            'version_id' => $version->id,
+            'version' => $version
         ];
     }
 
-    public function getTimetable()
+    public function getTimetable($versionId = null)
     {
-        $slots = Timetable::with(['teacher', 'subjectRef', 'sectionRef', 'class_'])->get();
+        $query = Timetable::with(['teacher', 'subjectRef', 'sectionRef', 'class_']);
+        
+        if ($versionId) {
+            $query->where('timetable_version_id', $versionId);
+        } else {
+            // Get latest version if none provided
+            $latestVersion = \App\Models\TimetableVersion::latest()->first();
+            if ($latestVersion) {
+                $query->where('timetable_version_id', $latestVersion->id);
+            } else {
+                return null;
+            }
+        }
+
+        $slots = $query->get();
         if ($slots->isEmpty()) {
             return null;
         }
@@ -162,42 +191,57 @@ class AiTimetableGeneratorService
             $timetableData[$className][$day][$periodName] = [
                 'id' => $slot->id,
                 'subject' => $slot->subjectRef ? $slot->subjectRef->name : $slot->subject,
+                'subject_id' => $slot->subject_id_ref,
                 'teacher' => $slot->teacher ? $slot->teacher->full_name : $slot->teacher,
+                'teacher_id' => $slot->teacher_id,
                 'time' => $timeStr,
                 'room' => $slot->room
             ];
         }
 
+        $version = $versionId ? \App\Models\TimetableVersion::find($versionId) : \App\Models\TimetableVersion::latest()->first();
+
         return [
             'status' => 'success',
             'message' => 'Timetable loaded successfully.',
-            'data' => $timetableData
+            'data' => $timetableData,
+            'version' => $version
         ];
     }
 
-    public function getAiSuggestions($dayOfWeek, $startTime, $endTime)
+    public function getAiSuggestions($dayOfWeek, $startTime, $endTime, $ignoreTimetableId = null)
     {
-        $busyTeacherIds = Timetable::where('day_of_week', $dayOfWeek)
+        $busyTeacherQuery = Timetable::where('day_of_week', $dayOfWeek)
             ->where(function($q) use ($startTime, $endTime) {
                 $q->where(function($q2) use ($startTime, $endTime) {
                     $q2->where('start_time', '<', $endTime)
                        ->where('end_time', '>', $startTime);
                 });
-            })
-            ->pluck('teacher_id')
+            });
+
+        if ($ignoreTimetableId) {
+            $busyTeacherQuery->where('id', '!=', $ignoreTimetableId);
+        }
+
+        $busyTeacherIds = $busyTeacherQuery->pluck('teacher_id')
             ->filter()
             ->toArray();
 
         $availableTeachers = Teacher::whereNotIn('id', $busyTeacherIds)->get(['id', 'full_name']);
 
-        $busyRooms = Timetable::where('day_of_week', $dayOfWeek)
+        $busyRoomsQuery = Timetable::where('day_of_week', $dayOfWeek)
             ->where(function($q) use ($startTime, $endTime) {
                 $q->where(function($q2) use ($startTime, $endTime) {
                     $q2->where('start_time', '<', $endTime)
                        ->where('end_time', '>', $startTime);
                 });
-            })
-            ->pluck('room')
+            });
+
+        if ($ignoreTimetableId) {
+            $busyRoomsQuery->where('id', '!=', $ignoreTimetableId);
+        }
+
+        $busyRooms = $busyRoomsQuery->pluck('room')
             ->filter()
             ->toArray();
 

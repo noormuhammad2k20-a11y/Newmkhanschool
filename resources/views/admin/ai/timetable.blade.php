@@ -1,24 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="flex-1 p-lg overflow-y-auto w-full">
+<main class="flex-1 p-lg overflow-y-auto w-full min-w-0">
     <div class="max-w-[1440px] mx-auto">
         <!-- Header Section -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-xl">
-            <div>
-                <h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-xs">AI Timetable Generator</h2>
-                <p class="font-body-md text-body-md text-secondary">Intelligently create and edit collision-free class schedules.</p>
+            <div class="flex flex-col 2xl:flex-row 2xl:items-center justify-between gap-md mb-xl">
+            <div class="flex-1 min-w-0 mb-4 2xl:mb-0">
+                <h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-xs truncate">AI Timetable Generator</h2>
+                <p class="font-body-md text-body-md text-secondary truncate">Intelligently create and edit collision-free class schedules.</p>
             </div>
-            <div class="flex gap-sm">
-                <button id="historyBtn" class="px-lg py-sm rounded-lg border border-outline text-secondary font-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center gap-xs">
+            
+            <div class="flex flex-wrap items-center gap-3 shrink-0 bg-surface-container-lowest p-2 rounded-xl border border-outline-variant shadow-sm w-full 2xl:w-auto overflow-x-auto">
+                <button id="approveBtn" class="hidden px-4 py-2 rounded-lg bg-blue-600 text-white font-label-md hover:bg-blue-700 transition-colors shadow-sm items-center justify-center gap-2 whitespace-nowrap min-w-[160px] h-[40px]">
+                    <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                    Approve Timetable
+                </button>
+                
+                <button id="historyBtn" class="px-4 py-2 rounded-lg border border-outline text-secondary font-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center justify-center gap-2 whitespace-nowrap min-w-[140px] h-[40px]">
                     <span class="material-symbols-outlined text-[18px]">history</span>
                     View History
                 </button>
-                <button id="editBtn" class="hidden px-lg py-sm rounded-lg border border-outline text-primary font-label-md hover:bg-surface-container transition-colors shadow-sm items-center gap-xs">
+                
+                <button id="editBtn" class="hidden px-4 py-2 rounded-lg border border-outline text-primary font-label-md hover:bg-surface-container transition-colors shadow-sm items-center justify-center gap-2 whitespace-nowrap min-w-[160px] h-[40px]">
                     <span class="material-symbols-outlined text-[18px]">edit</span>
                     Edit AI Timetable
                 </button>
-                <button id="generateBtn" class="px-lg py-sm rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
+                
+                <button id="generateBtn" class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-2 whitespace-nowrap min-w-[200px] h-[40px]">
                     <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
                     1-Click Generate Timetable
                 </button>
@@ -61,6 +69,29 @@
 
         <!-- Result State -->
         <div id="resultState" class="hidden">
+            <!-- Timetable Information Card -->
+            <div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm mb-lg">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-4 text-sm text-secondary mb-2">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">person</span>
+                                <span id="infoCreatedBy">Created By</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                <span id="infoCreatedAt">Date</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">update</span>
+                                <span id="infoUpdatedAt">Last Updated</span>
+                            </div>
+                        </div>
+                        <div id="infoActionMetadata" class="text-xs text-secondary mt-2 hidden flex-wrap gap-x-4 gap-y-1"></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="p-sm bg-green-100 text-green-800 rounded-lg border border-green-200 flex items-center gap-sm mb-lg shadow-sm">
                 <span class="material-symbols-outlined">check_circle</span>
                 <span id="resultMessage" class="font-medium text-sm">Timetable loaded.</span>
@@ -86,6 +117,11 @@
             <input type="hidden" id="editDayOfWeek" name="day_of_week">
             <input type="hidden" id="editStartTime" name="start_time">
             <input type="hidden" id="editEndTime" name="end_time">
+            
+            <div class="bg-surface-container p-3 rounded-lg border border-outline-variant mb-4 text-sm text-on-surface-variant flex flex-col gap-1">
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">school</span> <strong id="editClassSectionLabel">Class</strong></div>
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">schedule</span> <strong id="editTimeLabel">Time</strong></div>
+            </div>
             
             <div>
                 <label class="block text-sm font-medium text-secondary mb-1">Subject</label>
@@ -137,8 +173,44 @@
     let isEditMode = false;
     let currentTimetableData = null;
 
+    let currentVersionId = null;
+
     document.addEventListener('DOMContentLoaded', () => {
-        fetchTimetable();
+        fetchVersions().then(() => fetchTimetable());
+    });
+    
+    function fetchVersions() {
+        return fetch("{{ route('admin.ai.timetable.versions') }}")
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Handled gracefully in showResult
+                }
+            });
+    }
+
+
+
+    document.getElementById('approveBtn').addEventListener('click', function() {
+        if(!currentVersionId) return;
+        
+        UI.confirm('Approve Timetable', 'Are you sure you want to approve this timetable?').then(confirmed => {
+            if(confirmed) {
+                fetch(`/admin/ai/timetable/versions/${currentVersionId}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    UI.showToast(data.message, data.status);
+                    fetchVersions();
+                    fetchTimetable(currentVersionId);
+                });
+            }
+        });
     });
 
     document.getElementById('editBtn').addEventListener('click', function() {
@@ -170,10 +242,12 @@
         .then(data => {
             if(data.status === 'success') {
                 currentTimetableData = data.data;
+                currentVersionId = data.version_id;
                 renderTimetable(data.data);
                 document.getElementById('resultMessage').textContent = data.message;
-                showResult();
+                showResult(data.version);
                 UI.showToast('Timetable generated successfully');
+                fetchVersions();
             } else {
                 throw new Error('Failed to generate timetable');
             }
@@ -185,15 +259,21 @@
         });
     });
 
-    function fetchTimetable() {
-        fetch("{{ route('admin.ai.timetable.fetch') }}")
+    function fetchTimetable(versionId = null) {
+        let url = "{{ route('admin.ai.timetable.fetch') }}";
+        if (versionId) {
+            url += `?version_id=${versionId}`;
+        }
+        
+        fetch(url)
         .then(response => response.json())
         .then(data => {
             if(data.status === 'success') {
                 currentTimetableData = data.data;
+                currentVersionId = data.version ? data.version.id : null;
                 renderTimetable(data.data);
                 document.getElementById('resultMessage').textContent = data.message;
-                showResult();
+                showResult(data.version);
             } else {
                 showInitial();
             }
@@ -207,20 +287,57 @@
         document.getElementById('loadingText').textContent = text;
     }
 
-    function showResult() {
+    function showResult(versionData = null) {
         document.getElementById('loadingState').classList.add('hidden');
         document.getElementById('initialState').classList.add('hidden');
         document.getElementById('resultState').classList.remove('hidden');
-        document.getElementById('editBtn').classList.remove('hidden');
-        document.getElementById('editBtn').classList.add('flex');
+        
+        const approveBtn = document.getElementById('approveBtn');
+        const editBtn = document.getElementById('editBtn');
+        const metaDiv = document.getElementById('infoActionMetadata');
+        
+        approveBtn.classList.add('hidden'); approveBtn.classList.remove('flex');
+        editBtn.classList.add('hidden'); editBtn.classList.remove('flex');
+        metaDiv.classList.add('hidden');
+        metaDiv.innerHTML = '';
+        
+        if (versionData) {
+            document.getElementById('infoCreatedBy').textContent = versionData.created_by ? versionData.created_by.name : 'System';
+            document.getElementById('infoCreatedAt').textContent = new Date(versionData.created_at).toLocaleString();
+            document.getElementById('infoUpdatedAt').textContent = new Date(versionData.updated_at).toLocaleString();
+            
+            // Format Dates
+            let metadataHtml = [];
+            
+            if (versionData.approved_by && versionData.approved_by.name) {
+                metadataHtml.push(`<div><strong class="text-on-surface">Approved:</strong> ${versionData.approved_by.name} on ${new Date(versionData.approved_at).toLocaleString()}</div>`);
+            }
+            
+            if (metadataHtml.length > 0) {
+                metaDiv.innerHTML = metadataHtml.join('');
+                metaDiv.classList.remove('hidden');
+                metaDiv.classList.add('flex');
+            }
+
+            if (versionData.status !== 'Approved') {
+                approveBtn.classList.remove('hidden'); approveBtn.classList.add('flex');
+                editBtn.classList.remove('hidden'); editBtn.classList.add('flex');
+            }
+        }
     }
 
     function showInitial() {
         document.getElementById('loadingState').classList.add('hidden');
         document.getElementById('resultState').classList.add('hidden');
         document.getElementById('initialState').classList.remove('hidden');
-        document.getElementById('editBtn').classList.add('hidden');
-        document.getElementById('editBtn').classList.remove('flex');
+        
+        ['editBtn', 'approveBtn'].forEach(id => {
+            const btn = document.getElementById(id);
+            if(btn) {
+                btn.classList.add('hidden');
+                btn.classList.remove('flex');
+            }
+        });
     }
 
     function renderTimetable(data) {
@@ -239,30 +356,30 @@
                             <span class="material-symbols-outlined">download</span>
                         </button>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse min-w-[800px]">
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse min-w-max">
                             <thead>
                                 <tr class="bg-surface text-on-surface-variant border-b border-outline-variant">
-                                    <th class="p-md font-label-md border-r border-outline-variant w-32">Day / Period</th>
-                                    ${periods.map(p => `<th class="p-md font-label-md text-center border-r border-outline-variant ${p==='Break'?'bg-surface-container':''}">${p}</th>`).join('')}
+                                    <th class="p-md font-label-md border-r border-outline-variant w-32 min-w-[120px] whitespace-nowrap">Day / Period</th>
+                                    ${periods.map(p => `<th class="p-md font-label-md text-center border-r border-outline-variant min-w-[160px] ${p==='Break'?'bg-surface-container min-w-[120px]':''} whitespace-nowrap">${p}</th>`).join('')}
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-outline-variant">
                                 ${days.map(day => `
                                     <tr class="hover:bg-surface-container-low transition-colors">
-                                        <td class="p-md font-semibold border-r border-outline-variant bg-surface text-on-surface">${day}</td>
+                                        <td class="p-md font-semibold border-r border-outline-variant bg-surface text-on-surface whitespace-nowrap">${day}</td>
                                         ${periods.map(period => {
                                             const cell = schedule[day] ? schedule[day][period] : null;
-                                            if (!cell) return '<td class="p-sm border-r border-outline-variant text-center text-secondary">-</td>';
+                                            if (!cell) return '<td class="p-sm border-r border-outline-variant text-center text-secondary min-w-[160px]">-</td>';
                                             if (period === 'Break') {
-                                                return `<td class="p-sm border-r border-outline-variant bg-surface-container text-center font-bold text-secondary uppercase tracking-widest text-xs">${cell.subject}</td>`;
+                                                return `<td class="p-sm border-r border-outline-variant bg-surface-container text-center font-bold text-secondary uppercase tracking-widest text-xs min-w-[120px]">${cell.subject}</td>`;
                                             }
                                             
                                             const cursorClass = isEditMode ? 'cursor-pointer hover:bg-primary-container/20 transition-colors' : '';
-                                            const onClick = isEditMode ? `onclick="openEditModal(${cell.id}, '${day}', '${cell.time}')"` : '';
+                                            const onClick = isEditMode ? `onclick="openEditModal(${cell.id}, '${day}', '${cell.time}', '${cell.subject_id}', '${cell.teacher_id}', '${cell.room}', '${className}')"` : '';
                                             
                                             return `
-                                                <td class="p-sm border-r border-outline-variant align-top w-40 ${cursorClass}" ${onClick}>
+                                                <td class="p-sm border-r border-outline-variant align-top min-w-[160px] w-40 ${cursorClass}" ${onClick}>
                                                     <div class="font-body-md font-bold text-on-surface mb-1 text-sm">${cell.subject}</div>
                                                     <div class="text-xs text-on-surface-variant flex items-center gap-1 mb-1">
                                                         <span class="material-symbols-outlined text-[12px]">person</span> ${cell.teacher}
@@ -284,7 +401,9 @@
         }
     }
 
-    function openEditModal(slotId, dayOfWeek, timeStr) {
+    let currentEditValues = {};
+
+    function openEditModal(slotId, dayOfWeek, timeStr, subjectId, teacherId, room, className) {
         document.getElementById('editSlotId').value = slotId;
         document.getElementById('editDayOfWeek').value = dayOfWeek;
         
@@ -292,18 +411,27 @@
         document.getElementById('editStartTime').value = start + ':00';
         document.getElementById('editEndTime').value = end + ':00';
         
+        document.getElementById('editClassSectionLabel').textContent = className;
+        document.getElementById('editTimeLabel').textContent = `${dayOfWeek}, ${timeStr}`;
+        
+        currentEditValues = {
+            subject_id: subjectId,
+            teacher_id: teacherId,
+            room: room
+        };
+
         document.getElementById('editError').classList.add('hidden');
         document.getElementById('editModal').classList.remove('hidden');
 
-        // Fetch suggestions to populate dropdowns
-        fetchSuggestions();
+        // Fetch suggestions to populate dropdowns immediately on open
+        fetchSuggestions(true);
     }
 
     function closeEditModal() {
         document.getElementById('editModal').classList.add('hidden');
     }
 
-    function fetchSuggestions() {
+    function fetchSuggestions(isInitialLoad = false) {
         const aiSuggestBtn = document.getElementById('aiSuggestBtn');
         aiSuggestBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Loading...';
         
@@ -314,9 +442,11 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             body: JSON.stringify({
+                slot_id: document.getElementById('editSlotId').value,
                 day_of_week: document.getElementById('editDayOfWeek').value,
                 start_time: document.getElementById('editStartTime').value,
-                end_time: document.getElementById('editEndTime').value
+                end_time: document.getElementById('editEndTime').value,
+                initial_load: isInitialLoad
             })
         })
         .then(res => res.json())
@@ -324,12 +454,14 @@
             aiSuggestBtn.innerHTML = '<span class="material-symbols-outlined">psychology</span> Suggest AI Alternatives';
             if (data.status === 'success') {
                 populateDropdowns(data.data);
-                UI.showToast('AI Suggestions Loaded');
+                if (!isInitialLoad) {
+                    UI.showToast('AI Suggestions Loaded');
+                }
             }
         });
     }
 
-    document.getElementById('aiSuggestBtn').addEventListener('click', fetchSuggestions);
+    document.getElementById('aiSuggestBtn').addEventListener('click', () => fetchSuggestions(false));
 
     function populateDropdowns(data) {
         const teacherSel = document.getElementById('editTeacher');
@@ -337,18 +469,27 @@
         data.teachers.forEach(t => {
             teacherSel.innerHTML += `<option value="${t.id}">${t.full_name}</option>`;
         });
+        if (currentEditValues.teacher_id && currentEditValues.teacher_id !== 'null') {
+            teacherSel.value = currentEditValues.teacher_id;
+        }
 
         const roomSel = document.getElementById('editRoom');
         roomSel.innerHTML = '<option value="">Select Room</option>';
         data.rooms.forEach(r => {
             roomSel.innerHTML += `<option value="${r}">${r}</option>`;
         });
+        if (currentEditValues.room && currentEditValues.room !== 'null') {
+            roomSel.value = currentEditValues.room;
+        }
 
         const subSel = document.getElementById('editSubject');
         subSel.innerHTML = '<option value="">Select Subject</option>';
         data.subjects.forEach(s => {
             subSel.innerHTML += `<option value="${s.id}">${s.name}</option>`;
         });
+        if (currentEditValues.subject_id && currentEditValues.subject_id !== 'null') {
+            subSel.value = currentEditValues.subject_id;
+        }
     }
 
     document.getElementById('editSlotForm').addEventListener('submit', function(e) {

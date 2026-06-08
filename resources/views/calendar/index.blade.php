@@ -7,7 +7,7 @@
             <!-- Page Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-xl">
                 <div>
-                    <h1 class="font-headline-xl text-headline-xl text-on-surface">Academic Calendar &amp; Planner</h1>
+                    <h1 class="text-headline-lg font-headline-lg font-semibold text-on-surface">Academic Calendar &amp; Planner</h1>
                     <p class="font-body-md text-body-md text-secondary mt-xs">Manage institutional events, holidays, and academic milestones for the 2024-2025 session.</p>
                 </div>
                 <div class="flex gap-sm">
@@ -128,7 +128,7 @@
                     <!-- Quick Add Event -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md">
                         <h3 class="font-headline-md text-headline-md text-on-surface mb-md border-b border-outline-variant pb-xs">Add New Event</h3>
-                        <form class="flex flex-col gap-sm" onsubmit="event.preventDefault(); alert('Event added successfully!');">
+                        <form class="flex flex-col gap-sm" onsubmit="event.preventDefault(); UI.showToast('Event added successfully!', 'success');">
                             <div>
                                 <label class="block font-label-md text-label-md text-on-surface mb-xs">Event Title</label>
                                 <input class="w-full border border-outline-variant rounded p-sm font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="e.g., Annual Science Fair" type="text" />

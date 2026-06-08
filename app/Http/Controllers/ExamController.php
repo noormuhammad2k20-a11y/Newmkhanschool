@@ -22,6 +22,8 @@ class ExamController extends Controller
             'subject_id' => 'required',
             'exam_date' => 'required|date',
             'exam_time' => 'required',
+            'max_marks' => 'required|numeric',
+            'passing_marks' => 'required|numeric',
         ]);
 
         $class = \App\Models\SchoolClass::find($request->class_id);
@@ -35,6 +37,8 @@ class ExamController extends Controller
             'subject' => $subject ? $subject->name : null,
             'exam_date' => $request->exam_date,
             'exam_time' => $request->exam_time,
+            'max_marks' => $request->max_marks,
+            'passing_marks' => $request->passing_marks,
             'status' => $request->status ?? 'Scheduled',
             'school_id' => 1,
             'academic_year_id' => 1,
@@ -51,6 +55,8 @@ class ExamController extends Controller
             'subject_id' => 'required',
             'exam_date' => 'required|date',
             'exam_time' => 'required',
+            'max_marks' => 'required|numeric',
+            'passing_marks' => 'required|numeric',
             'status' => 'required',
         ]);
 
@@ -66,6 +72,8 @@ class ExamController extends Controller
             'subject' => $subject ? $subject->name : null,
             'exam_date' => $request->exam_date,
             'exam_time' => $request->exam_time,
+            'max_marks' => $request->max_marks,
+            'passing_marks' => $request->passing_marks,
             'status' => $request->status,
         ]);
 

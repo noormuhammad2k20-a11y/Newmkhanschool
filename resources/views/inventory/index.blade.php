@@ -7,7 +7,7 @@
             <!-- Page Header & Actions -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
                 <div>
-                    <h1 class="font-headline-xl text-headline-xl text-on-surface">Asset Inventory</h1>
+                    <h1 class="text-headline-lg font-headline-lg font-semibold text-on-surface">Asset Inventory</h1>
                     <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Manage and track all institutional property and resources.</p>
                 </div>
                 <div class="flex items-center gap-md">

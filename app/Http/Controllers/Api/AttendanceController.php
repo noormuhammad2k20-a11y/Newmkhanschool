@@ -18,7 +18,7 @@ class AttendanceController extends Controller
             $query = DB::table('students as s')
                 ->join('classes as c', 's.current_class_id', '=', 'c.id')
                 ->join('sections as sec', 's.current_section_id', '=', 'sec.id')
-                ->leftJoin('attendance as a', function ($join) use ($date) {
+                ->leftJoin('student_attendances as a', function ($join) use ($date) {
                     $join->on('s.id', '=', 'a.student_id')
                          ->where('a.date', '=', $date);
                 })
@@ -74,13 +74,17 @@ class AttendanceController extends Controller
                 $attendanceData = $request->input('attendance', []);
                 $date = $request->input('date', date('Y-m-d'));
 
+                $activeYear = DB::table('academic_years')->where('is_active', 1)->first();
+                $academicYearId = $activeYear ? $activeYear->id : 1;
+
                 foreach ($attendanceData as $record) {
-                    DB::table('attendance')->updateOrInsert(
+                    DB::table('student_attendances')->updateOrInsert(
                         [
                             'student_id' => $record['student_id'],
                             'date' => $date
                         ],
                         [
+                            'academic_year_id' => $academicYearId,
                             'status' => $record['status'],
                             'marked_by' => auth()->id() // Will be null if not logged in, or the actual user ID
                         ]

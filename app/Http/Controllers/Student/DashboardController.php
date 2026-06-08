@@ -38,10 +38,17 @@ class DashboardController extends Controller
 
         // Today's timetable
         $dayName = Carbon::today()->format('l'); // Monday, Tuesday...
-        $todayClasses = Timetable::where('class_id', $student->current_class_id)
+        $activeVersion = \App\Models\TimetableVersion::where('status', 'published')->latest()->first();
+        
+        $query = Timetable::where('class_id', $student->current_class_id)
                           ->where('section_id_ref', $student->current_section_id)
-                          ->where('day_of_week', $dayName)
-                          ->orderBy('start_time')->get();
+                          ->where('day_of_week', $dayName);
+                          
+        if ($activeVersion) {
+            $query->where('timetable_version_id', $activeVersion->id);
+        }
+        
+        $todayClasses = $query->orderBy('start_time')->get();
 
         // Upcoming exams
         $upcomingExams = ExamSchedule::where('class_id', $student->current_class_id)

@@ -164,14 +164,17 @@ class TeacherPortalController extends Controller
         $classIds = $this->getAssignedClassIds($teacher);
         $classes = DB::table('classes')->whereIn('id', $classIds)->orderBy('name')->get();
         
-        $examTypes = DB::table('exam_types')->get();
-        
         $selectedClass = $request->get('class_id');
+        $selectedSection = $request->get('section_id');
         $selectedSubject = $request->get('subject');
-        $selectedExam = $request->get('exam_type_id');
+        $selectedExam = $request->get('exam_schedule_id');
         
+        $sections = collect();
         $subjects = collect();
+        $examSchedules = collect();
+        
         if ($selectedClass) {
+            $sections = DB::table('sections')->where('class_id', $selectedClass)->get();
             $subjects = DB::table('teacher_assignments')
                 ->where('teacher_assignments.class_id', $selectedClass)
                 ->where('teacher_assignments.teacher_id', $teacher?->id)
@@ -180,22 +183,29 @@ class TeacherPortalController extends Controller
                 ->distinct()
                 ->get();
         }
+
+        if ($selectedClass && $selectedSubject) {
+            $examSchedules = \App\Models\ExamSchedule::where('class_id', $selectedClass)
+                ->where('subject', $selectedSubject)
+                ->get();
+        }
         
         $students = collect();
         $existingMarks = collect();
         
-        if ($selectedClass && $selectedSubject && $selectedExam && $classIds->contains($selectedClass)) {
-            $students = DB::table('students')->where('current_class_id', $selectedClass)->get();
+        if ($selectedClass && $selectedSection && $selectedSubject && $selectedExam && $classIds->contains($selectedClass)) {
+            $students = DB::table('students')
+                ->where('current_class_id', $selectedClass)
+                ->where('current_section_id', $selectedSection)
+                ->get();
             $existingMarks = DB::table('marks')
-                ->where('exam_type_id', $selectedExam)
+                ->where('exam_schedule_id', $selectedExam)
                 ->whereIn('student_id', $students->pluck('id'))
-                // For simplicity, matching subject by ID would be better, but the schema has subjects linked by name in timetables.
-                // Assuming subject_id needs to be matched. We'll need a subject mapping here.
                 ->get()
                 ->keyBy('student_id');
         }
         
-        return view('teacher.marks', compact('classes', 'subjects', 'examTypes', 'selectedClass', 'selectedSubject', 'selectedExam', 'students', 'existingMarks')); 
+        return view('teacher.marks', compact('classes', 'sections', 'subjects', 'examSchedules', 'selectedClass', 'selectedSection', 'selectedSubject', 'selectedExam', 'students', 'existingMarks')); 
     }
 
     public function storeMarks(Request $request) {
@@ -210,11 +220,37 @@ class TeacherPortalController extends Controller
         $subjectId = DB::table('subjects')->where('name', $request->subject)->value('id');
         if(!$subjectId) return redirect()->back()->with('error', 'Subject not found.');
 
+        $examSchedule = \App\Models\ExamSchedule::find($request->exam_schedule_id);
+        if(!$examSchedule) return redirect()->back()->with('error', 'Exam schedule not found.');
+
+        $maxMarks = $examSchedule->max_marks ?? 100;
+        $passingMarks = $examSchedule->passing_marks ?? 40;
+
         foreach ($request->marks as $studentId => $mark) {
             if($mark !== null) {
+                $percentage = ($mark / $maxMarks) * 100;
+                $isPass = $mark >= $passingMarks;
+                
+                $grade = 'F';
+                $gpa = 0.0;
+                if ($percentage >= 90) { $grade = 'A+'; $gpa = 4.0; }
+                elseif ($percentage >= 80) { $grade = 'A'; $gpa = 4.0; }
+                elseif ($percentage >= 70) { $grade = 'B'; $gpa = 3.0; }
+                elseif ($percentage >= 60) { $grade = 'C'; $gpa = 2.0; }
+                elseif ($percentage >= 50) { $grade = 'D'; $gpa = 1.0; }
+
                 DB::table('marks')->updateOrInsert(
-                    ['student_id' => $studentId, 'subject_id' => $subjectId, 'exam_type_id' => $request->exam_type_id, 'academic_year_id' => 1],
-                    ['marks_obtained' => $mark, 'total_marks' => $request->total_marks ?? 100, 'created_at' => now()]
+                    ['student_id' => $studentId, 'subject_id' => $subjectId, 'exam_schedule_id' => $request->exam_schedule_id, 'academic_year_id' => 1],
+                    [
+                        'exam_type_id' => null, // Fallback for old schema
+                        'marks_obtained' => $mark, 
+                        'total_marks' => $maxMarks, 
+                        'percentage' => $percentage,
+                        'grade' => $grade,
+                        'gpa' => $gpa,
+                        'is_pass' => $isPass,
+                        'created_at' => now()
+                    ]
                 );
             }
         }
@@ -274,7 +310,7 @@ class TeacherPortalController extends Controller
         $teacher = $this->getTeacher();
         $homeworks = [];
         if ($teacher) {
-            $homeworks = Assignment::with(['class', 'subject'])->where('teacher_id', $teacher->id)->where('type', 'homework')->orderBy('due_date', 'asc')->get();
+            $homeworks = \App\Models\Assignment::with(['class_', 'subject'])->where('teacher_id', $teacher->id)->where('type', 'homework')->orderBy('due_date', 'asc')->get();
         }
         $classIds = $this->getAssignedClassIds($teacher);
         $classes = DB::table('classes')->whereIn('id', $classIds)->get();

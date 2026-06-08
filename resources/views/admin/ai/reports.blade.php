@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="flex-1 p-lg overflow-y-auto w-full">
+<main class="flex-1 p-lg overflow-y-auto w-full min-w-0">
     <div class="max-w-[1440px] mx-auto">
         <!-- Header Section -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-xl">
@@ -11,12 +11,12 @@
             </div>
         </div>
 
-        <div class="bento-grid">
-            <!-- Report Config -->
-            <div class="bento-item-side bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm self-start">
-                <h3 class="font-headline-md text-headline-md font-semibold text-on-surface mb-md">Report Configuration</h3>
-                <form id="reportForm" class="space-y-md">
-                    <div>
+        <!-- Initial State (Before Generation) -->
+        <div id="initialState" class="mb-xl space-y-lg">
+            <!-- Form Configuration -->
+            <div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
+                <form id="reportForm" class="flex flex-col lg:flex-row gap-lg items-end">
+                    <div class="flex-1 w-full">
                         <label class="block font-label-md text-on-surface-variant mb-xs">Select Report Type</label>
                         <select name="report_type" id="report_type" class="w-full px-md py-sm rounded-lg border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                             <option value="student_performance">Student Performance Analysis</option>
@@ -25,63 +25,85 @@
                         </select>
                     </div>
                     
-                    <button type="submit" class="w-full py-sm rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]">magic_button</span>
-                        Generate AI Report
-                    </button>
+                    <div class="flex flex-col sm:flex-row gap-md w-full lg:w-auto">
+                        <button type="submit" class="flex-1 sm:flex-none py-sm px-xl rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-xs">
+                            <span class="material-symbols-outlined text-[18px]">magic_button</span>
+                            Generate AI Report
+                        </button>
+                        <button type="button" id="historyBtn" class="flex-1 sm:flex-none py-sm px-xl rounded-lg border border-outline-variant bg-surface-container-lowest text-secondary font-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center justify-center gap-xs">
+                            <span class="material-symbols-outlined text-[18px]">history</span>
+                            View History
+                        </button>
+                    </div>
                 </form>
             </div>
-
-            <!-- Report Output -->
-            <div class="bento-item-main bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col min-h-[500px]">
-                <!-- Initial State -->
-                <div id="initialState" class="flex-1 flex flex-col items-center justify-center p-xl text-center">
-                    <span class="material-symbols-outlined text-[64px] text-secondary mb-md opacity-50">description</span>
-                    <h3 class="font-headline-md text-on-surface mb-xs">Select a report type to begin</h3>
-                    <p class="text-body-md text-on-surface-variant">Our AI will aggregate the data and generate a comprehensive executive summary.</p>
+            
+            <!-- Empty State -->
+            <div class="text-center py-20 border border-dashed border-outline-variant rounded-xl bg-surface-container-lowest/50">
+                <div class="w-16 h-16 bg-surface-container text-secondary rounded-full flex items-center justify-center mx-auto mb-md">
+                    <span class="material-symbols-outlined text-[32px]">analytics</span>
                 </div>
+                <h3 class="font-headline-md font-medium text-on-surface mb-xs">Ready to Generate</h3>
+                <p class="text-body-md text-secondary max-w-md mx-auto">
+                    Select a report type from the configuration panel above and click generate to receive an AI-powered executive summary.
+                </p>
+            </div>
+        </div>
 
-                <!-- Loading State -->
-                <div id="loadingState" class="hidden flex-1 flex flex-col items-center justify-center p-xl">
-                    <div class="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin mb-md"></div>
-                    <p class="font-label-md text-primary animate-pulse">Analyzing data and generating insights...</p>
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden flex flex-col items-center justify-center py-20 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm">
+            <div class="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mb-md"></div>
+            <h3 class="font-headline-md text-primary animate-pulse" id="loadingText">Analyzing data and generating insights...</h3>
+            <p class="text-body-md text-secondary mt-2">Aggregating records and running ML models.</p>
+        </div>
+
+        <!-- Result State -->
+        <div id="resultState" class="hidden">
+            <div class="p-sm bg-green-100 text-green-800 rounded-lg border border-green-200 flex items-center gap-sm mb-lg shadow-sm">
+                <span class="material-symbols-outlined">check_circle</span>
+                <span id="resultMessage" class="font-medium text-sm">Report generated successfully.</span>
+            </div>
+
+            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden mb-lg">
+                <div class="p-lg border-b border-outline-variant bg-surface-container-low flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h3 id="reportTitle" class="font-headline-md text-headline-md font-semibold text-primary">Report Title</h3>
+                    <div class="flex gap-sm">
+                        <button class="text-secondary hover:text-primary transition-colors flex items-center gap-xs bg-surface-container-lowest px-sm py-xs rounded border border-outline-variant">
+                            <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> PDF
+                        </button>
+                        <button class="text-secondary hover:text-primary transition-colors flex items-center gap-xs bg-surface-container-lowest px-sm py-xs rounded border border-outline-variant">
+                            <span class="material-symbols-outlined text-[18px]">grid_on</span> Excel
+                        </button>
+                        <button class="text-secondary hover:text-primary transition-colors flex items-center gap-xs bg-surface-container-lowest px-sm py-xs rounded border border-outline-variant">
+                            <span class="material-symbols-outlined text-[18px]">print</span> Print
+                        </button>
+                    </div>
                 </div>
+                
+                <div class="p-lg">
+                    <div class="mb-lg p-md bg-primary-fixed/20 rounded-lg border border-primary/10">
+                        <h4 class="font-label-md text-primary font-bold uppercase tracking-wider mb-sm flex items-center gap-xs">
+                            <span class="material-symbols-outlined text-[16px]">summarize</span>
+                            AI Executive Summary
+                        </h4>
+                        <p id="executiveSummary" class="text-body-md text-on-surface-variant leading-relaxed"></p>
+                    </div>
 
-                <!-- Result State -->
-                <div id="resultState" class="hidden flex-1 flex flex-col">
-                    <div class="p-lg border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
-                        <h3 id="reportTitle" class="font-headline-md font-bold text-primary">Report Title</h3>
-                        <div class="flex gap-sm">
-                            <button class="text-secondary hover:text-primary transition-colors flex items-center gap-xs bg-surface-container-lowest px-sm py-xs rounded border border-outline-variant">
-                                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> PDF
-                            </button>
-                            <button class="text-secondary hover:text-primary transition-colors flex items-center gap-xs bg-surface-container-lowest px-sm py-xs rounded border border-outline-variant">
-                                <span class="material-symbols-outlined text-[18px]">grid_on</span> Excel
-                            </button>
-                            <button class="text-secondary hover:text-primary transition-colors flex items-center gap-xs bg-surface-container-lowest px-sm py-xs rounded border border-outline-variant">
-                                <span class="material-symbols-outlined text-[18px]">print</span> Print
-                            </button>
-                        </div>
+                    <div class="h-64 relative w-full mb-lg">
+                        <canvas id="reportChart"></canvas>
                     </div>
                     
-                    <div class="p-lg flex-1 overflow-y-auto">
-                        <div class="mb-lg p-md bg-primary-fixed/20 rounded-lg border border-primary/10">
-                            <h4 class="font-label-md text-primary font-bold uppercase tracking-wider mb-sm flex items-center gap-xs">
-                                <span class="material-symbols-outlined text-[16px]">summarize</span>
-                                AI Executive Summary
-                            </h4>
-                            <p id="executiveSummary" class="text-body-md text-on-surface-variant leading-relaxed"></p>
-                        </div>
-
-                        <div class="h-64 relative w-full mb-lg">
-                            <canvas id="reportChart"></canvas>
-                        </div>
-                        
-                        <p class="text-xs text-secondary text-center mt-auto pt-md border-t border-outline-variant">
-                            Report Generated on: <span id="generationTime"></span>
-                        </p>
-                    </div>
+                    <p class="text-xs text-secondary text-center mt-xl pt-md border-t border-outline-variant">
+                        Report Generated on: <span id="generationTime"></span>
+                    </p>
                 </div>
+            </div>
+            
+            <div class="flex justify-center mt-lg">
+                <button onclick="resetReport()" class="px-lg py-sm rounded-lg border border-outline text-secondary font-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-[18px]">refresh</span>
+                    Generate Another Report
+                </button>
             </div>
         </div>
     </div>
@@ -125,14 +147,17 @@
 
                 document.getElementById('loadingState').classList.add('hidden');
                 document.getElementById('resultState').classList.remove('hidden');
-                document.getElementById('resultState').classList.add('flex');
             } else {
                 throw new Error(data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            UI.showToast('Error generating report', 'error');
+            if (typeof UI !== 'undefined' && UI.showToast) {
+                UI.showToast('Error generating report', 'error');
+            } else {
+                UI.showToast('Error generating report', 'error');
+            }
             document.getElementById('loadingState').classList.add('hidden');
             document.getElementById('initialState').classList.remove('hidden');
         });
@@ -152,12 +177,14 @@
             { bg: 'rgba(245, 158, 11, 0.7)', border: '#f59e0b' }  // Yellow
         ];
 
-        chartData.datasets.forEach((dataset, index) => {
-            const colorObj = colors[index % colors.length];
-            dataset.backgroundColor = colorObj.bg;
-            dataset.borderColor = colorObj.border;
-            dataset.borderWidth = 1;
-        });
+        if (chartData && chartData.datasets) {
+            chartData.datasets.forEach((dataset, index) => {
+                const colorObj = colors[index % colors.length];
+                dataset.backgroundColor = colorObj.bg;
+                dataset.borderColor = colorObj.border;
+                dataset.borderWidth = 1;
+            });
+        }
 
         reportChartInstance = new Chart(ctx, {
             type: 'bar',
@@ -172,6 +199,11 @@
                 }
             }
         });
+    }
+
+    function resetReport() {
+        document.getElementById('resultState').classList.add('hidden');
+        document.getElementById('initialState').classList.remove('hidden');
     }
 </script>
 @endsection

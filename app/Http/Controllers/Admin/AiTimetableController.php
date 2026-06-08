@@ -24,9 +24,10 @@ class AiTimetableController extends Controller
         return view('admin.ai.timetable');
     }
 
-    public function fetch()
+    public function fetch(Request $request)
     {
-        $result = $this->timetableService->getTimetable();
+        $versionId = $request->query('version_id');
+        $result = $this->timetableService->getTimetable($versionId);
         if (!$result) {
             return response()->json(['status' => 'empty']);
         }
@@ -39,13 +40,72 @@ class AiTimetableController extends Controller
         return response()->json($result);
     }
 
+    public function getVersions()
+    {
+        $versions = \App\Models\TimetableVersion::with(['createdBy', 'approvedBy', 'publishedBy'])
+            ->orderBy('created_at', 'desc')->get();
+        return response()->json(['status' => 'success', 'data' => $versions]);
+    }
+
+    public function approve($id)
+    {
+        $version = \App\Models\TimetableVersion::findOrFail($id);
+        
+        // Archive previously approved versions for the same academic year
+        \App\Models\TimetableVersion::where('academic_year_id', $version->academic_year_id)
+            ->where('status', 'Approved')
+            ->update(['status' => 'Archived']);
+
+        $version->status = 'Approved';
+        $version->approved_by = auth()->id() ?? 1;
+        $version->approved_at = now();
+        $version->save();
+        
+        AuditLog::create([
+            'user_id' => auth()->id() ?? 1,
+            'action' => 'Approve Timetable',
+            'model_type' => \App\Models\TimetableVersion::class,
+            'model_id' => $version->id,
+            'description' => 'Approved timetable version: ' . $version->name,
+            'ip_address' => request()->ip()
+        ]);
+        
+        return response()->json(['status' => 'success', 'message' => 'Timetable approved successfully!']);
+    }
+
     public function getSuggestions(Request $request)
     {
+        $slotId = $request->slot_id;
         $dayOfWeek = $request->day_of_week;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
+        $isInitialLoad = $request->initial_load;
 
-        $suggestions = $this->timetableService->getAiSuggestions($dayOfWeek, $startTime, $endTime);
+        if ($isInitialLoad) {
+            // For initial load, we return all teachers and rooms so the user can freely select.
+            // Conflicts will be detected upon saving.
+            $teachers = Teacher::all(['id', 'full_name']);
+            
+            $allRooms = [];
+            for ($i=101; $i<=110; $i++) $allRooms[] = "Room $i";
+            for ($i=201; $i<=210; $i++) $allRooms[] = "Room $i";
+            for ($i=301; $i<=310; $i++) $allRooms[] = "Room $i";
+            $allRooms[] = 'Library';
+            $allRooms[] = 'Lab 1';
+            $allRooms[] = 'Lab 2';
+
+            return response()->json([
+                'status' => 'success', 
+                'data' => [
+                    'teachers' => $teachers,
+                    'rooms' => $allRooms,
+                    'subjects' => Subject::all(['id', 'name'])
+                ]
+            ]);
+        }
+
+        // For AI suggestion, we return only available (conflict-free) teachers and rooms
+        $suggestions = $this->timetableService->getAiSuggestions($dayOfWeek, $startTime, $endTime, $slotId);
         return response()->json(['status' => 'success', 'data' => $suggestions]);
     }
 

@@ -10,6 +10,7 @@ class Timetable extends Model
     const UPDATED_AT = null;
 
     protected $fillable = [
+        'timetable_version_id',
         'class_id',
         'section_id',
         'section_id_ref',
@@ -22,6 +23,8 @@ class Timetable extends Model
         'start_time',
         'end_time',
     ];
+
+    public function version()       { return $this->belongsTo(TimetableVersion::class, 'timetable_version_id'); }
 
     public function teacher()       { return $this->belongsTo(Teacher::class,'teacher_id'); }
     public function subjectRef()    { return $this->belongsTo(Subject::class,'subject_id_ref'); }

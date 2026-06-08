@@ -7,7 +7,7 @@
                 <!-- Page Header & Actions -->
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
                     <div>
-                        <h2 class="text-headline-xl font-headline-xl text-on-surface mb-xs">Exam Schedule</h2>
+                        <h1 class="text-headline-lg font-headline-lg font-semibold text-on-surface mb-xs">Exam Schedule</h1>
                         <p class="text-body-md font-body-md text-on-surface-variant">Manage and monitor upcoming institutional assessments.</p>
                     </div>
                     <button onclick="document.getElementById('createModal').classList.remove('hidden'); document.body.style.overflow = 'hidden';" class="bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container px-lg py-sm rounded-lg text-label-md font-label-md transition-colors shadow-sm flex items-center justify-center gap-xs">
@@ -75,7 +75,7 @@
                                         @endif
                                     </td>
                                     <td class="py-md px-md flex justify-end gap-2">
-                                        <button onclick="editExam({{ $exam->id }}, '{{ addslashes($exam->exam_type) }}', '{{ $exam->class_id }}', '{{ $exam->subject_id }}', '{{ $exam->exam_date }}', '{{ addslashes($exam->exam_time) }}', '{{ $exam->status }}')" class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors" title="Edit Exam">
+                                        <button onclick="editExam({{ $exam->id }}, '{{ addslashes($exam->exam_type) }}', '{{ $exam->class_id }}', '{{ $exam->subject_id }}', '{{ $exam->exam_date }}', '{{ addslashes($exam->exam_time) }}', '{{ $exam->max_marks }}', '{{ $exam->passing_marks }}', '{{ $exam->status }}')" class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors" title="Edit Exam">
                                             <span class="material-symbols-outlined text-[20px]">edit</span>
                                         </button>
                                         <form action="{{ route('admin.exams.destroy', $exam->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this exam?');">
@@ -141,6 +141,16 @@
                         <input type="text" name="exam_time" required placeholder="e.g. 09:00 AM - 12:00 PM" class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
                     </div>
                 </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-label-md text-on-surface mb-1">Max Marks</label>
+                        <input type="number" name="max_marks" required value="100" class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
+                    </div>
+                    <div>
+                        <label class="block text-label-md text-on-surface mb-1">Passing Marks</label>
+                        <input type="number" name="passing_marks" required value="40" class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
+                    </div>
+                </div>
                 <div>
                     <label class="block text-label-md text-on-surface mb-1">Status</label>
                     <select name="status" class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
@@ -203,6 +213,16 @@
                         <input type="text" name="exam_time" id="edit_exam_time" required class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
                     </div>
                 </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-label-md text-on-surface mb-1">Max Marks</label>
+                        <input type="number" name="max_marks" id="edit_max_marks" required class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
+                    </div>
+                    <div>
+                        <label class="block text-label-md text-on-surface mb-1">Passing Marks</label>
+                        <input type="number" name="passing_marks" id="edit_passing_marks" required class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
+                    </div>
+                </div>
                 <div>
                     <label class="block text-label-md text-on-surface mb-1">Status</label>
                     <select name="status" id="edit_status" class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
@@ -220,13 +240,15 @@
     </div>
 
 <script>
-    function editExam(id, type, classId, subjectId, date, time, status) {
+    function editExam(id, type, classId, subjectId, date, time, max_marks, passing_marks, status) {
         document.getElementById('editForm').action = `/admin/exams/${id}`;
         document.getElementById('edit_exam_type').value = type;
         document.getElementById('edit_class_id').value = classId;
         document.getElementById('edit_subject_id').value = subjectId;
         document.getElementById('edit_exam_date').value = date;
         document.getElementById('edit_exam_time').value = time;
+        document.getElementById('edit_max_marks').value = max_marks;
+        document.getElementById('edit_passing_marks').value = passing_marks;
         document.getElementById('edit_status').value = status;
         
         document.getElementById('editModal').classList.remove('hidden');
