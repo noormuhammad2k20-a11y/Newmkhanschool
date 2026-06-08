@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
+    use \Illuminate\Database\Eloquent\SoftDeletes;
     use HasFactory, Notifiable;
 
     const UPDATED_AT = null;
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password_hash',
         'role_id',
+        'school_id',
         'status'
     ];
 
@@ -46,6 +48,46 @@ class User extends Authenticatable
     public function getAuthPasswordName()
     {
         return 'password_hash';
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->password_hash;
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role?->name === $role;
+    }
+
+    public function hasAnyRole(array $roles): bool
+    {
+        return in_array($this->role?->name, $roles);
+    }
+
+    public function hasPermission(string $slug): bool
+    {
+        return $this->role?->permissions()->where('slug', $slug)->exists() ?? false;
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'user_id');
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class, 'user_id');
+    }
+
+    public function linkedStudents()
+    {
+        return $this->hasManyThrough(Student::class, ParentStudent::class, 'parent_user_id', 'id', 'id', 'student_id');
     }
 
     /**

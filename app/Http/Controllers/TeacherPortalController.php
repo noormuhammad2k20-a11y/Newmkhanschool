@@ -11,21 +11,7 @@ use Carbon\Carbon;
 
 class TeacherPortalController extends Controller
 {
-    private function getTeacher()
-    {
-        return DB::table('teachers')->where('user_id', auth()->id())->first();
-    }
-
-    private function getAssignedClassIds($teacher)
-    {
-        if (!$teacher) return collect();
-        return DB::table('teacher_assignments')
-            ->where('teacher_id', $teacher->id)
-            ->whereNotNull('class_id')
-            ->pluck('class_id')
-            ->unique();
-    }
-
+    use \App\Traits\TeacherScoped;
     private function getAssignedSubjects($teacher)
     {
         if (!$teacher) return collect();
@@ -100,7 +86,7 @@ class TeacherPortalController extends Controller
         foreach ($request->attendance as $studentId => $status) {
             DB::table('student_attendances')->updateOrInsert(
                 ['student_id' => $studentId, 'date' => $request->date],
-                ['status' => $status, 'marked_by' => auth()->id(), 'academic_year_id' => 1, 'updated_at' => now()]
+                ['status' => $status, 'marked_by' => auth()->id(), 'academic_year_id' => 1]
             );
         }
 
@@ -232,6 +218,9 @@ class TeacherPortalController extends Controller
                 );
             }
         }
+        
+        \App\Observers\AuditObserver::log('marks_entry', 'Mark', 0, "Marks entered for class {$request->class_id} subject {$subjectId}");
+        
         return redirect()->back()->with('success', 'Marks saved successfully.');
     }
 
@@ -240,7 +229,7 @@ class TeacherPortalController extends Controller
         $teacher = $this->getTeacher();
         $assignments = [];
         if ($teacher) {
-            $assignments = Assignment::with(['class', 'subject'])->where('teacher_id', $teacher->id)->where('type', 'assignment')->orderBy('due_date', 'asc')->get();
+            $assignments = Assignment::with(['class_', 'subject'])->where('teacher_id', $teacher->id)->where('type', 'assignment')->orderBy('due_date', 'asc')->get();
         }
         
         $classIds = $this->getAssignedClassIds($teacher);

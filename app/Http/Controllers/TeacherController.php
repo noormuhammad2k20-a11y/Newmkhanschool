@@ -90,28 +90,6 @@ class TeacherController extends Controller
                         ];
                     }
                 }
-            } elseif (!empty($classIds)) {
-                // Only classes assigned
-                foreach ($classIds as $classId) {
-                    $assignments[] = [
-                        'teacher_id' => $id,
-                        'class_id' => $classId,
-                        'subject_id' => null,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                }
-            } elseif (!empty($subjectIds)) {
-                // Only subjects assigned
-                foreach ($subjectIds as $subjectId) {
-                    $assignments[] = [
-                        'teacher_id' => $id,
-                        'class_id' => null,
-                        'subject_id' => $subjectId,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                }
             }
 
             if (!empty($assignments)) {

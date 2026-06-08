@@ -42,7 +42,7 @@
                         @forelse($assignments as $assignment)
                         <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
                             <td class="py-3 px-4 font-medium text-on-surface">{{ $assignment->title }}</td>
-                            <td class="py-3 px-4 text-secondary">{{ $assignment->class->name ?? 'N/A' }}</td>
+                            <td class="py-3 px-4 text-secondary">{{ $assignment->class_->name ?? 'N/A' }}</td>
                             <td class="py-3 px-4 text-secondary">{{ $assignment->subject->name ?? 'N/A' }}</td>
                             <td class="py-3 px-4">
                                 @if(\Carbon\Carbon::parse($assignment->due_date)->isPast())

@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
@@ -15,12 +15,13 @@ Route::get('/', function () {
         if (in_array($roleId, [1, 2])) return redirect()->route('admin.dashboard');
         if ($roleId == 3) return redirect()->route('teacher.dashboard');
         if ($roleId == 4) return redirect()->route('student.dashboard');
+        if ($roleId == 5) return redirect()->route('parent.dashboard');
     }
     return redirect()->route('login');
 });
 
 // ADMIN ROUTES
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/students', [\App\Http\Controllers\StudentController::class, 'index'])->name('admin.students');
     Route::get('/students/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('admin.students.create');
@@ -41,6 +42,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/attendance/mark', [\App\Http\Controllers\AttendanceController::class, 'mark'])->name('admin.attendance.mark');
     Route::get('/attendance/teachers', [\App\Http\Controllers\AttendanceController::class, 'teacher'])->name('admin.attendance.teacher');
     Route::get('/exams', [\App\Http\Controllers\ExamController::class, 'index'])->name('admin.exams');
+    Route::post('/exams', [\App\Http\Controllers\ExamController::class, 'store'])->name('admin.exams.store');
+    Route::put('/exams/{id}', [\App\Http\Controllers\ExamController::class, 'update'])->name('admin.exams.update');
+    Route::delete('/exams/{id}', [\App\Http\Controllers\ExamController::class, 'destroy'])->name('admin.exams.destroy');
     Route::get('/exams/marks', [\App\Http\Controllers\ExamController::class, 'marks'])->name('admin.exams.marks');
     Route::get('/fees', [\App\Http\Controllers\FeeController::class, 'index'])->name('admin.fees');
     Route::get('/inventory', [\App\Http\Controllers\InventoryController::class, 'index'])->name('admin.inventory');
@@ -51,7 +55,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 });
 
 // TEACHER ROUTES
-Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function () {
+Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\TeacherPortalController::class, 'dashboard'])->name('teacher.dashboard');
     
     Route::middleware('teacher_module:attendance')->group(function() {
@@ -102,17 +106,57 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function (
     Route::middleware('teacher_module:reports')->get('/reports', [\App\Http\Controllers\TeacherPortalController::class, 'reports'])->name('teacher.reports');
 });
 
-// STUDENT ROUTES
-Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
-    Route::get('/dashboard', function() {
-        return view('student.dashboard');
-    })->name('student.dashboard');
-});
+// ─── STUDENT ─────────────────────────────────────────────────────────────────
+Route::middleware(['auth', 'role:Student', 'same_school'])
+    ->prefix('student')
+    ->name('student.')
+    ->group(function () {
 
-Route::get('/parent/dashboard', [\App\Http\Controllers\ParentController::class, 'index'])->name('parent.dashboard')->middleware('auth');
+        Route::get('/dashboard', [App\Http\Controllers\Student\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/attendance', [App\Http\Controllers\Student\AttendanceController::class, 'index'])->name('attendance');
+        Route::get('/marks', [App\Http\Controllers\Student\MarksController::class, 'index'])->name('marks');
+        Route::get('/fees', [App\Http\Controllers\Student\FeeController::class, 'index'])->name('fees');
+        Route::get('/timetable', [App\Http\Controllers\Student\TimetableController::class, 'index'])->name('timetable');
+        Route::get('/assignments', [App\Http\Controllers\Student\AssignmentController::class, 'index'])->name('assignments');
+        Route::post('/assignments/{id}/submit', [App\Http\Controllers\Student\AssignmentController::class, 'submit'])->name('assignments.submit');
+        Route::get('/announcements', [App\Http\Controllers\Student\AnnouncementController::class, 'index'])->name('announcements');
+        Route::get('/report-card', [App\Http\Controllers\Student\ReportCardController::class, 'index'])->name('report-card');
+        Route::get('/report-card/download', [App\Http\Controllers\Student\ReportCardController::class, 'download'])->name('report-card.download');
+        Route::get('/exam-schedule', [App\Http\Controllers\Student\ExamController::class, 'index'])->name('exam-schedule');
+        Route::get('/library', [App\Http\Controllers\Student\LibraryController::class, 'index'])->name('library');
+        Route::get('/transport', [App\Http\Controllers\Student\TransportController::class, 'index'])->name('transport');
+        Route::get('/health-records', [App\Http\Controllers\Student\HealthController::class, 'index'])->name('health-records');
+        Route::get('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'index'])->name('leave.index');
+        Route::post('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'store'])->name('leave.store');
+        Route::get('/messages', [App\Http\Controllers\Student\MessageController::class, 'index'])->name('messages');
+        Route::post('/messages', [App\Http\Controllers\Student\MessageController::class, 'send'])->name('messages.send');
+        Route::get('/profile', [App\Http\Controllers\Student\ProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [App\Http\Controllers\Student\ProfileController::class, 'update'])->name('profile.update');
+    });
+
+// ─── PARENT ───────────────────────────────────────────────────────────────────
+Route::middleware(['auth', 'role:Parent', 'same_school'])
+    ->prefix('parent')
+    ->name('parent.')
+    ->group(function () {
+
+        Route::get('/dashboard', [App\Http\Controllers\ParentPortal\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/children', [App\Http\Controllers\ParentPortal\DashboardController::class, 'children'])->name('children');
+        Route::get('/children/{student_id}/attendance', [App\Http\Controllers\ParentPortal\AttendanceController::class, 'show'])->name('child.attendance');
+        Route::get('/children/{student_id}/marks', [App\Http\Controllers\ParentPortal\MarksController::class, 'show'])->name('child.marks');
+        Route::get('/children/{student_id}/fees', [App\Http\Controllers\ParentPortal\FeeController::class, 'show'])->name('child.fees');
+        Route::get('/children/{student_id}/timetable', [App\Http\Controllers\ParentPortal\TimetableController::class, 'show'])->name('child.timetable');
+        Route::get('/children/{student_id}/assignments', [App\Http\Controllers\ParentPortal\AssignmentController::class, 'show'])->name('child.assignments');
+        Route::get('/announcements', [App\Http\Controllers\ParentPortal\AnnouncementController::class, 'index'])->name('announcements');
+        Route::get('/messages', [App\Http\Controllers\ParentPortal\MessageController::class, 'index'])->name('messages');
+        Route::post('/messages', [App\Http\Controllers\ParentPortal\MessageController::class, 'send'])->name('messages.send');
+        Route::get('/transport', [App\Http\Controllers\ParentPortal\TransportController::class, 'index'])->name('transport');
+        Route::get('/profile', [App\Http\Controllers\ParentPortal\ProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [App\Http\Controllers\ParentPortal\ProfileController::class, 'update'])->name('profile.update');
+    });
 
 // API ROUTES (Scoped internally in controllers based on auth()->user()->role_id)
-Route::middleware('auth')->prefix('api')->group(function () {
+Route::middleware(['auth', 'same_school'])->prefix('api')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index'])->name('api.dashboard');
     Route::get('/students', [\App\Http\Controllers\Api\StudentController::class, 'index'])->name('api.students.index');
     Route::post('/students', [\App\Http\Controllers\Api\StudentController::class, 'store'])->name('api.students.store');

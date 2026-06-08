@@ -1,0 +1,56 @@
+<?php
+namespace App\Http\Controllers\Student;
+
+use App\Http\Controllers\Controller;
+use App\Models\StudentAttendance;
+use App\Models\Fee;
+use App\Models\Announcement;
+use App\Models\ExamSchedule;
+use App\Models\Timetable;
+use App\Models\AcademicYear;
+use Carbon\Carbon;
+
+class DashboardController extends Controller
+{
+    public function index()
+    {
+        $student = auth()->user()->student;
+
+        abort_if(!$student, 403, 'Student record not found for this account.');
+
+        $academicYear = AcademicYear::where('is_active', 1)->first();
+
+        // Attendance stats
+        $totalDays   = StudentAttendance::where('student_id', $student->id)
+                         ->where('academic_year_id', $academicYear?->id)->count();
+        $presentDays = StudentAttendance::where('student_id', $student->id)
+                         ->where('academic_year_id', $academicYear?->id)
+                         ->where('status', 'P')->count();
+        $attendancePct = $totalDays > 0 ? round(($presentDays / $totalDays) * 100, 1) : 0;
+
+        // Pending fees
+        $pendingFees = Fee::where('student_id', $student->id)
+                         ->whereIn('status', ['Pending','Overdue'])->sum('amount');
+
+        // Announcements
+        $announcements = Announcement::whereIn('target_role', ['all','student'])
+                           ->latest()->take(5)->get();
+
+        // Today's timetable
+        $dayName = Carbon::today()->format('l'); // Monday, Tuesday...
+        $todayClasses = Timetable::where('class_id', $student->current_class_id)
+                          ->where('section_id_ref', $student->current_section_id)
+                          ->where('day_of_week', $dayName)
+                          ->orderBy('start_time')->get();
+
+        // Upcoming exams
+        $upcomingExams = ExamSchedule::where('class_id', $student->current_class_id)
+                           ->where('exam_date', '>=', today())
+                           ->orderBy('exam_date')->take(3)->get();
+
+        return view('student.dashboard', compact(
+            'student','attendancePct','presentDays','totalDays',
+            'pendingFees','announcements','todayClasses','upcomingExams'
+        ));
+    }
+}

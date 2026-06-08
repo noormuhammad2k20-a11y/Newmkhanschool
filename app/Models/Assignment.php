@@ -24,13 +24,18 @@ class Assignment extends Model
         return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
-    public function class()
+    public function class_()
     {
-        return $this->belongsTo(Classes::class, 'class_id'); // Assuming model is Classes
+        return $this->belongsTo(SchoolClass::class, 'class_id');
     }
 
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany(AssignmentSubmission::class);
     }
 }

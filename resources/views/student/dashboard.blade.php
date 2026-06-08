@@ -1,45 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - School Management System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
-    </style>
-</head>
-<body>
-    <nav class="bg-green-600 text-white p-4 shadow-md flex justify-between items-center">
-        <h1 class="text-xl font-bold">Student Portal</h1>
-        <div class="flex items-center gap-4">
-            <span>Welcome, {{ auth()->user()->name }}</span>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="bg-red-500 px-3 py-1 rounded hover:bg-red-600 transition">Logout</button>
-            </form>
-        </div>
-    </nav>
-    <div class="container mx-auto mt-8 p-4">
-        <h2 class="text-2xl font-semibold mb-6">Dashboard</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-bold mb-2 text-gray-800">My Attendance</h3>
-                <p class="text-gray-600">Check your daily attendance records.</p>
-                <a href="#" class="mt-4 inline-block text-green-600 hover:underline">View Attendance &rarr;</a>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-bold mb-2 text-gray-800">My Grades</h3>
-                <p class="text-gray-600">View your exam results and report cards.</p>
-                <a href="#" class="mt-4 inline-block text-green-600 hover:underline">View Grades &rarr;</a>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-bold mb-2 text-gray-800">My Timetable</h3>
-                <p class="text-gray-600">Check your weekly class schedule.</p>
-                <a href="#" class="mt-4 inline-block text-green-600 hover:underline">View Timetable &rarr;</a>
+@extends('layouts.app')
+@section('title', 'Student Dashboard')
+
+@section('content')
+<div class="row">
+    {{-- Attendance Card --}}
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="text-muted">Attendance</h6>
+                <h3>{{ $attendancePct }}%</h3>
+                <small class="text-muted">{{ $presentDays }} / {{ $totalDays }} days</small>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+    {{-- Pending Fees Card --}}
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="text-muted">Pending Fees</h6>
+                <h3>{{ number_format($pendingFees, 2) }}</h3>
+                <a href="{{ route('student.fees') }}" class="btn btn-sm btn-outline-primary mt-2">View Details</a>
+            </div>
+        </div>
+    </div>
+
+    {{-- Today's Classes Card --}}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Today's Timetable</div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Time</th><th>Subject</th><th>Teacher</th></tr></thead>
+                    <tbody>
+                    @forelse($todayClasses as $period)
+                        <tr>
+                            <td>{{ \Carbon\Carbon::parse($period->start_time)->format('h:i A') }}</td>
+                            <td>{{ $period->subjectRef->name ?? $period->subject }}</td>
+                            <td>{{ $period->teacher->full_name ?? $period->teacher }}</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="3" class="text-center text-muted">No classes today</td></tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Announcements --}}
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Recent Announcements</div>
+            <div class="card-body">
+                @forelse($announcements as $ann)
+                    <div class="border-bottom pb-2 mb-2">
+                        <strong>{{ $ann->title }}</strong>
+                        <p class="text-muted small mb-0">{{ Str::limit($ann->content, 120) }}</p>
+                        <small class="text-muted">{{ $ann->created_at->diffForHumans() }}</small>
+                    </div>
+                @empty
+                    <p class="text-muted">No announcements yet.</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
+    {{-- Upcoming Exams --}}
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Upcoming Exams</div>
+            <div class="card-body">
+                @forelse($upcomingExams as $exam)
+                    <div class="border-bottom pb-2 mb-2">
+                        <strong>{{ $exam->subjectRef->name ?? $exam->subject }}</strong>
+                        <br>
+                        <small class="text-muted">
+                            {{ \Carbon\Carbon::parse($exam->exam_date)->format('d M Y') }}
+                            @if($exam->exam_time) · {{ $exam->exam_time }} @endif
+                        </small>
+                    </div>
+                @empty
+                    <p class="text-muted small">No upcoming exams.</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
