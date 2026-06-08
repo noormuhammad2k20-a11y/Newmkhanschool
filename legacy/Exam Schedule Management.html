@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Exam Schedule - GovEd SMS</title>
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#d6e5ef",
+                        "on-primary-container": "#8690ee",
+                        "on-background": "#191c1d",
+                        "primary-container": "#1a237e",
+                        "inverse-primary": "#bdc2ff",
+                        "outline-variant": "#c6c5d4",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "surface-container-high": "#e7e8e9",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "on-secondary-container": "#56656e",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#303030",
+                        "on-surface": "#191c1d",
+                        "primary": "#000666",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary": "#526069",
+                        "on-secondary-fixed": "#0f1d25",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9fa",
+                        "on-primary-fixed-variant": "#343d96",
+                        "primary-fixed": "#e0e0ff",
+                        "tertiary": "#1b1b1b",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "background": "#f8f9fa",
+                        "outline": "#767683",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-tertiary-container": "#999897",
+                        "on-primary-fixed": "#000767",
+                        "inverse-surface": "#2e3132",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#4c56af",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-surface-variant": "#454652",
+                        "secondary-container": "#d3e2ed",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "max-width": "1440px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "margin-desktop": "32px",
+                        "lg": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background text-on-surface font-body-md text-body-md antialiased overflow-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+    <div class="flex h-screen w-full max-w-max-width mx-auto">
+        <!-- SideNavBar -->
+        <aside
+            class="bg-surface-container-lowest dark:bg-surface-dim border-r border-outline-variant dark:border-outline h-screen w-64 fixed left-0 top-0 flex flex-col py-lg px-md z-20">
+            <!-- Header -->
+            <div class="mb-xl px-sm">
+                <div class="flex items-center gap-md mb-md">
+                    <div
+                        class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed overflow-hidden">
+                        <span class="material-symbols-outlined text-[24px]">account_balance</span>
+                    </div>
+                    <div>
+                        <h1
+                            class="text-headline-md font-headline-md text-primary dark:text-primary-fixed tracking-tight">
+                            Admin Panel</h1>
+                        <p class="text-label-md font-label-md text-on-surface-variant">State Education Board</p>
+                    </div>
+                </div>
+                <button
+                    class="w-full bg-primary text-on-primary rounded-lg py-sm px-md flex items-center justify-center gap-sm text-label-md font-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    Add New Record
+                </button>
+            </div>
+            <!-- Navigation Links -->
+            <nav class="flex-1 flex flex-col gap-xs overflow-y-auto pr-xs">
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">group</span>
+                    Students
+                </a>
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">school</span>
+                    Teachers
+                </a>
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    Academic Management
+                </a>
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">calendar_today</span>
+                    Attendance
+                </a>
+                <!-- ACTIVE TAB -->
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-lg scale-95 duration-150 shadow-sm"
+                    href="#">
+                    <span class="material-symbols-outlined"
+                        style="font-variation-settings: 'FILL' 1;">description</span>
+                    Examination
+                </a>
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">analytics</span>
+                    Reports
+                </a>
+                <a class="flex items-center gap-md px-md py-sm text-body-md font-body-md text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all mt-auto"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+        <!-- Main Content Wrapper -->
+        <div class="flex-1 ml-64 flex flex-col min-w-0 bg-background">
+            <!-- TopNavBar -->
+            <header
+                class="bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-desktop h-16 z-10 sticky top-0">
+                <!-- Brand / Left Side -->
+                <div class="flex items-center gap-xl">
+                    <span
+                        class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">GovEd
+                        SMS</span>
+                    <!-- Search Bar -->
+                    <div
+                        class="hidden md:flex items-center bg-surface-container-lowest border border-outline-variant rounded-DEFAULT px-md py-sm w-64 focus-within:border-primary focus-within:border-2 focus-within:py-[7px] focus-within:px-[15px] transition-all">
+                        <span class="material-symbols-outlined text-outline mr-sm text-[20px]">search</span>
+                        <input
+                            class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full placeholder:text-outline p-0"
+                            placeholder="Search records..." type="text" />
+                    </div>
+                </div>
+                <!-- Trailing Icons -->
+                <div class="flex items-center gap-sm">
+                    <button
+                        class="p-sm text-primary dark:text-on-primary-fixed hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button
+                        class="p-sm text-primary dark:text-on-primary-fixed hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined">mail</span>
+                    </button>
+                    <button
+                        class="p-sm text-primary dark:text-on-primary-fixed hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </button>
+                </div>
+            </header>
+            <!-- Scrollable Canvas -->
+            <main class="flex-1 overflow-y-auto p-margin-desktop">
+                <!-- Page Header & Actions -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+                    <div>
+                        <h2 class="text-headline-xl font-headline-xl text-on-surface mb-xs">Exam Schedule</h2>
+                        <p class="text-body-md font-body-md text-on-surface-variant">Manage and monitor upcoming
+                            institutional assessments.</p>
+                    </div>
+                    <button
+                        class="bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container px-lg py-sm rounded-lg text-label-md font-label-md transition-colors shadow-sm flex items-center justify-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]">event_note</span>
+                        Schedule New Exam
+                    </button>
+                </div>
+                <!-- Filters Bar -->
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md mb-lg flex flex-wrap gap-md items-center shadow-sm">
+                    <div class="flex items-center gap-sm text-on-surface-variant">
+                        <span class="material-symbols-outlined text-[20px]">filter_list</span>
+                        <span class="text-label-md font-label-md uppercase tracking-wider">Filters:</span>
+                    </div>
+                    <div class="flex flex-col gap-base min-w-[150px]">
+                        <select
+                            class="bg-surface-container-lowest border border-outline-variant text-on-surface text-body-md font-body-md rounded-DEFAULT px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
+                            <option value="">All Classes</option>
+                            <option value="10">Class X (Secondary)</option>
+                            <option value="12">Class XII (Higher Sec)</option>
+                            <option value="8">Class VIII</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-base min-w-[150px]">
+                        <select
+                            class="bg-surface-container-lowest border border-outline-variant text-on-surface text-body-md font-body-md rounded-DEFAULT px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
+                            <option value="">All Terms</option>
+                            <option value="annual">Annual Examination</option>
+                            <option value="midterm">Midterm Assessment</option>
+                            <option value="unit">Unit Test</option>
+                        </select>
+                    </div>
+                    <div class="flex-1"></div>
+                    <div class="text-label-md font-label-md text-on-surface-variant">
+                        Showing 6 scheduled exams
+                    </div>
+                </div>
+                <!-- Data Table Card -->
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[800px]">
+                            <thead>
+                                <tr class="bg-surface-variant border-b border-outline-variant">
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface uppercase tracking-wider font-semibold">
+                                        Exam Type</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface uppercase tracking-wider font-semibold">
+                                        Class</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface uppercase tracking-wider font-semibold">
+                                        Subject</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface uppercase tracking-wider font-semibold">
+                                        Date</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface uppercase tracking-wider font-semibold">
+                                        Time</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface uppercase tracking-wider font-semibold">
+                                        Status</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface uppercase tracking-wider font-semibold text-right">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant">
+                                <!-- Row 1 -->
+                                <tr class="hover:bg-surface-container-low transition-colors even:bg-secondary-fixed/30">
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface font-semibold">
+                                        Annual Examination</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">Class XII
+                                        (Sci)</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface">Physics - Theory
+                                    </td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">15 Mar
+                                        2024</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">09:00 AM -
+                                        12:00 PM</td>
+                                    <td class="py-md px-md">
+                                        <span
+                                            class="inline-flex items-center gap-xs px-sm py-[2px] rounded-full bg-primary/10 text-primary text-label-md font-label-md font-bold border border-primary/20">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                            In Progress
+                                        </span>
+                                    </td>
+                                    <td class="py-md px-md text-right">
+                                        <button
+                                            class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors"
+                                            title="Edit Exam">
+                                            <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr class="hover:bg-surface-container-low transition-colors even:bg-secondary-fixed/30">
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface font-semibold">
+                                        Annual Examination</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">Class XII
+                                        (Arts)</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface">History</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">15 Mar
+                                        2024</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">09:00 AM -
+                                        12:00 PM</td>
+                                    <td class="py-md px-md">
+                                        <span
+                                            class="inline-flex items-center gap-xs px-sm py-[2px] rounded-full bg-on-surface/10 text-on-surface-variant text-label-md font-label-md font-bold border border-outline-variant">
+                                            <span class="material-symbols-outlined text-[12px]">schedule</span>
+                                            Scheduled
+                                        </span>
+                                    </td>
+                                    <td class="py-md px-md text-right">
+                                        <button
+                                            class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors"
+                                            title="Edit Exam">
+                                            <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr class="hover:bg-surface-container-low transition-colors even:bg-secondary-fixed/30">
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface font-semibold">
+                                        Midterm Assessment</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">Class X
+                                    </td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface">Mathematics</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">12 Mar
+                                        2024</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">10:00 AM -
+                                        01:00 PM</td>
+                                    <td class="py-md px-md">
+                                        <span
+                                            class="inline-flex items-center gap-xs px-sm py-[2px] rounded-full bg-secondary/10 text-secondary text-label-md font-label-md font-bold border border-secondary/20">
+                                            <span class="material-symbols-outlined text-[12px]">check_circle</span>
+                                            Completed
+                                        </span>
+                                    </td>
+                                    <td class="py-md px-md text-right">
+                                        <button
+                                            class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors"
+                                            title="View Results">
+                                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 4 -->
+                                <tr class="hover:bg-surface-container-low transition-colors even:bg-secondary-fixed/30">
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface font-semibold">
+                                        Annual Examination</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">Class XII
+                                        (Com)</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface">Accountancy</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">18 Mar
+                                        2024</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">09:00 AM -
+                                        12:00 PM</td>
+                                    <td class="py-md px-md">
+                                        <span
+                                            class="inline-flex items-center gap-xs px-sm py-[2px] rounded-full bg-on-surface/10 text-on-surface-variant text-label-md font-label-md font-bold border border-outline-variant">
+                                            <span class="material-symbols-outlined text-[12px]">schedule</span>
+                                            Scheduled
+                                        </span>
+                                    </td>
+                                    <td class="py-md px-md text-right">
+                                        <button
+                                            class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors"
+                                            title="Edit Exam">
+                                            <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 5 -->
+                                <tr class="hover:bg-surface-container-low transition-colors even:bg-secondary-fixed/30">
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface font-semibold">Unit
+                                        Test II</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">Class VIII
+                                    </td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface">General Science
+                                    </td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">20 Mar
+                                        2024</td>
+                                    <td class="py-md px-md text-body-md font-body-md text-on-surface-variant">11:00 AM -
+                                        12:30 PM</td>
+                                    <td class="py-md px-md">
+                                        <span
+                                            class="inline-flex items-center gap-xs px-sm py-[2px] rounded-full bg-on-surface/10 text-on-surface-variant text-label-md font-label-md font-bold border border-outline-variant">
+                                            <span class="material-symbols-outlined text-[12px]">schedule</span>
+                                            Scheduled
+                                        </span>
+                                    </td>
+                                    <td class="py-md px-md text-right">
+                                        <button
+                                            class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors"
+                                            title="Edit Exam">
+                                            <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Table Pagination/Footer -->
+                    <div
+                        class="bg-surface-container border-t border-outline-variant px-md py-sm flex justify-between items-center">
+                        <span class="text-label-md font-label-md text-on-surface-variant">Page 1 of 1</span>
+                        <div class="flex gap-sm">
+                            <button
+                                class="p-xs text-outline hover:text-on-surface transition-colors disabled:opacity-50"
+                                disabled="">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <button
+                                class="p-xs text-on-surface hover:bg-surface-variant rounded-full transition-colors">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

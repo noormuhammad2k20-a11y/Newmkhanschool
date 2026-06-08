@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GovEd SMS - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d9dadb",
+                        "on-primary-fixed": "#000767",
+                        "on-background": "#191c1d",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1d",
+                        "on-error": "#ffffff",
+                        "primary": "#000666",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary-fixed-variant": "#343d96",
+                        "surface-bright": "#f8f9fa",
+                        "primary-container": "#1a237e",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#e0e0ff",
+                        "secondary": "#526069",
+                        "surface": "#f8f9fa",
+                        "secondary-container": "#d3e2ed",
+                        "secondary-fixed": "#d6e5ef",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-secondary-fixed": "#0f1d25",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface-variant": "#454652",
+                        "on-tertiary-container": "#999897",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#bdc2ff",
+                        "surface-tint": "#4c56af",
+                        "outline-variant": "#c6c5d4",
+                        "tertiary-container": "#303030",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "tertiary": "#1b1b1b",
+                        "on-primary-container": "#8690ee",
+                        "outline": "#767683",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary-container": "#56656e",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "tertiary-fixed-dim": "#c8c6c6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "base": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "max-width": "1440px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Hide scrollbar for cleaner look but keep functionality */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c6c5d4;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #767683;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background min-h-screen flex">
+    <!-- SideNavBar -->
+    <aside
+        class="bg-surface-container-lowest dark:bg-surface-dim h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col h-full py-lg px-md w-64 z-20">
+        <div class="mb-xl flex items-center gap-3 px-sm">
+            <div
+                class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-headline-md">
+                S
+            </div>
+            <div>
+                <h1 class="text-headline-md font-headline-md text-primary dark:text-primary-fixed leading-tight">Admin
+                    Panel</h1>
+                <p class="text-label-md font-label-md text-secondary">State Education Board</p>
+            </div>
+        </div>
+        <button
+            class="bg-primary hover:bg-primary-container text-on-primary w-full py-sm px-md rounded-lg flex items-center justify-center gap-2 mb-xl transition-colors shadow-sm">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            <span class="text-label-md font-label-md">Add New Record</span>
+        </button>
+        <nav class="flex-1 overflow-y-auto space-y-sm">
+            <a class="flex items-center gap-3 px-md py-sm bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-lg opacity-80 transition-all scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined filled">dashboard</span>
+                <span class="text-body-md font-body-md">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-md py-sm text-secondary dark:text-on-secondary-fixed-variant hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">group</span>
+                <span class="text-body-md font-body-md">Students</span>
+            </a>
+            <a class="flex items-center gap-3 px-md py-sm text-secondary dark:text-on-secondary-fixed-variant hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">school</span>
+                <span class="text-body-md font-body-md">Teachers</span>
+            </a>
+            <a class="flex items-center gap-3 px-md py-sm text-secondary dark:text-on-secondary-fixed-variant hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">menu_book</span>
+                <span class="text-body-md font-body-md">Academic Management</span>
+            </a>
+            <a class="flex items-center gap-3 px-md py-sm text-secondary dark:text-on-secondary-fixed-variant hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <span class="text-body-md font-body-md">Attendance</span>
+            </a>
+            <a class="flex items-center gap-3 px-md py-sm text-secondary dark:text-on-secondary-fixed-variant hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">description</span>
+                <span class="text-body-md font-body-md">Examination</span>
+            </a>
+            <a class="flex items-center gap-3 px-md py-sm text-secondary dark:text-on-secondary-fixed-variant hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="text-body-md font-body-md">Reports</span>
+            </a>
+            <a class="flex items-center gap-3 px-md py-sm text-secondary dark:text-on-secondary-fixed-variant hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all rounded-lg mt-auto"
+                href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="text-body-md font-body-md">Settings</span>
+            </a>
+        </nav>
+        <div class="mt-lg pt-md border-t border-outline-variant flex items-center gap-3 px-sm">
+            <img alt="Principal Portrait" class="w-8 h-8 rounded-full object-cover border border-outline-variant"
+                data-alt="A professional headshot of a female school administrator in her late 40s wearing a navy blazer, smiling confidently against a neutral grey background. The lighting is bright and even, typical of corporate or institutional photography. High quality, formal."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD47DCykpE-2PBTb3kTyuS37Z8Z99-V8etbnHlytsmvalf6bqB4aKj8LoOTJD4BtoeVGXzpuKp70dtnKKAt6FQzd6-RqHmxD1fOlyU8vmqmhJelnh0SKc_qKN0zKQI1iSpWPNlW2iLTmSr4GPWaG47hdPblNX8Tp_-El_6oq-VfW5gBPN795HEyb4Ne_yJz_l51CsV-IIk6gKmuArDFHLH5JrxlOuLSmQQRfaQQ0HiRp_43JLO4_8UTRCDrG7WYXKIt_e0aEsaO" />
+            <div class="flex-1 min-w-0">
+                <p class="text-label-md font-label-md text-on-surface truncate">Dr. S. Miller</p>
+                <p class="text-xs text-secondary truncate">Principal Admin</p>
+            </div>
+            <button class="text-secondary hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+            </button>
+        </div>
+    </aside>
+    <!-- Main Content Wrapper -->
+    <div class="ml-64 flex-1 flex flex-col min-h-screen overflow-hidden">
+        <!-- TopNavBar -->
+        <header
+            class="bg-surface dark:bg-background flex justify-between items-center w-full px-margin-desktop h-16 border-b border-outline-variant dark:border-outline sticky top-0 z-10">
+            <div class="flex items-center gap-4">
+                <div class="relative w-64 hidden md:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
+                    <input
+                        class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                        placeholder="Search students, staff..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container-low transition-colors relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container-low transition-colors">
+                    <span class="material-symbols-outlined">mail</span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container-low transition-colors">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </button>
+            </div>
+        </header>
+        <!-- Main Canvas -->
+        <main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+            <div class="max-w-[1440px] mx-auto space-y-xl">
+                <!-- Page Header -->
+                <div>
+                    <h2 class="text-headline-xl font-headline-xl text-on-surface">Overview</h2>
+                    <p class="text-body-lg font-body-lg text-secondary mt-1">State Education Department Activity Summary
+                    </p>
+                </div>
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+                    <!-- Stat Card 1 -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total
+                                Students</h3>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-[18px]">group</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-on-surface">12,450</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-700">
+                            <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            <span>+2.4% from last month</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-6 -right-6 w-24 h-24 bg-primary-fixed rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500">
+                        </div>
+                    </div>
+                    <!-- Stat Card 2 -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total
+                                Teachers</h3>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                                <span class="material-symbols-outlined text-[18px]">school</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-on-surface">452</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-700">
+                            <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            <span>+4 new hires</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-6 -right-6 w-24 h-24 bg-secondary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500">
+                        </div>
+                    </div>
+                    <!-- Stat Card 3 -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total
+                                Classes</h3>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
+                                <span class="material-symbols-outlined text-[18px]">meeting_room</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-on-surface">320</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                            <span>Across 12 grade levels</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-6 -right-6 w-24 h-24 bg-surface-variant rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500">
+                        </div>
+                    </div>
+                    <!-- Stat Card 4 -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Today's
+                                Attendance</h3>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                                <span class="material-symbols-outlined text-[18px]">rule</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-on-surface">94.2%</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-2 text-xs font-medium">
+                            <span class="text-emerald-700">11,727 P</span>
+                            <span class="text-outline">|</span>
+                            <span class="text-error">723 A</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500">
+                        </div>
+                    </div>
+                </div>
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-md">
+                    <!-- Chart 1 -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
+                        <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Enrollment by Class</h3>
+                            <button class="text-secondary hover:text-primary"><span
+                                    class="material-symbols-outlined">more_horiz</span></button>
+                        </div>
+                        <div class="relative h-64 w-full">
+                            <canvas id="enrollmentChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Chart 2 -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
+                        <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Trends (30 Days)
+                            </h3>
+                            <button class="text-secondary hover:text-primary"><span
+                                    class="material-symbols-outlined">more_horiz</span></button>
+                        </div>
+                        <div class="relative h-64 w-full">
+                            <canvas id="attendanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tables Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+                    <!-- Table 1: Recent Admissions -->
+                    <div
+                        class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+                        <div
+                            class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Recent Admissions</h3>
+                            <button class="text-primary text-label-md font-label-md hover:underline">View All</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr
+                                        class="bg-surface-container-low text-label-md font-label-md text-secondary border-b border-outline-variant">
+                                        <th class="py-3 px-4 font-semibold">Student Name</th>
+                                        <th class="py-3 px-4 font-semibold">Registration ID</th>
+                                        <th class="py-3 px-4 font-semibold">Grade</th>
+                                        <th class="py-3 px-4 font-semibold">Date</th>
+                                        <th class="py-3 px-4 font-semibold">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-body-md font-body-md">
+                                    <tr
+                                        class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+                                        <td class="py-3 px-4 flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-xs">
+                                                AK</div>
+                                            <span class="font-medium text-on-surface">Aarav Kumar</span>
+                                        </td>
+                                        <td class="py-3 px-4 text-secondary">REG-2023-0891</td>
+                                        <td class="py-3 px-4">Grade 6</td>
+                                        <td class="py-3 px-4 text-secondary">Oct 24, 2023</td>
+                                        <td class="py-3 px-4">
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Approved</span>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-outline-variant bg-[#e3f2fd] bg-opacity-20 hover:bg-surface-container-lowest transition-colors">
+                                        <td class="py-3 px-4 flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+                                                SM</div>
+                                            <span class="font-medium text-on-surface">Sophia Martinez</span>
+                                        </td>
+                                        <td class="py-3 px-4 text-secondary">REG-2023-0892</td>
+                                        <td class="py-3 px-4">Grade 4</td>
+                                        <td class="py-3 px-4 text-secondary">Oct 24, 2023</td>
+                                        <td class="py-3 px-4">
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Pending</span>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+                                        <td class="py-3 px-4 flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-xs">
+                                                LJ</div>
+                                            <span class="font-medium text-on-surface">Liam Johnson</span>
+                                        </td>
+                                        <td class="py-3 px-4 text-secondary">REG-2023-0893</td>
+                                        <td class="py-3 px-4">Grade 9</td>
+                                        <td class="py-3 px-4 text-secondary">Oct 23, 2023</td>
+                                        <td class="py-3 px-4">
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Approved</span>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-outline-variant bg-[#e3f2fd] bg-opacity-20 hover:bg-surface-container-lowest transition-colors">
+                                        <td class="py-3 px-4 flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-xs">
+                                                EP</div>
+                                            <span class="font-medium text-on-surface">Emma Patel</span>
+                                        </td>
+                                        <td class="py-3 px-4 text-secondary">REG-2023-0894</td>
+                                        <td class="py-3 px-4">Grade 1</td>
+                                        <td class="py-3 px-4 text-secondary">Oct 22, 2023</td>
+                                        <td class="py-3 px-4">
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Approved</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Table 2: Attendance Snapshot -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+                        <div class="p-md border-b border-outline-variant bg-surface-bright">
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Today's Snapshot</h3>
+                            <p class="text-xs text-secondary mt-1">Section-wise lowest attendance</p>
+                        </div>
+                        <div class="p-md flex-1">
+                            <ul class="space-y-4">
+                                <li
+                                    class="flex justify-between items-center pb-3 border-b border-outline-variant border-opacity-50">
+                                    <div>
+                                        <p class="font-medium text-body-md text-on-surface">Grade 10 - Sec B</p>
+                                        <p class="text-xs text-error mt-0.5">Alert: Below 85%</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-bold text-body-lg text-on-surface">82%</p>
+                                        <p class="text-xs text-secondary">32/39 Present</p>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex justify-between items-center pb-3 border-b border-outline-variant border-opacity-50">
+                                    <div>
+                                        <p class="font-medium text-body-md text-on-surface">Grade 8 - Sec A</p>
+                                        <p class="text-xs text-secondary mt-0.5">Monitoring</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-bold text-body-lg text-on-surface">88%</p>
+                                        <p class="text-xs text-secondary">35/40 Present</p>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex justify-between items-center pb-3 border-b border-outline-variant border-opacity-50">
+                                    <div>
+                                        <p class="font-medium text-body-md text-on-surface">Grade 12 - Sci</p>
+                                        <p class="text-xs text-secondary mt-0.5">Monitoring</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-bold text-body-lg text-on-surface">89%</p>
+                                        <p class="text-xs text-secondary">40/45 Present</p>
+                                    </div>
+                                </li>
+                                <li class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-body-md text-on-surface">Grade 5 - Sec C</p>
+                                        <p class="text-xs text-secondary mt-0.5">Monitoring</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-bold text-body-lg text-on-surface">91%</p>
+                                        <p class="text-xs text-secondary">29/32 Present</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <button
+                                class="w-full mt-4 py-2 border border-outline-variant rounded-lg text-label-md font-label-md text-secondary hover:bg-surface-container-low transition-colors">Generate
+                                Alert Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Chart.js configurations
+        document.addEventListener('DOMContentLoaded', function () {
+            // Theme colors
+            const primaryColor = '#000666';
+            const primaryFixedColor = '#e0e0ff';
+            const secondaryColor = '#526069';
+            const outlineVariantColor = '#c6c5d4';
+
+            // Enrollment Bar Chart
+            const ctxEnrollment = document.getElementById('enrollmentChart').getContext('2d');
+            new Chart(ctxEnrollment, {
+                type: 'bar',
+                data: {
+                    labels: ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10', 'G11', 'G12'],
+                    datasets: [{
+                        label: 'Students Enrolled',
+                        data: [1100, 1050, 1200, 1150, 1080, 1120, 1090, 1010, 950, 920, 850, 930],
+                        backgroundColor: primaryColor,
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: outlineVariantColor, borderDash: [5, 5] },
+                            ticks: { font: { family: 'Inter', size: 12 }, color: secondaryColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 12 }, color: secondaryColor }
+                        }
+                    }
+                }
+            });
+
+            // Attendance Line Chart
+            const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
+            new Chart(ctxAttendance, {
+                type: 'line',
+                data: {
+                    labels: ['1', '5', '10', '15', '20', '25', '30'],
+                    datasets: [{
+                        label: 'Attendance %',
+                        data: [95, 94.5, 93, 96, 92, 94, 94.2],
+                        borderColor: primaryColor,
+                        backgroundColor: primaryFixedColor,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: primaryColor,
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            min: 80,
+                            max: 100,
+                            grid: { color: outlineVariantColor, borderDash: [5, 5] },
+                            ticks: { font: { family: 'Inter', size: 12 }, color: secondaryColor, callback: function (value) { return value + '%' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 12 }, color: secondaryColor }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

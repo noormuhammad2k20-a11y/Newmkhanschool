@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GovEd SMS - Add New Teacher</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e1e3e4",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "outline": "#767683",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "on-primary-fixed": "#000767",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "tertiary": "#1b1b1b",
+                        "on-background": "#191c1d",
+                        "on-primary-container": "#8690ee",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "error-container": "#ffdad6",
+                        "surface": "#f8f9fa",
+                        "secondary-fixed": "#d6e5ef",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-secondary-fixed": "#0f1d25",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#000666",
+                        "on-tertiary-container": "#999897",
+                        "outline-variant": "#c6c5d4",
+                        "secondary": "#526069",
+                        "background": "#f8f9fa",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#454652",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#343d96",
+                        "inverse-primary": "#bdc2ff",
+                        "surface-bright": "#f8f9fa",
+                        "primary-fixed": "#e0e0ff",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d9dadb",
+                        "tertiary-container": "#303030",
+                        "on-surface": "#191c1d",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "surface-tint": "#4c56af",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-container-low": "#f3f4f5",
+                        "secondary-container": "#d3e2ed",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-secondary-container": "#56656e",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#1a237e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "max-width": "1440px",
+                        "xs": "4px",
+                        "margin-mobile": "16px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .stepper-line {
+            width: 2px;
+            height: 100%;
+            background-color: #c6c5d4;
+            position: absolute;
+            left: 15px;
+            top: 32px;
+            z-index: 0;
+        }
+
+        .stepper-line.active {
+            background-color: #000666;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface h-screen flex overflow-hidden">
+    <!-- SideNavBar -->
+    <nav
+        class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-lg px-md z-20 hidden md:flex">
+        <div class="mb-xl">
+            <h1 class="text-headline-md font-headline-md text-primary font-bold">GovEd SMS</h1>
+            <p class="text-label-md font-label-md text-on-surface-variant mt-xs">Admin Panel</p>
+        </div>
+        <ul class="flex flex-col gap-sm flex-1 overflow-y-auto">
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="group">group</span>
+                    Students
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg bg-primary text-on-primary text-body-md font-body-md scale-95 duration-150"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="school">school</span>
+                    Teachers
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+                    Academic Management
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                    Attendance
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="description">description</span>
+                    Examination
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Reports
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+            </li>
+        </ul>
+        <button
+            class="mt-auto bg-primary text-on-primary py-sm px-md rounded-DEFAULT font-label-md text-label-md flex justify-center items-center gap-sm hover:bg-primary-container transition-colors">
+            <span class="material-symbols-outlined">add</span>
+            Add New Record
+        </button>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col md:ml-64 w-full h-full overflow-hidden">
+        <!-- TopNavBar -->
+        <header
+            class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-margin-desktop h-16 shrink-0 z-10">
+            <div class="flex items-center gap-md md:hidden">
+                <button class="text-primary hover:bg-surface-container-low p-xs rounded-full transition-colors">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <span class="text-headline-md font-headline-md font-bold text-primary">GovEd SMS</span>
+            </div>
+            <div
+                class="hidden md:flex items-center bg-surface-container-low rounded-full px-md py-xs border border-outline-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary w-96 transition-all">
+                <span class="material-symbols-outlined text-outline mr-sm">search</span>
+                <input
+                    class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full placeholder:text-outline p-0"
+                    placeholder="Search records..." type="text" />
+            </div>
+            <div class="flex items-center gap-sm">
+                <button
+                    class="text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full transition-colors">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                </button>
+                <button
+                    class="text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full transition-colors">
+                    <span class="material-symbols-outlined" data-icon="mail">mail</span>
+                </button>
+                <button
+                    class="text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full transition-colors">
+                    <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                </button>
+            </div>
+        </header>
+        <!-- Form Content -->
+        <main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-background">
+            <div class="max-w-[1000px] mx-auto">
+                <div class="mb-lg flex justify-between items-end border-b border-outline-variant pb-sm">
+                    <div>
+                        <h2 class="text-headline-lg font-headline-lg text-primary">Add New Teacher</h2>
+                        <p class="text-body-md font-body-md text-on-surface-variant mt-xs">Complete all sections to
+                            register a new faculty member.</p>
+                    </div>
+                    <div class="flex gap-sm">
+                        <button
+                            class="text-primary font-label-md text-label-md px-md py-sm hover:bg-surface-container-low rounded-DEFAULT border border-outline-variant">Cancel</button>
+                    </div>
+                </div>
+                <div class="flex flex-col lg:flex-row gap-xl">
+                    <!-- Stepper Sidebar -->
+                    <div class="w-full lg:w-64 shrink-0">
+                        <div class="relative pl-sm">
+                            <!-- Step 1 -->
+                            <div class="relative pb-xl group">
+                                <div class="stepper-line active h-full absolute left-[15px] top-[32px] w-[2px]"></div>
+                                <div class="flex items-start gap-md relative z-10">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-label-md shrink-0 border-2 border-primary">
+                                        1
+                                    </div>
+                                    <div>
+                                        <h3 class="text-body-lg font-body-lg font-bold text-on-surface">Basic
+                                            Information</h3>
+                                        <p class="text-body-md font-body-md text-on-surface-variant">Personal details
+                                            &amp; contact</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div
+                                class="relative pb-xl group opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                                <div class="stepper-line h-full absolute left-[15px] top-[32px] w-[2px]"></div>
+                                <div class="flex items-start gap-md relative z-10">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-surface text-on-surface-variant flex items-center justify-center font-label-md text-label-md shrink-0 border-2 border-outline-variant group-hover:border-primary transition-colors">
+                                        2
+                                    </div>
+                                    <div>
+                                        <h3
+                                            class="text-body-lg font-body-lg font-bold text-on-surface-variant group-hover:text-primary transition-colors">
+                                            Academic Info</h3>
+                                        <p class="text-body-md font-body-md text-on-surface-variant">Qualifications
+                                            &amp; experience</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="relative group opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                                <div class="flex items-start gap-md relative z-10">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-surface text-on-surface-variant flex items-center justify-center font-label-md text-label-md shrink-0 border-2 border-outline-variant group-hover:border-primary transition-colors">
+                                        3
+                                    </div>
+                                    <div>
+                                        <h3
+                                            class="text-body-lg font-body-lg font-bold text-on-surface-variant group-hover:text-primary transition-colors">
+                                            Documents</h3>
+                                        <p class="text-body-md font-body-md text-on-surface-variant">Upload
+                                            verifications</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Canvas -->
+                    <div class="flex-1">
+                        <div class="bg-surface rounded-DEFAULT border border-outline-variant p-lg shadow-sm">
+                            <div class="mb-lg border-b border-outline-variant pb-sm">
+                                <h3 class="text-headline-md font-headline-md text-primary">Basic Information</h3>
+                            </div>
+                            <form class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+                                <!-- Input Group -->
+                                <div class="flex flex-col gap-xs md:col-span-2">
+                                    <label class="text-label-md font-label-md text-on-surface">Full Name *</label>
+                                    <input
+                                        class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full"
+                                        placeholder="Enter full legal name" type="text" />
+                                </div>
+                                <div class="flex flex-col gap-xs">
+                                    <label class="text-label-md font-label-md text-on-surface">CNIC / ID Number
+                                        *</label>
+                                    <input
+                                        class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full"
+                                        placeholder="00000-0000000-0" type="text" />
+                                </div>
+                                <div class="flex flex-col gap-xs">
+                                    <label class="text-label-md font-label-md text-on-surface">Date of Birth *</label>
+                                    <input
+                                        class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full text-on-surface-variant"
+                                        type="date" />
+                                </div>
+                                <div class="flex flex-col gap-xs">
+                                    <label class="text-label-md font-label-md text-on-surface">Mobile Number *</label>
+                                    <input
+                                        class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full"
+                                        placeholder="+92 3XX XXXXXXX" type="tel" />
+                                </div>
+                                <div class="flex flex-col gap-xs">
+                                    <label class="text-label-md font-label-md text-on-surface">Email Address</label>
+                                    <input
+                                        class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full"
+                                        placeholder="teacher@school.edu" type="email" />
+                                </div>
+                                <div class="flex flex-col gap-xs md:col-span-2">
+                                    <label class="text-label-md font-label-md text-on-surface">Residential Address
+                                        *</label>
+                                    <textarea
+                                        class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full resize-none"
+                                        placeholder="Enter complete address" rows="3"></textarea>
+                                </div>
+                            </form>
+                            <div class="mt-xl flex justify-end gap-md border-t border-outline-variant pt-lg">
+                                <button
+                                    class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm">
+                                    Next Step
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

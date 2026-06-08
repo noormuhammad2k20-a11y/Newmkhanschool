@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ExamType extends Model
+{
+    const UPDATED_AT = null;
+
+    //
+}

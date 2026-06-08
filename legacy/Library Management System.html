@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Library Management Hub - EduGov</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-container": "#999897",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-surface-variant": "#454652",
+                        "surface-tint": "#4c56af",
+                        "secondary-fixed": "#d6e5ef",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "primary": "#000666",
+                        "on-primary-fixed-variant": "#343d96",
+                        "on-secondary-container": "#56656e",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-primary": "#bdc2ff",
+                        "primary-container": "#1a237e",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c6c5d4",
+                        "outline": "#767683",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "surface-container": "#edeeef",
+                        "secondary-container": "#d3e2ed",
+                        "primary-fixed": "#e0e0ff",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "surface": "#f8f9fa",
+                        "on-primary-fixed": "#000767",
+                        "on-primary-container": "#8690ee",
+                        "secondary": "#526069",
+                        "on-background": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "on-secondary-fixed": "#0f1d25",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#1b1b1b",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "tertiary-container": "#303030",
+                        "inverse-surface": "#2e3132",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "surface-variant": "#e1e3e4",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "max-width": "1440px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "margin-desktop": "32px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background min-h-screen flex font-body-md">
+    <!-- SideNavBar (Shared Component) -->
+    <nav
+        class="hidden md:flex h-full w-64 flex-col fixed left-0 top-0 z-40 py-md bg-surface-container border-r border-outline-variant">
+        <div class="px-lg mb-xl">
+            <h1 class="font-headline-lg text-headline-lg text-primary">State Education</h1>
+            <p class="font-label-md text-label-md text-secondary mt-xs">Admin Portal</p>
+        </div>
+        <div class="flex-1 flex flex-col gap-sm px-sm">
+            <a class="flex items-center gap-sm px-md py-sm rounded-lg text-secondary hover:bg-surface-container-highest transition-all"
+                href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-label-md text-label-md">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-sm px-md py-sm rounded-lg text-secondary hover:bg-surface-container-highest transition-all"
+                href="#">
+                <span class="material-symbols-outlined">how_to_reg</span>
+                <span class="font-label-md text-label-md">Teacher Attendance</span>
+            </a>
+            <!-- Active Tab -->
+            <a class="flex items-center gap-sm px-md py-sm rounded-lg bg-secondary-container text-primary font-bold transition-all"
+                href="#">
+                <span class="material-symbols-outlined fill">local_library</span>
+                <span class="font-label-md text-label-md">Library</span>
+            </a>
+            <a class="flex items-center gap-sm px-md py-sm rounded-lg text-secondary hover:bg-surface-container-highest transition-all"
+                href="#">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <span class="font-label-md text-label-md">Asset Management</span>
+            </a>
+            <a class="flex items-center gap-sm px-md py-sm rounded-lg text-secondary hover:bg-surface-container-highest transition-all"
+                href="#">
+                <span class="material-symbols-outlined">event</span>
+                <span class="font-label-md text-label-md">School Events</span>
+            </a>
+        </div>
+        <div class="mt-auto px-sm pt-md border-t border-outline-variant">
+            <a class="flex items-center gap-sm px-md py-sm rounded-lg text-secondary hover:bg-surface-container-highest transition-all"
+                href="#">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="font-label-md text-label-md">Logout</span>
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main class="flex-1 md:ml-64 flex flex-col min-h-screen">
+        <!-- TopNavBar (Shared Component) -->
+        <header
+            class="w-full h-16 flex justify-between items-center px-lg bg-surface-container-lowest border-b border-outline-variant sticky top-0 z-30">
+            <div class="flex items-center gap-md">
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-on-surface hover:bg-surface-container p-xs rounded-lg transition-colors">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <div class="font-headline-md text-headline-md font-bold text-primary hidden md:block">EduGov Management
+                </div>
+                <div class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary md:hidden">EduGov
+                </div>
+            </div>
+            <div class="flex items-center gap-md flex-1 justify-end">
+                <div class="hidden sm:flex relative max-w-md w-full mr-lg">
+                    <span
+                        class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+                    <input
+                        class="w-full pl-[36px] pr-sm py-sm bg-surface-bright border border-outline-variant rounded-DEFAULT focus:border-primary focus:border-2 focus:ring-0 font-body-md text-body-md text-on-surface transition-colors placeholder:text-outline"
+                        placeholder="Search resources..." type="text" />
+                </div>
+                <button
+                    class="text-secondary hover:bg-surface-container p-xs rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button
+                    class="text-secondary hover:bg-surface-container p-xs rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined">help</span>
+                </button>
+                <button
+                    class="text-secondary hover:bg-surface-container p-xs rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+                <div
+                    class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden border border-outline-variant cursor-pointer ml-sm">
+                    <img alt="Administrator Profile" class="w-full h-full object-cover"
+                        data-alt="A professional headshot of a school administrator in a corporate setting. The lighting is bright and even, highlighting a friendly but professional demeanor. The background is slightly blurred, showing a modern office interior. The overall aesthetic matches a reliable, formal institutional portal."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh-tWEt5hKWPutBNkrb3IJp_ccCGb44vS6LduSzxmXUdIo2KANZN0KRHpQEBJ7jrne3gkUIMB2a2k6ovE3zIIl7c_CaavGv5akwvbKN-1-2syb4NSHFuBD-jxtLCiU3kwu0aA63AJnwhJqS5yTJTmJGUfUDLy2hdO1D7_GUqerV7_ZW7IxwLeu_QM1ssx-pM5SNsCwCjVrVn3dXVxQZuhgJy9aLh8t26dbmkzwOaGb-uV7okiqVK0_meO2neP5qk4jb0LZH7_n" />
+                </div>
+            </div>
+        </header>
+        <!-- Page Canvas -->
+        <div class="p-margin-mobile md:p-margin-desktop flex-1 max-w-[max-width] mx-auto w-full">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-xl gap-md">
+                <div>
+                    <h2 class="font-headline-xl text-headline-xl text-on-surface">Library Overview</h2>
+                    <p class="font-body-md text-body-md text-secondary mt-xs">Manage catalog, track issues, and monitor
+                        inventory.</p>
+                </div>
+                <div class="flex gap-sm w-full sm:w-auto">
+                    <button
+                        class="flex-1 sm:flex-none bg-surface-bright text-primary border border-primary px-md py-sm rounded-DEFAULT font-label-md text-label-md hover:bg-secondary-container transition-colors flex items-center justify-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]">keyboard_return</span>
+                        Return Book
+                    </button>
+                    <button
+                        class="flex-1 sm:flex-none bg-primary text-on-primary px-md py-sm rounded-DEFAULT font-label-md text-label-md hover:bg-primary-container transition-colors flex items-center justify-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]">library_add</span>
+                        Issue Book
+                    </button>
+                </div>
+            </div>
+            <!-- Dashboard KPIs -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xl">
+                <!-- Total Books -->
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col justify-between h-[120px]">
+                    <div class="flex justify-between items-start">
+                        <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total
+                            Collection</span>
+                        <div class="bg-secondary-container p-xs rounded-full text-primary">
+                            <span class="material-symbols-outlined">menu_book</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-headline-xl text-headline-xl text-on-surface">14,285</div>
+                        <div class="font-label-md text-label-md text-secondary mt-xs">+124 this month</div>
+                    </div>
+                </div>
+                <!-- Books Issued -->
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col justify-between h-[120px]">
+                    <div class="flex justify-between items-start">
+                        <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Currently
+                            Issued</span>
+                        <div class="bg-[#e0f2f1] p-xs rounded-full text-[#00695c]">
+                            <span class="material-symbols-outlined">how_to_vote</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-headline-xl text-headline-xl text-on-surface">1,842</div>
+                        <div class="font-label-md text-label-md text-secondary mt-xs">12.8% of total collection</div>
+                    </div>
+                </div>
+                <!-- Overdue Returns -->
+                <div
+                    class="bg-surface-container-lowest border border-error-container rounded-lg p-md flex flex-col justify-between h-[120px] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-error opacity-5 rounded-bl-full"></div>
+                    <div class="flex justify-between items-start relative z-10">
+                        <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Overdue
+                            Returns</span>
+                        <div class="bg-error-container p-xs rounded-full text-error">
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="font-headline-xl text-headline-xl text-error">47</div>
+                        <div class="font-label-md text-label-md text-secondary mt-xs">Requires immediate attention</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Content Layout (Bento-style Grid) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+                <!-- Catalog Section (Takes up 2 columns) -->
+                <div
+                    class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-lg flex flex-col h-[500px]">
+                    <div
+                        class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-lg">
+                        <h3 class="font-headline-md text-headline-md text-on-surface">Quick Catalog Search</h3>
+                        <div class="relative max-w-[200px] sm:max-w-xs w-full">
+                            <span
+                                class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+                            <input
+                                class="w-full pl-xl pr-sm py-[6px] bg-surface-container-lowest border border-outline-variant rounded-DEFAULT focus:border-primary focus:border-2 focus:ring-0 font-body-md text-body-md text-on-surface transition-colors placeholder:text-outline text-sm"
+                                placeholder="Search Title, Author, ISBN..." type="text" />
+                        </div>
+                    </div>
+                    <div class="flex-1 overflow-auto p-md">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-outline-variant text-secondary">
+                                    <th class="pb-sm font-label-md text-label-md font-semibold w-2/5">Book Title</th>
+                                    <th class="pb-sm font-label-md text-label-md font-semibold w-1/4">Author</th>
+                                    <th class="pb-sm font-label-md text-label-md font-semibold hidden sm:table-cell">
+                                        ISBN</th>
+                                    <th class="pb-sm font-label-md text-label-md font-semibold text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-body-md text-body-md">
+                                <!-- Zebra Striping applied via CSS nth-child or explicit classes -->
+                                <tr
+                                    class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm pr-sm">
+                                        <div class="font-medium text-on-surface">Advanced Physics</div>
+                                        <div class="text-secondary text-xs mt-[2px] hidden sm:block">Science Dept.</div>
+                                    </td>
+                                    <td class="py-sm text-on-surface-variant">H.C. Verma</td>
+                                    <td class="py-sm text-secondary hidden sm:table-cell">978-8177091878</td>
+                                    <td class="py-sm text-right">
+                                        <span
+                                            class="inline-block px-sm py-[2px] rounded-full bg-[#e8f5e9] text-[#2e7d32] font-label-md text-[10px]">Available</span>
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="bg-surface-bright border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm pr-sm">
+                                        <div class="font-medium text-on-surface">A Brief History of Time</div>
+                                        <div class="text-secondary text-xs mt-[2px] hidden sm:block">General Sci.</div>
+                                    </td>
+                                    <td class="py-sm text-on-surface-variant">Stephen Hawking</td>
+                                    <td class="py-sm text-secondary hidden sm:table-cell">978-0553380163</td>
+                                    <td class="py-sm text-right">
+                                        <span
+                                            class="inline-block px-sm py-[2px] rounded-full bg-error-container text-error font-label-md text-[10px]">Checked
+                                            Out</span>
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm pr-sm">
+                                        <div class="font-medium text-on-surface">Modern World History</div>
+                                        <div class="text-secondary text-xs mt-[2px] hidden sm:block">History Dept.</div>
+                                    </td>
+                                    <td class="py-sm text-on-surface-variant">Norman Lowe</td>
+                                    <td class="py-sm text-secondary hidden sm:table-cell">978-0230206223</td>
+                                    <td class="py-sm text-right">
+                                        <span
+                                            class="inline-block px-sm py-[2px] rounded-full bg-[#e8f5e9] text-[#2e7d32] font-label-md text-[10px]">Available</span>
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="bg-surface-bright border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm pr-sm">
+                                        <div class="font-medium text-on-surface">Calculus: Early Transcendentals</div>
+                                        <div class="text-secondary text-xs mt-[2px] hidden sm:block">Math Dept.</div>
+                                    </td>
+                                    <td class="py-sm text-on-surface-variant">James Stewart</td>
+                                    <td class="py-sm text-secondary hidden sm:table-cell">978-1285741550</td>
+                                    <td class="py-sm text-right">
+                                        <span
+                                            class="inline-block px-sm py-[2px] rounded-full bg-error-container text-error font-label-md text-[10px]">Checked
+                                            Out</span>
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm pr-sm">
+                                        <div class="font-medium text-on-surface">To Kill a Mockingbird</div>
+                                        <div class="text-secondary text-xs mt-[2px] hidden sm:block">Literature</div>
+                                    </td>
+                                    <td class="py-sm text-on-surface-variant">Harper Lee</td>
+                                    <td class="py-sm text-secondary hidden sm:table-cell">978-0060935467</td>
+                                    <td class="py-sm text-right">
+                                        <span
+                                            class="inline-block px-sm py-[2px] rounded-full bg-[#e8f5e9] text-[#2e7d32] font-label-md text-[10px]">Available</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Recent Transactions (Takes 1 column) -->
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg flex flex-col h-[500px]">
+                    <div class="p-md border-b border-outline-variant bg-surface-bright rounded-t-lg">
+                        <h3 class="font-headline-md text-headline-md text-on-surface">Recent Transactions</h3>
+                    </div>
+                    <div class="flex-1 overflow-auto p-md flex flex-col gap-sm">
+                        <!-- Transaction Item -->
+                        <div
+                            class="p-sm border border-outline-variant rounded-lg bg-surface-container-lowest flex items-start gap-sm">
+                            <div class="bg-secondary-container p-[6px] rounded-full text-primary mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">library_add</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start">
+                                    <p class="font-label-md text-label-md text-on-surface truncate">Sarah Jenkins</p>
+                                    <span class="font-label-md text-[10px] text-secondary whitespace-nowrap">Today,
+                                        09:41</span>
+                                </div>
+                                <p class="font-body-md text-[13px] text-on-surface-variant truncate mt-[2px]">Issued:
+                                    Advanced Physics</p>
+                                <p class="font-label-md text-[11px] text-secondary mt-xs">Due: Oct 24, 2023</p>
+                            </div>
+                        </div>
+                        <!-- Transaction Item -->
+                        <div
+                            class="p-sm border border-outline-variant rounded-lg bg-surface-container-lowest flex items-start gap-sm">
+                            <div
+                                class="bg-surface-bright border border-outline-variant p-[6px] rounded-full text-secondary mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">keyboard_return</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start">
+                                    <p class="font-label-md text-label-md text-on-surface truncate">Michael Chang</p>
+                                    <span class="font-label-md text-[10px] text-secondary whitespace-nowrap">Today,
+                                        08:15</span>
+                                </div>
+                                <p class="font-body-md text-[13px] text-on-surface-variant truncate mt-[2px]">Returned:
+                                    Biology 101</p>
+                                <p class="font-label-md text-[11px] text-[#2e7d32] mt-xs">Returned on time</p>
+                            </div>
+                        </div>
+                        <!-- Transaction Item (Overdue context) -->
+                        <div class="p-sm border border-error-container rounded-lg bg-[#fff8f6] flex items-start gap-sm">
+                            <div class="bg-error-container p-[6px] rounded-full text-error mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">warning</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start">
+                                    <p class="font-label-md text-label-md text-error truncate">David Miller</p>
+                                    <span class="font-label-md text-[10px] text-error whitespace-nowrap">Overdue</span>
+                                </div>
+                                <p class="font-body-md text-[13px] text-on-surface-variant truncate mt-[2px]">A Brief
+                                    History of Time</p>
+                                <p class="font-label-md text-[11px] text-error mt-xs">Due: Oct 10, 2023 (2 days late)
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Transaction Item -->
+                        <div
+                            class="p-sm border border-outline-variant rounded-lg bg-surface-container-lowest flex items-start gap-sm">
+                            <div class="bg-secondary-container p-[6px] rounded-full text-primary mt-xs">
+                                <span class="material-symbols-outlined text-[16px]">library_add</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start">
+                                    <p class="font-label-md text-label-md text-on-surface truncate">Emma Wilson</p>
+                                    <span
+                                        class="font-label-md text-[10px] text-secondary whitespace-nowrap">Yesterday</span>
+                                </div>
+                                <p class="font-body-md text-[13px] text-on-surface-variant truncate mt-[2px]">Issued:
+                                    World Atlas</p>
+                                <p class="font-label-md text-[11px] text-secondary mt-xs">Due: Oct 25, 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-sm border-t border-outline-variant text-center bg-surface-bright rounded-b-lg">
+                        <button class="font-label-md text-label-md text-primary hover:underline">View All
+                            Transactions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

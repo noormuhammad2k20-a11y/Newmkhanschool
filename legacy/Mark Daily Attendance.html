@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Daily Attendance - GovEd SMS</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <!-- Material Symbols Outlined -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Theme Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d9dadb",
+                        "on-primary-fixed": "#000767",
+                        "on-background": "#191c1d",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1d",
+                        "on-error": "#ffffff",
+                        "primary": "#000666",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary-fixed-variant": "#343d96",
+                        "surface-bright": "#f8f9fa",
+                        "primary-container": "#1a237e",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#e0e0ff",
+                        "secondary": "#526069",
+                        "surface": "#f8f9fa",
+                        "secondary-container": "#d3e2ed",
+                        "secondary-fixed": "#d6e5ef",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-secondary-fixed": "#0f1d25",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface-variant": "#454652",
+                        "on-tertiary-container": "#999897",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#bdc2ff",
+                        "surface-tint": "#4c56af",
+                        "outline-variant": "#c6c5d4",
+                        "tertiary-container": "#303030",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "tertiary": "#1b1b1b",
+                        "on-primary-container": "#8690ee",
+                        "outline": "#767683",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary-container": "#56656e",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "tertiary-fixed-dim": "#c8c6c6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "base": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "max-width": "1440px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base styles to enforce rigid grid and structured calm */
+        body {
+            background-color: theme('colors.surface');
+            color: theme('colors.on-surface');
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Specialized Table Zebra Striping using subtle tonal shift */
+        .table-row-even {
+            background-color: theme('colors.surface-bright');
+        }
+
+        .table-row-odd {
+            background-color: theme('colors.surface-container-lowest');
+        }
+
+        /* Custom segmented control for quick attendance marking */
+        .attendance-radio:checked+label.status-present {
+            background-color: theme('colors.primary');
+            color: theme('colors.on-primary');
+            border-color: theme('colors.primary');
+        }
+
+        .attendance-radio:checked+label.status-absent {
+            background-color: theme('colors.error');
+            color: theme('colors.on-error');
+            border-color: theme('colors.error');
+        }
+
+        .attendance-radio:checked+label.status-leave {
+            background-color: theme('colors.secondary');
+            color: theme('colors.on-secondary');
+            border-color: theme('colors.secondary');
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex">
+    <!-- Shared Component: SideNavBar -->
+    <aside
+        class="bg-surface-container-lowest dark:bg-surface-dim h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col py-lg px-md z-20">
+        <!-- Brand Header -->
+        <div class="mb-xl flex items-center gap-sm px-sm">
+            <span class="material-symbols-outlined text-primary text-[32px]">shield</span>
+            <div>
+                <h1 class="text-headline-md font-headline-md text-primary dark:text-primary-fixed leading-tight">Admin
+                    Panel</h1>
+                <p class="text-label-md font-label-md text-on-surface-variant">State Education Board</p>
+            </div>
+        </div>
+        <!-- Navigation Links -->
+        <nav class="flex-1 flex flex-col gap-sm">
+            <!-- Dashboard -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all"
+                href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="text-body-md font-body-md">Dashboard</span>
+            </a>
+            <!-- Students -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all"
+                href="#">
+                <span class="material-symbols-outlined">group</span>
+                <span class="text-body-md font-body-md">Students</span>
+            </a>
+            <!-- Teachers -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all"
+                href="#">
+                <span class="material-symbols-outlined">school</span>
+                <span class="text-body-md font-body-md">Teachers</span>
+            </a>
+            <!-- Academic Management -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all"
+                href="#">
+                <span class="material-symbols-outlined">menu_book</span>
+                <span class="text-body-md font-body-md">Academic Management</span>
+            </a>
+            <!-- Attendance (ACTIVE) -->
+            <a class="flex items-center gap-md px-md py-sm bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-lg scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <span class="text-body-md font-body-md font-semibold">Attendance</span>
+            </a>
+            <!-- Examination -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all"
+                href="#">
+                <span class="material-symbols-outlined">description</span>
+                <span class="text-body-md font-body-md">Examination</span>
+            </a>
+            <!-- Reports -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all"
+                href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="text-body-md font-body-md">Reports</span>
+            </a>
+            <!-- Settings -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-on-secondary-fixed-variant hover:bg-surface-container-high hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim transition-all mt-auto"
+                href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="text-body-md font-body-md">Settings</span>
+            </a>
+        </nav>
+        <!-- CTA -->
+        <button
+            class="mt-lg w-full bg-surface-container-highest text-primary font-label-md text-label-md py-sm px-md rounded border border-outline-variant hover:bg-surface-variant transition-colors flex items-center justify-center gap-sm">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Add New Record
+        </button>
+    </aside>
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 ml-64 flex flex-col min-h-screen relative">
+        <!-- Shared Component: TopNavBar -->
+        <header
+            class="bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 z-10">
+            <!-- Brand / Search -->
+            <div class="flex items-center gap-xl flex-1">
+                <span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">GovEd
+                    SMS</span>
+                <div class="relative w-96 hidden md:block">
+                    <span
+                        class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input
+                        class="w-full pl-xl pr-sm py-sm bg-surface-container-lowest border border-outline-variant rounded text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none"
+                        placeholder="Search records, students..." type="text" />
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="flex items-center gap-md">
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors">
+                    <span class="material-symbols-outlined">mail</span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </button>
+            </div>
+        </header>
+        <!-- Canvas Area -->
+        <main class="flex-1 p-lg bg-surface">
+            <div class="max-w-max-width mx-auto">
+                <!-- Page Header -->
+                <div class="mb-lg flex justify-between items-end">
+                    <div>
+                        <h2 class="text-headline-lg font-headline-lg text-on-surface mb-xs">Daily Student Attendance
+                        </h2>
+                        <p class="text-body-md font-body-md text-on-surface-variant">Record and verify daily attendance
+                            for academic blocks.</p>
+                    </div>
+                    <div class="flex items-center gap-sm">
+                        <span class="text-label-md font-label-md text-secondary">Status:</span>
+                        <span
+                            class="bg-error-container text-on-error-container px-sm py-[2px] rounded-full text-label-md font-label-md border border-error/20">Pending
+                            Submission</span>
+                    </div>
+                </div>
+                <!-- Filters Card (Level 1 Surface) -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md mb-lg shadow-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
+                        <div class="flex flex-col gap-xs">
+                            <label class="text-label-md font-label-md text-on-surface-variant uppercase">Class
+                                Grade</label>
+                            <select
+                                class="w-full border border-outline-variant rounded py-sm px-sm text-body-md font-body-md bg-transparent focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+                                <option>Grade 10</option>
+                                <option>Grade 11</option>
+                                <option>Grade 12</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-xs">
+                            <label class="text-label-md font-label-md text-on-surface-variant uppercase">Section</label>
+                            <select
+                                class="w-full border border-outline-variant rounded py-sm px-sm text-body-md font-body-md bg-transparent focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+                                <option>Section A (Science)</option>
+                                <option>Section B (Arts)</option>
+                                <option>Section C (Commerce)</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-xs">
+                            <label class="text-label-md font-label-md text-on-surface-variant uppercase">Date</label>
+                            <input
+                                class="w-full border border-outline-variant rounded py-sm px-sm text-body-md font-body-md bg-transparent focus:border-primary focus:ring-1 focus:ring-primary outline-none text-on-surface"
+                                type="date" value="2023-10-24" />
+                        </div>
+                        <div class="flex justify-end">
+                            <button
+                                class="bg-surface-container-high text-on-surface border border-outline-variant px-md py-sm rounded text-label-md font-label-md hover:bg-surface-variant transition-colors flex items-center gap-xs w-full justify-center">
+                                <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Table Card (Level 1 Surface) -->
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+                    <!-- Table Toolbar -->
+                    <div
+                        class="p-md border-b border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+                        <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Roster</h3>
+                        <button
+                            class="bg-primary-fixed text-on-primary-fixed px-md py-sm rounded border border-primary/20 text-label-md font-label-md hover:bg-primary-fixed-dim transition-colors flex items-center gap-xs"
+                            onclick="markAllPresent()">
+                            <span class="material-symbols-outlined text-[18px]">done_all</span>
+                            Mark All Present
+                        </button>
+                    </div>
+                    <!-- Data Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-surface-container-low border-b border-outline-variant">
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface-variant uppercase w-24">
+                                        Roll No</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface-variant uppercase">
+                                        Student Name</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface-variant uppercase text-center w-96">
+                                        Attendance Status</th>
+                                    <th
+                                        class="py-sm px-md text-label-md font-label-md text-on-surface-variant uppercase text-right w-32">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-body-md font-body-md" id="attendance-tbody">
+                                <!-- Row 1 -->
+                                <tr
+                                    class="table-row-odd border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm px-md text-on-surface-variant font-medium">10A-01</td>
+                                    <td class="py-sm px-md text-on-surface">Aarav Sharma</td>
+                                    <td class="py-sm px-md">
+                                        <div class="flex items-center justify-center gap-sm">
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="p-1" name="status-1"
+                                                    type="radio" value="present" />
+                                                <label
+                                                    class="status-present cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="p-1">Present</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="a-1" name="status-1"
+                                                    type="radio" value="absent" />
+                                                <label
+                                                    class="status-absent cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="a-1">Absent</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="l-1" name="status-1"
+                                                    type="radio" value="leave" />
+                                                <label
+                                                    class="status-leave cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="l-1">Leave</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-sm px-md text-right">
+                                        <button class="text-secondary hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr
+                                    class="table-row-even border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm px-md text-on-surface-variant font-medium">10A-02</td>
+                                    <td class="py-sm px-md text-on-surface">Diya Patel</td>
+                                    <td class="py-sm px-md">
+                                        <div class="flex items-center justify-center gap-sm">
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="p-2" name="status-2"
+                                                    type="radio" value="present" />
+                                                <label
+                                                    class="status-present cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="p-2">Present</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="a-2" name="status-2"
+                                                    type="radio" value="absent" />
+                                                <label
+                                                    class="status-absent cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="a-2">Absent</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="l-2" name="status-2"
+                                                    type="radio" value="leave" />
+                                                <label
+                                                    class="status-leave cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="l-2">Leave</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-sm px-md text-right">
+                                        <button class="text-secondary hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr
+                                    class="table-row-odd border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors">
+                                    <td class="py-sm px-md text-on-surface-variant font-medium">10A-03</td>
+                                    <td class="py-sm px-md text-on-surface">Kabir Singh</td>
+                                    <td class="py-sm px-md">
+                                        <div class="flex items-center justify-center gap-sm">
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="p-3" name="status-3"
+                                                    type="radio" value="present" />
+                                                <label
+                                                    class="status-present cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="p-3">Present</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="a-3" name="status-3"
+                                                    type="radio" value="absent" />
+                                                <label
+                                                    class="status-absent cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="a-3">Absent</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input class="attendance-radio sr-only peer" id="l-3" name="status-3"
+                                                    type="radio" value="leave" />
+                                                <label
+                                                    class="status-leave cursor-pointer border border-outline-variant px-sm py-[4px] rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors inline-block w-24 text-center"
+                                                    for="l-3">Leave</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-sm px-md text-right">
+                                        <button class="text-secondary hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Table Footer / Pagination Placeholder -->
+                    <div
+                        class="p-md bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center text-label-md font-label-md text-on-surface-variant">
+                        <span>Showing 3 of 32 students</span>
+                        <div class="flex gap-sm">
+                            <button
+                                class="px-sm py-xs border border-outline-variant rounded hover:bg-surface-container-high disabled:opacity-50"
+                                disabled="">Prev</button>
+                            <button
+                                class="px-sm py-xs border border-outline-variant rounded hover:bg-surface-container-high">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Action Bar -->
+                <div class="mt-lg flex justify-end gap-md">
+                    <button
+                        class="px-lg py-sm border border-outline-variant rounded text-on-surface text-label-md font-label-md hover:bg-surface-container-high transition-colors">
+                        Cancel
+                    </button>
+                    <button
+                        class="px-lg py-sm bg-primary text-on-primary rounded text-label-md font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]">save</span>
+                        Save Attendance
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Micro-interaction Script -->
+    <script>
+        function markAllPresent() {
+            const radios = document.querySelectorAll('input[type="radio"][value="present"]');
+            radios.forEach(radio => {
+                radio.checked = true;
+            });
+        }
+    </script>
+</body>
+
+</html>

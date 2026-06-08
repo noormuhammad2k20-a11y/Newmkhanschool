@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Teacher Attendance - EduGov Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-container": "#999897",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-surface-variant": "#454652",
+                        "surface-tint": "#4c56af",
+                        "secondary-fixed": "#d6e5ef",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "primary": "#000666",
+                        "on-primary-fixed-variant": "#343d96",
+                        "on-secondary-container": "#56656e",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-primary": "#bdc2ff",
+                        "primary-container": "#1a237e",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c6c5d4",
+                        "outline": "#767683",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "surface-container": "#edeeef",
+                        "secondary-container": "#d3e2ed",
+                        "primary-fixed": "#e0e0ff",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "surface": "#f8f9fa",
+                        "on-primary-fixed": "#000767",
+                        "on-primary-container": "#8690ee",
+                        "secondary": "#526069",
+                        "on-background": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "on-secondary-fixed": "#0f1d25",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#1b1b1b",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "tertiary-container": "#303030",
+                        "inverse-surface": "#2e3132",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "surface-variant": "#e1e3e4",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "max-width": "1440px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "margin-desktop": "32px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-xl": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background flex h-screen overflow-hidden">
+    <!-- SideNavBar Component -->
+    <nav
+        class="fixed left-0 top-0 h-full z-40 flex flex-col py-md w-64 bg-surface-container border-r border-outline-variant shadow-[0_0_12px_rgba(26,35,126,0.02)]">
+        <div class="px-lg pb-md mb-md border-b border-outline-variant">
+            <div class="flex items-center gap-sm mb-sm">
+                <div
+                    class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md">
+                    SE</div>
+                <div>
+                    <h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">State Education</h1>
+                    <p class="font-label-md text-label-md text-secondary">Admin Portal</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-auto px-sm space-y-xs">
+            <a class="flex items-center gap-md px-md py-sm w-full font-label-md text-label-md text-secondary hover:bg-surface-container-highest transition-all rounded"
+                href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+            <a class="flex items-center gap-md px-md py-sm w-full font-label-md text-label-md bg-secondary-container text-primary font-bold rounded-lg transition-transform duration-200 ease-in-out"
+                href="#">
+                <span class="material-symbols-outlined">how_to_reg</span>
+                Teacher Attendance
+            </a>
+            <a class="flex items-center gap-md px-md py-sm w-full font-label-md text-label-md text-secondary hover:bg-surface-container-highest transition-all rounded"
+                href="#">
+                <span class="material-symbols-outlined">local_library</span>
+                Library
+            </a>
+            <a class="flex items-center gap-md px-md py-sm w-full font-label-md text-label-md text-secondary hover:bg-surface-container-highest transition-all rounded"
+                href="#">
+                <span class="material-symbols-outlined">inventory_2</span>
+                Asset Management
+            </a>
+            <a class="flex items-center gap-md px-md py-sm w-full font-label-md text-label-md text-secondary hover:bg-surface-container-highest transition-all rounded"
+                href="#">
+                <span class="material-symbols-outlined">event</span>
+                School Events
+            </a>
+        </div>
+        <div class="px-sm pt-md border-t border-outline-variant mt-auto">
+            <a class="flex items-center gap-md px-md py-sm w-full font-label-md text-label-md text-secondary hover:bg-surface-container-highest transition-all rounded"
+                href="#">
+                <span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 flex flex-col ml-64 h-full">
+        <!-- TopNavBar Component -->
+        <header
+            class="flex justify-between items-center px-lg w-full h-16 bg-surface-container-lowest border-b border-outline-variant z-30">
+            <div class="flex items-center gap-sm">
+                <div class="font-headline-md text-headline-md font-bold text-primary">EduGov Management</div>
+            </div>
+            <div class="flex items-center gap-sm">
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined">help</span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+                <div
+                    class="ml-sm w-8 h-8 rounded-full bg-secondary-container border border-outline-variant overflow-hidden">
+                    <img alt="Administrator Profile" class="w-full h-full object-cover"
+                        data-alt="A professional headshot of a school administrator in a bright, modern office setting. The individual is wearing formal corporate attire. Soft, natural daylight illuminates the scene, emphasizing a structured, calm, and authoritative atmosphere consistent with institutional governance."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmGtFQ35EIhS5_Kv3Kvm33W6E6gi9czbwNkS6hpZZlKIiny4kD5X4pnrmiRXUTKmugJ9Wff4uVqHh0O3sD0zMjDgJd2pMAjHzlMCIHmsPXv0u3k2a73qvb2UJozEwuhuVPh4NJNfaJ5MCGfVZ37D9DuJ24K7KOuQyBZgtBYF7fnvyW7zsuKddhZRL-QUfY9y2fIPhVZ_hELQGtre9sRXg-JvqH6P1LIz8Jznu0m211DJ-TeLzjDz058SXi-TtolbfJam9OfS3v" />
+                </div>
+            </div>
+        </header>
+        <!-- Main Dashboard Canvas -->
+        <main class="flex-1 overflow-y-auto bg-surface-bright p-margin-desktop">
+            <div class="max-w-[1440px] mx-auto space-y-xl">
+                <!-- Page Header -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+                    <div>
+                        <h2 class="font-headline-xl text-headline-xl text-on-surface">Daily Attendance &amp; Leave
+                            Management</h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Overview for Thursday,
+                            October 26, 2023</p>
+                    </div>
+                    <button
+                        class="inline-flex items-center gap-sm px-lg py-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:opacity-90 transition-opacity whitespace-nowrap shadow-[0_4px_12px_rgba(26,35,126,0.08)]">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">description</span>
+                        Generate Monthly Duty Report
+                    </button>
+                </div>
+                <!-- Summary Stats (Bento Grid Style) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded p-lg flex items-center justify-between">
+                        <div>
+                            <p
+                                class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">
+                                Total Staff Present</p>
+                            <h3 class="font-headline-xl text-headline-xl text-on-surface">142</h3>
+                            <p class="font-body-md text-body-md text-secondary mt-xs flex items-center gap-xs">
+                                <span class="material-symbols-outlined text-surface-tint"
+                                    style="font-size: 16px;">trending_up</span>
+                                +2% from yesterday
+                            </p>
+                        </div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined" style="font-size: 24px;">group</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded p-lg flex items-center justify-between relative overflow-hidden">
+                        <div
+                            class="absolute right-0 top-0 w-24 h-24 bg-error-container rounded-bl-full opacity-20 -z-0">
+                        </div>
+                        <div class="relative z-10">
+                            <p
+                                class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">
+                                Currently On Leave</p>
+                            <h3 class="font-headline-xl text-headline-xl text-on-surface">8</h3>
+                            <p class="font-body-md text-body-md text-secondary mt-xs">3 Sick, 5 Casual</p>
+                        </div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error relative z-10">
+                            <span class="material-symbols-outlined" style="font-size: 24px;">event_busy</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded p-lg flex items-center justify-between">
+                        <div>
+                            <p
+                                class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">
+                                Late Arrivals</p>
+                            <h3 class="font-headline-xl text-headline-xl text-on-surface">4</h3>
+                            <p class="font-body-md text-body-md text-secondary mt-xs">Pending administrative review</p>
+                        </div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+                            <span class="material-symbols-outlined" style="font-size: 24px;">schedule</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Data Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+                    <!-- Leave Requests Table (Span 8) -->
+                    <div
+                        class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded flex flex-col">
+                        <div
+                            class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+                            <h3 class="font-headline-md text-headline-md text-on-surface">Pending Leave Requests</h3>
+                            <button class="font-label-md text-label-md text-primary hover:underline">View All
+                                History</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-surface-container border-b border-outline-variant">
+                                        <th
+                                            class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase">
+                                            Teacher Name</th>
+                                        <th
+                                            class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase">
+                                            Leave Type</th>
+                                        <th
+                                            class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase">
+                                            Duration</th>
+                                        <th
+                                            class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase">
+                                            Status</th>
+                                        <th
+                                            class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase text-right">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="font-body-md text-body-md text-on-surface">
+                                    <tr
+                                        class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
+                                        <td class="py-md px-md font-semibold">Sarah Jenkins</td>
+                                        <td class="py-md px-md">Medical / Sick</td>
+                                        <td class="py-md px-md">Oct 27 - Oct 29 (3 Days)</td>
+                                        <td class="py-md px-md">
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[10px] uppercase">Pending</span>
+                                        </td>
+                                        <td class="py-md px-md text-right space-x-2">
+                                            <button
+                                                class="px-3 py-1 bg-secondary-container text-primary font-label-md text-label-md rounded hover:bg-primary-container hover:text-on-primary transition-colors">Approve</button>
+                                            <button
+                                                class="px-3 py-1 border border-outline-variant text-on-surface-variant font-label-md text-label-md rounded hover:bg-error-container hover:text-error hover:border-error transition-colors">Reject</button>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-surface-variant bg-surface-container-low hover:bg-surface-bright transition-colors">
+                                        <td class="py-md px-md font-semibold">Michael Chang</td>
+                                        <td class="py-md px-md">Casual Leave</td>
+                                        <td class="py-md px-md">Oct 30 (1 Day)</td>
+                                        <td class="py-md px-md">
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[10px] uppercase">Pending</span>
+                                        </td>
+                                        <td class="py-md px-md text-right space-x-2">
+                                            <button
+                                                class="px-3 py-1 bg-secondary-container text-primary font-label-md text-label-md rounded hover:bg-primary-container hover:text-on-primary transition-colors">Approve</button>
+                                            <button
+                                                class="px-3 py-1 border border-outline-variant text-on-surface-variant font-label-md text-label-md rounded hover:bg-error-container hover:text-error hover:border-error transition-colors">Reject</button>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
+                                        <td class="py-md px-md font-semibold">Elena Rostova</td>
+                                        <td class="py-md px-md">Professional Dev</td>
+                                        <td class="py-md px-md">Nov 2 - Nov 3 (2 Days)</td>
+                                        <td class="py-md px-md">
+                                            <span
+                                                class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[10px] uppercase">Pending</span>
+                                        </td>
+                                        <td class="py-md px-md text-right space-x-2">
+                                            <button
+                                                class="px-3 py-1 bg-secondary-container text-primary font-label-md text-label-md rounded hover:bg-primary-container hover:text-on-primary transition-colors">Approve</button>
+                                            <button
+                                                class="px-3 py-1 border border-outline-variant text-on-surface-variant font-label-md text-label-md rounded hover:bg-error-container hover:text-error hover:border-error transition-colors">Reject</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Daily Attendance Log (Span 4) -->
+                    <div
+                        class="lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded flex flex-col h-full max-h-[500px]">
+                        <div
+                            class="p-md border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+                            <h3 class="font-headline-md text-headline-md text-on-surface">Live Attendance Log</h3>
+                            <span
+                                class="flex items-center justify-center w-6 h-6 rounded-full bg-secondary-container text-primary cursor-pointer hover:bg-primary-container hover:text-on-primary transition-colors">
+                                <span class="material-symbols-outlined" style="font-size: 16px;">refresh</span>
+                            </span>
+                        </div>
+                        <!-- Search / Filter inside log -->
+                        <div class="p-sm border-b border-outline-variant bg-surface-container-lowest">
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline"
+                                    style="font-size: 18px;">search</span>
+                                <input
+                                    class="w-full pl-8 pr-3 py-1.5 text-body-md font-body-md border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-surface-bright text-on-surface placeholder:text-outline transition-all"
+                                    placeholder="Search staff..." type="text" />
+                            </div>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-sm space-y-1">
+                            <!-- Log Item -->
+                            <div
+                                class="flex items-center justify-between p-sm hover:bg-surface-container-low rounded transition-colors">
+                                <div class="flex items-center gap-sm">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-primary font-label-md text-label-md">
+                                        JD</div>
+                                    <div>
+                                        <p
+                                            class="font-body-md text-body-md font-semibold text-on-surface leading-tight">
+                                            John Doe</p>
+                                        <p class="font-label-md text-label-md text-secondary">Mathematics Dept.</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p
+                                        class="font-label-md text-label-md text-primary flex items-center gap-1 justify-end">
+                                        <span class="material-symbols-outlined text-primary"
+                                            style="font-size: 14px;">login</span> 07:45 AM
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Log Item -->
+                            <div
+                                class="flex items-center justify-between p-sm hover:bg-surface-container-low rounded transition-colors">
+                                <div class="flex items-center gap-sm">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-primary font-label-md text-label-md">
+                                        AW</div>
+                                    <div>
+                                        <p
+                                            class="font-body-md text-body-md font-semibold text-on-surface leading-tight">
+                                            Alice Wright</p>
+                                        <p class="font-label-md text-label-md text-secondary">Science Dept.</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p
+                                        class="font-label-md text-label-md text-primary flex items-center gap-1 justify-end">
+                                        <span class="material-symbols-outlined text-primary"
+                                            style="font-size: 14px;">login</span> 07:52 AM
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Log Item Late -->
+                            <div
+                                class="flex items-center justify-between p-sm hover:bg-surface-container-low rounded transition-colors bg-error-container/20">
+                                <div class="flex items-center gap-sm">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-error font-label-md text-label-md">
+                                        RB</div>
+                                    <div>
+                                        <p
+                                            class="font-body-md text-body-md font-semibold text-on-surface leading-tight">
+                                            Robert Brown</p>
+                                        <p class="font-label-md text-label-md text-secondary">History Dept.</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p
+                                        class="font-label-md text-label-md text-error flex items-center gap-1 justify-end">
+                                        <span class="material-symbols-outlined text-error"
+                                            style="font-size: 14px;">warning</span> 08:15 AM
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Log Item Checked Out -->
+                            <div
+                                class="flex items-center justify-between p-sm hover:bg-surface-container-low rounded transition-colors opacity-75">
+                                <div class="flex items-center gap-sm">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant font-label-md text-label-md">
+                                        LK</div>
+                                    <div>
+                                        <p
+                                            class="font-body-md text-body-md font-semibold text-on-surface leading-tight">
+                                            Laura King</p>
+                                        <p class="font-label-md text-label-md text-secondary">Administration</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p
+                                        class="font-label-md text-label-md text-secondary flex items-center gap-1 justify-end">
+                                        <span class="material-symbols-outlined text-secondary"
+                                            style="font-size: 14px;">logout</span> 11:30 AM
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

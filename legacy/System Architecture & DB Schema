@@ -1,0 +1,67 @@
+# Government School Management System - System Architecture & Database Schema
+
+## 1. System Overview
+A Laravel 12 based enterprise application designed specifically for government schools. It follows a clean architecture using the Repository Pattern and Service Layer for scalability and testability.
+
+## 2. Database Schema (ERD Logic)
+
+### Core Tables
+
+#### `users`
+- id (PK)
+- name, email, password
+- role_id (FK)
+- school_id (FK, nullable for Super Admin)
+- status (active/inactive)
+
+#### `schools`
+- id (PK)
+- code (Government School Code)
+- name, address, district, tehsil
+- principal_name, phone_number
+- logo_path
+
+#### `students`
+- id (PK)
+- admission_no (Unique)
+- first_name, last_name, gender, dob
+- b_form_number (National ID)
+- religion, blood_group, photo_path
+- father_name, father_cnic, mobile_number
+- current_class_id (FK), current_section_id (FK)
+- status (Regular, Transferred, Graduated)
+
+#### `teachers`
+- id (PK)
+- employee_number (Unique)
+- full_name, cnic, mobile, email
+- qualification, specialization, experience
+- user_id (FK)
+
+#### `classes` & `sections`
+- `classes`: id, name (Primary, Middle, High, etc.)
+- `sections`: id, class_id (FK), name (A, B, C)
+
+#### `subjects`
+- id, name, code, class_id (FK)
+
+#### `attendance`
+- id, student_id (FK), date, status (P, A, L), marked_by (FK: user_id)
+
+#### `exams` & `marks`
+- `exam_types`: id, name (Midterm, Annual)
+- `exam_schedules`: id, exam_type_id (FK), class_id (FK), subject_id (FK), date
+- `marks`: id, student_id (FK), subject_id (FK), exam_type_id (FK), marks_obtained, total_marks, remarks
+
+### 3. Key Relationships
+- **School Has Many** Students, Teachers, Classes.
+- **Class Has Many** Sections, Subjects.
+- **Teacher Has Many** Subject Assignments, Class Assignments.
+- **Student Has Many** Attendance Records, Marks.
+
+## 4. Laravel Implementation Details
+- **Controllers**: Handled via Resource Controllers (StudentController, TeacherController).
+- **Repositories**: StudentRepository, AttendanceRepository to decouple DB logic.
+- **Services**: AttendanceService (logic for alerts), ExaminationService (logic for result generation).
+- **Middleware**: `CheckRole` to handle Super Admin, School Admin, Teacher, Student, Parent access.
+- **Policies**: `StudentPolicy` to ensure teachers can only mark marks for their assigned classes.

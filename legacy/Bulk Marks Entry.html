@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Bulk Marks Entry - GovEd SMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#d6e5ef",
+                        "on-primary-container": "#8690ee",
+                        "on-background": "#191c1d",
+                        "primary-container": "#1a237e",
+                        "inverse-primary": "#bdc2ff",
+                        "outline-variant": "#c6c5d4",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "surface-container-high": "#e7e8e9",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "on-secondary-container": "#56656e",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#303030",
+                        "on-surface": "#191c1d",
+                        "primary": "#000666",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary": "#526069",
+                        "on-secondary-fixed": "#0f1d25",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9fa",
+                        "on-primary-fixed-variant": "#343d96",
+                        "primary-fixed": "#e0e0ff",
+                        "tertiary": "#1b1b1b",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "background": "#f8f9fa",
+                        "outline": "#767683",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-tertiary-container": "#999897",
+                        "on-primary-fixed": "#000767",
+                        "inverse-surface": "#2e3132",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#4c56af",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-surface-variant": "#454652",
+                        "secondary-container": "#d3e2ed",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "max-width": "1440px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "margin-desktop": "32px",
+                        "lg": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: theme('colors.background');
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar for table */
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: theme('colors.surface-container-lowest');
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant');
+            border-radius: 4px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col md:flex-row">
+    <!-- SideNavBar (Desktop) -->
+    <nav
+        class="hidden md:flex flex-col h-screen fixed left-0 top-0 w-64 bg-surface-container-lowest border-r border-outline-variant py-lg px-md z-20">
+        <!-- Brand -->
+        <div class="mb-xl flex items-center gap-xs px-sm">
+            <span class="material-symbols-outlined text-primary text-headline-xl">account_balance</span>
+            <span class="text-headline-md font-headline-md text-primary">GovEd SMS</span>
+        </div>
+        <!-- Header Info -->
+        <div class="mb-lg px-sm pb-md border-b border-outline-variant">
+            <h2 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Admin Panel
+            </h2>
+            <p class="text-body-md font-body-md text-secondary">State Education Board</p>
+        </div>
+        <!-- Navigation Links -->
+        <div class="flex flex-col gap-sm flex-grow overflow-y-auto">
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined">group</span>
+                Students
+            </a>
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined">school</span>
+                Teachers
+            </a>
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined">menu_book</span>
+                Academic Management
+            </a>
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined">calendar_today</span>
+                Attendance
+            </a>
+            <!-- Active State -->
+            <a class="flex items-center gap-md px-md py-sm rounded-lg bg-primary text-on-primary scale-95 duration-150 text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+                Examination
+            </a>
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined">analytics</span>
+                Reports
+            </a>
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+        </div>
+        <!-- CTA -->
+        <div class="mt-auto pt-md">
+            <button
+                class="w-full bg-primary-container text-on-primary-container py-sm px-md rounded-lg text-label-md font-label-md flex items-center justify-center gap-xs hover:opacity-90 transition-opacity">
+                <span class="material-symbols-outlined text-sm">add</span>
+                Add New Record
+            </button>
+        </div>
+    </nav>
+    <!-- TopNavBar (Mobile) -->
+    <header
+        class="md:hidden flex justify-between items-center w-full px-margin-mobile h-16 bg-surface border-b border-outline-variant fixed top-0 left-0 z-20">
+        <div class="flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary">account_balance</span>
+            <span class="text-headline-md font-headline-md font-bold text-primary">GovEd SMS</span>
+        </div>
+        <div class="flex items-center gap-md text-primary">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
+    </header>
+    <!-- Main Content Area -->
+    <main class="flex-grow md:ml-64 pt-16 md:pt-0 min-h-screen bg-background">
+        <!-- Desktop Top Bar -->
+        <div
+            class="hidden md:flex justify-between items-center w-full px-margin-desktop h-16 bg-surface border-b border-outline-variant sticky top-0 z-10">
+            <div
+                class="flex items-center gap-sm bg-surface-container-low px-md py-xs rounded-full border border-outline-variant w-96">
+                <span class="material-symbols-outlined text-on-surface-variant">search</span>
+                <input
+                    class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full text-on-surface placeholder:text-on-surface-variant"
+                    placeholder="Search..." type="text" />
+            </div>
+            <div class="flex items-center gap-md text-primary">
+                <button class="hover:bg-surface-container-low p-xs rounded-full transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="hover:bg-surface-container-low p-xs rounded-full transition-colors">
+                    <span class="material-symbols-outlined">mail</span>
+                </button>
+                <button class="hover:bg-surface-container-low p-xs rounded-full transition-colors">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </button>
+            </div>
+        </div>
+        <div class="p-margin-mobile md:p-margin-desktop max-w-[max-width] mx-auto">
+            <!-- Page Header -->
+            <div class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+                <div>
+                    <div class="flex items-center gap-sm text-secondary mb-xs">
+                        <a class="text-label-md font-label-md hover:underline" href="#">Examination</a>
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                        <span class="text-label-md font-label-md text-on-surface">Bulk Marks Entry</span>
+                    </div>
+                    <h1
+                        class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-on-surface">
+                        Bulk Marks Entry</h1>
+                </div>
+                <div class="flex gap-sm">
+                    <button
+                        class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]">download</span>
+                        Export Template
+                    </button>
+                </div>
+            </div>
+            <!-- Context Banner -->
+            <div
+                class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md mb-lg flex flex-col md:flex-row gap-lg md:items-center">
+                <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-md">
+                    <div>
+                        <span class="text-label-md font-label-md text-secondary block mb-base">Class / Section</span>
+                        <span class="text-body-lg font-body-lg text-on-surface font-semibold">Grade 10 - Section
+                            A</span>
+                    </div>
+                    <div>
+                        <span class="text-label-md font-label-md text-secondary block mb-base">Subject</span>
+                        <span class="text-body-lg font-body-lg text-on-surface font-semibold">Mathematics
+                            (MAT-101)</span>
+                    </div>
+                    <div>
+                        <span class="text-label-md font-label-md text-secondary block mb-base">Exam Type</span>
+                        <span class="text-body-lg font-body-lg text-on-surface font-semibold">Midterm 2023</span>
+                    </div>
+                </div>
+                <div class="md:border-l md:border-outline-variant md:pl-lg flex gap-md items-center">
+                    <div>
+                        <span class="text-label-md font-label-md text-secondary block mb-base">Total Students</span>
+                        <span class="text-headline-md font-headline-md text-primary">45</span>
+                    </div>
+                    <div>
+                        <span class="text-label-md font-label-md text-secondary block mb-base">Entries Completed</span>
+                        <span class="text-headline-md font-headline-md text-surface-tint">0/45</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Data Entry Table Card -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-lg flex flex-col h-[600px]">
+                <!-- Table Header Actions -->
+                <div
+                    class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low rounded-t-lg">
+                    <div class="flex items-center gap-sm">
+                        <span class="material-symbols-outlined text-secondary">info</span>
+                        <span class="text-body-md font-body-md text-secondary">Press 'Tab' or 'Enter' to move to the
+                            next row. Maximum marks: 100.</span>
+                    </div>
+                    <div class="flex items-center gap-xs">
+                        <label
+                            class="text-label-md font-label-md text-on-surface flex items-center gap-xs cursor-pointer">
+                            <input class="rounded border-outline-variant text-primary focus:ring-primary h-4 w-4"
+                                type="checkbox" />
+                            Show absent students
+                        </label>
+                    </div>
+                </div>
+                <!-- Scrollable Table -->
+                <div class="flex-grow overflow-auto table-container">
+                    <table class="w-full text-left border-collapse">
+                        <thead
+                            class="sticky top-0 bg-surface-container-low border-b border-outline-variant z-10 shadow-sm">
+                            <tr>
+                                <th class="py-sm px-md text-label-md font-label-md text-on-surface-variant w-24">Roll
+                                    No.</th>
+                                <th class="py-sm px-md text-label-md font-label-md text-on-surface-variant">Student Name
+                                </th>
+                                <th
+                                    class="py-sm px-md text-label-md font-label-md text-on-surface-variant w-32 text-center">
+                                    Total Marks</th>
+                                <th class="py-sm px-md text-label-md font-label-md text-on-surface-variant w-48">
+                                    Obtained Marks</th>
+                                <th class="py-sm px-md text-label-md font-label-md text-on-surface-variant w-64">Remarks
+                                </th>
+                                <th
+                                    class="py-sm px-md text-label-md font-label-md text-on-surface-variant w-24 text-center">
+                                    Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-body-md font-body-md text-on-surface divide-y divide-outline-variant">
+                            <!-- Row 1 -->
+                            <tr class="hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-01</td>
+                                <td class="py-sm px-md">Aarav Patel</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        max="100" min="0" tabindex="1" type="number" />
+                                </td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        placeholder="Optional" tabindex="2" type="text" />
+                                </td>
+                                <td class="py-sm px-md text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-outline-variant"
+                                        title="Pending"></span>
+                                </td>
+                            </tr>
+                            <!-- Row 2 (Zebra Stripe) -->
+                            <tr class="bg-surface hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-02</td>
+                                <td class="py-sm px-md">Aditi Sharma</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        max="100" min="0" tabindex="3" type="number" />
+                                </td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        placeholder="Optional" tabindex="4" type="text" />
+                                </td>
+                                <td class="py-sm px-md text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-outline-variant"
+                                        title="Pending"></span>
+                                </td>
+                            </tr>
+                            <!-- Row 3 -->
+                            <tr class="hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-03</td>
+                                <td class="py-sm px-md">Arjun Kumar</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        max="100" min="0" tabindex="5" type="number" />
+                                </td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        placeholder="Optional" tabindex="6" type="text" />
+                                </td>
+                                <td class="py-sm px-md text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-outline-variant"
+                                        title="Pending"></span>
+                                </td>
+                            </tr>
+                            <!-- Row 4 (Zebra Stripe) -->
+                            <tr class="bg-surface hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-04</td>
+                                <td class="py-sm px-md">Diya Singh</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        max="100" min="0" tabindex="7" type="number" />
+                                </td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        placeholder="Optional" tabindex="8" type="text" />
+                                </td>
+                                <td class="py-sm px-md text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-outline-variant"
+                                        title="Pending"></span>
+                                </td>
+                            </tr>
+                            <!-- Row 5 (Absent Example) -->
+                            <tr class="hover:bg-surface-container-lowest transition-colors opacity-75">
+                                <td class="py-sm px-md font-semibold text-secondary">10A-05</td>
+                                <td class="py-sm px-md text-secondary">Ishaan Gupta <span
+                                        class="bg-error-container text-on-error-container text-[10px] px-xs py-[2px] rounded ml-xs">Absent</span>
+                                </td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant bg-surface-variant rounded text-body-md cursor-not-allowed"
+                                        disabled="" type="number" value="0" />
+                                </td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant bg-surface-variant rounded text-body-md cursor-not-allowed text-secondary"
+                                        disabled="" type="text" value="Marked Absent" />
+                                </td>
+                                <td class="py-sm px-md text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-error" title="Absent"></span>
+                                </td>
+                            </tr>
+                            <!-- Row 6 (Zebra Stripe) -->
+                            <tr class="bg-surface hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-06</td>
+                                <td class="py-sm px-md">Kavya Reddy</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        max="100" min="0" tabindex="9" type="number" />
+                                </td>
+                                <td class="py-sm px-md">
+                                    <input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all"
+                                        placeholder="Optional" tabindex="10" type="text" />
+                                </td>
+                                <td class="py-sm px-md text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-outline-variant"
+                                        title="Pending"></span>
+                                </td>
+                            </tr>
+                            <!-- Extra rows to force scrolling in demo -->
+                            <tr class="hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-07</td>
+                                <td class="py-sm px-md">Rohan Das</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="number" /></td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="text" /></td>
+                                <td class="py-sm px-md text-center"><span
+                                        class="inline-block w-2 h-2 rounded-full bg-outline-variant"></span></td>
+                            </tr>
+                            <tr class="bg-surface hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-08</td>
+                                <td class="py-sm px-md">Sanya Verma</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="number" /></td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="text" /></td>
+                                <td class="py-sm px-md text-center"><span
+                                        class="inline-block w-2 h-2 rounded-full bg-outline-variant"></span></td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-09</td>
+                                <td class="py-sm px-md">Vivaan Joshi</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="number" /></td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="text" /></td>
+                                <td class="py-sm px-md text-center"><span
+                                        class="inline-block w-2 h-2 rounded-full bg-outline-variant"></span></td>
+                            </tr>
+                            <tr class="bg-surface hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-sm px-md font-semibold">10A-10</td>
+                                <td class="py-sm px-md">Zara Khan</td>
+                                <td class="py-sm px-md text-center text-secondary">100</td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="number" /></td>
+                                <td class="py-sm px-md"><input
+                                        class="w-full px-sm py-xs border border-outline-variant rounded text-body-md"
+                                        type="text" /></td>
+                                <td class="py-sm px-md text-center"><span
+                                        class="inline-block w-2 h-2 rounded-full bg-outline-variant"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Footer Actions -->
+                <div
+                    class="p-md border-t border-outline-variant bg-surface-container-lowest rounded-b-lg flex flex-col sm:flex-row justify-between items-center gap-md">
+                    <div class="text-body-md font-body-md text-secondary">
+                        Last auto-saved: 2 mins ago
+                    </div>
+                    <div class="flex gap-sm w-full sm:w-auto">
+                        <button
+                            class="flex-1 sm:flex-none px-lg py-sm border border-outline-variant rounded bg-surface text-primary text-label-md font-label-md hover:bg-surface-container-low transition-colors">
+                            Save Draft
+                        </button>
+                        <button
+                            class="flex-1 sm:flex-none px-lg py-sm rounded bg-primary text-on-primary text-label-md font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-xs">
+                            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                            Save &amp; Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Simple script to handle input focus styles and simulated auto-advance on enter
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const nextTab = parseInt(this.getAttribute('tabindex')) + 2; // Skip remarks to go to next mark
+                        const nextInput = document.querySelector(`[tabindex="${nextTab}"]`);
+                        if (nextInput) {
+                            nextInput.focus();
+                        }
+                    }
+                });
+
+                // Simulate status change on input
+                input.addEventListener('input', function () {
+                    const statusDot = this.closest('tr').querySelector('.bg-outline-variant');
+                    if (statusDot && this.value !== '') {
+                        statusDot.classList.remove('bg-outline-variant');
+                        statusDot.classList.add('bg-surface-tint'); // Using surface-tint as a stand-in for a 'filled' state or success
+                    } else if (statusDot && this.value === '') {
+                        statusDot.classList.remove('bg-surface-tint');
+                        statusDot.classList.add('bg-outline-variant');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

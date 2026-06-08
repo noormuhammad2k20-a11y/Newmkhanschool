@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Add Student - GovEd SMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#d9dadb",
+                        "on-primary-fixed": "#000767",
+                        "on-background": "#191c1d",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1d",
+                        "on-error": "#ffffff",
+                        "primary": "#000666",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary-fixed-variant": "#343d96",
+                        "surface-bright": "#f8f9fa",
+                        "primary-container": "#1a237e",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#e0e0ff",
+                        "secondary": "#526069",
+                        "surface": "#f8f9fa",
+                        "secondary-container": "#d3e2ed",
+                        "secondary-fixed": "#d6e5ef",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-secondary-fixed": "#0f1d25",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface-variant": "#454652",
+                        "on-tertiary-container": "#999897",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#bdc2ff",
+                        "surface-tint": "#4c56af",
+                        "outline-variant": "#c6c5d4",
+                        "tertiary-container": "#303030",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "tertiary": "#1b1b1b",
+                        "on-primary-container": "#8690ee",
+                        "outline": "#767683",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary-container": "#56656e",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "tertiary-fixed-dim": "#c8c6c6"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "base": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "max-width": "1440px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "headline-lg-mobile": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "headline-xl": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Custom scrollbar for form area to maintain clean UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #c6c5d4;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-surface-container-low text-on-surface antialiased flex h-screen overflow-hidden">
+    <!-- SideNavBar (Desktop Only) -->
+    <nav
+        class="hidden md:flex bg-surface-container-lowest border-r border-outline-variant flex-col h-full py-lg px-md w-64 shrink-0 z-20">
+        <!-- Brand -->
+        <div class="mb-xl px-sm">
+            <h1 class="text-headline-md font-headline-md text-primary font-extrabold tracking-tight">GovEd SMS</h1>
+            <p class="text-label-md font-label-md text-secondary mt-1">State Education Board</p>
+        </div>
+        <!-- Navigation Links -->
+        <div class="flex-1 space-y-sm overflow-y-auto">
+            <a class="flex items-center px-md py-sm rounded text-secondary hover:bg-surface-container-high hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px]" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+            <a class="flex items-center px-md py-sm rounded text-body-md font-body-md bg-primary text-on-primary rounded-lg scale-95 duration-150"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px] fill-icon" data-icon="group"
+                    data-weight="fill">group</span>
+                Students
+            </a>
+            <a class="flex items-center px-md py-sm rounded text-secondary hover:bg-surface-container-high hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px]" data-icon="school">school</span>
+                Teachers
+            </a>
+            <a class="flex items-center px-md py-sm rounded text-secondary hover:bg-surface-container-high hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px]" data-icon="menu_book">menu_book</span>
+                Academic Management
+            </a>
+            <a class="flex items-center px-md py-sm rounded text-secondary hover:bg-surface-container-high hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px]"
+                    data-icon="calendar_today">calendar_today</span>
+                Attendance
+            </a>
+            <a class="flex items-center px-md py-sm rounded text-secondary hover:bg-surface-container-high hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px]" data-icon="description">description</span>
+                Examination
+            </a>
+            <a class="flex items-center px-md py-sm rounded text-secondary hover:bg-surface-container-high hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px]" data-icon="analytics">analytics</span>
+                Reports
+            </a>
+            <a class="flex items-center px-md py-sm rounded text-secondary hover:bg-surface-container-high hover:bg-secondary-container transition-all text-body-md font-body-md"
+                href="#">
+                <span class="material-symbols-outlined mr-sm text-[20px]" data-icon="settings">settings</span>
+                Settings
+            </a>
+        </div>
+        <!-- Bottom Action / Profile -->
+        <div class="mt-auto pt-lg border-t border-outline-variant">
+            <button
+                class="w-full flex items-center justify-center bg-primary text-on-primary py-sm px-md rounded hover:opacity-90 transition-opacity text-label-md font-label-md">
+                <span class="material-symbols-outlined mr-xs text-[18px]">add</span>
+                Add New Record
+            </button>
+            <div class="mt-lg flex items-center px-sm">
+                <div
+                    class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                <div class="ml-sm overflow-hidden">
+                    <p class="text-label-md font-label-md text-on-surface truncate">Admin Panel</p>
+                    <p class="text-[10px] text-secondary truncate">Principal Portrait</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <!-- TopNavBar -->
+        <header
+            class="bg-surface border-b border-outline-variant w-full px-margin-desktop h-16 flex justify-between items-center shrink-0 z-10">
+            <!-- Mobile Menu Toggle & Brand (Visible mainly on mobile or if sidebar hidden) -->
+            <div class="flex items-center md:hidden">
+                <button class="text-on-surface-variant p-sm -ml-sm">
+                    <span class="material-symbols-outlined text-[24px]">menu</span>
+                </button>
+                <h2 class="text-headline-md font-headline-md font-bold text-primary ml-sm">GovEd SMS</h2>
+            </div>
+            <div class="hidden md:flex items-center text-secondary text-body-md font-body-md">
+                <span class="material-symbols-outlined mr-sm text-[20px]">search</span>
+                <input class="bg-transparent border-none focus:ring-0 p-0 text-body-md placeholder:text-outline w-64"
+                    placeholder="Search records..." type="text" />
+            </div>
+            <div class="flex items-center space-x-sm">
+                <button
+                    class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-sm rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+                </button>
+                <button
+                    class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-sm rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[20px]" data-icon="mail">mail</span>
+                </button>
+                <button
+                    class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-sm rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[24px]" data-icon="account_circle">account_circle</span>
+                </button>
+            </div>
+        </header>
+        <!-- Scrollable Form Canvas -->
+        <main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low">
+            <div class="max-w-[1000px] mx-auto">
+                <!-- Page Header -->
+                <div class="mb-lg flex flex-col sm:flex-row sm:items-end justify-between">
+                    <div>
+                        <div class="flex items-center text-label-md font-label-md text-secondary mb-xs">
+                            <a class="hover:text-primary transition-colors" href="#">Students</a>
+                            <span class="material-symbols-outlined text-[14px] mx-xs">chevron_right</span>
+                            <span class="text-on-surface">Add New Student</span>
+                        </div>
+                        <h2
+                            class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface">
+                            Registration Form</h2>
+                        <p class="text-body-md font-body-md text-secondary mt-1">Enter complete details to enroll a new
+                            student into the system.</p>
+                    </div>
+                    <div class="mt-sm sm:mt-0 flex gap-sm">
+                        <button
+                            class="px-md py-sm rounded border border-outline-variant bg-surface-container-lowest text-primary text-label-md font-label-md hover:bg-surface transition-colors flex items-center">
+                            <span class="material-symbols-outlined mr-xs text-[18px]">close</span>
+                            Cancel
+                        </button>
+                        <button
+                            class="px-md py-sm rounded bg-primary text-on-primary text-label-md font-label-md hover:opacity-90 transition-opacity flex items-center"
+                            form="studentForm" type="submit">
+                            <span class="material-symbols-outlined mr-xs text-[18px]">save</span>
+                            Save Record
+                        </button>
+                    </div>
+                </div>
+                <!-- Main Form -->
+                <form class="space-y-lg" id="studentForm">
+                    <!-- 1. Personal Section -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg md:p-xl">
+                        <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
+                            <span class="material-symbols-outlined text-primary mr-sm text-[24px]">person</span>
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Personal Information</h3>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+                            <!-- Photo Upload (Left Col on Desktop) -->
+                            <div class="lg:col-span-3 flex flex-col items-center justify-start">
+                                <div
+                                    class="w-32 h-32 md:w-40 md:h-40 rounded border-2 border-dashed border-outline-variant bg-surface-container-low flex flex-col items-center justify-center text-secondary relative overflow-hidden group cursor-pointer hover:border-primary hover:bg-primary-fixed transition-colors">
+                                    <span
+                                        class="material-symbols-outlined text-[32px] mb-xs group-hover:text-primary">add_a_photo</span>
+                                    <span
+                                        class="text-label-md font-label-md text-center px-2 group-hover:text-primary">Upload
+                                        Photo</span>
+                                    <input accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer"
+                                        type="file" />
+                                </div>
+                                <p class="text-[10px] font-body-md text-secondary mt-2 text-center">JPG or PNG, Max 2MB
+                                </p>
+                            </div>
+                            <!-- Text Inputs (Right Col on Desktop) -->
+                            <div class="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-x-lg gap-y-md">
+                                <div class="col-span-1 md:col-span-2">
+                                    <label class="block text-label-md font-label-md text-secondary mb-xs">Full Name
+                                        <span class="text-error">*</span></label>
+                                    <input
+                                        class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                        placeholder="e.g. Ali Ahmed" required="" type="text" />
+                                </div>
+                                <div>
+                                    <label class="block text-label-md font-label-md text-secondary mb-xs">Admission No.
+                                        <span class="text-error">*</span></label>
+                                    <input
+                                        class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                        placeholder="e.g. ADM-2023-001" required="" type="text" />
+                                </div>
+                                <div>
+                                    <label class="block text-label-md font-label-md text-secondary mb-xs">B-Form /
+                                        National ID Number</label>
+                                    <input
+                                        class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                        placeholder="00000-0000000-0" type="text" />
+                                </div>
+                                <div>
+                                    <label class="block text-label-md font-label-md text-secondary mb-xs">Date of
+                                        Birth</label>
+                                    <div class="relative">
+                                        <input
+                                            class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none"
+                                            type="date" />
+                                        <span
+                                            class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">calendar_month</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-label-md font-label-md text-secondary mb-xs">Gender</label>
+                                    <div class="relative">
+                                        <select
+                                            class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none">
+                                            <option disabled="" selected="" value="">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <span
+                                            class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 2. Parent/Guardian Section -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg md:p-xl">
+                        <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
+                            <span
+                                class="material-symbols-outlined text-primary mr-sm text-[24px]">family_restroom</span>
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Parent / Guardian Details</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+                            <div>
+                                <label class="block text-label-md font-label-md text-secondary mb-xs">Father/Guardian
+                                    Name <span class="text-error">*</span></label>
+                                <input
+                                    class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                    placeholder="Full Name" required="" type="text" />
+                            </div>
+                            <div>
+                                <label class="block text-label-md font-label-md text-secondary mb-xs">Father/Guardian
+                                    CNIC <span class="text-error">*</span></label>
+                                <input
+                                    class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                    placeholder="00000-0000000-0" required="" type="text" />
+                            </div>
+                            <div>
+                                <label class="block text-label-md font-label-md text-secondary mb-xs">Mobile Number
+                                    <span class="text-error">*</span></label>
+                                <div class="relative">
+                                    <span
+                                        class="absolute left-sm top-1/2 -translate-y-1/2 text-secondary text-body-md font-body-md">+92</span>
+                                    <input
+                                        class="w-full h-10 pl-12 pr-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                        placeholder="300 0000000" required="" type="tel" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 3. Academic & 4. Address Sections (Side by Side on Large Desktop) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+                        <!-- Academic Section -->
+                        <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg">
+                            <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
+                                <span class="material-symbols-outlined text-primary mr-sm text-[24px]">school</span>
+                                <h3 class="text-headline-md font-headline-md text-on-surface">Academic Details</h3>
+                            </div>
+                            <div class="space-y-md">
+                                <div class="grid grid-cols-2 gap-md">
+                                    <div>
+                                        <label class="block text-label-md font-label-md text-secondary mb-xs">Class
+                                            <span class="text-error">*</span></label>
+                                        <div class="relative">
+                                            <select
+                                                class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none"
+                                                required="">
+                                                <option disabled="" selected="" value="">Select</option>
+                                                <option value="6">Class 6</option>
+                                                <option value="7">Class 7</option>
+                                                <option value="8">Class 8</option>
+                                                <option value="9">Class 9</option>
+                                                <option value="10">Class 10</option>
+                                            </select>
+                                            <span
+                                                class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-label-md font-label-md text-secondary mb-xs">Section
+                                            <span class="text-error">*</span></label>
+                                        <div class="relative">
+                                            <select
+                                                class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none"
+                                                required="">
+                                                <option disabled="" selected="" value="">Select</option>
+                                                <option value="A">Section A</option>
+                                                <option value="B">Section B</option>
+                                                <option value="C">Section C</option>
+                                            </select>
+                                            <span
+                                                class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-label-md font-label-md text-secondary mb-xs">Admission
+                                        Date</label>
+                                    <div class="relative">
+                                        <input
+                                            class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none"
+                                            type="date" />
+                                        <span
+                                            class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">calendar_month</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Address Section -->
+                        <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg">
+                            <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
+                                <span
+                                    class="material-symbols-outlined text-primary mr-sm text-[24px]">location_on</span>
+                                <h3 class="text-headline-md font-headline-md text-on-surface">Address Details</h3>
+                            </div>
+                            <div class="space-y-md">
+                                <div class="grid grid-cols-2 gap-md">
+                                    <div>
+                                        <label
+                                            class="block text-label-md font-label-md text-secondary mb-xs">District</label>
+                                        <div class="relative">
+                                            <select
+                                                class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none">
+                                                <option disabled="" selected="" value="">Select District</option>
+                                                <option value="d1">District 1</option>
+                                                <option value="d2">District 2</option>
+                                            </select>
+                                            <span
+                                                class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-label-md font-label-md text-secondary mb-xs">Tehsil</label>
+                                        <div class="relative">
+                                            <select
+                                                class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none">
+                                                <option disabled="" selected="" value="">Select Tehsil</option>
+                                                <option value="t1">Tehsil 1</option>
+                                                <option value="t2">Tehsil 2</option>
+                                            </select>
+                                            <span
+                                                class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-label-md font-label-md text-secondary mb-xs">Full
+                                        Address</label>
+                                    <textarea
+                                        class="w-full p-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors resize-none"
+                                        placeholder="House No, Street, Landmark..." rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 5. Documents Section -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg md:p-xl">
+                        <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
+                            <span class="material-symbols-outlined text-primary mr-sm text-[24px]">folder</span>
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Supporting Documents</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+                            <!-- Birth Cert -->
+                            <div
+                                class="border border-outline-variant rounded p-md bg-surface flex items-center justify-between group hover:border-primary transition-colors">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-10 h-10 rounded bg-secondary-container flex items-center justify-center text-primary mr-sm shrink-0">
+                                        <span class="material-symbols-outlined">description</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-body-md font-body-md font-semibold text-on-surface">Birth
+                                            Certificate</h4>
+                                        <p class="text-label-md font-label-md text-secondary font-normal">PDF or JPG
+                                            (Max 5MB)</p>
+                                    </div>
+                                </div>
+                                <div class="relative overflow-hidden">
+                                    <button
+                                        class="px-sm py-1 border border-outline-variant rounded text-label-md font-label-md text-primary bg-surface-container-lowest hover:bg-primary-fixed transition-colors pointer-events-none"
+                                        type="button">
+                                        Upload
+                                    </button>
+                                    <input accept=".pdf,image/*" class="absolute inset-0 opacity-0 cursor-pointer"
+                                        type="file" />
+                                </div>
+                            </div>
+                            <!-- Transfer Cert -->
+                            <div
+                                class="border border-outline-variant rounded p-md bg-surface flex items-center justify-between group hover:border-primary transition-colors">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-10 h-10 rounded bg-secondary-container flex items-center justify-center text-primary mr-sm shrink-0">
+                                        <span class="material-symbols-outlined">assignment_returned</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-body-md font-body-md font-semibold text-on-surface">Transfer
+                                            Certificate</h4>
+                                        <p class="text-label-md font-label-md text-secondary font-normal">Optional. PDF
+                                            or JPG</p>
+                                    </div>
+                                </div>
+                                <div class="relative overflow-hidden">
+                                    <button
+                                        class="px-sm py-1 border border-outline-variant rounded text-label-md font-label-md text-primary bg-surface-container-lowest hover:bg-primary-fixed transition-colors pointer-events-none"
+                                        type="button">
+                                        Upload
+                                    </button>
+                                    <input accept=".pdf,image/*" class="absolute inset-0 opacity-0 cursor-pointer"
+                                        type="file" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bottom Spacer for visual breathing room -->
+                    <div class="h-8"></div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

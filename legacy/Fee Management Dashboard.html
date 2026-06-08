@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GovSchool Admin - Fee Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "secondary": "#526069",
+                        "outline": "#767683",
+                        "surface": "#f8f9fa",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1a237e",
+                        "inverse-surface": "#2e3132",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#d6e5ef",
+                        "on-primary-container": "#8690ee",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "outline-variant": "#c6c5d4",
+                        "inverse-primary": "#bdc2ff",
+                        "tertiary": "#1b1b1b",
+                        "primary": "#000666",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#454652",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "tertiary-container": "#303030",
+                        "secondary-container": "#d3e2ed",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-tint": "#4c56af",
+                        "on-secondary-fixed": "#0f1d25",
+                        "on-surface": "#191c1d",
+                        "on-primary-fixed": "#000767",
+                        "on-tertiary-container": "#999897",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-secondary-container": "#56656e",
+                        "surface-dim": "#d9dadb",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container": "#edeeef",
+                        "on-primary-fixed-variant": "#343d96",
+                        "tertiary-fixed": "#e4e2e1",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-container-low": "#f3f4f5",
+                        "on-background": "#191c1d",
+                        "surface-variant": "#e1e3e4",
+                        "background": "#f8f9fa",
+                        "primary-fixed": "#e0e0ff",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "xl": "32px",
+                        "gutter": "20px",
+                        "max-width": "1440px",
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c6c5d4;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body-md antialiased flex h-screen overflow-hidden">
+    <!-- SideNavBar -->
+    <nav
+        class="bg-surface-container h-screen w-64 fixed left-0 top-0 border-r border-outline-variant flex flex-col py-lg px-md space-y-xs z-20 hidden md:flex">
+        <div class="mb-lg px-sm">
+            <div class="flex items-center gap-sm mb-xs">
+                <span class="material-symbols-outlined text-primary text-[28px]"
+                    style="font-variation-settings: 'FILL' 1;">account_balance</span>
+                <h1 class="font-headline-md text-headline-md font-bold text-primary">Education Portal</h1>
+            </div>
+            <p class="font-label-md text-label-md text-secondary">State Management System</p>
+        </div>
+        <button
+            class="bg-primary text-on-primary w-full py-2 rounded-lg font-label-md text-label-md mb-md hover:opacity-90 transition-opacity flex justify-center items-center gap-sm">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Quick Action
+        </button>
+        <div class="flex-1 overflow-y-auto space-y-xs pr-1">
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard
+            </a>
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">school</span> Students
+            </a>
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">group</span> Teachers
+            </a>
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">auto_stories</span> Academic Management
+            </a>
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">event_available</span> Attendance
+            </a>
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">quiz</span> Examination
+            </a>
+            <!-- Active Tab -->
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg bg-primary text-on-primary font-semibold translate-x-1 duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]"
+                    style="font-variation-settings: 'FILL' 1;">payments</span> Fees
+            </a>
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">assessment</span> Reports
+            </a>
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">settings</span> Settings
+            </a>
+        </div>
+        <div class="pt-sm mt-auto border-t border-outline-variant">
+            <a class="flex items-center gap-sm px-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 font-body-md text-body-md"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">logout</span> Logout
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 flex flex-col md:ml-64 h-screen">
+        <!-- TopNavBar -->
+        <header class="bg-surface border-b border-outline-variant docked full-width top-0 z-10">
+            <div class="flex justify-between items-center px-margin-desktop h-16 w-full max-w-max-width mx-auto">
+                <div class="flex items-center gap-lg">
+                    <h2 class="text-headline-md font-headline-md font-bold text-primary">GovSchool Admin</h2>
+                    <div class="relative hidden lg:block">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+                        <input
+                            class="pl-10 pr-4 py-1.5 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-shadow"
+                            placeholder="Search records..." type="text" />
+                    </div>
+                </div>
+                <div class="flex items-center gap-md">
+                    <button
+                        class="text-secondary hover:bg-secondary-container p-2 rounded-full transition-colors flex items-center justify-center relative">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+                    </button>
+                    <button
+                        class="text-secondary hover:bg-secondary-container p-2 rounded-full transition-colors flex items-center justify-center">
+                        <span class="material-symbols-outlined">help_outline</span>
+                    </button>
+                    <div
+                        class="h-8 w-8 rounded-full bg-secondary-container border border-outline-variant overflow-hidden ml-sm cursor-pointer">
+                        <img alt="Administrator Profile" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb415-_JtQNQTzxqCZgZNYfcTdefAfFkB-FxW-zc1isMh9reB8d-Nz4JpQxiVRfDdQRZIl1fu3qWeuB7fogO-n7Ry33I4VXfEzcEhxKPM3B2XWgkGmVJmC5gH5ODbbue_V_wgVJjvOVhylvoZA5opTqCKcqiUzzz07qcqydYYW1YbFCQdbq94MtV3vgsSE9e5gGJ0vDr1PQ8e4VAcn9iuE62s_WJnveJyzMvL8FpIKhfk_gVSfgik7vOx5XEZI1GHDFKf8unlu" />
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Canvas -->
+        <main class="flex-1 overflow-y-auto bg-background p-margin-desktop">
+            <div class="max-w-max-width mx-auto">
+                <!-- Page Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-md">
+                    <div>
+                        <h2 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Fee Management</h2>
+                        <p class="font-body-md text-body-md text-secondary">Monitor collections, dues, and generate
+                            payment challans.</p>
+                    </div>
+                    <button
+                        class="bg-primary text-on-primary px-lg py-2.5 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center gap-sm shadow-sm">
+                        <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                        Generate Challan
+                    </button>
+                </div>
+                <!-- Metrics Bento Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xl">
+                    <!-- Card 1: Total Collected -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col justify-between h-32 relative overflow-hidden group">
+                        <div
+                            class="absolute right-0 top-0 w-24 h-24 bg-secondary-container rounded-bl-full opacity-20 -z-0 pointer-events-none transition-transform group-hover:scale-110">
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total
+                                Collected (YTD)</span>
+                            <span
+                                class="material-symbols-outlined text-primary bg-primary-fixed p-1.5 rounded-md text-[20px]">account_balance_wallet</span>
+                        </div>
+                        <div class="relative z-10 flex items-baseline gap-sm mt-auto">
+                            <span class="font-headline-xl text-headline-xl text-on-surface">₹45.2L</span>
+                            <span
+                                class="font-label-md text-label-md text-[#137333] bg-[#e6f4ea] px-1.5 py-0.5 rounded flex items-center">
+                                <span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Card 2: Pending Dues -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col justify-between h-32 relative overflow-hidden group">
+                        <div
+                            class="absolute right-0 top-0 w-24 h-24 bg-error-container rounded-bl-full opacity-20 -z-0 pointer-events-none transition-transform group-hover:scale-110">
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Pending
+                                Dues</span>
+                            <span
+                                class="material-symbols-outlined text-error bg-error-container p-1.5 rounded-md text-[20px]">warning</span>
+                        </div>
+                        <div class="relative z-10 flex items-baseline gap-sm mt-auto">
+                            <span class="font-headline-xl text-headline-xl text-on-surface">₹8.5L</span>
+                            <span class="font-label-md text-label-md text-secondary">across 142 students</span>
+                        </div>
+                    </div>
+                    <!-- Card 3: Monthly Trend -->
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col justify-between h-32">
+                        <div class="flex justify-between items-start mb-sm">
+                            <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Collection
+                                Trend</span>
+                            <span class="font-label-md text-label-md text-on-surface-variant">Last 6 Months</span>
+                        </div>
+                        <div class="flex items-end justify-between h-12 mt-auto gap-xs px-xs">
+                            <!-- CSS Bar Chart Representation -->
+                            <div
+                                class="w-full bg-secondary-fixed rounded-t-sm h-[40%] hover:bg-primary transition-colors cursor-pointer relative group">
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-inverse-surface text-inverse-on-surface font-label-md text-[10px] py-0.5 px-1 rounded whitespace-nowrap">
+                                    Jan</div>
+                            </div>
+                            <div
+                                class="w-full bg-secondary-fixed rounded-t-sm h-[60%] hover:bg-primary transition-colors cursor-pointer relative group">
+                            </div>
+                            <div
+                                class="w-full bg-secondary-fixed rounded-t-sm h-[30%] hover:bg-primary transition-colors cursor-pointer relative group">
+                            </div>
+                            <div
+                                class="w-full bg-secondary-fixed rounded-t-sm h-[80%] hover:bg-primary transition-colors cursor-pointer relative group">
+                            </div>
+                            <div
+                                class="w-full bg-secondary-fixed rounded-t-sm h-[50%] hover:bg-primary transition-colors cursor-pointer relative group">
+                            </div>
+                            <div class="w-full bg-primary rounded-t-sm h-[100%] cursor-pointer relative group">
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-inverse-surface text-inverse-on-surface font-label-md text-[10px] py-0.5 px-1 rounded whitespace-nowrap">
+                                    Jun</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Transactions Data Card -->
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+                    <div
+                        class="px-md py-sm border-b border-outline-variant flex justify-between items-center bg-surface">
+                        <h3 class="font-headline-md text-headline-md text-on-surface">Recent Transactions</h3>
+                        <div class="flex gap-sm">
+                            <button class="p-1.5 text-secondary hover:bg-surface-container rounded transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">filter_list</span>
+                            </button>
+                            <button class="p-1.5 text-secondary hover:bg-surface-container rounded transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">download</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[800px]">
+                            <thead class="bg-surface-container-highest border-b border-outline-variant">
+                                <tr>
+                                    <th
+                                        class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-[120px]">
+                                        Challan No.</th>
+                                    <th
+                                        class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                                        Student Name</th>
+                                    <th
+                                        class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-[100px]">
+                                        Class</th>
+                                    <th
+                                        class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-[150px]">
+                                        Date</th>
+                                    <th
+                                        class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right w-[150px]">
+                                        Amount (₹)</th>
+                                    <th
+                                        class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-center w-[120px]">
+                                        Status</th>
+                                    <th
+                                        class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right w-[80px]">
+                                        Action</th>
+                                </tr>
+                            </thead>
+                            <tbody
+                                class="font-body-md text-body-md text-on-surface bg-surface-container-lowest divide-y divide-outline-variant/50">
+                                <tr class="hover:bg-surface-container-low transition-colors group">
+                                    <td class="px-md py-3 font-medium text-secondary">#CH-9021</td>
+                                    <td class="px-md py-3">
+                                        <div class="flex items-center gap-sm">
+                                            <div
+                                                class="w-8 h-8 rounded bg-secondary-container text-primary flex items-center justify-center font-label-md">
+                                                AR</div>
+                                            Aarav Sharma
+                                        </div>
+                                    </td>
+                                    <td class="px-md py-3">X - A</td>
+                                    <td class="px-md py-3 text-secondary">24 Oct 2023</td>
+                                    <td class="px-md py-3 text-right font-medium">4,500</td>
+                                    <td class="px-md py-3 text-center">
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-[#e6f4ea] text-[#137333]">
+                                            Paid
+                                        </span>
+                                    </td>
+                                    <td class="px-md py-3 text-right">
+                                        <button
+                                            class="text-secondary hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-surface-container-low hover:bg-surface-container transition-colors group">
+                                    <td class="px-md py-3 font-medium text-secondary">#CH-9022</td>
+                                    <td class="px-md py-3">
+                                        <div class="flex items-center gap-sm">
+                                            <div
+                                                class="w-8 h-8 rounded bg-secondary-container text-primary flex items-center justify-center font-label-md">
+                                                NP</div>
+                                            Neha Patel
+                                        </div>
+                                    </td>
+                                    <td class="px-md py-3">XII - Sci</td>
+                                    <td class="px-md py-3 text-secondary">24 Oct 2023</td>
+                                    <td class="px-md py-3 text-right font-medium">6,200</td>
+                                    <td class="px-md py-3 text-center">
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-surface-variant text-on-surface-variant">
+                                            Pending
+                                        </span>
+                                    </td>
+                                    <td class="px-md py-3 text-right">
+                                        <button
+                                            class="text-secondary hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-surface-container-low transition-colors group">
+                                    <td class="px-md py-3 font-medium text-secondary">#CH-9023</td>
+                                    <td class="px-md py-3">
+                                        <div class="flex items-center gap-sm">
+                                            <div
+                                                class="w-8 h-8 rounded bg-secondary-container text-primary flex items-center justify-center font-label-md">
+                                                RK</div>
+                                            Rohan Kumar
+                                        </div>
+                                    </td>
+                                    <td class="px-md py-3">VIII - B</td>
+                                    <td class="px-md py-3 text-error">15 Oct 2023</td>
+                                    <td class="px-md py-3 text-right font-medium">3,800</td>
+                                    <td class="px-md py-3 text-center">
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-error-container text-on-error-container">
+                                            Overdue
+                                        </span>
+                                    </td>
+                                    <td class="px-md py-3 text-right">
+                                        <button
+                                            class="text-secondary hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-surface-container-low hover:bg-surface-container transition-colors group">
+                                    <td class="px-md py-3 font-medium text-secondary">#CH-9024</td>
+                                    <td class="px-md py-3">
+                                        <div class="flex items-center gap-sm">
+                                            <div
+                                                class="w-8 h-8 rounded bg-secondary-container text-primary flex items-center justify-center font-label-md">
+                                                SJ</div>
+                                            Sneha Joshi
+                                        </div>
+                                    </td>
+                                    <td class="px-md py-3">IX - C</td>
+                                    <td class="px-md py-3 text-secondary">23 Oct 2023</td>
+                                    <td class="px-md py-3 text-right font-medium">4,200</td>
+                                    <td class="px-md py-3 text-center">
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-[#e6f4ea] text-[#137333]">
+                                            Paid
+                                        </span>
+                                    </td>
+                                    <td class="px-md py-3 text-right">
+                                        <button
+                                            class="text-secondary hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-surface-container-low transition-colors group">
+                                    <td class="px-md py-3 font-medium text-secondary">#CH-9025</td>
+                                    <td class="px-md py-3">
+                                        <div class="flex items-center gap-sm">
+                                            <div
+                                                class="w-8 h-8 rounded bg-secondary-container text-primary flex items-center justify-center font-label-md">
+                                                VG</div>
+                                            Vikram Gupta
+                                        </div>
+                                    </td>
+                                    <td class="px-md py-3">XI - Com</td>
+                                    <td class="px-md py-3 text-secondary">22 Oct 2023</td>
+                                    <td class="px-md py-3 text-right font-medium">5,500</td>
+                                    <td class="px-md py-3 text-center">
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-[#e6f4ea] text-[#137333]">
+                                            Paid
+                                        </span>
+                                    </td>
+                                    <td class="px-md py-3 text-right">
+                                        <button
+                                            class="text-secondary hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="px-md py-3 border-t border-outline-variant bg-surface flex justify-between items-center">
+                        <span class="font-body-md text-body-md text-secondary">Showing 1 to 5 of 240 entries</span>
+                        <div class="flex gap-1">
+                            <button
+                                class="px-3 py-1 text-secondary border border-outline-variant rounded hover:bg-surface-container text-sm disabled:opacity-50"
+                                disabled="">Prev</button>
+                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-sm">1</button>
+                            <button
+                                class="px-3 py-1 text-secondary border border-outline-variant rounded hover:bg-surface-container text-sm">2</button>
+                            <button
+                                class="px-3 py-1 text-secondary border border-outline-variant rounded hover:bg-surface-container text-sm">3</button>
+                            <button
+                                class="px-3 py-1 text-secondary border border-outline-variant rounded hover:bg-surface-container text-sm">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

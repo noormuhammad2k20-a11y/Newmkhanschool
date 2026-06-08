@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EduGov Management - School Events</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-container": "#999897",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-surface-variant": "#454652",
+                        "surface-tint": "#4c56af",
+                        "secondary-fixed": "#d6e5ef",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "primary": "#000666",
+                        "on-primary-fixed-variant": "#343d96",
+                        "on-secondary-container": "#56656e",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-primary": "#bdc2ff",
+                        "primary-container": "#1a237e",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c6c5d4",
+                        "outline": "#767683",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "surface-container": "#edeeef",
+                        "secondary-container": "#d3e2ed",
+                        "primary-fixed": "#e0e0ff",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "surface": "#f8f9fa",
+                        "on-primary-fixed": "#000767",
+                        "on-primary-container": "#8690ee",
+                        "secondary": "#526069",
+                        "on-background": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed-dim": "#bac9d3",
+                        "on-secondary-fixed": "#0f1d25",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#1b1b1b",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "tertiary-container": "#303030",
+                        "inverse-surface": "#2e3132",
+                        "tertiary-fixed": "#e4e2e1",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed-variant": "#3b4951",
+                        "surface-variant": "#e1e3e4",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "max-width": "1440px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "margin-desktop": "32px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        .bento-item-large {
+            grid-column: span 12;
+        }
+
+        .bento-item-main {
+            grid-column: span 12;
+        }
+
+        .bento-item-side {
+            grid-column: span 12;
+        }
+
+        @media (min-width: 1024px) {
+            .bento-item-large {
+                grid-column: span 12;
+            }
+
+            .bento-item-main {
+                grid-column: span 8;
+            }
+
+            .bento-item-side {
+                grid-column: span 4;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+    <!-- SideNavBar (Desktop Only) -->
+    <nav class="hidden md:flex flex-col bg-surface-container w-64 h-full fixed left-0 top-0 z-40 py-md">
+        <div class="px-md mb-lg">
+            <div class="flex items-center gap-sm mb-sm">
+                <div
+                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md font-bold">
+                    SE
+                </div>
+                <div>
+                    <h1 class="font-headline-lg text-headline-lg text-primary">State Education</h1>
+                    <p class="font-label-md text-label-md text-secondary">Admin Portal</p>
+                </div>
+            </div>
+        </div>
+        <ul class="flex-1 px-sm space-y-xs">
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    <span class="font-label-md text-label-md">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+                    <span class="font-label-md text-label-md">Teacher Attendance</span>
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="local_library">local_library</span>
+                    <span class="font-label-md text-label-md">Library</span>
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                    <span class="font-label-md text-label-md">Asset Management</span>
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-md px-md py-sm rounded-lg bg-secondary-container text-primary font-bold transition-transform duration-200 ease-in-out"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="event" data-weight="fill"
+                        style="font-variation-settings: 'FILL' 1;">event</span>
+                    <span class="font-label-md text-label-md">School Events</span>
+                </a>
+            </li>
+        </ul>
+        <div class="px-sm mt-auto">
+            <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out"
+                href="#">
+                <span class="material-symbols-outlined" data-icon="logout">logout</span>
+                <span class="font-label-md text-label-md">Logout</span>
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col md:ml-64 w-full min-h-screen">
+        <!-- TopNavBar -->
+        <header
+            class="bg-surface-container-lowest w-full h-16 border-b border-outline-variant flex justify-between items-center px-lg sticky top-0 z-30">
+            <div class="flex items-center gap-md">
+                <!-- Mobile Menu Button -->
+                <button
+                    class="md:hidden text-on-surface-variant hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <h1 class="font-headline-md text-headline-md font-bold text-primary">EduGov Management</h1>
+            </div>
+            <div class="flex items-center gap-sm">
+                <button
+                    class="text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                </button>
+                <button
+                    class="text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined" data-icon="help">help</span>
+                </button>
+                <button
+                    class="text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                </button>
+                <div
+                    class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden ml-sm cursor-pointer border border-outline-variant">
+                    <img alt="Administrator Profile" class="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-yezbc927wY0C322XO39E8Fpj-TKkH1lavHgZS32icKx9cZkfyfH9G1q_BH780q4XWHhALV5X9kZitOylufGihq0Wd6o6gNlkskCLD8qmnDfet-MuX2Icl-w7TiaM7S4SqO5CDug81BiCvDYn6OGBKXtZw3vb2N4OG8DCquSDhDWVCxCCydotcJs0IbKIizYsoQ0nK63Dz3toqIXN5n2aaHPFI-YBQza8tPLwXkPoo5KZdewHH8OnW9C-XtWqdwDgQpT_1p3_" />
+                </div>
+            </div>
+        </header>
+        <!-- Content Canvas -->
+        <main class="flex-1 p-margin-mobile md:p-margin-desktop max-w-[1440px] mx-auto w-full">
+            <!-- Page Header & Actions -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+                <div>
+                    <h2 class="font-headline-xl text-headline-xl text-on-surface">School Events &amp; News</h2>
+                    <p class="font-body-md text-body-md text-secondary mt-xs">Manage district announcements, academic
+                        calendars, and school highlights.</p>
+                </div>
+                <button
+                    class="bg-primary text-on-primary hover:bg-on-primary-fixed-variant transition-colors rounded-lg px-lg py-sm font-label-md text-label-md flex items-center gap-sm w-fit">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span>
+                    Post New Announcement
+                </button>
+            </div>
+            <!-- Bento Grid Layout -->
+            <div class="bento-grid">
+                <!-- Highlight/Hero Card -->
+                <div
+                    class="bento-item-large bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col md:flex-row relative">
+                    <div
+                        class="md:w-1/2 p-lg flex flex-col justify-center z-10 bg-surface-container-lowest md:bg-transparent md:bg-gradient-to-r md:from-surface-container-lowest md:via-surface-container-lowest md:to-transparent">
+                        <span
+                            class="bg-secondary-container text-primary font-label-md text-label-md px-sm py-xs rounded-full w-fit mb-md border border-primary-fixed-dim">Featured
+                            Event</span>
+                        <h3 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Annual State Science Fair
+                            2024</h3>
+                        <p class="font-body-md text-body-md text-secondary mb-lg max-w-md">Join us at the convention
+                            center as over 500 students from across the district showcase their innovative projects in
+                            robotics, environmental science, and physics.</p>
+                        <div class="flex items-center gap-md font-label-md text-label-md text-secondary">
+                            <div class="flex items-center gap-xs"><span class="material-symbols-outlined"
+                                    style="font-size: 16px;">calendar_today</span> Oct 15 - 17</div>
+                            <div class="flex items-center gap-xs"><span class="material-symbols-outlined"
+                                    style="font-size: 16px;">location_on</span> State Convention Center</div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 h-64 md:h-auto absolute inset-0 md:relative z-0"
+                        data-alt="A bright, modern exhibition hall filled with students demonstrating science projects. The space is illuminated by high-key, soft white lighting typical of a professional convention center. The scene conveys a sense of innovation and academic achievement, aligning with a corporate educational aesthetic. Colors are predominantly neutral with pops of bright colors from the science displays."
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCck7gLRp59TQXrEOhATjQDOpgqS-kodIk6Y1EjM2S8pjPnsdriMxcWKXiH-S7l8B61gHN2qv1X6eL2GoZAuSnMXRFhvaZvsa0mudsbcn4y8duMsAIykUvW_1hDhG6H4R1PVSgdtuMD8_DAIh4PEO83hAiFDKWnShV09Jd6RdI5-W-iFDOAppEQ_1sumaDtZMmQR4wjFd9hDCtvT3sg0nb0-RUhUlGlB0V-FUTsjxAn2JbFUsn5FGfWFsehOIQ8M4blJyZHbDI-'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+                <!-- News Feed (Main Column) -->
+                <div class="bento-item-main flex flex-col gap-md">
+                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md">
+                        <div class="flex items-center justify-between border-b border-outline-variant pb-sm mb-md">
+                            <h3 class="font-headline-md text-headline-md text-on-surface">News Feed</h3>
+                            <button class="text-primary font-label-md text-label-md hover:underline">View All</button>
+                        </div>
+                        <div class="space-y-md">
+                            <!-- News Item 1 -->
+                            <div
+                                class="flex gap-md p-sm hover:bg-surface-bright rounded-lg transition-colors border border-transparent hover:border-outline-variant cursor-pointer">
+                                <div
+                                    class="w-12 h-12 rounded bg-error-container text-on-error-container flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined">campaign</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-label-md text-label-md text-on-surface">Emergency Protocol Update
+                                    </h4>
+                                    <p class="font-body-md text-body-md text-secondary mt-xs line-clamp-2">The district
+                                        has updated the lockdown procedures. All staff must review the new guidelines by
+                                        Friday. Mandatory drills will be scheduled for next month.</p>
+                                    <span class="font-label-md text-label-md text-outline mt-sm block">2 hours ago •
+                                        Institutional</span>
+                                </div>
+                            </div>
+                            <!-- News Item 2 -->
+                            <div
+                                class="flex gap-md p-sm hover:bg-surface-bright rounded-lg transition-colors border border-transparent hover:border-outline-variant cursor-pointer">
+                                <div
+                                    class="w-12 h-12 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined">emoji_events</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-label-md text-label-md text-on-surface">Regional Math Olympiad
+                                        Results</h4>
+                                    <p class="font-body-md text-body-md text-secondary mt-xs line-clamp-2">
+                                        Congratulations to Lincoln High School for taking first place in the regional
+                                        competition. The team will proceed to the state finals in November.</p>
+                                    <span class="font-label-md text-label-md text-outline mt-sm block">1 day ago •
+                                        Student Achievement</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Event Gallery -->
+                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md">
+                        <div class="flex items-center justify-between border-b border-outline-variant pb-sm mb-md">
+                            <h3 class="font-headline-md text-headline-md text-on-surface">Recent Event Gallery</h3>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-sm">
+                            <div
+                                class="aspect-square rounded-lg bg-surface-dim overflow-hidden group cursor-pointer border border-outline-variant">
+                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    data-alt="Students participating in a track and field event on a sunny day. Professional, clean educational setting."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMqvo9DJf0gDKw1iLVq7_cfm2DiVXKr3zNc6NV2HxEX-2bBKrGC1kaQoW6D99ThKgGde9PtewWSIebRnzpeVaETndyTp_jclnI9eq4xAS-5GLHkzZBOuGODyHAfM1NAq6s_MsSOJFzb0XPy87LilCzQdob7S5WdJs0K3qBCR1O1AgKE06YVfqv1ncGZtkZiRiGR0fBuq7U4jqvPwFQyGf670_HEBeYl1Mbo2oJr7KYicD98wynO6YoaMbImCZuBj6ql8RTnSNk" />
+                            </div>
+                            <div
+                                class="aspect-square rounded-lg bg-surface-dim overflow-hidden group cursor-pointer border border-outline-variant">
+                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    data-alt="A teacher interacting with young students in a modern classroom. Calm, focused educational environment."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU3iSTf82Xe3rvJTQhfHTlqW3q35lz7ox7zGTjbpfeaCVaxl26rR99EmKQ3paGhTA2FFNtPde5zd8loIz0rqyw45kWn4fpROSFtVdy957inGLYdT0To7rk3ny1x9SL2L8hXISjRYbvJcoEk-KEnDQmtUO9v9Q12FuzMHxXPylnllrCn4qjXtPbm6kZ_wyyxIGSAhn6ZBW2YRj_tZOz4oXMi5_sEMC3J6xUtYG2yQUFllXFKm0r_EWKqvi16QDWa_d0GC5vqoLh" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Calendar Widget (Side Column) -->
+                <div class="bento-item-side flex flex-col gap-md">
+                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md">
+                        <div class="flex items-center justify-between border-b border-outline-variant pb-sm mb-md">
+                            <h3 class="font-headline-md text-headline-md text-on-surface">Upcoming Events</h3>
+                            <button
+                                class="p-xs hover:bg-surface-container rounded-full text-secondary transition-colors">
+                                <span class="material-symbols-outlined" style="font-size: 20px;">more_vert</span>
+                            </button>
+                        </div>
+                        <div class="space-y-sm">
+                            <!-- Event Item 1 -->
+                            <div
+                                class="flex gap-sm items-start p-sm rounded-lg border border-outline-variant bg-surface-bright">
+                                <div
+                                    class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex flex-col items-center justify-center flex-shrink-0">
+                                    <span class="text-[10px] font-bold uppercase leading-none">Oct</span>
+                                    <span class="font-bold text-lg leading-none">12</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-label-md text-label-md text-on-surface">Mid-Term Examinations</h4>
+                                    <p class="text-[11px] text-secondary mt-xs flex items-center gap-1"><span
+                                            class="material-symbols-outlined" style="font-size: 12px;">schedule</span>
+                                        All Schools</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
