@@ -62,7 +62,11 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
         Route::post('/risk/analyze', [\App\Http\Controllers\Admin\AiStudentRiskController::class, 'analyze'])->name('risk.analyze');
         
         Route::get('/timetable', [\App\Http\Controllers\Admin\AiTimetableController::class, 'index'])->name('timetable');
+        Route::get('/timetable/fetch', [\App\Http\Controllers\Admin\AiTimetableController::class, 'fetch'])->name('timetable.fetch');
         Route::post('/timetable/generate', [\App\Http\Controllers\Admin\AiTimetableController::class, 'generate'])->name('timetable.generate');
+        Route::post('/timetable/suggestions', [\App\Http\Controllers\Admin\AiTimetableController::class, 'getSuggestions'])->name('timetable.suggestions');
+        Route::post('/timetable/slot/{id}', [\App\Http\Controllers\Admin\AiTimetableController::class, 'updateSlot'])->name('timetable.update');
+        Route::get('/timetable/history', [\App\Http\Controllers\Admin\AiTimetableController::class, 'history'])->name('timetable.history');
         
         Route::get('/reports', [\App\Http\Controllers\Admin\AiReportController::class, 'index'])->name('reports');
         Route::post('/reports/generate', [\App\Http\Controllers\Admin\AiReportController::class, 'generate'])->name('reports.generate');

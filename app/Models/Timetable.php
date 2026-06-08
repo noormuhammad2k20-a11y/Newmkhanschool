@@ -6,7 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Timetable extends Model
 {
+    public $timestamps = false;
     const UPDATED_AT = null;
+
+    protected $fillable = [
+        'class_id',
+        'section_id',
+        'section_id_ref',
+        'subject',
+        'subject_id_ref',
+        'teacher',
+        'teacher_id',
+        'room',
+        'day_of_week',
+        'start_time',
+        'end_time',
+    ];
 
     public function teacher()       { return $this->belongsTo(Teacher::class,'teacher_id'); }
     public function subjectRef()    { return $this->belongsTo(Subject::class,'subject_id_ref'); }
