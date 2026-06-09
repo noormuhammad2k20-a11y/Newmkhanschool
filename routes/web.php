@@ -56,6 +56,46 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::delete('/announcements/{id}', [\App\Http\Controllers\AnnouncementController::class, 'destroy'])->name('admin.announcements.destroy');
     Route::get('/payroll', [\App\Http\Controllers\PayrollController::class, 'index'])->name('admin.payroll');
     
+    // ADVANCED UPGRADE ROUTES
+    Route::prefix('advanced')->name('admin.')->group(function() {
+        // Analytics
+        Route::get('/analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('analytics.index');
+        Route::get('/analytics/data', [\App\Http\Controllers\Admin\AnalyticsController::class, 'chartData'])->name('analytics.data');
+        
+        // Fee Payment & Challans
+        Route::get('/fees/{fee_id}/pay', [\App\Http\Controllers\Admin\OnlineFeePaymentController::class, 'initiatePayment'])->name('fees.pay');
+        Route::post('/fees/{fee_id}/jazzcash', [\App\Http\Controllers\Admin\OnlineFeePaymentController::class, 'processJazzCash'])->name('fees.jazzcash');
+        Route::post('/fees/{fee_id}/easypaisa', [\App\Http\Controllers\Admin\OnlineFeePaymentController::class, 'processEasyPaisa'])->name('fees.easypaisa');
+        Route::get('/fees/receipt/{receipt_id}', [\App\Http\Controllers\Admin\OnlineFeePaymentController::class, 'downloadReceipt'])->name('fees.receipt.download');
+        Route::get('/fees/challan/{student_id}', [\App\Http\Controllers\Admin\FeeChallanController::class, 'generate'])->name('fees.challan');
+        Route::post('/fees/challan/bulk', [\App\Http\Controllers\Admin\FeeChallanController::class, 'bulkGenerate'])->name('fees.challan.bulk');
+
+        // Student Promotions
+        Route::get('/promotions', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'index'])->name('promotions.index');
+        Route::post('/promotions/preview', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'preview'])->name('promotions.preview');
+        Route::post('/promotions/execute', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'execute'])->name('promotions.execute');
+        Route::get('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'rules'])->name('promotions.rules');
+        Route::post('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'saveRule'])->name('promotions.rules.save');
+
+        // Document Generation
+        Route::get('/documents', [\App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('documents.index');
+        Route::post('/documents/generate', [\App\Http\Controllers\Admin\DocumentController::class, 'generate'])->name('documents.generate');
+        Route::get('/documents/templates', [\App\Http\Controllers\Admin\DocumentController::class, 'templates'])->name('documents.templates');
+        Route::get('/documents/templates/{id}/edit', [\App\Http\Controllers\Admin\DocumentController::class, 'editTemplate'])->name('documents.templates.edit');
+        Route::put('/documents/templates/{id}', [\App\Http\Controllers\Admin\DocumentController::class, 'updateTemplate'])->name('documents.templates.update');
+
+        // Staff Leave Management
+        Route::get('/staff-leaves', [\App\Http\Controllers\Admin\StaffLeaveController::class, 'index'])->name('staff-leaves.index');
+        Route::post('/staff-leaves/{id}/approve', [\App\Http\Controllers\Admin\StaffLeaveController::class, 'approve'])->name('staff-leaves.approve');
+        Route::post('/staff-leaves/{id}/reject', [\App\Http\Controllers\Admin\StaffLeaveController::class, 'reject'])->name('staff-leaves.reject');
+        Route::post('/staff-leaves/{id}/substitute', [\App\Http\Controllers\Admin\StaffLeaveController::class, 'assignSubstituteManually'])->name('staff-leaves.substitute');
+        Route::get('/staff-leaves/substitutes', [\App\Http\Controllers\Admin\StaffLeaveController::class, 'substituteSchedule'])->name('staff-leaves.substitutes');
+        Route::get('/staff-leaves/balances', [\App\Http\Controllers\Admin\StaffLeaveController::class, 'leaveBalances'])->name('staff-leaves.balances');
+    });
+
+    // Multi-Branch (Super Admin only handled in Controller constructor)
+    Route::resource('branches', \App\Http\Controllers\Admin\BranchController::class, ['as' => 'admin']);
+    Route::post('/branches/switch', [\App\Http\Controllers\Admin\BranchController::class, 'switchBranch'])->name('admin.branches.switch');
     // AI Modules
     Route::prefix('ai')->name('admin.ai.')->group(function () {
         Route::get('/attendance', [\App\Http\Controllers\Admin\AI\AttendanceAnomalyController::class, 'index'])->name('attendance');
@@ -82,6 +122,26 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::middleware('role:Super Admin')->group(function () {
         Route::get('/roles', [\App\Http\Controllers\RoleController::class, 'index'])->name('admin.roles');
         Route::post('/roles/{id}/permissions', [\App\Http\Controllers\RoleController::class, 'updatePermissions'])->name('admin.roles.permissions.update');
+    });
+
+    // Digital Learning Routes
+    Route::prefix('digital-learning')->name('admin.digital_learning.')->group(function() {
+        Route::get('/notes', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'notesIndex'])->name('notes');
+        Route::post('/notes', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'storeNote'])->name('notes.store');
+        Route::put('/notes/{id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'updateNote'])->name('notes.update');
+        Route::delete('/notes/{id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'destroyNote'])->name('notes.destroy');
+
+        Route::get('/quizzes', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'quizzesIndex'])->name('quizzes');
+        Route::post('/quizzes', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'storeQuiz'])->name('quizzes.store');
+        Route::put('/quizzes/{id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'updateQuiz'])->name('quizzes.update');
+        Route::delete('/quizzes/{id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'destroyQuiz'])->name('quizzes.destroy');
+
+        Route::get('/quizzes/{id}/questions', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'manageQuestions'])->name('quizzes.questions');
+        Route::post('/quizzes/{id}/questions', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'storeQuestion'])->name('quizzes.questions.store');
+        Route::put('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'updateQuestion'])->name('quizzes.questions.update');
+        Route::delete('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'destroyQuestion'])->name('quizzes.questions.destroy');
+
+        Route::get('/quizzes/{id}/results', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'quizResults'])->name('quizzes.results');
     });
 });
 
@@ -138,10 +198,23 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
     });
     
     // Digital Learning Routes
-    Route::middleware('teacher_module:digital_learning')->group(function() {
-        Route::get('/digital-learning', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'index'])->name('teacher.digital_learning');
-        Route::post('/digital-learning/notes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'storeNote'])->name('teacher.digital_learning.notes.store');
-        Route::post('/digital-learning/quizzes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'storeQuiz'])->name('teacher.digital_learning.quizzes.store');
+    Route::middleware('teacher_module:digital_learning')->prefix('digital-learning')->name('teacher.digital_learning.')->group(function() {
+        Route::get('/notes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'notesIndex'])->name('notes');
+        Route::post('/notes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'storeNote'])->name('notes.store');
+        Route::put('/notes/{id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'updateNote'])->name('notes.update');
+        Route::delete('/notes/{id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'destroyNote'])->name('notes.destroy');
+
+        Route::get('/quizzes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'quizzesIndex'])->name('quizzes');
+        Route::post('/quizzes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'storeQuiz'])->name('quizzes.store');
+        Route::put('/quizzes/{id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'updateQuiz'])->name('quizzes.update');
+        Route::delete('/quizzes/{id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'destroyQuiz'])->name('quizzes.destroy');
+
+        Route::get('/quizzes/{id}/questions', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'manageQuestions'])->name('quizzes.questions');
+        Route::post('/quizzes/{id}/questions', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'storeQuestion'])->name('quizzes.questions.store');
+        Route::put('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'updateQuestion'])->name('quizzes.questions.update');
+        Route::delete('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'destroyQuestion'])->name('quizzes.questions.destroy');
+
+        Route::get('/quizzes/{id}/results', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'quizResults'])->name('quizzes.results');
     });
     
     Route::middleware('teacher_module:messages')->group(function() {
@@ -150,6 +223,15 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
     });
     
     Route::middleware('teacher_module:reports')->get('/reports', [\App\Http\Controllers\TeacherPortalController::class, 'reports'])->name('teacher.reports');
+
+    // Advanced Online Exams
+    Route::get('/online-exams', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'index'])->name('teacher.online-exams.index');
+    Route::get('/online-exams/create', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'create'])->name('teacher.online-exams.create');
+    Route::post('/online-exams', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'store'])->name('teacher.online-exams.store');
+    Route::get('/online-exams/{id}/questions', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'questions'])->name('teacher.online-exams.questions');
+    Route::post('/online-exams/{id}/questions', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'storeQuestion'])->name('teacher.online-exams.questions.store');
+    Route::post('/online-exams/{id}/publish', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'publish'])->name('teacher.online-exams.publish');
+    Route::get('/online-exams/{id}/results', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'results'])->name('teacher.online-exams.results');
 });
 
 // ─── STUDENT ─────────────────────────────────────────────────────────────────
@@ -165,6 +247,14 @@ Route::middleware(['auth', 'role:Student', 'same_school'])
         Route::get('/timetable', [App\Http\Controllers\Student\TimetableController::class, 'index'])->name('timetable');
         Route::get('/assignments', [App\Http\Controllers\Student\AssignmentController::class, 'index'])->name('assignments');
         Route::post('/assignments/{id}/submit', [App\Http\Controllers\Student\AssignmentController::class, 'submit'])->name('assignments.submit');
+
+        // Digital Learning Routes
+        Route::prefix('digital-learning')->name('digital_learning.')->group(function() {
+            Route::get('/notes', [\App\Http\Controllers\Student\DigitalLearningController::class, 'notesIndex'])->name('notes');
+            Route::get('/quizzes', [\App\Http\Controllers\Student\DigitalLearningController::class, 'quizzesIndex'])->name('quizzes');
+            Route::get('/quizzes/{id}/take', [\App\Http\Controllers\Student\DigitalLearningController::class, 'takeQuiz'])->name('quizzes.take');
+            Route::post('/quizzes/{id}/submit', [\App\Http\Controllers\Student\DigitalLearningController::class, 'submitQuiz'])->name('quizzes.submit');
+        });
         Route::get('/announcements', [App\Http\Controllers\Student\AnnouncementController::class, 'index'])->name('announcements');
         Route::get('/report-card', [App\Http\Controllers\Student\ReportCardController::class, 'index'])->name('report-card');
         Route::get('/report-card/download', [App\Http\Controllers\Student\ReportCardController::class, 'download'])->name('report-card.download');
@@ -175,18 +265,17 @@ Route::middleware(['auth', 'role:Student', 'same_school'])
         Route::get('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'index'])->name('leave.index');
         Route::post('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'store'])->name('leave.store');
         
-        // Digital Learning Routes
-        Route::get('/digital-notes', [\App\Http\Controllers\Student\DigitalLearningController::class, 'notes'])->name('digital_notes');
-        Route::get('/digital-notes/{id}/download', [\App\Http\Controllers\Student\DigitalLearningController::class, 'downloadNote'])->name('digital_notes.download');
-        
-        Route::get('/quizzes', [\App\Http\Controllers\Student\DigitalLearningController::class, 'quizzes'])->name('quizzes');
-        Route::get('/quizzes/{id}', [\App\Http\Controllers\Student\DigitalLearningController::class, 'showQuiz'])->name('quizzes.show');
-        Route::post('/quizzes/{id}/submit', [\App\Http\Controllers\Student\DigitalLearningController::class, 'submitQuiz'])->name('quizzes.submit');
 
         Route::get('/messages', [App\Http\Controllers\Student\MessageController::class, 'index'])->name('messages');
         Route::post('/messages', [App\Http\Controllers\Student\MessageController::class, 'send'])->name('messages.send');
         Route::get('/profile', [App\Http\Controllers\Student\ProfileController::class, 'show'])->name('profile');
         Route::put('/profile', [App\Http\Controllers\Student\ProfileController::class, 'update'])->name('profile.update');
+
+        // Advanced Online Exams
+        Route::get('/online-exams', [\App\Http\Controllers\Student\OnlineExamController::class, 'index'])->name('online-exams.index');
+        Route::get('/online-exams/{id}/take', [\App\Http\Controllers\Student\OnlineExamController::class, 'start'])->name('online-exams.start');
+        Route::post('/online-exams/{id}/submit', [\App\Http\Controllers\Student\OnlineExamController::class, 'submit'])->name('online-exams.submit');
+        Route::get('/online-exams/{id}/result', [\App\Http\Controllers\Student\OnlineExamController::class, 'result'])->name('online-exams.result');
     });
 
 // ─── PARENT ───────────────────────────────────────────────────────────────────
@@ -239,3 +328,7 @@ Route::middleware(['auth', 'same_school'])->prefix('api')->group(function () {
     Route::post('/events', [\App\Http\Controllers\Api\EventController::class, 'store'])->name('api.events.store');
 });
 
+// EasyPaisa Callback (Exclude CSRF)
+Route::post('/admin/fees/easypaisa/callback', [\App\Http\Controllers\Admin\OnlineFeePaymentController::class, 'easyPaisaCallback'])
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
+    ->name('admin.fees.easypaisa.callback');

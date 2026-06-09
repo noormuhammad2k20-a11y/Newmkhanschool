@@ -1,194 +1,179 @@
 @extends('layouts.app')
-
-@section('title', 'Digital Notes & Resources')
+@section('title', 'Digital Notes')
 
 @section('content')
 <main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
     <div class="max-w-[1440px] mx-auto space-y-xl">
-        
-        {{-- Header & Search --}}
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-xl">
-            <div class="flex-1">
-                <h1 class="text-headline-xl font-headline-xl font-bold text-on-surface">Digital Learning Hub</h1>
-                <p class="text-body-lg font-body-lg text-secondary mt-1">Access study materials, lecture notes, and resources uploaded by your teachers.</p>
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+            <div>
+                <h2 class="text-headline-xl font-headline-xl text-on-surface">Digital Notes</h2>
+                <p class="text-body-lg font-body-lg text-secondary mt-1">Access your learning materials and study resources.</p>
             </div>
-            
-            <form method="GET" action="{{ route('student.digital_notes') }}" class="w-full md:w-96 flex relative shadow-sm rounded-xl overflow-hidden border border-outline-variant focus-within:border-primary transition-colors bg-surface-container-lowest">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
-                <input type="text" name="search" placeholder="Search notes, subjects..." class="w-full bg-transparent py-3 pl-10 pr-4 text-on-surface text-body-md font-body-md focus:outline-none" value="{{ request('search') }}">
-                <button type="submit" class="bg-surface-container border-l border-outline-variant text-on-surface px-6 text-label-md font-label-md font-bold hover:bg-surface-container-high transition-colors">Search</button>
-            </form>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
+                    <input type="text" placeholder="Search notes..." class="pl-10 pr-4 py-2 border border-outline-variant rounded-xl bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all w-64">
+                </div>
+            </div>
         </div>
 
-        @if(session('error'))
-            <div class="bg-error-container text-error p-md rounded-xl flex items-center gap-2 border border-error/20 shadow-sm">
-                <span class="material-symbols-outlined">error</span>
-                <span class="text-body-md font-body-md">{{ session('error') }}</span>
-            </div>
-        @endif
-
-        {{-- Statistics Cards --}}
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-md">
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col relative overflow-hidden group hover:border-primary transition-colors">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Total Resources</h3>
-                    <div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+            {{-- Total Notes Card --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Notes</h3>
+                    <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
                         <span class="material-symbols-outlined text-[18px]">library_books</span>
                     </div>
                 </div>
-                <div class="flex items-baseline gap-2 mt-2">
-                    <span class="text-display-sm font-display-sm text-on-surface">{{ method_exists($notes, 'total') ? $notes->total() : $notes->count() }}</span>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $totalNotes }}</span>
                 </div>
-                <div class="mt-2 flex items-center gap-1.5 text-label-md font-label-md text-secondary">
-                    <span class="material-symbols-outlined text-[14px]">auto_awesome</span>
-                    <span>Available materials</span>
-                </div>
-                <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-primary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
-            </div>
-            
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col relative overflow-hidden group hover:border-[#e53935] transition-colors">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">PDF Notes</h3>
-                    <div class="w-8 h-8 rounded-lg bg-[#e53935]/10 flex items-center justify-center text-[#e53935]">
-                        <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
-                    </div>
-                </div>
-                <div class="flex items-baseline gap-2 mt-2">
-                    <span class="text-display-sm font-display-sm text-on-surface">{{ collect($notes->items() ?? $notes)->where('file_type', 'pdf')->count() }}</span>
-                </div>
-                <div class="mt-2 flex items-center gap-1.5 text-label-md font-label-md text-secondary">
-                    <span>In current view</span>
-                </div>
-                <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-[#e53935]/10 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-primary-fixed rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
 
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col relative overflow-hidden group hover:border-[#1e88e5] transition-colors">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Documents</h3>
-                    <div class="w-8 h-8 rounded-lg bg-[#1e88e5]/10 flex items-center justify-center text-[#1e88e5]">
-                        <span class="material-symbols-outlined text-[18px]">description</span>
+            {{-- Downloaded Notes Card --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Downloaded</h3>
+                    <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                        <span class="material-symbols-outlined text-[18px]">download_done</span>
                     </div>
                 </div>
-                <div class="flex items-baseline gap-2 mt-2">
-                    <span class="text-display-sm font-display-sm text-on-surface">{{ collect($notes->items() ?? $notes)->whereIn('file_type', ['doc', 'docx'])->count() }}</span>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $downloadedNotes }}</span>
                 </div>
-                <div class="mt-2 flex items-center gap-1.5 text-label-md font-label-md text-secondary">
-                    <span>In current view</span>
-                </div>
-                <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-[#1e88e5]/10 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
 
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col relative overflow-hidden group hover:border-secondary transition-colors">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">External Links</h3>
+            {{-- Pending Notes Card --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending</h3>
+                    <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
+                        <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                    </div>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $pendingNotes }}</span>
+                </div>
+                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-error-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+            </div>
+
+            {{-- Subjects Covered Card --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Subjects Covered</h3>
                     <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                        <span class="material-symbols-outlined text-[18px]">link</span>
+                        <span class="material-symbols-outlined text-[18px]">category</span>
                     </div>
                 </div>
-                <div class="flex items-baseline gap-2 mt-2">
-                    <span class="text-display-sm font-display-sm text-on-surface">{{ collect($notes->items() ?? $notes)->where('file_type', 'link')->count() }}</span>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $subjectsCovered }}</span>
                 </div>
-                <div class="mt-2 flex items-center gap-1.5 text-label-md font-label-md text-secondary">
-                    <span>In current view</span>
-                </div>
-                <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-secondary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-secondary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
         </div>
 
-        {{-- Category/Filter Pills --}}
-        <div class="flex flex-wrap gap-2">
-            <a href="{{ route('student.digital_notes') }}" class="px-5 py-2 rounded-xl text-label-md font-label-md font-bold transition-colors {{ !request('type') ? 'bg-primary text-on-primary shadow-sm' : 'bg-surface-container-lowest text-secondary hover:bg-surface-container-low border border-outline-variant' }}">All Resources</a>
-            <a href="{{ route('student.digital_notes', ['type' => 'pdf']) }}" class="px-5 py-2 rounded-xl text-label-md font-label-md font-bold transition-colors {{ request('type') == 'pdf' ? 'bg-[#e53935] text-white shadow-sm' : 'bg-surface-container-lowest text-secondary hover:bg-surface-container-low border border-outline-variant' }}">PDFs</a>
-            <a href="{{ route('student.digital_notes', ['type' => 'doc']) }}" class="px-5 py-2 rounded-xl text-label-md font-label-md font-bold transition-colors {{ request('type') == 'doc' ? 'bg-[#1e88e5] text-white shadow-sm' : 'bg-surface-container-lowest text-secondary hover:bg-surface-container-low border border-outline-variant' }}">Documents</a>
-            <a href="{{ route('student.digital_notes', ['type' => 'link']) }}" class="px-5 py-2 rounded-xl text-label-md font-label-md font-bold transition-colors {{ request('type') == 'link' ? 'bg-secondary text-on-secondary shadow-sm' : 'bg-surface-container-lowest text-secondary hover:bg-surface-container-low border border-outline-variant' }}">External Links</a>
+        <!-- Filter Section -->
+        <div class="flex items-center gap-4 border-b border-outline-variant pb-4 overflow-x-auto hide-scrollbar">
+            <button class="px-4 py-1.5 rounded-full bg-primary text-on-primary text-label-md font-bold whitespace-nowrap">All Subjects</button>
+            @php $uniqueSubjects = $notes->pluck('subject.name')->unique()->filter(); @endphp
+            @foreach($uniqueSubjects as $subjName)
+                <button class="px-4 py-1.5 rounded-full border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface-container hover:text-on-surface transition-colors text-label-md font-bold whitespace-nowrap">{{ $subjName }}</button>
+            @endforeach
         </div>
 
-        {{-- Notes Grid --}}
-        @if($notes->count() > 0)
+        <!-- Notes Grid -->
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-headline-md font-headline-md text-on-surface">Recent Uploads</h3>
+                <div class="flex items-center gap-2">
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-primary-fixed text-primary"><span class="material-symbols-outlined text-[20px]">grid_view</span></button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">view_list</span></button>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md">
-                @foreach($notes as $note)
-                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col hover:-translate-y-1 hover:shadow-md transition-all duration-300 group overflow-hidden">
-                    
-                    {{-- Decorative Top Border based on File Type --}}
-                    @php
-                        $borderColor = match($note->file_type) {
-                            'pdf' => 'bg-[#e53935]',
-                            'doc', 'docx' => 'bg-[#1e88e5]',
-                            'ppt', 'pptx' => 'bg-[#ff9800]',
-                            'link' => 'bg-secondary',
-                            default => 'bg-primary'
-                        };
-                    @endphp
-                    <div class="h-1 w-full {{ $borderColor }}"></div>
-                    
-                    <div class="p-xl flex-1 flex flex-col">
-                        <div class="flex justify-between items-start mb-sm">
-                            <div class="w-12 h-12 rounded-xl {{ str_replace('bg-', 'bg-', $borderColor) }}/10 text-{{ str_replace('bg-', '', $borderColor) }} flex items-center justify-center">
-                                @if($note->file_type === 'pdf')
-                                    <span class="material-symbols-outlined text-[24px]" style="color: #e53935">picture_as_pdf</span>
-                                @elseif(in_array($note->file_type, ['doc', 'docx']))
-                                    <span class="material-symbols-outlined text-[24px]" style="color: #1e88e5">description</span>
-                                @elseif(in_array($note->file_type, ['ppt', 'pptx']))
-                                    <span class="material-symbols-outlined text-[24px]" style="color: #ff9800">slideshow</span>
-                                @elseif($note->file_type === 'link')
-                                    <span class="material-symbols-outlined text-[24px] text-secondary">link</span>
-                                @else
-                                    <span class="material-symbols-outlined text-[24px] text-primary">insert_drive_file</span>
-                                @endif
+                @forelse($notes as $note)
+                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant hover:border-primary transition-all duration-300 flex flex-col group overflow-hidden shadow-sm hover:shadow-md relative">
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center
+                                    @if($note->file_type == 'pdf') bg-red-100 text-red-600
+                                    @elseif(in_array($note->file_type, ['doc', 'docx', 'text'])) bg-blue-100 text-blue-600
+                                    @elseif($note->file_type == 'ppt') bg-orange-100 text-orange-600
+                                    @elseif($note->file_type == 'image') bg-purple-100 text-purple-600
+                                    @else bg-surface-variant text-on-surface-variant @endif
+                                ">
+                                    <span class="material-symbols-outlined text-[24px]">
+                                        @if($note->file_type == 'pdf') picture_as_pdf
+                                        @elseif(in_array($note->file_type, ['doc', 'docx', 'text'])) description
+                                        @elseif($note->file_type == 'ppt') slides
+                                        @elseif($note->file_type == 'image') image
+                                        @else link @endif
+                                    </span>
+                                </div>
+                                <button class="text-outline hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+                                </button>
                             </div>
-                            <span class="bg-surface-container text-secondary text-[10px] uppercase font-bold px-2.5 py-1 rounded-md">{{ strtoupper($note->file_type) }}</span>
-                        </div>
+                            
+                            <div class="mb-2">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary-fixed px-2 py-0.5 rounded-full">{{ $note->subject->name ?? 'General' }}</span>
+                            </div>
+                            
+                            <h4 class="font-bold text-body-lg text-on-surface line-clamp-2 mb-1 group-hover:text-primary transition-colors" title="{{ $note->title }}">{{ $note->title }}</h4>
+                            
+                            @if($note->description)
+                                <p class="text-label-md text-secondary line-clamp-2 mb-4">{{ $note->description }}</p>
+                            @else
+                                <div class="mb-4"></div>
+                            @endif
 
-                        <h3 class="text-title-lg font-title-lg font-bold text-on-surface mb-1 group-hover:text-primary transition-colors line-clamp-1">{{ $note->title }}</h3>
-                        <p class="text-label-md font-label-md text-primary font-bold mb-md">{{ $note->subject->name ?? 'General Subject' }}</p>
+                            <div class="mt-auto pt-4 border-t border-outline-variant border-dashed space-y-2">
+                                <div class="flex items-center gap-2 text-xs text-secondary">
+                                    <span class="material-symbols-outlined text-[14px]">person</span>
+                                    <span class="truncate">{{ $note->uploader->name ?? 'Teacher' }}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs text-secondary">
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                        <span>{{ $note->created_at->format('M d, Y') }}</span>
+                                    </div>
+                                    <span class="font-bold uppercase">{{ $note->file_type }}</span>
+                                </div>
+                            </div>
+                        </div>
                         
-                        <p class="text-body-md font-body-md text-secondary line-clamp-2 flex-1 mb-md">{{ $note->description }}</p>
-
-                        <div class="flex items-center gap-3 mb-md bg-surface p-3 rounded-xl border border-outline-variant/50">
-                            <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm">
-                                {{ substr($note->uploader->name ?? 'T', 0, 1) }}
-                            </div>
-                            <div class="flex-1 overflow-hidden">
-                                <span class="block text-label-md font-label-md font-bold text-on-surface truncate">{{ $note->uploader->name ?? 'Teacher' }}</span>
-                                <span class="block text-body-sm font-body-sm text-secondary truncate">Uploaded {{ $note->created_at->diffForHumans() }}</span>
-                            </div>
+                        <div class="bg-surface-bright border-t border-outline-variant p-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 duration-300">
+                            @if($note->file_path)
+                                <a href="{{ Storage::url($note->file_path) }}" target="_blank" class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-center font-bold text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">download</span> Download
+                                </a>
+                            @elseif($note->external_url)
+                                <a href="{{ $note->external_url }}" target="_blank" class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-center font-bold text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">open_in_new</span> Open Link
+                                </a>
+                            @endif
+                            <button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg text-secondary hover:bg-surface-container hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">done_all</span>
+                            </button>
                         </div>
                     </div>
-
-                    <div class="p-md border-t border-outline-variant bg-surface-bright flex gap-2">
-                        <a href="{{ route('student.digital_notes.download', $note->id) }}" class="flex-1 py-2 px-4 bg-primary text-on-primary rounded-lg text-label-md font-label-md font-bold text-center hover:opacity-90 transition-opacity flex items-center justify-center gap-2" {{ $note->file_type == 'link' ? 'target="_blank"' : '' }}>
-                            <span class="material-symbols-outlined text-[18px]">{{ $note->file_type == 'link' ? 'open_in_new' : 'download' }}</span>
-                            {{ $note->file_type == 'link' ? 'Open' : 'Download' }}
-                        </a>
-                        @if($note->file_type != 'link')
-                            <a href="{{ route('student.digital_notes.download', $note->id) }}" class="py-2 px-4 bg-surface-container-low border border-outline-variant text-on-surface rounded-lg text-label-md font-label-md font-bold hover:bg-surface-container-high transition-colors flex items-center justify-center" title="View">
-                                <span class="material-symbols-outlined text-[18px]">visibility</span>
-                            </a>
-                        @endif
+                @empty
+                    <div class="col-span-full py-16 flex flex-col items-center justify-center bg-surface-container-lowest border border-outline-variant border-dashed rounded-xl">
+                        <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center text-secondary mb-4">
+                            <span class="material-symbols-outlined text-[32px]">folder_off</span>
+                        </div>
+                        <h4 class="text-headline-md font-headline-md text-on-surface mb-1">No Notes Available</h4>
+                        <p class="text-body-md text-secondary text-center max-w-md">There are currently no digital notes uploaded for your classes. Check back later.</p>
                     </div>
-                </div>
-                @endforeach
+                @endforelse
             </div>
-
-            @if(method_exists($notes, 'hasPages') && $notes->hasPages())
-                <div class="mt-xl flex justify-center">
-                    {{ $notes->links('pagination::tailwind') }}
-                </div>
-            @endif
-
-        @else
-            <div class="bg-surface-container-lowest border border-dashed border-outline-variant rounded-xl p-2xl text-center flex flex-col items-center justify-center min-h-[400px]">
-                <div class="w-24 h-24 bg-surface-container rounded-full flex items-center justify-center mb-md">
-                    <span class="material-symbols-outlined text-[48px] text-secondary opacity-50">menu_book</span>
-                </div>
-                <h3 class="text-headline-md font-headline-md text-on-surface font-bold">No Resources Found</h3>
-                <p class="text-body-lg font-body-lg text-secondary mt-sm max-w-md">There are no digital notes or study materials available right now. Check back later or clear your search filters.</p>
-                @if(request('search') || request('type'))
-                    <a href="{{ route('student.digital_notes') }}" class="mt-lg px-6 py-2 border border-outline-variant rounded-xl text-label-md font-label-md font-bold hover:bg-surface-container-low transition-colors">Clear Filters</a>
-                @endif
-            </div>
-        @endif
-
+        </div>
     </div>
 </main>
 @endsection

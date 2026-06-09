@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DigitalNote;
@@ -19,19 +19,15 @@ class DigitalLearningController extends Controller
     // --- NOTES ---
     public function notesIndex()
     {
-        // Teachers only see their own uploaded notes
-        $notes = DigitalNote::with(['class', 'section', 'subject', 'academicYear'])
-            ->where('uploaded_by', auth()->id())
+        $notes = DigitalNote::with(['class', 'section', 'subject', 'academicYear', 'uploader'])
             ->orderBy('created_at', 'desc')
             ->get();
-            
-        // Assuming teachers can create for any class for now, or you can restrict based on Teacher subject assignment
         $classes = SchoolClass::all();
         $sections = Section::all();
         $subjects = Subject::all();
         $academicYears = AcademicYear::all();
 
-        return view('teacher.digital_learning.notes', compact('notes', 'classes', 'sections', 'subjects', 'academicYears'));
+        return view('admin.digital_learning.notes', compact('notes', 'classes', 'sections', 'subjects', 'academicYears'));
     }
 
     public function storeNote(Request $request)
@@ -72,12 +68,12 @@ class DigitalLearningController extends Controller
             'school_id' => auth()->user()->school_id ?? 1,
         ]);
 
-        return redirect()->back()->with('success', 'Digital Note uploaded successfully.');
+        return redirect()->back()->with('success', 'Digital Note created successfully.');
     }
 
     public function updateNote(Request $request, $id)
     {
-        $note = DigitalNote::where('uploaded_by', auth()->id())->findOrFail($id);
+        $note = DigitalNote::findOrFail($id);
         $request->validate([
             'title' => 'required|string|max:255',
             'class_id' => 'required|integer',
@@ -115,7 +111,7 @@ class DigitalLearningController extends Controller
 
     public function destroyNote($id)
     {
-        $note = DigitalNote::where('uploaded_by', auth()->id())->findOrFail($id);
+        $note = DigitalNote::findOrFail($id);
         if ($note->file_path && Storage::disk('public')->exists($note->file_path)) {
             Storage::disk('public')->delete($note->file_path);
         }
@@ -126,8 +122,7 @@ class DigitalLearningController extends Controller
     // --- QUIZZES ---
     public function quizzesIndex()
     {
-        $quizzes = Quiz::with(['class', 'section', 'subject', 'academicYear'])
-            ->where('created_by', auth()->id())
+        $quizzes = Quiz::with(['class', 'section', 'subject', 'academicYear', 'creator'])
             ->orderBy('created_at', 'desc')
             ->get();
         $classes = SchoolClass::all();
@@ -135,7 +130,7 @@ class DigitalLearningController extends Controller
         $subjects = Subject::all();
         $academicYears = AcademicYear::all();
 
-        return view('teacher.digital_learning.quizzes', compact('quizzes', 'classes', 'sections', 'subjects', 'academicYears'));
+        return view('admin.digital_learning.quizzes', compact('quizzes', 'classes', 'sections', 'subjects', 'academicYears'));
     }
 
     public function storeQuiz(Request $request)
@@ -158,7 +153,7 @@ class DigitalLearningController extends Controller
             'created_by' => auth()->id(),
             'duration_minutes' => $request->duration_minutes,
             'passing_marks' => $request->passing_marks,
-            'total_marks' => 0, 
+            'total_marks' => 0, // Calculated dynamically later based on questions
             'is_active' => $request->has('is_active'),
             'school_id' => auth()->user()->school_id ?? 1,
         ]);
@@ -168,7 +163,7 @@ class DigitalLearningController extends Controller
 
     public function updateQuiz(Request $request, $id)
     {
-        $quiz = Quiz::where('created_by', auth()->id())->findOrFail($id);
+        $quiz = Quiz::findOrFail($id);
         $request->validate([
             'title' => 'required|string|max:255',
             'class_id' => 'required|integer',
@@ -194,20 +189,20 @@ class DigitalLearningController extends Controller
 
     public function destroyQuiz($id)
     {
-        Quiz::where('created_by', auth()->id())->findOrFail($id)->delete();
+        Quiz::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Quiz deleted successfully.');
     }
 
     // --- QUIZ QUESTIONS ---
     public function manageQuestions($id)
     {
-        $quiz = Quiz::with('questions')->where('created_by', auth()->id())->findOrFail($id);
-        return view('teacher.digital_learning.quiz_questions', compact('quiz'));
+        $quiz = Quiz::with('questions')->findOrFail($id);
+        return view('admin.digital_learning.quiz_questions', compact('quiz'));
     }
 
     public function storeQuestion(Request $request, $quiz_id)
     {
-        $quiz = Quiz::where('created_by', auth()->id())->findOrFail($quiz_id);
+        $quiz = Quiz::findOrFail($quiz_id);
         $request->validate([
             'question_text' => 'required|string',
             'option_a' => 'required|string',
@@ -228,6 +223,7 @@ class DigitalLearningController extends Controller
             'order' => $request->order ?? 1,
         ]);
 
+        // Update total marks for quiz
         $quiz->increment('total_marks', $request->marks);
 
         return redirect()->back()->with('success', 'Question added successfully.');
@@ -235,7 +231,7 @@ class DigitalLearningController extends Controller
 
     public function updateQuestion(Request $request, $quiz_id, $question_id)
     {
-        $quiz = Quiz::where('created_by', auth()->id())->findOrFail($quiz_id);
+        $quiz = Quiz::findOrFail($quiz_id);
         $question = QuizQuestion::where('quiz_id', $quiz->id)->findOrFail($question_id);
         
         $request->validate([
@@ -268,7 +264,7 @@ class DigitalLearningController extends Controller
 
     public function destroyQuestion($quiz_id, $question_id)
     {
-        $quiz = Quiz::where('created_by', auth()->id())->findOrFail($quiz_id);
+        $quiz = Quiz::findOrFail($quiz_id);
         $question = QuizQuestion::where('quiz_id', $quiz->id)->findOrFail($question_id);
         
         $quiz->decrement('total_marks', $question->marks);
@@ -280,15 +276,12 @@ class DigitalLearningController extends Controller
     // --- QUIZ RESULTS ---
     public function quizResults($id)
     {
-        $quiz = Quiz::with(['class', 'section', 'subject'])
-            ->where('created_by', auth()->id())
-            ->findOrFail($id);
-            
+        $quiz = Quiz::with(['class', 'section', 'subject'])->findOrFail($id);
         $attempts = QuizAttempt::with('student.user')
             ->where('quiz_id', $id)
             ->orderBy('score', 'desc')
             ->get();
             
-        return view('teacher.digital_learning.quiz_results', compact('quiz', 'attempts'));
+        return view('admin.digital_learning.quiz_results', compact('quiz', 'attempts'));
     }
 }

@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'jazzcash' => [
+        'merchant_id'    => env('JAZZCASH_MERCHANT_ID'),
+        'password'       => env('JAZZCASH_PASSWORD'),
+        'integrity_salt' => env('JAZZCASH_INTEGRITY_SALT'),
+        'env'            => env('JAZZCASH_ENV', 'sandbox'),
+    ],
+
+    'easypaisa' => [
+        'store_id' => env('EASYPAISA_STORE_ID'),
+        'hash_key' => env('EASYPAISA_HASH_KEY'),
+        'env'      => env('EASYPAISA_ENV', 'sandbox'),
+    ],
+
 ];

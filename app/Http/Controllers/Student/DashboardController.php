@@ -8,6 +8,8 @@ use App\Models\Announcement;
 use App\Models\ExamSchedule;
 use App\Models\Timetable;
 use App\Models\AcademicYear;
+use App\Models\DigitalNote;
+use App\Models\Quiz;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -62,9 +64,34 @@ class DashboardController extends Controller
                            ->where('exam_date', '>=', today())
                            ->orderBy('exam_date')->take(3)->get();
 
+        // Recent Digital Notes
+        $recentNotes = DigitalNote::with(['subject', 'uploader'])
+            ->where('is_public', 1)
+            ->where('class_id', $student->current_class_id)
+            ->where(function($q) use ($student) {
+                $q->whereNull('section_id')
+                  ->orWhere('section_id', $student->current_section_id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        // Upcoming Quizzes
+        $upcomingQuizzes = Quiz::with(['subject'])
+            ->where('is_active', 1)
+            ->where('class_id', $student->current_class_id)
+            ->where(function($q) use ($student) {
+                $q->whereNull('section_id')
+                  ->orWhere('section_id', $student->current_section_id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
         return view('student.dashboard', compact(
             'student','attendancePct','presentDays','totalDays',
-            'pendingFees','announcements','todayClasses','upcomingExams'
+            'pendingFees','announcements','todayClasses','upcomingExams',
+            'recentNotes', 'upcomingQuizzes'
         ));
     }
 }

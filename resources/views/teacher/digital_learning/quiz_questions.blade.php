@@ -1,0 +1,143 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="p-4 sm:p-6 md:p-8 space-y-6">
+    <div class="flex items-center gap-4">
+        <a href="{{ route('teacher.digital_learning.quizzes') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <div>
+            <h1 class="font-headline-lg text-headline-lg text-on-surface">Manage Questions: {{ $quiz->title }}</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">Class: {{ $quiz->class->name ?? 'N/A' }} | Subject: {{ $quiz->subject->name ?? 'N/A' }}</p>
+        </div>
+        <div class="ml-auto">
+            <button onclick="document.getElementById('addQuestionModal').classList.remove('hidden')" class="flex items-center gap-sm px-md py-sm bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-colors">
+                <span class="material-symbols-outlined text-[20px]">add</span>
+                <span class="font-label-md font-semibold">Add Question</span>
+            </button>
+        </div>
+    </div>
+
+    @if(session('success'))
+        <div class="p-4 bg-green-100 text-green-800 rounded-xl mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="space-y-4">
+        @forelse($quiz->questions->sortBy('order') as $index => $q)
+            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 relative group">
+                <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button onclick="openEditQuestionModal({{ json_encode($q) }})" class="text-primary hover:text-primary/80" title="Edit">
+                        <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <form action="{{ route('teacher.digital_learning.quizzes.questions.destroy', [$quiz->id, $q->id]) }}" method="POST" onsubmit="return confirm('Delete this question?');">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="text-error hover:text-error/80" title="Delete">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </form>
+                </div>
+                
+                <h3 class="font-headline-md text-on-surface mb-4"><span class="text-primary font-bold">Q{{ $index + 1 }}.</span> {{ $q->question_text }}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'a' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ $q->correct_option == 'a' ? 'text-green-700' : 'text-on-surface-variant' }}">A.</span>
+                        <span class="text-on-surface">{{ $q->option_a }}</span>
+                    </div>
+                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'b' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ $q->correct_option == 'b' ? 'text-green-700' : 'text-on-surface-variant' }}">B.</span>
+                        <span class="text-on-surface">{{ $q->option_b }}</span>
+                    </div>
+                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'c' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ $q->correct_option == 'c' ? 'text-green-700' : 'text-on-surface-variant' }}">C.</span>
+                        <span class="text-on-surface">{{ $q->option_c }}</span>
+                    </div>
+                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'd' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ $q->correct_option == 'd' ? 'text-green-700' : 'text-on-surface-variant' }}">D.</span>
+                        <span class="text-on-surface">{{ $q->option_d }}</span>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-sm font-label-md text-on-surface-variant">
+                    <span>Marks: <span class="font-bold text-on-surface">{{ $q->marks }}</span></span>
+                    <span>Order: {{ $q->order }}</span>
+                </div>
+            </div>
+        @empty
+            <div class="text-center py-12 bg-surface-container-lowest rounded-xl border border-outline-variant border-dashed">
+                <span class="material-symbols-outlined text-[48px] text-on-surface-variant mb-4">quiz</span>
+                <p class="font-body-lg text-on-surface-variant">No questions added yet.</p>
+            </div>
+        @endforelse
+    </div>
+</div>
+
+<!-- Add Question Modal -->
+<div id="addQuestionModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-outline-variant flex justify-between items-center">
+            <h2 class="font-headline-md text-on-surface">Add Question</h2>
+            <button onclick="document.getElementById('addQuestionModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form action="{{ route('teacher.digital_learning.quizzes.questions.store', $quiz->id) }}" method="POST" class="p-6 space-y-4">
+            @csrf
+            <div>
+                <label class="block font-label-md text-on-surface mb-1">Question Text <span class="text-error">*</span></label>
+                <textarea name="question_text" required rows="3" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Option A <span class="text-error">*</span></label>
+                    <input type="text" name="option_a" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Option B <span class="text-error">*</span></label>
+                    <input type="text" name="option_b" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Option C <span class="text-error">*</span></label>
+                    <input type="text" name="option_c" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Option D <span class="text-error">*</span></label>
+                    <input type="text" name="option_d" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Correct Option <span class="text-error">*</span></label>
+                    <select name="correct_option" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                        <option value="a">Option A</option>
+                        <option value="b">Option B</option>
+                        <option value="c">Option C</option>
+                        <option value="d">Option D</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Marks <span class="text-error">*</span></label>
+                    <input type="number" name="marks" min="1" value="1" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Order</label>
+                    <input type="number" name="order" value="{{ count($quiz->questions) + 1 }}" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-sm mt-6">
+                <button type="button" onclick="document.getElementById('addQuestionModal').classList.add('hidden')" class="px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
+                <button type="submit" class="px-4 py-2 font-label-md bg-primary text-on-primary hover:bg-primary/90 rounded-lg transition-colors">Add Question</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditQuestionModal(question) {
+        alert('Edit functionality can be implemented using a similar modal populated via JS fetch or redirecting to an edit view.');
+    }
+</script>
+@endsection

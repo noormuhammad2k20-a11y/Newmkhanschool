@@ -1,78 +1,54 @@
 @extends('layouts.app')
-
-@section('title', 'Interactive Quizzes')
+@section('title', 'Quizzes & Assessments')
 
 @section('content')
 <main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
     <div class="max-w-[1440px] mx-auto space-y-xl">
-
-        {{-- Page Header --}}
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
             <div>
-                <h2 class="text-headline-xl font-headline-xl text-on-surface">Assessment Center</h2>
-                <p class="text-body-lg font-body-lg text-secondary mt-1">Test your knowledge, take active quizzes, and review your past performance.</p>
+                <h2 class="text-headline-xl font-headline-xl text-on-surface">Quizzes & Assessments</h2>
+                <p class="text-body-lg font-body-lg text-secondary mt-1">Test your knowledge and track your progress.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
+                    <input type="text" placeholder="Search quizzes..." class="pl-10 pr-4 py-2 border border-outline-variant rounded-xl bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all w-64">
+                </div>
             </div>
         </div>
 
         @if(session('success'))
-            <div class="p-md bg-emerald-100 text-emerald-800 rounded-xl border border-emerald-200 flex items-center gap-2">
-                <span class="material-symbols-outlined text-[20px]">check_circle</span>
-                <span class="text-body-md font-body-md font-semibold">{{ session('success') }}</span>
+            <div class="p-4 bg-emerald-100 text-emerald-800 rounded-xl flex items-center gap-2">
+                <span class="material-symbols-outlined">check_circle</span>
+                {{ session('success') }}
             </div>
         @endif
         @if(session('error'))
-            <div class="bg-error-container text-error p-md rounded-xl flex items-center gap-2 border border-error/20 shadow-sm">
+            <div class="p-4 bg-red-100 text-red-800 rounded-xl flex items-center gap-2">
                 <span class="material-symbols-outlined">error</span>
-                <span class="text-body-md font-body-md">{{ session('error') }}</span>
+                {{ session('error') }}
             </div>
         @endif
 
-        @php
-            $activeQuizzes = $quizzes->filter(fn($q) => !isset($attempts[$q->id]));
-            $completedQuizzes = $quizzes->filter(fn($q) => isset($attempts[$q->id]));
-            $avgScore = $completedQuizzes->count() > 0
-                ? round($completedQuizzes->map(fn($q) => $attempts[$q->id]->percentage)->avg(), 1)
-                : 0;
-        @endphp
-
-        {{-- Stats Grid --}}
+        <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
-            {{-- Total Quizzes --}}
+            {{-- Available Quizzes Card --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
                 <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Quizzes</h3>
+                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Available</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
                         <span class="material-symbols-outlined text-[18px]">quiz</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $quizzes->count() }}</span>
-                </div>
-                <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
-                    <span>Available assessments</span>
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $availableQuizzes }}</span>
                 </div>
                 <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-primary-fixed rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
 
-            {{-- Pending --}}
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-secondary transition-colors cursor-default">
-                <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending</h3>
-                    <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                        <span class="material-symbols-outlined text-[18px]">pending_actions</span>
-                    </div>
-                </div>
-                <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $activeQuizzes->count() }}</span>
-                </div>
-                <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
-                    <span>Awaiting attempt</span>
-                </div>
-                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-secondary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
-            </div>
-
-            {{-- Completed --}}
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-emerald-600 transition-colors cursor-default">
+            {{-- Completed Quizzes Card --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Completed</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
@@ -80,165 +56,142 @@
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $completedQuizzes->count() }}</span>
-                </div>
-                <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-700">
-                    <span class="material-symbols-outlined text-[14px]">check</span>
-                    <span>Finished quizzes</span>
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $completedQuizzes }}</span>
                 </div>
                 <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
 
-            {{-- Average Score --}}
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-tertiary transition-colors cursor-default">
+            {{-- Average Score Card --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Avg Score</h3>
                     <div class="w-8 h-8 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
-                        <span class="material-symbols-outlined text-[18px]">analytics</span>
+                        <span class="material-symbols-outlined text-[18px]">monitoring</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $avgScore }}%</span>
-                </div>
-                <div class="mt-2 flex items-center gap-1 text-xs font-medium text-tertiary font-bold">
-                    <span class="material-symbols-outlined text-[14px]">trending_up</span>
-                    <span>Overall average</span>
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $averageScore }}%</span>
                 </div>
                 <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-tertiary-fixed rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
-        </div>
 
-        {{-- Pending Assessments Section --}}
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-            <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
-                <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">play_circle</span>
-                    Pending Assessments
-                </h3>
-                @if($activeQuizzes->count() > 0)
-                    <span class="text-label-md font-label-md text-secondary">{{ $activeQuizzes->count() }} quiz{{ $activeQuizzes->count() > 1 ? 'zes' : '' }}</span>
-                @endif
-            </div>
-            <div class="p-xl">
-                @if($activeQuizzes->count() > 0)
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
-                        @foreach($activeQuizzes as $quiz)
-                        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col hover:-translate-y-1 hover:shadow-md transition-all duration-300 group overflow-hidden">
-                            {{-- Top accent bar --}}
-                            <div class="h-1 w-full bg-primary"></div>
-
-                            <div class="p-xl flex-1 flex flex-col">
-                                <div class="flex justify-between items-start mb-sm">
-                                    <div class="flex items-center gap-2 text-primary text-label-md font-label-md font-bold">
-                                        <span class="material-symbols-outlined text-[18px]">menu_book</span>
-                                        {{ $quiz->subject->name ?? 'Subject' }}
-                                    </div>
-                                    <span class="bg-primary text-on-primary text-[10px] uppercase font-bold px-2.5 py-1 rounded-md animate-pulse">Active</span>
-                                </div>
-
-                                <h3 class="text-title-lg font-title-lg font-bold text-on-surface mb-sm group-hover:text-primary transition-colors">{{ $quiz->title }}</h3>
-                                <p class="text-body-md font-body-md text-secondary line-clamp-2 mb-lg flex-1">{{ $quiz->description }}</p>
-
-                                <div class="grid grid-cols-2 gap-sm mb-lg">
-                                    <div class="bg-surface border border-outline-variant/50 rounded-xl p-3 flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-secondary text-[20px]">timer</span>
-                                        <div>
-                                            <span class="block text-label-sm font-label-sm text-secondary">Duration</span>
-                                            <span class="block text-title-sm font-title-sm font-bold text-on-surface">{{ $quiz->duration_minutes }} mins</span>
-                                        </div>
-                                    </div>
-                                    <div class="bg-surface border border-outline-variant/50 rounded-xl p-3 flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-tertiary text-[20px]">military_tech</span>
-                                        <div>
-                                            <span class="block text-label-sm font-label-sm text-secondary">Total Marks</span>
-                                            <span class="block text-title-sm font-title-sm font-bold text-on-surface">{{ $quiz->total_marks }} pts</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="p-md border-t border-outline-variant bg-surface-bright">
-                                <a href="{{ route('student.quizzes.show', $quiz->id) }}" class="w-full py-2.5 px-4 bg-primary text-on-primary rounded-lg text-label-md font-label-md font-bold text-center hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm">
-                                    Start Assessment
-                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                                </a>
-                            </div>
-                        </div>
-                        @endforeach
+            {{-- Upcoming Quizzes Card --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending</h3>
+                    <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
+                        <span class="material-symbols-outlined text-[18px]">pending_actions</span>
                     </div>
-                @else
-                    <div class="flex flex-col items-center justify-center text-center py-xl">
-                        <div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-md">
-                            <span class="material-symbols-outlined text-[40px] text-secondary opacity-50">task_alt</span>
-                        </div>
-                        <h3 class="text-title-lg font-title-lg font-bold text-on-surface">You're all caught up!</h3>
-                        <p class="text-body-md font-body-md text-secondary mt-1">There are no pending quizzes for you to take right now.</p>
-                    </div>
-                @endif
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ $upcomingQuizzes }}</span>
+                </div>
+                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-error-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
         </div>
 
-        {{-- Completed Assessments Section --}}
-        @if($completedQuizzes->count() > 0)
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-            <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
-                <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                    <span class="material-symbols-outlined text-emerald-700">history</span>
-                    Completed Assessments
-                </h3>
-                <span class="text-label-md font-label-md text-secondary">{{ $completedQuizzes->count() }} result{{ $completedQuizzes->count() > 1 ? 's' : '' }}</span>
-            </div>
-            <div class="p-xl">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-                    @foreach($completedQuizzes as $quiz)
-                    @php 
-                        $attempt = $attempts[$quiz->id]; 
-                        $isPass = $attempt->percentage >= 40;
-                    @endphp
-                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col sm:flex-row overflow-hidden hover:shadow-md transition-shadow">
-                        
-                        {{-- Score Visual --}}
-                        <div class="{{ $isPass ? 'bg-emerald-50 text-emerald-700' : 'bg-error-container text-error' }} p-xl flex flex-col items-center justify-center sm:w-48 border-b sm:border-b-0 sm:border-r border-outline-variant/30">
-                            <div class="relative w-24 h-24 flex items-center justify-center">
-                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8" class="opacity-20" />
-                                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8" stroke-dasharray="{{ 2 * pi() * 45 }}" stroke-dashoffset="{{ 2 * pi() * 45 * (1 - $attempt->percentage/100) }}" class="transition-all duration-1000 ease-out" />
-                                </svg>
-                                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span class="text-display-sm font-display-sm font-black leading-none">{{ round($attempt->percentage) }}%</span>
-                                </div>
-                            </div>
-                            <span class="text-label-md font-label-md font-bold uppercase tracking-widest mt-3">
-                                {{ $isPass ? 'Passed' : 'Failed' }}
-                            </span>
-                        </div>
+        <!-- Filter Section -->
+        <div class="flex items-center gap-4 border-b border-outline-variant pb-4 overflow-x-auto hide-scrollbar">
+            <button class="px-4 py-1.5 rounded-full bg-primary text-on-primary text-label-md font-bold whitespace-nowrap">All Quizzes</button>
+            <button class="px-4 py-1.5 rounded-full border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface-container hover:text-on-surface transition-colors text-label-md font-bold whitespace-nowrap">Pending</button>
+            <button class="px-4 py-1.5 rounded-full border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface-container hover:text-on-surface transition-colors text-label-md font-bold whitespace-nowrap">Completed</button>
+            <div class="w-px h-6 bg-outline-variant mx-2"></div>
+            @php $uniqueSubjects = $quizzes->pluck('subject.name')->unique()->filter(); @endphp
+            @foreach($uniqueSubjects as $subjName)
+                <button class="px-4 py-1.5 rounded-full border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface-container hover:text-on-surface transition-colors text-label-md font-bold whitespace-nowrap">{{ $subjName }}</button>
+            @endforeach
+        </div>
 
-                        {{-- Quiz Info --}}
-                        <div class="p-xl flex-1 flex flex-col justify-center">
-                            <div class="flex items-center gap-2 text-primary text-label-sm font-label-sm uppercase font-bold tracking-wider mb-1">
-                                <span class="material-symbols-outlined text-[16px]">menu_book</span>
-                                {{ $quiz->subject->name ?? 'Subject' }}
-                            </div>
-                            <h3 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-md">{{ $quiz->title }}</h3>
-                            
-                            <div class="grid grid-cols-2 gap-md">
-                                <div>
-                                    <span class="block text-label-sm font-label-sm text-secondary uppercase tracking-wider mb-1">Score Achieved</span>
-                                    <span class="block text-title-md font-title-md font-bold text-on-surface">{{ $attempt->score }} <span class="text-secondary font-normal text-sm">/ {{ $quiz->total_marks }}</span></span>
-                                </div>
-                                <div>
-                                    <span class="block text-label-sm font-label-sm text-secondary uppercase tracking-wider mb-1">Completed On</span>
-                                    <span class="block text-title-md font-title-md font-bold text-on-surface">{{ \Carbon\Carbon::parse($attempt->submitted_at)->format('d M, Y') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+        <!-- Quizzes Grid -->
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-headline-md font-headline-md text-on-surface">Your Quizzes</h3>
+                <div class="flex items-center gap-2">
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-primary-fixed text-primary"><span class="material-symbols-outlined text-[20px]">grid_view</span></button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">view_list</span></button>
                 </div>
             </div>
-        </div>
-        @endif
 
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+                @forelse($quizzes as $quiz)
+                    @php
+                        $attempt = $attempts->get($quiz->id);
+                        $isPassed = $attempt ? ($attempt->score >= $quiz->passing_marks) : false;
+                    @endphp
+                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant hover:border-primary transition-all duration-300 flex flex-col group overflow-hidden shadow-sm hover:shadow-md">
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary-fixed px-2 py-0.5 rounded-full">{{ $quiz->subject->name ?? 'General' }}</span>
+                                @if($attempt)
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $isPassed ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $isPassed ? 'Passed' : 'Failed' }}
+                                    </span>
+                                @else
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-surface-variant text-on-surface-variant">Pending</span>
+                                @endif
+                            </div>
+                            
+                            <h4 class="font-bold text-headline-sm text-on-surface line-clamp-2 mb-4 group-hover:text-primary transition-colors" title="{{ $quiz->title }}">{{ $quiz->title }}</h4>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-5">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[10px] text-secondary uppercase tracking-wider">Duration</span>
+                                    <span class="font-bold text-body-lg text-on-surface flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px] text-primary">timer</span>
+                                        {{ $quiz->duration_minutes }}m
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[10px] text-secondary uppercase tracking-wider">Passing</span>
+                                    <span class="font-bold text-body-lg text-on-surface flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px] text-secondary-container-on">rule</span>
+                                        {{ $quiz->passing_marks }}/{{ $quiz->total_marks }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            @if($attempt)
+                                <div class="mt-auto bg-surface-container-low p-3 rounded-lg border border-outline-variant border-dashed">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-bold text-secondary">Your Score</span>
+                                        <span class="text-label-md font-bold {{ $isPassed ? 'text-emerald-600' : 'text-error' }}">{{ number_format($attempt->percentage, 1) }}%</span>
+                                    </div>
+                                    <div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+                                        <div class="h-full {{ $isPassed ? 'bg-emerald-500' : 'bg-error' }}" style="width: {{ $attempt->percentage }}%"></div>
+                                    </div>
+                                    <p class="text-[10px] text-secondary mt-2 text-center">Attempted on {{ $attempt->submitted_at ? \Carbon\Carbon::parse($attempt->submitted_at)->format('M d, Y') : 'Unknown' }}</p>
+                                </div>
+                            @else
+                                <div class="mt-auto"></div>
+                            @endif
+                        </div>
+                        
+                        <div class="bg-surface-bright border-t border-outline-variant p-3 flex gap-2">
+                            @if($attempt)
+                                <button class="flex-1 py-2 bg-surface-container border border-outline-variant text-on-surface rounded-lg font-bold text-label-md hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2" disabled>
+                                    <span class="material-symbols-outlined text-[18px]">done_all</span> Completed
+                                </button>
+                                <button class="flex-1 py-2 bg-primary-fixed text-primary rounded-lg font-bold text-label-md hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
+                                    View Result
+                                </button>
+                            @else
+                                <a href="{{ route('student.digital_learning.quizzes.take', $quiz->id) }}" class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">play_arrow</span> Start Quiz
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-full py-16 flex flex-col items-center justify-center bg-surface-container-lowest border border-outline-variant border-dashed rounded-xl">
+                        <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center text-secondary mb-4">
+                            <span class="material-symbols-outlined text-[32px]">quiz</span>
+                        </div>
+                        <h4 class="text-headline-md font-headline-md text-on-surface mb-1">No Quizzes Available</h4>
+                        <p class="text-body-md text-secondary text-center max-w-md">There are currently no active quizzes assigned to your class.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
     </div>
 </main>
 @endsection

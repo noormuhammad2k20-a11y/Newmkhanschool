@@ -6,90 +6,105 @@ use App\Http\Controllers\Controller;
 use App\Models\DigitalNote;
 use App\Models\Quiz;
 use App\Models\QuizAttempt;
+use App\Models\QuizQuestion;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class DigitalLearningController extends Controller
 {
-    public function notes()
+    public function notesIndex()
     {
-        $student = Student::where('user_id', auth()->id())->first();
-        if (!$student) return redirect()->back()->with('error', 'Student profile not found.');
+        $student = Student::where('user_id', auth()->id())->firstOrFail();
 
         $notes = DigitalNote::with(['subject', 'uploader'])
-            ->where('class_id', $student->class_id)
-            ->where('is_public', true)
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
-
-        return view('student.digital_learning.notes', compact('notes'));
-    }
-
-    public function downloadNote($id)
-    {
-        $note = DigitalNote::findOrFail($id);
-        $note->increment('download_count');
-        
-        if ($note->file_path && Storage::disk('public')->exists($note->file_path)) {
-            return Storage::disk('public')->download($note->file_path);
-        }
-        
-        if ($note->external_url) {
-            return redirect($note->external_url);
-        }
-
-        return redirect()->back()->with('error', 'File not found.');
-    }
-
-    public function quizzes()
-    {
-        $student = Student::where('user_id', auth()->id())->first();
-        if (!$student) return redirect()->back()->with('error', 'Student profile not found.');
-
-        $quizzes = Quiz::with('subject')
-            ->where('class_id', $student->class_id)
-            ->where('is_active', true)
+            ->where('is_public', 1)
+            ->where('class_id', $student->current_class_id)
+            ->where(function($q) use ($student) {
+                $q->whereNull('section_id')
+                  ->orWhere('section_id', $student->current_section_id);
+            })
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $attempts = QuizAttempt::where('student_id', $student->id)->get()->keyBy('quiz_id');
+        $totalNotes = $notes->count();
+        $subjectsCovered = $notes->pluck('subject_id')->unique()->count();
+        $downloadedNotes = 0; // Simulated
+        $pendingNotes = $totalNotes;
 
-        return view('student.digital_learning.quizzes', compact('quizzes', 'attempts'));
+        return view('student.digital_learning.notes', compact('notes', 'totalNotes', 'subjectsCovered', 'downloadedNotes', 'pendingNotes'));
     }
 
-    public function showQuiz($id)
+    public function quizzesIndex()
     {
-        $quiz = Quiz::with('questions')->findOrFail($id);
-        return view('student.digital_learning.quiz_show', compact('quiz'));
+        $student = Student::where('user_id', auth()->id())->firstOrFail();
+
+        $quizzes = Quiz::with(['subject', 'creator'])
+            ->where('is_active', 1)
+            ->where('class_id', $student->current_class_id)
+            ->where(function($q) use ($student) {
+                $q->whereNull('section_id')
+                  ->orWhere('section_id', $student->current_section_id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Get student's previous attempts
+        $attempts = QuizAttempt::where('student_id', $student->id)->get()->keyBy('quiz_id');
+
+        $availableQuizzes = $quizzes->count();
+        $completedQuizzes = $attempts->count();
+        $averageScore = $attempts->count() > 0 ? round($attempts->avg('percentage'), 1) : 0;
+        $upcomingQuizzes = max(0, $availableQuizzes - $completedQuizzes);
+
+        return view('student.digital_learning.quizzes', compact('quizzes', 'attempts', 'availableQuizzes', 'completedQuizzes', 'averageScore', 'upcomingQuizzes'));
+    }
+
+    public function takeQuiz($id)
+    {
+        $student = Student::where('user_id', auth()->id())->firstOrFail();
+        $quiz = Quiz::with('questions')->where('is_active', 1)->findOrFail($id);
+
+        // Check if student already attempted
+        $existingAttempt = QuizAttempt::where('quiz_id', $id)->where('student_id', $student->id)->first();
+        if ($existingAttempt) {
+            return redirect()->route('student.digital_learning.quizzes')->with('error', 'You have already attempted this quiz.');
+        }
+
+        return view('student.digital_learning.take_quiz', compact('quiz'));
     }
 
     public function submitQuiz(Request $request, $id)
     {
-        $quiz = Quiz::with('questions')->findOrFail($id);
-        $student = Student::where('user_id', auth()->id())->first();
-        
+        $student = Student::where('user_id', auth()->id())->firstOrFail();
+        $quiz = Quiz::with('questions')->where('is_active', 1)->findOrFail($id);
+
+        // Check if student already attempted
+        $existingAttempt = QuizAttempt::where('quiz_id', $id)->where('student_id', $student->id)->first();
+        if ($existingAttempt) {
+            return redirect()->route('student.digital_learning.quizzes')->with('error', 'You have already attempted this quiz.');
+        }
+
+        $answers = $request->input('answers', []);
         $score = 0;
+
         foreach ($quiz->questions as $question) {
-            $answer = $request->input('q_' . $question->id);
-            if ($answer == $question->correct_option) {
+            $studentAnswer = $answers[$question->id] ?? null;
+            if ($studentAnswer === $question->correct_option) {
                 $score += $question->marks;
             }
         }
-        
-        $percentage = ($quiz->total_marks > 0) ? ($score / $quiz->total_marks) * 100 : 0;
-        
-        QuizAttempt::updateOrCreate(
-            ['quiz_id' => $quiz->id, 'student_id' => $student->id],
-            [
-                'score' => $score,
-                'total_marks' => $quiz->total_marks,
-                'percentage' => $percentage,
-                'status' => 'submitted',
-                'submitted_at' => now(),
-            ]
-        );
-        
-        return redirect()->route('student.quizzes')->with('success', 'Quiz submitted successfully! Score: ' . $score . '/' . $quiz->total_marks);
+
+        $percentage = $quiz->total_marks > 0 ? ($score / $quiz->total_marks) * 100 : 0;
+
+        QuizAttempt::create([
+            'quiz_id' => $quiz->id,
+            'student_id' => $student->id,
+            'score' => $score,
+            'total_marks' => $quiz->total_marks,
+            'percentage' => $percentage,
+            'submitted_at' => now(),
+        ]);
+
+        return redirect()->route('student.digital_learning.quizzes')->with('success', 'Quiz submitted successfully. Your score: ' . $score . '/' . $quiz->total_marks);
     }
 }

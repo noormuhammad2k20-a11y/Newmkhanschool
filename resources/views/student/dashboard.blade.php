@@ -182,6 +182,80 @@
             </div>
         </div>
 
+        <!-- Learning Hub Section -->
+        <div class="mt-xl">
+            <div class="flex items-center gap-2 mb-md border-b border-outline-variant pb-2">
+                <span class="material-symbols-outlined text-primary text-[28px]">local_library</span>
+                <h3 class="text-headline-lg font-headline-lg text-on-surface">Learning Hub</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                {{-- Recent Digital Notes --}}
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+                    <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+                        <h4 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">menu_book</span>
+                            Recent Digital Notes
+                        </h4>
+                        <a href="{{ route('student.digital_learning.notes') }}" class="text-primary text-label-md hover:underline">View All</a>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        @forelse($recentNotes ?? [] as $note)
+                            <div class="flex items-center gap-3 border border-outline-variant rounded-lg p-3 bg-surface-container hover:border-primary transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[20px]">
+                                        @if($note->file_type == 'pdf') picture_as_pdf
+                                        @elseif(in_array($note->file_type, ['doc', 'text'])) description
+                                        @elseif($note->file_type == 'ppt') slides
+                                        @else link @endif
+                                    </span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-body-md text-on-surface truncate">{{ $note->title }}</h5>
+                                    <p class="text-label-sm text-secondary truncate">{{ $note->subject->name ?? 'General' }} • By {{ $note->uploader->name ?? 'Teacher' }}</p>
+                                </div>
+                                @if($note->file_path)
+                                    <a href="{{ Storage::url($note->file_path) }}" target="_blank" class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-colors shrink-0">
+                                        <span class="material-symbols-outlined text-[16px]">download</span>
+                                    </a>
+                                @endif
+                            </div>
+                        @empty
+                            <p class="text-body-md text-secondary text-center py-4">No recent notes available.</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                {{-- Upcoming Quizzes --}}
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+                    <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+                        <h4 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary-container-on">quiz</span>
+                            Pending Quizzes
+                        </h4>
+                        <a href="{{ route('student.digital_learning.quizzes') }}" class="text-primary text-label-md hover:underline">View All</a>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        @forelse($upcomingQuizzes ?? [] as $quiz)
+                            <div class="flex items-center gap-3 border border-outline-variant rounded-lg p-3 bg-surface-container hover:border-primary transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[20px]">timer</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-body-md text-on-surface truncate">{{ $quiz->title }}</h5>
+                                    <p class="text-label-sm text-secondary truncate">{{ $quiz->subject->name ?? 'General' }} • {{ $quiz->duration_minutes }} mins</p>
+                                </div>
+                                <a href="{{ route('student.digital_learning.quizzes.take', $quiz->id) }}" class="px-3 py-1 bg-primary text-on-primary text-label-sm font-bold rounded-lg hover:bg-primary/90 transition-colors shrink-0 whitespace-nowrap">
+                                    Start
+                                </a>
+                            </div>
+                        @empty
+                            <p class="text-body-md text-secondary text-center py-4">No pending quizzes right now.</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Bottom Section: Assignments, Announcements, Exams -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
             {{-- Pending Assignments List --}}
