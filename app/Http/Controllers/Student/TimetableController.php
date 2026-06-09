@@ -10,16 +10,15 @@ class TimetableController extends Controller
     {
         $student = auth()->user()->student;
 
-        $timetable = Timetable::with(['teacher','subjectRef'])
+        $timetables = Timetable::with(['teacher','subjectRef'])
             ->where('class_id', $student->current_class_id)
             ->where('section_id_ref', $student->current_section_id)
             ->orderByRaw("FIELD(day_of_week,'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday')")
             ->orderBy('start_time')
-            ->get()
-            ->groupBy('day_of_week');
+            ->get();
 
         $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-        return view('student.timetable', compact('timetable','days','student'));
+        return view('student.timetable', compact('timetables','days','student'));
     }
 }

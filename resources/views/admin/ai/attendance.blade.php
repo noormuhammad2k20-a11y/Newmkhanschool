@@ -1,151 +1,145 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="flex-1 p-lg overflow-y-auto w-full">
-    <div class="max-w-[1440px] mx-auto">
-        <!-- Header Section -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-xl">
+<main class="flex-1 overflow-y-auto bg-surface p-lg">
+    <div class="max-w-max-width mx-auto">
+        
+        <div class="flex justify-between items-end mb-lg">
             <div>
-                <h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-xs">AI Attendance Prediction</h2>
-                <p class="font-body-md text-body-md text-secondary">Predictive analysis of student and teacher attendance using AI.</p>
+                <h2 class="font-headline-xl text-headline-xl font-bold text-on-surface">Smart Attendance Analytics</h2>
+                <p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">AI-driven insights and anomaly detection for student and teacher attendance.</p>
             </div>
-            <div class="flex gap-sm">
-                <form action="{{ route('admin.ai.attendance') }}" method="GET" class="flex gap-sm">
-                    <select name="class_id" class="px-md py-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                        <option value="">All Classes</option>
-                        @foreach($classes as $class)
-                            <option value="{{ $class->id }}" {{ $selectedClassId == $class->id ? 'selected' : '' }}>{{ $class->name }}</option>
-                        @endforeach
-                    </select>
-                    <button type="submit" class="px-lg py-sm rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]">filter_alt</span>
-                        Filter
+            <div>
+                <form action="{{ route('admin.ai.attendance.predict') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md py-2 px-4 rounded-full shadow transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined">auto_awesome</span>
+                        Run AI Analysis
                     </button>
                 </form>
             </div>
         </div>
 
-        <div class="bento-grid mb-xl">
-            <!-- System-wide Trends Chart -->
-            <div class="bento-item-main bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
-                <div class="flex items-center justify-between mb-md">
-                    <h3 class="font-headline-md text-headline-md font-semibold text-on-surface">System-Wide Attendance Trends (Next 6 Months Forecast)</h3>
-                </div>
-                <div class="h-64 relative w-full">
-                    <canvas id="trendsChart"></canvas>
-                </div>
+        @if(session('success'))
+            <div class="bg-[#d3e2ed] border border-[#bac9d3] text-[#0f1d25] px-4 py-3 rounded relative mb-4 shadow-sm" role="alert">
+                <span class="block sm:inline font-body-md">{{ session('success') }}</span>
             </div>
+        @endif
 
-            <!-- AI Summary Side Panel -->
-            <div class="bento-item-side bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col">
-                <div class="flex items-center gap-sm mb-md text-primary">
-                    <span class="material-symbols-outlined">auto_awesome</span>
-                    <h3 class="font-headline-md text-headline-md font-semibold">AI Insights</h3>
-                </div>
-                <p class="text-body-md text-on-surface-variant mb-md">
-                    Based on historical data, the AI model predicts a <strong>stable</strong> attendance rate for the upcoming month. However, there are localized risks in certain classes.
-                </p>
-                <div class="mt-auto space-y-sm">
-                    <div class="p-sm bg-error-container rounded-lg border border-error/20 flex items-start gap-sm">
-                        <span class="material-symbols-outlined text-error">warning</span>
+        <!-- Patterns Section -->
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-lg mb-lg">
+            <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Attendance Patterns</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+                @forelse($patterns as $pattern)
+                <div class="bg-surface rounded-lg p-md border border-outline-variant">
+                    <div class="flex items-center gap-sm mb-sm">
+                        <span class="material-symbols-outlined text-primary">insights</span>
+                        <h4 class="font-label-md text-label-md text-on-surface">{{ ucfirst($pattern->entity_type) }} Pattern</h4>
+                    </div>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-sm">{{ $pattern->pattern_key }} ({{ str_replace('_', ' ', $pattern->pattern_type) }})</p>
+                    <div class="flex justify-between items-end">
                         <div>
-                            <h4 class="font-label-md text-error font-bold">High Risk Alert</h4>
-                            <p class="text-body-md text-error/80 text-sm">Class 10-A shows a declining trend.</p>
+                            <span class="font-headline-lg text-error">{{ $pattern->absence_percentage }}%</span>
+                            <span class="font-label-md text-secondary">Absence Rate</span>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div class="col-span-3 text-center py-xl">
+                    <p class="text-secondary font-body-md">No significant patterns detected yet.</p>
+                </div>
+                @endforelse
             </div>
         </div>
 
-        <!-- Predictions Table -->
-        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
-            <div class="p-lg border-b border-outline-variant flex items-center justify-between">
-                <h3 class="font-headline-md text-headline-md font-semibold text-on-surface">Student Attendance Predictions</h3>
+        <!-- Anomalies List -->
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+            <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+                <h3 class="font-headline-md text-headline-md font-bold text-on-surface">Detected Anomalies</h3>
             </div>
+            
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-surface-container-low text-on-surface-variant border-b border-outline-variant">
-                            <th class="p-md font-label-md text-label-md font-semibold">Student Name</th>
-                            <th class="p-md font-label-md text-label-md font-semibold">Class/Section</th>
-                            <th class="p-md font-label-md text-label-md font-semibold">Current %</th>
-                            <th class="p-md font-label-md text-label-md font-semibold">Predicted % (Next Week)</th>
-                            <th class="p-md font-label-md text-label-md font-semibold">AI Risk Level</th>
-                            <th class="p-md font-label-md text-label-md font-semibold">Detected Pattern</th>
+                        <tr class="bg-surface-container-low text-secondary font-label-md uppercase tracking-wider border-b border-outline-variant">
+                            <th class="p-md font-semibold">Entity</th>
+                            <th class="p-md font-semibold">Anomaly Type</th>
+                            <th class="p-md font-semibold">Description</th>
+                            <th class="p-md font-semibold">Severity</th>
+                            <th class="p-md font-semibold">Detected At</th>
+                            <th class="p-md font-semibold">Status</th>
+                            <th class="p-md font-semibold text-right">Action</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-outline-variant">
-                        @forelse($predictions as $prediction)
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="p-md">
-                                    <div class="font-body-md font-semibold text-on-surface">{{ $prediction['student_name'] }}</div>
-                                    <div class="text-xs text-on-surface-variant">{{ $prediction['admission_no'] }}</div>
-                                </td>
-                                <td class="p-md text-body-md text-on-surface-variant">{{ $prediction['class_section'] }}</td>
-                                <td class="p-md text-body-md font-medium text-on-surface">{{ $prediction['current_percentage'] }}%</td>
-                                <td class="p-md text-body-md font-bold text-primary">{{ $prediction['predicted_percentage'] }}%</td>
-                                <td class="p-md">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $prediction['risk_color'] }}">
-                                        {{ $prediction['risk_level'] }}
-                                    </span>
-                                </td>
-                                <td class="p-md text-body-md text-on-surface-variant text-sm">
-                                    {{ implode(', ', $prediction['patterns']) }}
-                                </td>
-                            </tr>
+                    <tbody class="divide-y divide-outline-variant font-body-md">
+                        @forelse($anomalies as $anomaly)
+                        <tr class="hover:bg-surface-container-lowest transition-colors">
+                            <td class="p-md">
+                                @if($anomaly->student)
+                                    Student: {{ $anomaly->student->first_name }} {{ $anomaly->student->last_name }}
+                                @elseif($anomaly->teacher)
+                                    Teacher: {{ $anomaly->teacher->first_name }} {{ $anomaly->teacher->last_name }}
+                                @else
+                                    Unknown
+                                @endif
+                            </td>
+                            <td class="p-md">
+                                <span class="bg-surface-container px-2 py-1 rounded text-label-md">{{ str_replace('_', ' ', $anomaly->anomaly_type) }}</span>
+                            </td>
+                            <td class="p-md text-on-surface-variant max-w-xs truncate" title="{{ $anomaly->description }}">
+                                {{ $anomaly->description }}
+                            </td>
+                            <td class="p-md">
+                                @if($anomaly->severity === 'high')
+                                    <span class="text-error font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">warning</span> High</span>
+                                @elseif($anomaly->severity === 'medium')
+                                    <span class="text-[#b26b00] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">error</span> Medium</span>
+                                @else
+                                    <span class="text-primary font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">info</span> Low</span>
+                                @endif
+                            </td>
+                            <td class="p-md text-on-surface-variant">
+                                {{ $anomaly->detected_at->format('M d, Y h:i A') }}
+                            </td>
+                            <td class="p-md">
+                                @if($anomaly->resolved)
+                                    <span class="text-[#006e1c] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> Resolved</span>
+                                @else
+                                    <span class="text-secondary font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">pending</span> Pending</span>
+                                @endif
+                            </td>
+                            <td class="p-md text-right">
+                                @if(!$anomaly->resolved)
+                                <form action="{{ route('admin.ai.attendance.resolve', $anomaly->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-primary hover:text-primary-container font-label-md flex items-center gap-1 ml-auto">
+                                        <span class="material-symbols-outlined text-[18px]">done_all</span> Mark Resolved
+                                    </button>
+                                </form>
+                                @else
+                                    <span class="text-outline text-label-md">-</span>
+                                @endif
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="6" class="p-xl text-center text-on-surface-variant font-body-md">
-                                    No predictions available for the selected criteria.
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="7" class="p-xl text-center text-secondary">
+                                No attendance anomalies detected.
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
+            
+            @if($anomalies->hasPages())
+            <div class="p-md border-t border-outline-variant bg-surface-container-lowest">
+                {{ $anomalies->links('pagination::tailwind') }}
+            </div>
+            @endif
         </div>
+        
     </div>
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ctx = document.getElementById('trendsChart').getContext('2d');
-        const trendsData = @json($trends);
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: trendsData.labels,
-                datasets: [{
-                    label: 'Attendance %',
-                    data: trendsData.data,
-                    borderColor: '#4c56af',
-                    backgroundColor: 'rgba(76, 86, 175, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#000666',
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 70,
-                        max: 100
-                    }
-                }
-            }
-        });
-    });
-</script>
 @endsection

@@ -3,54 +3,148 @@
 @section('title', 'Exam Schedule')
 
 @section('content')
-<div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Exam Schedule</h1>
-    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Upcoming examinations and timings</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-    @if(isset($schedules) && count($schedules) > 0)
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-gray-600 dark:text-gray-400">
-                <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-700">
-                    <tr>
-                        <th class="px-6 py-4">Date</th>
-                        <th class="px-6 py-4">Subject</th>
-                        <th class="px-6 py-4">Exam Type</th>
-                        <th class="px-6 py-4">Time</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach($schedules as $schedule)
-                    @php
-                        $isUpcoming = \Carbon\Carbon::parse($schedule->exam_date)->isFuture();
-                    @endphp
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors {{ $isUpcoming ? 'bg-blue-50/30 dark:bg-blue-900/10' : '' }}">
-                        <td class="px-6 py-4">
-                            <span class="font-medium text-gray-900 dark:text-white block">{{ \Carbon\Carbon::parse($schedule->exam_date)->format('D, M d, Y') }}</span>
-                            @if($isUpcoming)
-                                <span class="text-xs text-blue-600 dark:text-blue-400">Upcoming</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 font-bold text-gray-900 dark:text-white">{{ $schedule->subjectRelation->name ?? $schedule->subject }}</td>
-                        <td class="px-6 py-4">{{ $schedule->exam_type }}</td>
-                        <td class="px-6 py-4 flex items-center gap-1 text-gray-500">
-                            <span class="material-symbols-rounded text-[16px]">schedule</span>
-                            {{ $schedule->exam_time }}
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+<main class="p-lg md:p-xl w-full max-w-7xl mx-auto space-y-xl">
+    
+    {{-- Header with Action --}}
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+        <div>
+            <h1 class="font-display-md text-display-md font-bold text-on-surface">Exam Schedule</h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Track your upcoming examinations, timings, and subjects.</p>
         </div>
-    @else
-        <div class="p-12 text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4 text-gray-400">
-                <span class="material-symbols-rounded text-3xl">event_note</span>
+        <button onclick="window.print()" class="btn-outline flex items-center gap-2 hidden md:flex">
+            <span class="material-symbols-outlined text-[20px]">print</span>
+            Print Schedule
+        </button>
+    </div>
+
+    @if(isset($schedules) && count($schedules) > 0)
+        
+        @php
+            // Find the most immediate upcoming exam
+            $now = \Carbon\Carbon::now()->startOfDay();
+            $upcomingExams = $schedules->filter(fn($s) => \Carbon\Carbon::parse($s->exam_date)->startOfDay()->gte($now))->sortBy('exam_date');
+            $nextExam = $upcomingExams->first();
+        @endphp
+
+        @if($nextExam)
+            {{-- Upcoming Exam Hero Card --}}
+            <div class="card p-0 overflow-hidden bg-primary-container text-on-primary-container border-0 shadow-md">
+                <div class="flex flex-col md:flex-row">
+                    <div class="p-xl flex-1 flex flex-col justify-center">
+                        <div class="flex items-center gap-2 font-label-md uppercase tracking-wider mb-sm opacity-80 font-bold">
+                            <span class="material-symbols-outlined text-[20px] animate-pulse">campaign</span>
+                            Next Upcoming Exam
+                        </div>
+                        <h2 class="font-display-md text-display-md font-black mb-1">{{ $nextExam->subjectRelation->name ?? $nextExam->subject }}</h2>
+                        <p class="font-title-md text-title-md opacity-90 mb-md">{{ $nextExam->exam_type }}</p>
+                        
+                        <div class="flex flex-wrap gap-md mt-auto">
+                            <div class="flex items-center gap-2 bg-on-primary-container/10 px-md py-sm rounded-lg">
+                                <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                                <span class="font-label-lg font-bold">{{ \Carbon\Carbon::parse($nextExam->exam_date)->format('l, d F Y') }}</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-on-primary-container/10 px-md py-sm rounded-lg">
+                                <span class="material-symbols-outlined text-[20px]">schedule</span>
+                                <span class="font-label-lg font-bold">{{ $nextExam->exam_time }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {{-- Countdown Badge --}}
+                    @php
+                        $daysDiff = $now->diffInDays(\Carbon\Carbon::parse($nextExam->exam_date)->startOfDay(), false);
+                    @endphp
+                    <div class="bg-on-primary-container text-primary-container p-xl flex flex-col items-center justify-center md:w-64">
+                        <span class="font-display-lg text-display-lg font-black leading-none">{{ $daysDiff == 0 ? 'Today' : $daysDiff }}</span>
+                        <span class="font-label-md text-label-md uppercase tracking-widest mt-2 font-bold">{{ $daysDiff == 0 ? '' : ($daysDiff == 1 ? 'Day Left' : 'Days Left') }}</span>
+                    </div>
+                </div>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">No Exams Scheduled</h3>
-            <p class="text-gray-500 dark:text-gray-400 mt-1">There are no upcoming exams scheduled for your class.</p>
+        @endif
+
+        {{-- Schedule Grid / Timeline --}}
+        <div>
+            <h3 class="font-title-lg text-title-lg font-bold text-on-surface mb-md flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">view_timeline</span>
+                Full Examination Schedule
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+                @foreach($schedules as $schedule)
+                @php
+                    $examDate = \Carbon\Carbon::parse($schedule->exam_date)->startOfDay();
+                    $isPast = $examDate->lt($now);
+                    $isToday = $examDate->equalTo($now);
+                    $isTomorrow = $examDate->equalTo($now->copy()->addDay());
+                @endphp
+                <div class="card p-lg bg-surface-container-lowest border border-outline-variant flex flex-col hover:shadow-md transition-shadow {{ $isPast ? 'opacity-60 grayscale' : '' }}">
+                    <div class="flex justify-between items-start mb-md">
+                        <div class="bg-surface-container-high rounded-lg text-center px-4 py-2 border border-outline-variant/50 shadow-sm">
+                            <span class="block font-label-md text-error font-bold uppercase tracking-wide">{{ $examDate->format('M') }}</span>
+                            <span class="block font-display-sm font-black text-on-surface">{{ $examDate->format('d') }}</span>
+                        </div>
+                        
+                        @if($isPast)
+                            <span class="bg-surface-container-highest text-on-surface-variant text-[10px] uppercase font-bold px-2 py-1 rounded-full">Completed</span>
+                        @elseif($isToday)
+                            <span class="bg-error text-on-error text-[10px] uppercase font-bold px-2 py-1 rounded-full animate-pulse">Today</span>
+                        @elseif($isTomorrow)
+                            <span class="bg-tertiary-container text-on-tertiary-container text-[10px] uppercase font-bold px-2 py-1 rounded-full">Tomorrow</span>
+                        @else
+                            <span class="bg-primary-container text-on-primary-container text-[10px] uppercase font-bold px-2 py-1 rounded-full">Upcoming</span>
+                        @endif
+                    </div>
+                    
+                    <h4 class="font-title-lg text-title-lg font-bold text-on-surface mb-xs truncate">{{ $schedule->subjectRelation->name ?? $schedule->subject }}</h4>
+                    <p class="font-label-md text-label-md text-primary font-semibold mb-md">{{ $schedule->exam_type }}</p>
+                    
+                    <div class="mt-auto pt-md border-t border-outline-variant flex items-center justify-between text-on-surface-variant font-label-md">
+                        <span class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">schedule</span>
+                            {{ $schedule->exam_time }}
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">meeting_room</span>
+                            {{ $schedule->room_no ?? 'TBA' }}
+                        </span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+    @else
+        <div class="card p-2xl text-center border-dashed border-outline-variant bg-surface-container-lowest">
+            <div class="flex flex-col items-center justify-center text-on-surface-variant">
+                <span class="material-symbols-outlined text-[64px] mb-md opacity-50">event_busy</span>
+                <h3 class="font-headline-md text-headline-md text-on-surface font-bold">No Exams Scheduled</h3>
+                <p class="font-body-lg text-body-lg mt-sm max-w-md">There are no upcoming exams scheduled for your class at the moment. Take this time to prepare!</p>
+            </div>
         </div>
     @endif
-</div>
+
+    {{-- Instructions Block --}}
+    <div class="bg-tertiary-container text-on-tertiary-container rounded-xl p-lg border border-tertiary/20 shadow-sm print:hidden">
+        <h3 class="font-title-md text-title-md font-bold mb-md flex items-center gap-2">
+            <span class="material-symbols-outlined">info</span>
+            Examination Instructions
+        </h3>
+        <ul class="list-disc list-inside space-y-sm font-body-md opacity-90">
+            <li>Students must arrive at the examination hall at least 15 minutes before the scheduled start time.</li>
+            <li>Valid Student ID card is mandatory for entry into the examination hall.</li>
+            <li>Electronic devices (mobile phones, smartwatches) are strictly prohibited inside the hall.</li>
+            <li>Students arriving more than 30 minutes late will not be permitted to take the exam.</li>
+        </ul>
+    </div>
+
+</main>
+
+<style>
+    @media print {
+        body { background-color: white !important; }
+        nav, header, .sidebar, button, .print\:hidden { display: none !important; }
+        main { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
+        .card { box-shadow: none !important; border: 1px solid #e5e7eb !important; page-break-inside: avoid; }
+    }
+</style>
 @endsection

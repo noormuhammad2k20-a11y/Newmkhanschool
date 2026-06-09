@@ -38,7 +38,11 @@ class DashboardController extends Controller
             ];
         }
 
-        $announcements = Announcement::whereIn('target_role',['all','parent'])->latest()->take(5)->get();
+        $announcements = Announcement::where('status', 'published')
+            ->whereIn('role_visibility', ['all', 'parent'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
 
         return view('parent.dashboard', compact('children','childSummaries','announcements'));
     }

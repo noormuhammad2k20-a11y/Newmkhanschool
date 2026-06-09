@@ -23,7 +23,23 @@ class AssignmentController extends Controller
             ->pluck('assignment_id')
             ->toArray();
 
-        return view('student.assignments', compact('assignments','submittedIds','student'));
+        // Calculate counts
+        $totalAssignments = Assignment::where('class_id', $student->current_class_id)->count();
+        $submittedCount = count($submittedIds);
+        
+        // Late means past due date and not submitted
+        $lateCount = Assignment::where('class_id', $student->current_class_id)
+            ->whereNotIn('id', $submittedIds)
+            ->where('due_date', '<', Carbon::now())
+            ->count();
+
+        // Pending means not submitted and not late
+        $pendingCount = Assignment::where('class_id', $student->current_class_id)
+            ->whereNotIn('id', $submittedIds)
+            ->where('due_date', '>=', Carbon::now())
+            ->count();
+
+        return view('student.assignments', compact('assignments','submittedIds','student', 'pendingCount', 'submittedCount', 'lateCount'));
     }
 
     public function submit(Request $request, $assignmentId)

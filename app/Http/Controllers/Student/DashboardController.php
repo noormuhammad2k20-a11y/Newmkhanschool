@@ -33,12 +33,17 @@ class DashboardController extends Controller
                          ->whereIn('status', ['Pending','Overdue'])->sum('amount');
 
         // Announcements
-        $announcements = Announcement::whereIn('target_role', ['all','student'])
-                           ->latest()->take(5)->get();
+        $announcements = Announcement::where('status', 'published')
+                           ->whereIn('role_visibility', ['all','student'])
+                           ->orderBy('created_at', 'desc')->take(5)->get();
 
         // Today's timetable
         $dayName = Carbon::today()->format('l'); // Monday, Tuesday...
-        $activeVersion = \App\Models\TimetableVersion::where('status', 'published')->latest()->first();
+        $activeVersion = \App\Models\TimetableVersion::where('status', 'Approved')->latest()->first();
+        
+        if (!$activeVersion) {
+            $activeVersion = \App\Models\TimetableVersion::latest()->first();
+        }
         
         $query = Timetable::where('class_id', $student->current_class_id)
                           ->where('section_id_ref', $student->current_section_id)
@@ -46,6 +51,8 @@ class DashboardController extends Controller
                           
         if ($activeVersion) {
             $query->where('timetable_version_id', $activeVersion->id);
+        } else {
+            $query->where('id', '<', 0); // No timetable versions exist
         }
         
         $todayClasses = $query->orderBy('start_time')->get();

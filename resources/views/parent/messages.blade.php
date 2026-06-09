@@ -3,74 +3,80 @@
 @section('title', 'Messages')
 
 @section('content')
-<div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Messages</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Communicate with your children's teachers</p>
-    </div>
-    <button type="button" onclick="document.getElementById('messageModal').classList.remove('hidden')" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-        <span class="material-symbols-rounded text-[20px]">edit</span>
-        Compose
-    </button>
-</div>
-
-@if(session('success'))
-<div class="mb-4 bg-green-50 text-green-700 p-4 rounded-lg border border-green-200">
-    {{ session('success') }}
-</div>
-@endif
-
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-12rem)] min-h-[500px]">
-    <!-- Inbox List -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col">
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
-            <h2 class="font-semibold text-gray-900 dark:text-white">Inbox</h2>
-        </div>
-        <div class="overflow-y-auto flex-1 p-2 space-y-1">
-            @forelse($messages as $msg)
-                <a href="#" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors {{ $msg->status === 'Unread' && $msg->receiver_id == auth()->id() ? 'bg-blue-50 dark:bg-blue-900/20' : '' }}">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="font-semibold text-sm text-gray-900 dark:text-white">
-                            {{ $msg->sender_id == auth()->id() ? 'To: ' . (collect($teachers)->firstWhere('user_id', $msg->receiver_id)->first_name ?? 'Teacher') : 'From: Teacher' }}
-                        </span>
-                        <span class="text-[10px] text-gray-500">{{ \Carbon\Carbon::parse($msg->created_at)->format('M d') }}</span>
-                    </div>
-                    <div class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{{ $msg->subject }}</div>
-                    <div class="text-xs text-gray-500 truncate mt-1">{{ $msg->body }}</div>
-                </a>
-            @empty
-                <div class="p-8 text-center text-gray-500">
-                    <span class="material-symbols-rounded text-3xl mb-2">inbox</span>
-                    <p class="text-sm">No messages</p>
-                </div>
-            @endforelse
-        </div>
-    </div>
-
-    <!-- Message Content (Placeholder) -->
-    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex items-center justify-center">
-        <div class="text-center text-gray-500">
-            <span class="material-symbols-rounded text-4xl mb-2 opacity-50">forum</span>
-            <p>Select a message to view details</p>
-        </div>
-    </div>
-</div>
-
-<!-- Compose Modal -->
-<div id="messageModal" class="hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg border border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white">New Message</h3>
-            <button type="button" onclick="document.getElementById('messageModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500">
-                <span class="material-symbols-rounded">close</span>
+<main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+    <div class="max-w-[1440px] mx-auto space-y-xl">
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-headline-xl font-headline-xl text-on-surface">Messages</h1>
+                <p class="text-body-lg font-body-lg text-secondary mt-1">Communicate with your children's teachers</p>
+            </div>
+            <button type="button" onclick="document.getElementById('messageModal').classList.remove('hidden')" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+                <span class="material-symbols-outlined text-[20px]">edit</span>
+                Compose
             </button>
         </div>
-        <form action="{{ route('parent.messages.send') }}" method="POST" class="p-6">
+
+        @if(session('success'))
+        <div class="mb-4 bg-emerald-100 text-emerald-800 p-4 rounded-lg border border-emerald-200 text-body-md font-body-md">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-md h-[calc(100vh-16rem)] min-h-[500px]">
+            <!-- Inbox List -->
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex flex-col">
+                <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
+                    <h2 class="text-headline-md font-headline-md text-on-surface">Inbox</h2>
+                </div>
+                <div class="overflow-y-auto flex-1 p-2 space-y-1">
+                    @forelse($messages as $msg)
+                        <a href="#" class="block p-3 rounded-lg hover:bg-surface-container-low transition-colors {{ $msg->status === 'Unread' && $msg->receiver_id == auth()->id() ? 'bg-primary-fixed text-on-primary-fixed' : 'text-on-surface' }}">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="font-label-md text-label-md">
+                                    {{ $msg->sender_id == auth()->id() ? 'To: ' . (collect($teachers)->firstWhere('user_id', $msg->receiver_id)->first_name ?? 'Teacher') : 'From: Teacher' }}
+                                </span>
+                                <span class="text-xs text-secondary">{{ \Carbon\Carbon::parse($msg->created_at)->format('M d') }}</span>
+                            </div>
+                            <div class="text-body-md font-body-md font-medium truncate">{{ $msg->subject }}</div>
+                            <div class="text-body-md font-body-md text-secondary truncate mt-1">{{ $msg->body }}</div>
+                        </a>
+                    @empty
+                        <div class="p-8 text-center text-secondary">
+                            <span class="material-symbols-outlined text-3xl mb-2">inbox</span>
+                            <p class="text-body-md font-body-md mt-2">No messages</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Message Content (Placeholder) -->
+            <div class="lg:col-span-2 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-surface-bright to-surface-container-lowest">
+                <div class="text-center text-outline">
+                    <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">forum</span>
+                    <p class="text-body-lg font-body-lg text-secondary">Select a message to view details</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- Compose Modal -->
+<div id="messageModal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-[10000] flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-xl shadow-lg w-full max-w-lg border border-outline-variant overflow-hidden transform transition-all">
+        <div class="flex items-center justify-between p-6 border-b border-outline-variant bg-surface-bright">
+            <h3 class="text-headline-md font-headline-md text-on-surface">New Message</h3>
+            <button type="button" onclick="document.getElementById('messageModal').classList.add('hidden')" class="text-secondary hover:text-on-surface transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form action="{{ route('parent.messages.send') }}" method="POST" class="p-6 bg-surface-container-lowest">
             @csrf
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">To (Teacher)</label>
-                    <select name="receiver_id" required class="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <label class="block text-label-md font-label-md text-on-surface-variant mb-1">To (Teacher)</label>
+                    <select name="receiver_id" required class="w-full rounded-lg border border-outline-variant bg-surface text-on-surface shadow-sm focus:border-primary focus:ring focus:ring-primary/20 px-3 py-2 outline-none transition-all font-body-md text-body-md">
                         <option value="">Select Teacher...</option>
                         @foreach($teachers ?? [] as $teacher)
                             @if($teacher->user_id)
@@ -80,17 +86,17 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
-                    <input type="text" name="subject" required class="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <label class="block text-label-md font-label-md text-on-surface-variant mb-1">Subject</label>
+                    <input type="text" name="subject" required class="w-full rounded-lg border border-outline-variant bg-surface text-on-surface shadow-sm focus:border-primary focus:ring focus:ring-primary/20 px-3 py-2 outline-none transition-all font-body-md text-body-md">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
-                    <textarea name="body" rows="6" required class="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                    <label class="block text-label-md font-label-md text-on-surface-variant mb-1">Message</label>
+                    <textarea name="body" rows="6" required class="w-full rounded-lg border border-outline-variant bg-surface text-on-surface shadow-sm focus:border-primary focus:ring focus:ring-primary/20 px-3 py-2 outline-none transition-all font-body-md text-body-md"></textarea>
                 </div>
             </div>
-            <div class="mt-6 flex justify-end gap-3">
-                <button type="button" onclick="document.getElementById('messageModal').classList.add('hidden')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors">Cancel</button>
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">Send Message</button>
+            <div class="mt-8 flex justify-end gap-3">
+                <button type="button" onclick="document.getElementById('messageModal').classList.add('hidden')" class="px-4 py-2 rounded-lg font-label-md text-label-md text-secondary hover:bg-surface-container transition-colors">Cancel</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity shadow-sm">Send Message</button>
             </div>
         </form>
     </div>

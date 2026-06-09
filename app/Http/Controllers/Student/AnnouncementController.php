@@ -9,8 +9,9 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        $announcements = Announcement::whereIn('target_role', ['all', 'student'])
-            ->latest()
+        $announcements = Announcement::where('status', 'published')
+            ->whereIn('role_visibility', ['all', 'student'])
+            ->orderBy('created_at', 'desc')
             ->paginate(15);
 
         return view('student.announcements', compact('announcements'));

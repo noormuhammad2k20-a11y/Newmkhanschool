@@ -40,7 +40,11 @@ class TeacherPortalController extends Controller
             ->where('day_of_week', $today)
             ->get();
             
-        $announcements = Announcement::whereIn('target_role', ['all', 'teacher'])->orderBy('created_at', 'desc')->take(5)->get();
+        $announcements = Announcement::where('status', 'published')
+            ->whereIn('role_visibility', ['all', 'teacher'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
 
         return view('teacher.dashboard', compact('classesCount', 'subjectsCount', 'totalStudents', 'pendingAssignments', 'todaysTimetable', 'announcements')); 
     }
@@ -380,7 +384,10 @@ class TeacherPortalController extends Controller
 
     // 12. Announcements
     public function announcements() { 
-        $announcements = Announcement::whereIn('target_role', ['all', 'teacher'])->orderBy('created_at', 'desc')->get();
+        $announcements = Announcement::where('status', 'published')
+            ->whereIn('role_visibility', ['all', 'teacher'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('teacher.announcements', compact('announcements')); 
     }
 
@@ -445,5 +452,49 @@ class TeacherPortalController extends Controller
         $classIds = $this->getAssignedClassIds($teacher);
         $classes = DB::table('classes')->whereIn('id', $classIds)->orderBy('name')->get();
         return view('teacher.reports', compact('classes')); 
+    }
+
+    // 17. Exam Schedule
+    public function examSchedule(Request $request) {
+        $teacher = $this->getTeacher();
+        if(!$teacher) return redirect()->back()->with('error', 'Teacher profile not found.');
+        
+        $classIds = $this->getAssignedClassIds($teacher);
+        
+        $schedules = \App\Models\ExamSchedule::whereIn('class_id', $classIds)
+            ->with(['class', 'subjectRel'])
+            ->orderBy('exam_date')
+            ->get();
+            
+        return view('teacher.exam-schedule', compact('schedules'));
+    }
+
+    // 18. Student Leave Approval
+    public function studentLeaves() {
+        $teacher = $this->getTeacher();
+        if(!$teacher) return redirect()->back()->with('error', 'Teacher profile not found.');
+
+        $classIds = $this->getAssignedClassIds($teacher);
+        $studentIds = \App\Models\Student::whereIn('current_class_id', $classIds)->pluck('id');
+        
+        // Assuming student_leave_requests table exists
+        $leaves = DB::table('student_leave_requests')
+            ->whereIn('student_id', $studentIds)
+            ->join('students', 'student_leave_requests.student_id', '=', 'students.id')
+            ->select('student_leave_requests.*', 'students.first_name', 'students.last_name', 'students.admission_no')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('teacher.student-leaves', compact('leaves'));
+    }
+
+    public function approveStudentLeave($id) {
+        DB::table('student_leave_requests')->where('id', $id)->update(['status' => 'Approved', 'updated_at' => now()]);
+        return back()->with('success', 'Student leave approved.');
+    }
+
+    public function rejectStudentLeave($id) {
+        DB::table('student_leave_requests')->where('id', $id)->update(['status' => 'Rejected', 'updated_at' => now()]);
+        return back()->with('success', 'Student leave rejected.');
     }
 }

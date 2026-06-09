@@ -9,12 +9,24 @@ class Announcement extends Model
 {
     use HasFactory;
 
+    protected $table = 'events';
+
     protected $fillable = [
         'title',
-        'content',
-        'author_id',
-        'target_role',
+        'description',
+        'start_date',
+        'end_date',
+        'location',
+        'type',
+        'image_url',
+        'status',
+        'role_visibility'
     ];
+
+    public function getContentAttribute()
+    {
+        return $this->description;
+    }
 
     public function author()
     {

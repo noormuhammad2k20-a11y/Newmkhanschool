@@ -3,72 +3,123 @@
 @section('title', 'My Assignments')
 
 @section('content')
-<div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Assignments</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage your homework and assignments</p>
-    </div>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    @forelse($assignments ?? [] as $assignment)
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col hover:border-blue-300 transition-colors">
-            <div class="p-5 border-b border-gray-100 dark:border-gray-700">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                        {{ $assignment->subject->name ?? 'N/A' }}
-                    </span>
-                    @php
-                        $dueDate = \Carbon\Carbon::parse($assignment->due_date);
-                        $isOverdue = $dueDate->isPast() && !$dueDate->isToday();
-                    @endphp
-                    <span class="text-xs font-medium flex items-center gap-1 {{ $isOverdue ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400' }}">
-                        <span class="material-symbols-rounded text-[14px]">calendar_today</span>
-                        Due {{ $dueDate->format('M d') }}
-                    </span>
-                </div>
-                <h3 class="font-bold text-lg text-gray-900 dark:text-white mb-1 line-clamp-1">{{ $assignment->title }}</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{{ $assignment->description }}</p>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+    <div class="max-w-[1440px] mx-auto space-y-xl">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+            <div>
+                <h2 class="text-headline-xl font-headline-xl text-on-surface">Assignments</h2>
+                <p class="text-body-lg font-body-lg text-secondary mt-1">Manage your homework and assignments</p>
             </div>
-            <div class="p-5 bg-gray-50 dark:bg-gray-900/50 mt-auto">
+            <div class="flex gap-4 items-center bg-surface-container border border-outline-variant rounded-xl p-2 px-4">
+                <div class="text-center px-4 border-r border-outline-variant">
+                    <span class="block text-headline-sm font-bold text-primary">{{ $pendingCount ?? 0 }}</span>
+                    <span class="text-[10px] uppercase font-bold text-secondary tracking-wider">Pending</span>
+                </div>
+                <div class="text-center px-4 border-r border-outline-variant">
+                    <span class="block text-headline-sm font-bold text-success">{{ $submittedCount ?? 0 }}</span>
+                    <span class="text-[10px] uppercase font-bold text-secondary tracking-wider">Submitted</span>
+                </div>
+                <div class="text-center px-4">
+                    <span class="block text-headline-sm font-bold text-error">{{ $lateCount ?? 0 }}</span>
+                    <span class="text-[10px] uppercase font-bold text-secondary tracking-wider">Late</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter/Tabs Placeholder -->
+        <div class="flex gap-2 border-b border-outline-variant pb-2">
+            <button class="px-4 py-2 text-primary border-b-2 border-primary font-bold text-sm">All Assignments</button>
+            <button class="px-4 py-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-t-lg transition-colors text-sm font-medium">Pending</button>
+            <button class="px-4 py-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-t-lg transition-colors text-sm font-medium">Completed</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-md">
+            @forelse($assignments ?? [] as $assignment)
                 @php
-                    $submission = $assignment->submissions->where('student_id', auth()->user()->student->id)->first();
+                    $dueDate = \Carbon\Carbon::parse($assignment->due_date);
+                    $isOverdue = $dueDate->isPast() && !$dueDate->isToday();
+                    $isSubmitted = in_array($assignment->id, $submittedIds ?? []);
+                    // To show details of the submission if available, we would need the actual submission object.
+                    // We can either fetch it here or rely on the relationship if it's eager-loaded, but it's not.
+                    // Let's do a simple DB query if it is submitted, or eager load it in the controller.
+                    // For performance, we'll fetch the submission if $isSubmitted is true.
+                    $submission = $isSubmitted ? \App\Models\AssignmentSubmission::where('assignment_id', $assignment->id)->where('student_id', auth()->user()->student->id)->first() : null;
                 @endphp
-                
-                @if($submission)
-                    <div class="flex items-center justify-between">
-                        <span class="inline-flex items-center gap-1.5 text-sm font-medium text-green-600 dark:text-green-400">
-                            <span class="material-symbols-rounded text-base">check_circle</span>
-                            Submitted
-                        </span>
-                        @if($submission->marks_obtained !== null)
-                            <span class="text-sm font-bold text-gray-900 dark:text-white">{{ $submission->marks_obtained }} Marks</span>
+                <div class="bg-surface-container-lowest rounded-xl border {{ $isSubmitted ? 'border-[#10b981]' : ($isOverdue ? 'border-error' : 'border-outline-variant') }} overflow-hidden flex flex-col hover:shadow-md transition-shadow relative">
+                    
+                    @if($submission)
+                        <div class="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                            <div class="bg-[#10b981] text-white text-[10px] font-bold uppercase py-1 shadow-sm transform rotate-45 text-center w-24 absolute top-3 -right-6">Done</div>
+                        </div>
+                    @elseif($isOverdue)
+                        <div class="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                            <div class="bg-error text-white text-[10px] font-bold uppercase py-1 shadow-sm transform rotate-45 text-center w-24 absolute top-3 -right-6">Late</div>
+                        </div>
+                    @else
+                        <div class="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                            <div class="bg-warning text-warning-on-container text-[10px] font-bold uppercase py-1 shadow-sm transform rotate-45 text-center w-24 absolute top-3 -right-6">Pending</div>
+                        </div>
+                    @endif
+
+                    <div class="p-5 border-b border-outline-variant z-10">
+                        <div class="flex justify-between items-start mb-3 pr-8">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-primary-fixed text-primary border border-primary-fixed-dim">
+                                {{ $assignment->subject->name ?? 'N/A' }}
+                            </span>
+                            <span class="text-[12px] font-bold flex items-center gap-1 {{ $isOverdue && !$isSubmitted ? 'text-error' : 'text-secondary' }}">
+                                <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                Due {{ $dueDate->format('M d, Y') }}
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-headline-md text-on-surface mb-2 line-clamp-1" title="{{ $assignment->title }}">{{ $assignment->title }}</h3>
+                        <p class="text-body-md text-secondary line-clamp-2">{{ $assignment->description }}</p>
+                    </div>
+                    
+                    <div class="p-5 bg-surface-bright mt-auto">
+                        @if($isSubmitted && $submission)
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center justify-between bg-[#ecfdf5] border border-[#a7f3d0] rounded-lg p-3">
+                                    <div class="flex items-center gap-2 text-[#059669]">
+                                        <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                                        <div>
+                                            <span class="block text-sm font-bold">Submitted</span>
+                                            <span class="block text-[10px] opacity-80">{{ \Carbon\Carbon::parse($submission->created_at)->format('M d, g:i A') }}</span>
+                                        </div>
+                                    </div>
+                                    @if($submission->marks_obtained !== null)
+                                        <div class="text-right">
+                                            <span class="block text-lg font-black text-on-surface leading-none">{{ $submission->marks_obtained }}</span>
+                                            <span class="text-[10px] text-secondary font-bold uppercase">Marks</span>
+                                        </div>
+                                    @else
+                                        <span class="text-[11px] font-bold text-secondary uppercase bg-white px-2 py-1 rounded-md">Pending Review</span>
+                                    @endif
+                                </div>
+                            </div>
                         @else
-                            <span class="text-sm text-gray-500">Pending Review</span>
+                            <form action="{{ route('student.assignments.submit', $assignment->id) }}" method="POST" enctype="multipart/form-data" class="space-y-3">
+                                @csrf
+                                <div>
+                                    <input type="file" name="file" class="block w-full text-sm text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-surface-container file:text-on-surface hover:file:bg-surface-container-high transition-colors cursor-pointer border border-outline-variant border-dashed rounded-lg p-2 bg-surface-container-lowest" required>
+                                </div>
+                                <button type="submit" class="w-full bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container font-label-md text-label-md py-2 px-4 rounded-lg transition-colors flex justify-center items-center gap-2 shadow-sm">
+                                    <span class="material-symbols-outlined text-[18px]">upload</span>
+                                    Upload & Submit
+                                </button>
+                            </form>
                         @endif
                     </div>
-                @else
-                    <form action="{{ route('student.assignments.submit', $assignment->id) }}" method="POST" enctype="multipart/form-data" class="space-y-3">
-                        @csrf
-                        <div>
-                            <input type="file" name="file" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-700 dark:file:text-gray-300 dark:hover:file:bg-gray-600 transition-colors" required>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm flex justify-center items-center gap-2">
-                            <span class="material-symbols-rounded text-sm">upload</span>
-                            Submit Assignment
-                        </button>
-                    </form>
-                @endif
-            </div>
+                </div>
+            @empty
+                <div class="col-span-full bg-surface-container-lowest rounded-xl p-12 text-center border border-outline-variant border-dashed m-4">
+                    <span class="material-symbols-outlined text-[48px] mb-2 text-secondary opacity-50">task</span>
+                    <h3 class="text-headline-md font-headline-md text-on-surface mb-1">No Assignments</h3>
+                    <p class="text-body-lg font-body-lg text-secondary">You don't have any assignments due at the moment.</p>
+                </div>
+            @endforelse
         </div>
-    @empty
-        <div class="col-span-full bg-white dark:bg-gray-800 rounded-xl p-12 text-center border border-gray-200 dark:border-gray-700">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4 text-gray-400">
-                <span class="material-symbols-rounded text-3xl">task</span>
-            </div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">No Assignments</h3>
-            <p class="text-gray-500 dark:text-gray-400 mt-1">You don't have any assignments due at the moment.</p>
-        </div>
-    @endforelse
-</div>
+    </div>
+</main>
 @endsection
