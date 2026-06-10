@@ -17,7 +17,7 @@ class ExamController extends Controller
         
         $student = Student::with('currentClass')->findOrFail($student_id);
         $schedules = ExamSchedule::where('class_id', $student->current_class_id)
-            ->with('subjectRel')
+            ->with('subjectRelation')
             ->orderBy('exam_date')
             ->get();
             

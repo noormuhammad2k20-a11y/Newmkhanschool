@@ -593,6 +593,9 @@
                 </li>
             @elseif(auth()->check() && auth()->user()->role_id == 5)
                 <!-- Parent Links -->
+                @php
+                    $firstStudentId = \App\Models\ParentStudent::where('parent_user_id', auth()->id())->first()->student_id ?? 0;
+                @endphp
                 <li class="mb-1">
                     <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.dashboard*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.dashboard') }}">
                         <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.dashboard*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="dashboard">dashboard</span>
@@ -630,7 +633,7 @@
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.exam-schedule*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.children') }}">
+                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.exam-schedule*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.child.exam-schedule', $firstStudentId) }}">
                         <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.child.exam-schedule*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="event_note">event_note</span>
                         <span class="font-label-md text-label-md tracking-wide">Exam Schedule</span>
                         @if(request()->routeIs('parent.child.exam-schedule*'))
@@ -639,7 +642,7 @@
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.report-card*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.children') }}">
+                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.report-card*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.child.report-card', $firstStudentId) }}">
                         <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.child.report-card*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="description">description</span>
                         <span class="font-label-md text-label-md tracking-wide">Report Card</span>
                         @if(request()->routeIs('parent.child.report-card*'))
@@ -648,19 +651,10 @@
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.leave*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.children') }}">
+                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.leave*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.child.leave', $firstStudentId) }}">
                         <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.child.leave*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="event_busy">event_busy</span>
                         <span class="font-label-md text-label-md tracking-wide">Leave Application</span>
                         @if(request()->routeIs('parent.child.leave*'))
-                            <div class="ml-auto w-1.5 h-1.5 rounded-full bg-primary"></div>
-                        @endif
-                    </a>
-                </li>
-                <li class="mb-1">
-                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.transport*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.transport') }}">
-                        <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.transport*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="directions_bus">directions_bus</span>
-                        <span class="font-label-md text-label-md tracking-wide">Transport</span>
-                        @if(request()->routeIs('parent.transport*'))
                             <div class="ml-auto w-1.5 h-1.5 rounded-full bg-primary"></div>
                         @endif
                     </a>

@@ -10,12 +10,10 @@ class TimetableController extends Controller
 {
     public function show($student_id)
     {
-        $parent = auth()->user();
-        
-        $student = Student::where('id', $student_id)
-            ->whereHas('user.linkedStudents', function($q) use ($parent) {
-                $q->where('parent_user_id', $parent->id);
-            })->firstOrFail();
+        \App\Models\ParentStudent::where('parent_user_id', auth()->id())
+            ->where('student_id', $student_id)->firstOrFail();
+            
+        $student = Student::with('currentClass', 'currentSection')->findOrFail($student_id);
 
         $timetables = Timetable::with(['subject', 'teacher'])
             ->where('class_id', $student->current_class_id)

@@ -63,7 +63,7 @@
                                         <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
                                             <span class="material-symbols-outlined text-[20px]">menu_book</span>
                                         </div>
-                                        <span class="text-title-md font-title-md text-on-surface">{{ $schedule->subjectRel->name ?? 'N/A' }}</span>
+                                        <span class="text-title-md font-title-md text-on-surface">{{ $schedule->subjectRelation->name ?? 'N/A' }}</span>
                                     </div>
                                 </td>
                                 <td class="py-4 px-6">

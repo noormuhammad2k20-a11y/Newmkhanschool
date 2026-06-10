@@ -18,10 +18,8 @@ class MessageController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $parent = auth()->user();
-        $students = Student::whereHas('user.linkedStudents', function($q) use ($parent) {
-            $q->where('parent_user_id', $parent->id);
-        })->get();
+        $studentIds = \App\Models\ParentStudent::where('parent_user_id', auth()->id())->pluck('student_id');
+        $students = Student::whereIn('id', $studentIds)->get();
         
         $classIds = $students->pluck('current_class_id')->unique();
         

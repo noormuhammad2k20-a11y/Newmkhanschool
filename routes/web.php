@@ -306,7 +306,6 @@ Route::middleware(['auth', 'role:Parent', 'same_school'])
         Route::get('/announcements', [App\Http\Controllers\ParentPortal\AnnouncementController::class, 'index'])->name('announcements');
         Route::get('/messages', [App\Http\Controllers\ParentPortal\MessageController::class, 'index'])->name('messages');
         Route::post('/messages', [App\Http\Controllers\ParentPortal\MessageController::class, 'send'])->name('messages.send');
-        Route::get('/transport', [App\Http\Controllers\ParentPortal\TransportController::class, 'index'])->name('transport');
         Route::get('/profile', [App\Http\Controllers\ParentPortal\ProfileController::class, 'show'])->name('profile');
         Route::put('/profile', [App\Http\Controllers\ParentPortal\ProfileController::class, 'update'])->name('profile.update');
     });
