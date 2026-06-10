@@ -5,137 +5,255 @@
 @section('content')
 <main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
     <div class="max-w-[1440px] mx-auto space-y-xl">
-        
         <!-- Page Header -->
-        <div>
-            <h2 class="text-headline-xl font-headline-xl text-on-surface">Welcome back, {{ auth()->user()->name }}!</h2>
-            <p class="text-body-lg font-body-lg text-secondary mt-1">Here is an overview of your children's academics.</p>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h2 class="text-headline-xl font-headline-xl text-on-surface">Dashboard</h2>
+                <p class="text-body-lg font-body-lg text-secondary mt-1">Welcome back, {{ auth()->user()->name }}! Here is an overview of your children's academics.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('parent.messages') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">chat</span>
+                    Contact School
+                </a>
+            </div>
         </div>
 
-        @if(isset($linkedStudents) && count($linkedStudents) > 0)
-            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-md">
-                @foreach($linkedStudents as $student)
-                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col group hover:border-primary transition-colors">
-                        <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-lg border-2 border-surface-container-lowest shadow-sm">
-                                @if($student->photo)
-                                    <img src="{{ asset('storage/'.$student->photo) }}" class="w-full h-full rounded-full object-cover">
-                                @else
-                                    {{ substr($student->first_name, 0, 1) }}
-                                @endif
-                            </div>
-                            <div>
-                                <h3 class="text-headline-md font-headline-md text-on-surface">{{ $student->first_name }} {{ $student->last_name }}</h3>
-                                <p class="text-body-md font-body-md text-secondary">Class: {{ $student->currentClass->name ?? 'N/A' }} {{ $student->currentSection->name ?? '' }}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="p-md grid grid-cols-2 gap-3">
-                            <a href="{{ route('parent.child.attendance', $student->id) }}" class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-colors">
-                                <span class="material-symbols-outlined text-primary text-[20px]">co_present</span>
-                                <span class="font-label-md text-label-md">Attendance</span>
-                            </a>
-                            <a href="{{ route('parent.child.marks', $student->id) }}" class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-colors">
-                                <span class="material-symbols-outlined text-emerald-600 text-[20px]">grade</span>
-                                <span class="font-label-md text-label-md">Marks</span>
-                            </a>
-                            <a href="{{ route('parent.child.fees', $student->id) }}" class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-colors">
-                                <span class="material-symbols-outlined text-red-600 text-[20px]">account_balance_wallet</span>
-                                <span class="font-label-md text-label-md">Fees</span>
-                            </a>
-                            <a href="{{ route('parent.child.assignments', $student->id) }}" class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-colors">
-                                <span class="material-symbols-outlined text-orange-600 text-[20px]">assignment</span>
-                                <span class="font-label-md text-label-md">Assignments</span>
-                            </a>
-                        </div>
-                        
-                        <div class="mt-auto border-t border-outline-variant bg-surface-container-lowest p-3 flex justify-between">
-                            <a href="{{ route('parent.child.timetable', $student->id) }}" class="font-label-md text-label-md text-secondary hover:text-primary flex items-center gap-1 transition-colors">
-                                <span class="material-symbols-outlined text-[16px]">calendar_today</span> Timetable
-                            </a>
-                            <a href="{{ route('parent.messages') }}" class="font-label-md text-label-md text-secondary hover:text-primary flex items-center gap-1 transition-colors">
-                                <span class="material-symbols-outlined text-[16px]">chat</span> Contact Teacher
-                            </a>
+        @if(isset($children) && count($children) > 0)
+            <!-- Stats Overview (Aggregated for all children) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+                <!-- Total Children -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Children</h3>
+                        <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined text-[18px]">family_restroom</span>
                         </div>
                     </div>
-                @endforeach
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-headline-xl font-headline-xl text-on-surface">{{ count($children) }}</span>
+                    </div>
+                    <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                        <span>Enrolled in school</span>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-primary-fixed rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Total Pending Fees -->
+                @php
+                    $totalPendingFees = 0;
+                    foreach($childSummaries as $summary) {
+                        $totalPendingFees += $summary['pending_fees'];
+                    }
+                @endphp
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending Fees</h3>
+                        <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-600">
+                            <span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-headline-xl font-headline-xl text-on-surface">Rs {{ number_format($totalPendingFees, 2) }}</span>
+                    </div>
+                    <div class="mt-2 flex items-center gap-1 text-xs font-medium {{ $totalPendingFees > 0 ? 'text-error' : 'text-emerald-700' }}">
+                        <span>{{ $totalPendingFees > 0 ? 'Action Required' : 'All clear' }}</span>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-red-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Average Attendance -->
+                @php
+                    $avgAttendance = 0;
+                    if(count($children) > 0) {
+                        $sum = 0;
+                        foreach($childSummaries as $summary) {
+                            $sum += $summary['attendance_pct'];
+                        }
+                        $avgAttendance = round($sum / count($children), 1);
+                    }
+                @endphp
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Avg Attendance</h3>
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                            <span class="material-symbols-outlined text-[18px]">rule</span>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-headline-xl font-headline-xl text-on-surface">{{ $avgAttendance }}%</span>
+                    </div>
+                    <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                        <span>Current Academic Year</span>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                </div>
+
+                <!-- Recent Messages -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Messages</h3>
+                        <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                            <span class="material-symbols-outlined text-[18px]">mail</span>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-headline-xl font-headline-xl text-on-surface">Inbox</span>
+                    </div>
+                    <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                        <span><a href="{{ route('parent.messages') }}" class="hover:underline">View messages</a></span>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-secondary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                </div>
+            </div>
+
+            <!-- Children List Section -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-headline-md font-headline-md text-on-surface">Children Overview</h3>
+                    <a href="{{ route('parent.children') }}" class="text-primary text-label-md font-label-md hover:underline">View All Details</a>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-md">
+                    @foreach($children as $student)
+                        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col group hover:border-primary transition-colors cursor-default">
+                            <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-lg border-2 border-surface-container-lowest shadow-sm">
+                                    @if($student->photo)
+                                        <img src="{{ asset('storage/'.$student->photo) }}" alt="{{ $student->first_name }}" class="w-full h-full rounded-full object-cover">
+                                    @else
+                                        {{ substr($student->first_name, 0, 1) }}{{ substr($student->last_name ?? '', 0, 1) }}
+                                    @endif
+                                </div>
+                                <div>
+                                    <h3 class="text-title-lg font-title-lg text-on-surface">{{ $student->first_name }} {{ $student->last_name }}</h3>
+                                    <p class="text-body-md font-body-md text-secondary">Class: {{ $student->currentClass->name ?? 'N/A' }} {{ $student->currentSection->name ?? '' }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Stats -->
+                            <div class="grid grid-cols-2 divide-x divide-outline-variant border-b border-outline-variant bg-surface-container-low">
+                                <div class="p-3 text-center">
+                                    <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wide">Attendance</p>
+                                    <p class="text-title-md font-title-md text-on-surface mt-1">{{ $childSummaries[$student->id]['attendance_pct'] }}%</p>
+                                </div>
+                                <div class="p-3 text-center">
+                                    <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wide">Pending Fee</p>
+                                    <p class="text-title-md font-title-md text-on-surface mt-1 {{ $childSummaries[$student->id]['pending_fees'] > 0 ? 'text-error' : '' }}">
+                                        Rs {{ number_format($childSummaries[$student->id]['pending_fees']) }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="p-md grid grid-cols-2 gap-3">
+                                <a href="{{ route('parent.child.attendance', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
+                                    <span class="material-symbols-outlined text-primary">co_present</span>
+                                    <span class="text-label-sm font-label-sm text-on-surface">Attendance</span>
+                                </a>
+                                <a href="{{ route('parent.child.marks', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
+                                    <span class="material-symbols-outlined text-emerald-600">grade</span>
+                                    <span class="text-label-sm font-label-sm text-on-surface">Marks</span>
+                                </a>
+                                <a href="{{ route('parent.child.fees', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
+                                    <span class="material-symbols-outlined text-red-600">account_balance_wallet</span>
+                                    <span class="text-label-sm font-label-sm text-on-surface">Fees</span>
+                                </a>
+                                <a href="{{ route('parent.child.assignments', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
+                                    <span class="material-symbols-outlined text-orange-600">assignment</span>
+                                    <span class="text-label-sm font-label-sm text-on-surface">Assignments</span>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         @else
-            <div class="bg-surface-container-lowest rounded-xl p-12 text-center border border-outline-variant">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-high mb-4 text-secondary">
-                    <span class="material-symbols-outlined text-3xl">family_restroom</span>
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center text-center py-20">
+                <div class="w-20 h-20 rounded-full bg-surface-container-low flex items-center justify-center text-secondary mb-4">
+                    <span class="material-symbols-outlined text-[40px]">family_restroom</span>
                 </div>
-                <h3 class="text-headline-md font-headline-md text-on-surface">No Children Linked</h3>
-                <p class="text-body-md font-body-md text-secondary mt-1 mb-4">You don't have any students linked to your parent account.</p>
-                <p class="text-body-md font-body-md text-secondary">Please contact the school administration to link your children to your profile.</p>
+                <h3 class="text-headline-md font-headline-md text-on-surface mb-2">No Children Linked</h3>
+                <p class="text-body-lg font-body-lg text-secondary max-w-md">You don't have any students linked to your parent account at the moment.</p>
+                <p class="text-body-md font-body-md text-secondary max-w-md mt-2">Please contact the school administration to link your children to your profile.</p>
+                <a href="{{ route('parent.messages') }}" class="mt-6 inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-full font-label-lg hover:bg-primary/90 transition-colors">
+                    <span class="material-symbols-outlined">support_agent</span>
+                    Contact Administration
+                </a>
             </div>
         @endif
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-md">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
             {{-- Announcements --}}
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+            <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                 <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
-                    <h2 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+                    <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
                         <span class="material-symbols-outlined text-orange-500">campaign</span>
                         Recent Announcements
-                    </h2>
-                    <a href="{{ route('parent.announcements') }}" class="text-label-md font-label-md text-primary hover:underline">View All</a>
+                    </h3>
+                    <a href="{{ route('parent.announcements') }}" class="text-primary text-label-md font-label-md hover:underline">View All</a>
                 </div>
-                <div class="p-md flex-1 space-y-4">
+                <div class="p-0 flex-1">
                     @forelse($announcements ?? [] as $ann)
-                        <div class="border-l-2 border-orange-400 pl-3 pb-3 border-b border-outline-variant last:border-b-0">
-                            <h4 class="font-label-md text-label-md text-on-surface mb-1">{{ $ann->title }}</h4>
-                            <p class="text-body-md font-body-md text-secondary line-clamp-2">{{ Str::limit($ann->content, 120) }}</p>
-                            <span class="text-xs font-medium text-outline mt-1 block">{{ $ann->created_at->diffForHumans() }}</span>
+                        <div class="p-md border-b border-outline-variant last:border-b-0 hover:bg-surface-container-lowest transition-colors flex gap-4">
+                            <div class="flex flex-col items-center justify-center bg-surface-container-low rounded-lg p-2 min-w-[60px] h-[60px]">
+                                <span class="text-title-md font-title-md text-on-surface">{{ $ann->created_at->format('d') }}</span>
+                                <span class="text-label-sm font-label-sm text-secondary uppercase">{{ $ann->created_at->format('M') }}</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-title-md font-title-md text-on-surface mb-1">{{ $ann->title }}</h4>
+                                <p class="text-body-md font-body-md text-secondary line-clamp-2">{{ Str::limit($ann->content, 120) }}</p>
+                            </div>
                         </div>
                     @empty
-                        <p class="text-body-md font-body-md text-secondary text-center py-4">No recent announcements.</p>
+                        <div class="p-xl text-center">
+                            <span class="material-symbols-outlined text-4xl text-secondary mb-2">notifications_off</span>
+                            <p class="text-body-md font-body-md text-secondary">No recent announcements.</p>
+                        </div>
                     @endforelse
                 </div>
             </div>
             
             {{-- Contact School --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden h-fit">
-                <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
-                    <h2 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+                <div class="p-md border-b border-outline-variant bg-surface-bright">
+                    <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">contact_support</span>
-                        Contact School
-                    </h2>
+                        School Contact
+                    </h3>
                 </div>
                 <div class="p-md">
                     <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-secondary">
+                        <li class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
                                 <span class="material-symbols-outlined">phone</span>
                             </div>
                             <div>
-                                <p class="text-label-md font-label-md text-on-surface">Admin Office</p>
-                                <p class="text-body-md font-body-md text-secondary">+1 234 567 8900</p>
+                                <p class="text-label-md font-label-md text-secondary">Admin Office</p>
+                                <p class="text-body-lg font-body-lg text-on-surface">+1 234 567 8900</p>
                             </div>
                         </li>
-                        <li class="flex items-start gap-3">
-                            <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-secondary">
+                        <li class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
                                 <span class="material-symbols-outlined">email</span>
                             </div>
                             <div>
-                                <p class="text-label-md font-label-md text-on-surface">Email Support</p>
-                                <p class="text-body-md font-body-md text-secondary">support@school.edu</p>
+                                <p class="text-label-md font-label-md text-secondary">Support Email</p>
+                                <p class="text-body-lg font-body-lg text-on-surface">support@school.edu</p>
                             </div>
                         </li>
-                        <li class="flex items-start gap-3">
-                            <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-secondary">
+                        <li class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
                                 <span class="material-symbols-outlined">location_on</span>
                             </div>
                             <div>
-                                <p class="text-label-md font-label-md text-on-surface">Location</p>
-                                <p class="text-body-md font-body-md text-secondary">123 Education Street, City, State 12345</p>
+                                <p class="text-label-md font-label-md text-secondary">Address</p>
+                                <p class="text-body-lg font-body-lg text-on-surface">123 Education Street<br>City, State 12345</p>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        
     </div>
 </main>
 @endsection

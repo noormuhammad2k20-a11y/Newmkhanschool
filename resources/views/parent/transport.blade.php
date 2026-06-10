@@ -5,26 +5,25 @@
 @section('content')
 <main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
     <div class="max-w-[1440px] mx-auto space-y-xl">
-        <!-- Page Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-sm">
             <div>
-                <h1 class="text-headline-xl font-headline-xl text-on-surface">Transport Details</h1>
+                <h2 class="text-headline-xl font-headline-xl text-on-surface">Transport Details</h2>
                 <p class="text-body-lg font-body-lg text-secondary mt-1">Allocated transport routes for your children</p>
             </div>
         </div>
 
         @if(isset($transports) && count($transports) > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-lg">
                 @foreach($students as $student)
                     @if(isset($transports[$student->id]))
                         @php $transport = $transports[$student->id]->first(); @endphp
-                        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col group hover:border-primary transition-colors">
-                            <div class="flex items-center justify-between p-md border-b border-outline-variant bg-surface-bright">
-                                <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+                        <div class="card p-0 flex flex-col group hover:border-primary transition-colors">
+                            <div class="flex items-center justify-between p-md border-b border-outline-variant bg-surface-container-high">
+                                <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
                                     <span class="material-symbols-outlined text-primary">person</span>
                                     {{ $student->first_name }} {{ $student->last_name }}
                                 </h3>
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary-fixed text-on-primary-fixed tracking-wide">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary-container text-on-primary-container tracking-wide">
                                     {{ $transport->vehicle_number ?? 'Allocated' }}
                                 </span>
                             </div>
@@ -95,23 +94,23 @@
                             </div>
                         </div>
                     @else
-                        <div class="bg-surface-container-lowest rounded-xl border border-dashed border-outline-variant p-6 flex flex-col items-center justify-center text-center h-full min-h-[300px]">
+                        <div class="card border border-dashed border-outline-variant p-xl flex flex-col items-center justify-center text-center h-full min-h-[300px]">
                             <div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-secondary mb-3">
                                 <span class="material-symbols-outlined text-3xl">no_transfer</span>
                             </div>
-                            <h3 class="text-headline-md font-headline-md text-on-surface">{{ $student->first_name }} {{ $student->last_name }}</h3>
-                            <p class="text-body-md font-body-md text-secondary mt-1">No transport route allocated</p>
+                            <h3 class="font-headline-md text-headline-md text-on-surface">{{ $student->first_name }} {{ $student->last_name }}</h3>
+                            <p class="font-body-md text-body-md text-secondary mt-1">No transport route allocated</p>
                         </div>
                     @endif
                 @endforeach
             </div>
         @else
-        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-12 text-center">
+        <div class="card p-xl text-center mb-lg">
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-high mb-4 text-secondary">
                 <span class="material-symbols-outlined text-3xl">no_transfer</span>
             </div>
-            <h3 class="text-headline-md font-headline-md text-on-surface">No Transport Allocated</h3>
-            <p class="text-body-md font-body-md text-secondary mt-1">None of your children have been allocated to a school transport route.</p>
+            <h3 class="font-headline-md text-headline-md text-on-surface">No Transport Allocated</h3>
+            <p class="font-body-md text-body-md text-secondary mt-1">None of your children have been allocated to a school transport route.</p>
         </div>
         @endif
     </div>

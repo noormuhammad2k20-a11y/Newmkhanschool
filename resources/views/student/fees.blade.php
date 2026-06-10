@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Total Billed</p>
-                    <p class="text-headline-md font-headline-md text-on-surface mt-1">Rs {{ isset($fees) ? number_format($fees->sum('amount'), 2) : 0 }}</p>
+                    <p class="text-headline-md font-headline-md text-on-surface mt-1">₨ {{ isset($fees) ? number_format($fees->sum('amount'), 2) : 0 }}</p>
                 </div>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex items-center gap-4 hover:border-[#10b981] transition-colors">
@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Total Paid</p>
-                    <p class="text-headline-md font-headline-md text-on-surface mt-1">Rs {{ isset($fees) ? number_format($fees->sum('paid_amount'), 2) : 0 }}</p>
+                    <p class="text-headline-md font-headline-md text-on-surface mt-1">₨ {{ isset($fees) ? number_format($fees->sum('paid_amount'), 2) : 0 }}</p>
                 </div>
             </div>
             <div class="bg-surface-container-lowest border-2 border-error-container rounded-xl p-6 flex items-center gap-4 relative overflow-hidden group">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="relative z-10">
                     <p class="text-label-sm font-label-sm text-error uppercase tracking-wider font-bold">Outstanding Balance</p>
-                    <p class="text-headline-md font-headline-md text-on-surface mt-1 font-black">Rs {{ isset($fees) ? number_format($fees->sum(function($f) { return max(0, $f->amount - $f->paid_amount + $f->fine - $f->discount); }), 2) : 0 }}</p>
+                    <p class="text-headline-md font-headline-md text-on-surface mt-1 font-black">₨ {{ isset($fees) ? number_format($fees->sum(function($f) { return max(0, $f->amount - $f->paid_amount + $f->fine - $f->discount); }), 2) : 0 }}</p>
                 </div>
                 <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-error-container rounded-full opacity-30 group-hover:scale-150 transition-transform duration-500 z-0"></div>
             </div>
@@ -81,10 +81,10 @@
                                         <span class="block text-[11px] text-secondary mt-0.5">{{ Str::limit($fee->remarks, 30) }}</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 font-black text-on-surface">Rs {{ number_format($fee->amount, 2) }}</td>
+                                <td class="px-6 py-4 font-black text-on-surface">₨ {{ number_format($fee->amount, 2) }}</td>
                                 <td class="px-6 py-4 text-secondary text-sm">
-                                    @if($fee->fine > 0) <span class="text-error block">+ Rs {{ number_format($fee->fine, 2) }}</span> @endif
-                                    @if($fee->discount > 0) <span class="text-[#10b981] block">- Rs {{ number_format($fee->discount, 2) }}</span> @endif
+                                    @if($fee->fine > 0) <span class="text-error block">+ ₨ {{ number_format($fee->fine, 2) }}</span> @endif
+                                    @if($fee->discount > 0) <span class="text-[#10b981] block">- ₨ {{ number_format($fee->discount, 2) }}</span> @endif
                                     @if($fee->fine == 0 && $fee->discount == 0) - @endif
                                 </td>
                                 <td class="px-6 py-4">
@@ -105,11 +105,11 @@
                                 </td>
                                 <td class="px-6 py-4 text-right">
                                     @if($fee->status === 'Paid')
-                                        <a href="#" onclick="alert('Receipt PDF Generation coming soon!')" class="inline-flex items-center gap-1.5 text-primary hover:bg-primary-fixed p-2 rounded-lg transition-colors text-sm font-bold">
+                                        <a href="{{ route('fees.receipt.download', $fee->id) }}" target="_blank" class="inline-flex items-center gap-1.5 text-primary hover:bg-primary-fixed p-2 rounded-lg transition-colors text-sm font-bold">
                                             <span class="material-symbols-outlined text-[18px]">download</span> Receipt
                                         </a>
                                     @else
-                                        <a href="#" class="inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-1.5 rounded-lg transition-colors text-sm font-bold shadow-sm hover:shadow">
+                                        <a href="{{ route('student.fees.pay', $fee->id) }}" class="inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-1.5 rounded-lg transition-colors text-sm font-bold shadow-sm hover:shadow">
                                             Pay Now
                                         </a>
                                     @endif

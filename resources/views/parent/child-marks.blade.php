@@ -3,67 +3,71 @@
 @section('title', 'Child Marks')
 
 @section('content')
-<div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Academic Marks</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Viewing marks for {{ $student->first_name }} {{ $student->last_name }}</p>
+<main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+    <div class="max-w-[1440px] mx-auto space-y-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+            <div>
+                <h2 class="text-headline-lg font-headline-lg text-on-surface">Academic Marks</h2>
+                <p class="text-body-md font-body-md text-secondary mt-1">Viewing marks for {{ $student->first_name }} {{ $student->last_name }}</p>
+            </div>
+        <a href="{{ route('parent.dashboard') }}" class="bg-surface border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+            Back to Dashboard
+        </a>
     </div>
-    <a href="{{ route('parent.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
-        <span class="material-symbols-rounded text-[18px] mr-1">arrow_back</span>
-        Back to Dashboard
-    </a>
-</div>
 
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-sm flex-1 flex flex-col mb-lg">
     @if(isset($marks) && count($marks) > 0)
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-gray-600 dark:text-gray-400">
-                <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-700">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-surface border-b border-outline-variant">
                     <tr>
-                        <th class="px-6 py-4">Subject</th>
-                        <th class="px-6 py-4">Exam Type</th>
-                        <th class="px-6 py-4">Marks Obtained</th>
-                        <th class="px-6 py-4">Total Marks</th>
-                        <th class="px-6 py-4">Percentage</th>
-                        <th class="px-6 py-4">Remarks</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Subject</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Exam Type</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Marks Obtained</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Total Marks</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Percentage</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Remarks</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="divide-y divide-outline-variant">
                     @foreach($marks as $mark)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
-                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $mark->subject->name ?? 'N/A' }}</td>
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="py-3 px-4 text-body-md font-body-md text-on-surface">{{ $mark->subject->name ?? 'N/A' }}</td>
+                        <td class="py-3 px-4">
+                            <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-primary-container text-on-primary-container">
                                 {{ $mark->examType->name ?? 'N/A' }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $mark->marks_obtained }}</td>
-                        <td class="px-6 py-4 text-gray-500">{{ $mark->total_marks }}</td>
-                        <td class="px-6 py-4">
+                        <td class="py-3 px-4 text-body-md font-body-md text-on-surface font-semibold">{{ $mark->marks_obtained }}</td>
+                        <td class="py-3 px-4 text-body-md font-body-md text-secondary">{{ $mark->total_marks }}</td>
+                        <td class="py-3 px-4">
                             @php
                                 $percent = $mark->total_marks > 0 ? round(($mark->marks_obtained / $mark->total_marks) * 100, 2) : 0;
                             @endphp
                             <div class="flex items-center gap-2">
-                                <span>{{ $percent }}%</span>
-                                <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
-                                    <div class="h-full {{ $percent >= 50 ? 'bg-green-500' : 'bg-red-500' }}" style="width: {{ $percent }}%"></div>
+                                <span class="font-body-md text-body-md text-on-surface-variant">{{ $percent }}%</span>
+                                <div class="w-16 h-2 bg-surface-container-high rounded-full overflow-hidden">
+                                    <div class="h-full {{ $percent >= 50 ? 'bg-emerald-500' : 'bg-red-500' }}" style="width: {{ $percent }}%"></div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4">{{ $mark->remarks ?? '-' }}</td>
+                        <td class="py-3 px-4 text-body-md font-body-md text-on-surface-variant">{{ $mark->remarks ?? '-' }}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     @else
-        <div class="p-12 text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4 text-gray-400">
-                <span class="material-symbols-rounded text-3xl">assignment</span>
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xl text-center shadow-sm">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 text-secondary">
+                <span class="material-symbols-outlined text-3xl">assignment</span>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">No Marks Found</h3>
-            <p class="text-gray-500 dark:text-gray-400 mt-1">There are no academic marks published for this student yet.</p>
+            <h3 class="text-headline-md font-headline-md text-on-surface">No Marks Found</h3>
+            <p class="text-body-md font-body-md text-secondary mt-1">There are no academic marks published for this student yet.</p>
         </div>
     @endif
-</div>
+    </div>
+    </div>
+</main>
 @endsection

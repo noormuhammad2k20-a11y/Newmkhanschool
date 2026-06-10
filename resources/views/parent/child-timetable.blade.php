@@ -3,24 +3,28 @@
 @section('title', 'Child Timetable')
 
 @section('content')
-<div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Class Timetable</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Viewing schedule for {{ $student->first_name }} {{ $student->last_name }}</p>
+<main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+    <div class="max-w-[1440px] mx-auto space-y-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+            <div>
+                <h2 class="text-headline-lg font-headline-lg text-on-surface">Class Timetable</h2>
+                <p class="text-body-md font-body-md text-secondary mt-1">Viewing schedule for {{ $student->first_name }} {{ $student->last_name }}</p>
+            </div>
+        <a href="{{ route('parent.dashboard') }}" class="bg-surface border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+            Back to Dashboard
+        </a>
     </div>
-    <a href="{{ route('parent.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
-        <span class="material-symbols-rounded text-[18px] mr-1">arrow_back</span>
-        Back to Dashboard
-    </a>
-</div>
 
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden p-6">
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg mb-lg shadow-sm">
+
+
     @if(isset($timetables) && count($timetables) > 0)
         @php
             $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         @endphp
         
-        <div class="space-y-8">
+        <div class="space-y-xl">
             @foreach($days as $day)
                 @php
                     $dayRoutines = collect($timetables)->filter(function($t) use ($day) {
@@ -30,23 +34,23 @@
                 
                 @if($dayRoutines->count() > 0)
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">{{ $day }}</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <h3 class="font-headline-md text-headline-md font-semibold text-on-surface mb-md border-b border-outline-variant pb-2">{{ $day }}</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md">
                             @foreach($dayRoutines as $routine)
-                                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4 border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-shadow">
+                                <div class="bg-surface border border-outline-variant hover:border-primary rounded-lg p-md transition-colors group shadow-sm">
                                     <div class="flex items-center gap-2 mb-2">
-                                        <span class="material-symbols-rounded text-blue-500 text-sm">schedule</span>
-                                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        <span class="material-symbols-outlined text-primary text-[18px]">schedule</span>
+                                        <span class="font-label-md text-label-md text-on-surface-variant">
                                             {{ \Carbon\Carbon::parse($routine->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($routine->end_time)->format('h:i A') }}
                                         </span>
                                     </div>
-                                    <h4 class="font-bold text-gray-900 dark:text-white text-base">{{ $routine->subject->name ?? 'N/A' }}</h4>
-                                    <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between text-sm">
-                                        <div class="flex items-center gap-1.5 text-gray-600 dark:text-gray-300">
-                                            <span class="material-symbols-rounded text-[16px]">person</span>
+                                    <h4 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">{{ $routine->subject->name ?? 'N/A' }}</h4>
+                                    <div class="mt-md pt-md border-t border-outline-variant flex items-center justify-between">
+                                        <div class="flex items-center gap-1.5 text-secondary font-body-md text-body-md">
+                                            <span class="material-symbols-outlined text-[16px]">person</span>
                                             <span>{{ $routine->teacher->first_name ?? '' }} {{ $routine->teacher->last_name ?? '' }}</span>
                                         </div>
-                                        <div class="text-gray-500 font-medium">Room {{ $routine->room_no }}</div>
+                                        <div class="font-label-md text-label-md text-on-surface-variant">Room {{ $routine->room_no }}</div>
                                     </div>
                                 </div>
                             @endforeach
@@ -56,13 +60,15 @@
             @endforeach
         </div>
     @else
-        <div class="p-12 text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4 text-gray-400">
-                <span class="material-symbols-rounded text-3xl">calendar_month</span>
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xl text-center shadow-sm">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 text-secondary">
+                <span class="material-symbols-outlined text-3xl">calendar_month</span>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">No Timetable Set</h3>
-            <p class="text-gray-500 dark:text-gray-400 mt-1">The class timetable has not been published yet.</p>
+            <h3 class="text-headline-md font-headline-md text-on-surface">No Timetable Set</h3>
+            <p class="text-body-md font-body-md text-secondary mt-1">The class timetable has not been published yet.</p>
         </div>
     @endif
-</div>
+    </div>
+    </div>
+</main>
 @endsection

@@ -3,42 +3,44 @@
 @section('title', 'Child Attendance')
 
 @section('content')
-<div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Attendance Record</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Viewing attendance for {{ $student->first_name }} {{ $student->last_name }}</p>
+<main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+    <div class="max-w-[1440px] mx-auto space-y-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+            <div>
+                <h2 class="text-headline-lg font-headline-lg text-on-surface">Attendance Record</h2>
+                <p class="text-body-md font-body-md text-secondary mt-1">Viewing attendance for {{ $student->first_name }} {{ $student->last_name }}</p>
+            </div>
+        <a href="{{ route('parent.dashboard') }}" class="bg-surface border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+            Back to Dashboard
+        </a>
     </div>
-    <a href="{{ route('parent.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
-        <span class="material-symbols-rounded text-[18px] mr-1">arrow_back</span>
-        Back to Dashboard
-    </a>
-</div>
 
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-sm flex-1 flex flex-col mb-lg">
     @if(isset($attendances) && count($attendances) > 0)
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-gray-600 dark:text-gray-400">
-                <thead class="bg-gray-50 dark:bg-gray-900/50 text-gray-700 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-700">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-surface border-b border-outline-variant">
                     <tr>
-                        <th class="px-6 py-4">Date</th>
-                        <th class="px-6 py-4">Status</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Date</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Status</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="divide-y divide-outline-variant">
                     @foreach($attendances as $attendance)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
-                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ \Carbon\Carbon::parse($attendance->date)->format('l, M d, Y') }}</td>
-                        <td class="px-6 py-4">
-                            @if($attendance->status === 'Present')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">Present</span>
-                            @elseif($attendance->status === 'Absent')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Absent</span>
-                            @elseif($attendance->status === 'Late')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">Late</span>
-                            @elseif($attendance->status === 'Half Day')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Half Day</span>
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="py-3 px-4 text-body-md font-body-md text-on-surface">{{ \Carbon\Carbon::parse($attendance->date)->format('l, M d, Y') }}</td>
+                        <td class="py-3 px-4">
+                            @if($attendance->status === 'Present' || $attendance->status === 'P')
+                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-emerald-100 text-emerald-800">Present</span>
+                            @elseif($attendance->status === 'Absent' || $attendance->status === 'A')
+                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800">Absent</span>
+                            @elseif($attendance->status === 'Late' || $attendance->status === 'L')
+                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">Late</span>
+                            @elseif($attendance->status === 'Half Day' || $attendance->status === 'H')
+                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800">Half Day</span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">{{ $attendance->status }}</span>
+                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-surface-container-high text-on-surface-variant">{{ $attendance->status }}</span>
                             @endif
                         </td>
                     </tr>
@@ -47,18 +49,20 @@
             </table>
         </div>
         @if(method_exists($attendances, 'links'))
-        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="p-md border-t border-outline-variant bg-surface-container-lowest">
             {{ $attendances->links() }}
         </div>
         @endif
     @else
-        <div class="p-12 text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4 text-gray-400">
-                <span class="material-symbols-rounded text-3xl">event_busy</span>
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xl text-center shadow-sm">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 text-secondary">
+                <span class="material-symbols-outlined text-3xl">event_busy</span>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">No Attendance Records</h3>
-            <p class="text-gray-500 dark:text-gray-400 mt-1">There are no attendance records for this student yet.</p>
+            <h3 class="text-headline-md font-headline-md text-on-surface">No Attendance Records</h3>
+            <p class="text-body-md font-body-md text-secondary mt-1">There are no attendance records for this student yet.</p>
         </div>
     @endif
-</div>
+    </div>
+    </div>
+</main>
 @endsection

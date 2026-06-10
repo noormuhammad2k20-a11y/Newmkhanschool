@@ -28,7 +28,7 @@ class MessageController extends Controller
         $teachers = DB::table('teachers')
             ->join('timetables', 'teachers.id', '=', 'timetables.teacher_id')
             ->whereIn('timetables.class_id', $classIds)
-            ->select('teachers.id', 'teachers.first_name', 'teachers.last_name', 'teachers.user_id')
+            ->select('teachers.id', 'teachers.full_name as first_name', DB::raw('"" as last_name'), 'teachers.user_id')
             ->distinct()
             ->get();
 

@@ -47,6 +47,11 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::delete('/exams/{id}', [\App\Http\Controllers\ExamController::class, 'destroy'])->name('admin.exams.destroy');
     Route::get('/exams/marks', [\App\Http\Controllers\ExamController::class, 'marks'])->name('admin.exams.marks');
     Route::get('/fees', [\App\Http\Controllers\FeeController::class, 'index'])->name('admin.fees');
+    Route::post('/fees/categories', [\App\Http\Controllers\Admin\FeeCategoryController::class, 'store'])->name('admin.fees.categories.store');
+    Route::delete('/fees/categories/{id}', [\App\Http\Controllers\Admin\FeeCategoryController::class, 'destroy'])->name('admin.fees.categories.destroy');
+    Route::post('/fees/structures', [\App\Http\Controllers\Admin\FeeStructureController::class, 'store'])->name('admin.fees.structures.store');
+    Route::delete('/fees/structures/{id}', [\App\Http\Controllers\Admin\FeeStructureController::class, 'destroy'])->name('admin.fees.structures.destroy');
+    Route::post('/fees/bulk-generate', [\App\Http\Controllers\Admin\FeeInvoiceController::class, 'bulkGenerate'])->name('admin.fees.bulk-generate');
     Route::get('/inventory', [\App\Http\Controllers\InventoryController::class, 'index'])->name('admin.inventory');
     Route::get('/calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('admin.calendar');
     Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('admin.reports');
@@ -244,6 +249,9 @@ Route::middleware(['auth', 'role:Student', 'same_school'])
         Route::get('/attendance', [App\Http\Controllers\Student\AttendanceController::class, 'index'])->name('attendance');
         Route::get('/marks', [App\Http\Controllers\Student\MarksController::class, 'index'])->name('marks');
         Route::get('/fees', [App\Http\Controllers\Student\FeeController::class, 'index'])->name('fees');
+        Route::get('/fees/{fee_id}/pay', [\App\Http\Controllers\Student\OnlineFeePaymentController::class, 'initiatePayment'])->name('fees.pay');
+        Route::post('/fees/{fee_id}/jazzcash', [\App\Http\Controllers\Student\OnlineFeePaymentController::class, 'processJazzCash'])->name('fees.jazzcash');
+        Route::post('/fees/{fee_id}/easypaisa', [\App\Http\Controllers\Student\OnlineFeePaymentController::class, 'processEasyPaisa'])->name('fees.easypaisa');
         Route::get('/timetable', [App\Http\Controllers\Student\TimetableController::class, 'index'])->name('timetable');
         Route::get('/assignments', [App\Http\Controllers\Student\AssignmentController::class, 'index'])->name('assignments');
         Route::post('/assignments/{id}/submit', [App\Http\Controllers\Student\AssignmentController::class, 'submit'])->name('assignments.submit');
@@ -332,3 +340,12 @@ Route::middleware(['auth', 'same_school'])->prefix('api')->group(function () {
 Route::post('/admin/fees/easypaisa/callback', [\App\Http\Controllers\Admin\OnlineFeePaymentController::class, 'easyPaisaCallback'])
     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
     ->name('admin.fees.easypaisa.callback');
+
+Route::post('/student/fees/easypaisa/callback', [\App\Http\Controllers\Student\OnlineFeePaymentController::class, 'easyPaisaCallback'])
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
+    ->name('student.fees.easypaisa.callback');
+
+// Generic Shared Routes
+Route::middleware(['auth', 'same_school'])->group(function () {
+    Route::get('/fees/receipt/{id}', [\App\Http\Controllers\FeeReceiptController::class, 'download'])->name('fees.receipt.download');
+});
