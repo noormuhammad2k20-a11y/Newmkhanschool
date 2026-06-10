@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 
-class MessageController extends Controller
+class MessageController extends BaseParentController
 {
     public function index()
     {

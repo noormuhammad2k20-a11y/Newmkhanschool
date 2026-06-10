@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\StudentAttendance;
 
-class AttendanceController extends Controller
+class AttendanceController extends BaseParentController
 {
     public function show($student_id)
     {

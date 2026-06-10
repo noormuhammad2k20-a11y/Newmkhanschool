@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\Assignment;
 
-class AssignmentController extends Controller
+class AssignmentController extends BaseParentController
 {
     public function show($student_id)
     {
@@ -18,7 +18,12 @@ class AssignmentController extends Controller
         $assignments = Assignment::with(['subject', 'teacher'])
             ->where('class_id', $student->current_class_id)
             ->orderByDesc('due_date')
-            ->get();
+            ->get()
+            ->map(function ($a) use ($student_id) {
+                $a->submission = \App\Models\AssignmentSubmission::where('assignment_id', $a->id)
+                    ->where('student_id', $student_id)->first();
+                return $a;
+            });
 
         return view('parent.child-assignments', compact('student', 'assignments'));
     }

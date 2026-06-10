@@ -168,48 +168,79 @@ class TeacherPortalController extends Controller
         $classIds = $this->getAssignedClassIds($teacher);
         $classes = DB::table('classes')->whereIn('id', $classIds)->orderBy('name')->get();
         
-        $selectedClass = $request->get('class_id');
-        $selectedSection = $request->get('section_id');
-        $selectedSubject = $request->get('subject');
-        $selectedExam = $request->get('exam_schedule_id');
+        $selectedClass = null;
+        $selectedSection = null;
+        $selectedSubject = null;
+        $selectedExam = null;
         
         $sections = collect();
         $subjects = collect();
         $examSchedules = collect();
-        
-        if ($selectedClass) {
-            $sections = DB::table('sections')->where('class_id', $selectedClass)->get();
-            $subjects = DB::table('teacher_assignments')
-                ->where('teacher_assignments.class_id', $selectedClass)
-                ->where('teacher_assignments.teacher_id', $teacher?->id)
-                ->join('subjects', 'teacher_assignments.subject_id', '=', 'subjects.id')
-                ->select('subjects.name as subject')
-                ->distinct()
-                ->get();
-        }
-
-        if ($selectedClass && $selectedSubject) {
-            $examSchedules = \App\Models\ExamSchedule::where('class_id', $selectedClass)
-                ->where('subject', $selectedSubject)
-                ->get();
-        }
-        
         $students = collect();
         $existingMarks = collect();
         
-        if ($selectedClass && $selectedSection && $selectedSubject && $selectedExam && $classIds->contains($selectedClass)) {
-            $students = DB::table('students')
-                ->where('current_class_id', $selectedClass)
-                ->where('current_section_id', $selectedSection)
-                ->get();
-            $existingMarks = DB::table('marks')
-                ->where('exam_schedule_id', $selectedExam)
-                ->whereIn('student_id', $students->pluck('id'))
-                ->get()
-                ->keyBy('student_id');
-        }
-        
         return view('teacher.marks', compact('classes', 'sections', 'subjects', 'examSchedules', 'selectedClass', 'selectedSection', 'selectedSubject', 'selectedExam', 'students', 'existingMarks')); 
+    }
+
+    public function getStudentsForMarks(Request $request) {
+        $teacher = $this->getTeacher();
+        $classIds = $this->getAssignedClassIds($teacher);
+        
+        $selectedClass = $request->post('class_id');
+        $selectedSection = $request->post('section_id');
+        $selectedSubject = $request->post('subject');
+        $selectedExam = $request->post('exam_schedule_id');
+        
+        if (!$classIds->contains($selectedClass)) {
+            abort(403, 'Unauthorized access to this class.');
+        }
+
+        $isAssignedSubject = DB::table('teacher_assignments')
+            ->where('teacher_assignments.class_id', $selectedClass)
+            ->where('teacher_assignments.teacher_id', $teacher?->id)
+            ->join('subjects', 'teacher_assignments.subject_id', '=', 'subjects.id')
+            ->where('subjects.name', $selectedSubject)
+            ->exists();
+
+        if (!$isAssignedSubject) {
+            abort(403, 'Unauthorized access to this subject.');
+        }
+
+        $subjectId = DB::table('subjects')->where('name', $selectedSubject)->value('id');
+        
+        $examValid = \App\Models\ExamSchedule::where('id', $selectedExam)
+            ->where('class_id', $selectedClass)
+            ->where('subject_id', $subjectId)
+            ->exists();
+            
+        if (!$examValid) {
+            abort(403, 'Unauthorized access to this exam schedule.');
+        }
+
+        // Validate section belongs to class
+        $sectionValid = DB::table('sections')
+            ->where('id', $selectedSection)
+            ->where('class_id', $selectedClass)
+            ->exists();
+            
+        if (!$sectionValid) {
+            abort(403, 'Unauthorized access to this section.');
+        }
+
+        $students = DB::table('students')
+            ->where('current_class_id', $selectedClass)
+            ->where('current_section_id', $selectedSection)
+            ->get();
+            
+        $existingMarks = DB::table('marks')
+            ->where('exam_schedule_id', $selectedExam)
+            ->whereIn('student_id', $students->pluck('id'))
+            ->get()
+            ->keyBy('student_id');
+            
+        $currentExam = \App\Models\ExamSchedule::find($selectedExam);
+
+        return view('teacher.partials.marks_table', compact('students', 'existingMarks', 'currentExam', 'selectedClass', 'selectedSection', 'selectedSubject', 'selectedExam'))->render();
     }
 
     public function storeMarks(Request $request) {
@@ -221,17 +252,54 @@ class TeacherPortalController extends Controller
         }
         
         // Resolve subject_id
+        $isAssignedSubject = DB::table('teacher_assignments')
+            ->where('teacher_assignments.class_id', $request->class_id)
+            ->where('teacher_assignments.teacher_id', $teacher?->id)
+            ->join('subjects', 'teacher_assignments.subject_id', '=', 'subjects.id')
+            ->where('subjects.name', $request->subject)
+            ->exists();
+
+        if (!$isAssignedSubject) {
+            return redirect()->back()->with('error', 'Unauthorized access to this subject.');
+        }
+
         $subjectId = DB::table('subjects')->where('name', $request->subject)->value('id');
         if(!$subjectId) return redirect()->back()->with('error', 'Subject not found.');
 
         $examSchedule = \App\Models\ExamSchedule::find($request->exam_schedule_id);
-        if(!$examSchedule) return redirect()->back()->with('error', 'Exam schedule not found.');
+        if(!$examSchedule || $examSchedule->class_id != $request->class_id || $examSchedule->subject_id != $subjectId) {
+            return redirect()->back()->with('error', 'Unauthorized access to this exam schedule.');
+        }
+
+        // Validate section
+        $sectionValid = DB::table('sections')
+            ->where('id', $request->section_id)
+            ->where('class_id', $request->class_id)
+            ->exists();
+            
+        if (!$sectionValid) {
+            return redirect()->back()->with('error', 'Unauthorized access to this section.');
+        }
+
+        // Fetch valid student IDs for this class and section
+        $validStudentIds = DB::table('students')
+            ->where('current_class_id', $request->class_id)
+            ->where('current_section_id', $request->section_id)
+            ->pluck('id')
+            ->toArray();
 
         $maxMarks = $examSchedule->max_marks ?? 100;
         $passingMarks = $examSchedule->passing_marks ?? 40;
 
         foreach ($request->marks as $studentId => $mark) {
+            if (!in_array($studentId, $validStudentIds)) {
+                continue; // Skip invalid student IDs
+            }
+            
             if($mark !== null) {
+                // Ensure mark is not greater than max marks
+                if ($mark > $maxMarks) $mark = $maxMarks;
+                
                 $percentage = ($mark / $maxMarks) * 100;
                 $isPass = $mark >= $passingMarks;
                 
@@ -496,5 +564,37 @@ class TeacherPortalController extends Controller
     public function rejectStudentLeave($id) {
         DB::table('student_leave_requests')->where('id', $id)->update(['status' => 'Rejected', 'updated_at' => now()]);
         return back()->with('success', 'Student leave rejected.');
+    }
+
+    // AJAX Methods
+    public function getSections(Request $request) {
+        $sections = DB::table('sections')->where('class_id', $request->class_id)->get();
+        return response()->json($sections);
+    }
+    
+    public function getSubjects(Request $request) {
+        $teacher = $this->getTeacher();
+        $subjects = DB::table('teacher_assignments')
+            ->where('teacher_assignments.class_id', $request->class_id)
+            ->where('teacher_assignments.teacher_id', $teacher?->id)
+            ->join('subjects', 'teacher_assignments.subject_id', '=', 'subjects.id')
+            ->select('subjects.name as subject')
+            ->distinct()
+            ->get();
+        return response()->json($subjects);
+    }
+    
+    public function getExams(Request $request) {
+        $subjectId = DB::table('subjects')->where('name', $request->subject)->value('id');
+        $exams = \App\Models\ExamSchedule::where('class_id', $request->class_id)
+            ->where('subject_id', $subjectId)
+            ->get()
+            ->map(function($exam) {
+                return [
+                    'id' => $exam->id,
+                    'text' => $exam->exam_type . ' (' . \Carbon\Carbon::parse($exam->exam_date)->format('d M Y') . ')'
+                ];
+            });
+        return response()->json($exams);
     }
 }

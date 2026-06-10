@@ -8,7 +8,7 @@ use App\Models\Student;
 use App\Models\ExamSchedule;
 use Illuminate\Http\Request;
 
-class ExamController extends Controller
+class ExamController extends BaseParentController
 {
     public function show($student_id)
     {

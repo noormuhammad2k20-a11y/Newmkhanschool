@@ -8,7 +8,7 @@ use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
-class LeaveController extends Controller
+class LeaveController extends BaseParentController
 {
     public function show($student_id)
     {
@@ -17,9 +17,8 @@ class LeaveController extends Controller
             
         $student = Student::with('currentClass')->findOrFail($student_id);
         
-        $leaves = DB::table('student_leave_requests')
-            ->where('student_id', $student_id)
-            ->orderBy('created_at', 'desc')->get();
+        $leaves = \App\Models\StudentLeaveRequest::where('student_id', $student_id)
+            ->orderBy('created_at', 'desc')->paginate(15);
             
         return view('parent.child-leave', compact('student', 'leaves'));
     }

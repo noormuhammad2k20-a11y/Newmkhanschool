@@ -57,6 +57,7 @@
                         <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Amount</th>
                         <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Due Date</th>
                         <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium">Status</th>
+                        <th class="py-2 px-4 text-label-md font-label-md text-secondary font-medium text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant">
@@ -73,6 +74,19 @@
                                 <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800">Overdue</span>
                             @else
                                 <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>
+                            @endif
+                        </td>
+                        <td class="py-3 px-4 text-right">
+                            @if($fee->status === 'Paid')
+                                <a href="{{ route('parent.child.fees.receipt', [$student->id, $fee->id]) }}" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-md text-sm font-medium transition-colors">
+                                    <span class="material-symbols-outlined text-[16px]">receipt</span>
+                                    Receipt
+                                </a>
+                            @else
+                                <a href="{{ route('parent.child.fees.pay', [$student->id, $fee->id]) }}" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 bg-primary hover:bg-primary/90 text-on-primary rounded-md text-sm font-medium transition-colors shadow-sm">
+                                    <span class="material-symbols-outlined text-[16px]">payment</span>
+                                    Pay Now
+                                </a>
                             @endif
                         </td>
                     </tr>

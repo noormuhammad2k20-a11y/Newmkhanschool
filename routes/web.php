@@ -166,6 +166,12 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
     Route::middleware('teacher_module:marks')->group(function() {
         Route::get('/marks', [\App\Http\Controllers\TeacherPortalController::class, 'marks'])->name('teacher.marks');
         Route::post('/marks', [\App\Http\Controllers\TeacherPortalController::class, 'storeMarks'])->name('teacher.marks.store');
+        
+        // AJAX Endpoints
+        Route::get('/api/sections', [\App\Http\Controllers\TeacherPortalController::class, 'getSections'])->name('teacher.api.sections');
+        Route::get('/api/subjects', [\App\Http\Controllers\TeacherPortalController::class, 'getSubjects'])->name('teacher.api.subjects');
+        Route::get('/api/exams', [\App\Http\Controllers\TeacherPortalController::class, 'getExams'])->name('teacher.api.exams');
+        Route::post('/api/marks/students', [\App\Http\Controllers\TeacherPortalController::class, 'getStudentsForMarks'])->name('teacher.api.marks.students');
     });
     
     Route::middleware('teacher_module:assignments')->group(function() {
@@ -297,10 +303,14 @@ Route::middleware(['auth', 'role:Parent', 'same_school'])
         Route::get('/children/{student_id}/attendance', [App\Http\Controllers\ParentPortal\AttendanceController::class, 'show'])->name('child.attendance');
         Route::get('/children/{student_id}/marks', [App\Http\Controllers\ParentPortal\MarksController::class, 'show'])->name('child.marks');
         Route::get('/children/{student_id}/fees', [App\Http\Controllers\ParentPortal\FeeController::class, 'show'])->name('child.fees');
+        Route::get('/children/{student_id}/fees/{fee_id}/pay', [App\Http\Controllers\ParentPortal\FeePaymentController::class, 'showPaymentForm'])->name('child.fees.pay');
+        Route::post('/children/{student_id}/fees/{fee_id}/process', [App\Http\Controllers\ParentPortal\FeePaymentController::class, 'processPayment'])->name('child.fees.process');
+        Route::get('/children/{student_id}/fees/{fee_id}/receipt', [App\Http\Controllers\ParentPortal\FeePaymentController::class, 'receipt'])->name('child.fees.receipt');
         Route::get('/children/{student_id}/timetable', [App\Http\Controllers\ParentPortal\TimetableController::class, 'show'])->name('child.timetable');
         Route::get('/children/{student_id}/assignments', [App\Http\Controllers\ParentPortal\AssignmentController::class, 'show'])->name('child.assignments');
         Route::get('/children/{student_id}/exam-schedule', [App\Http\Controllers\ParentPortal\ExamController::class, 'show'])->name('child.exam-schedule');
         Route::get('/children/{student_id}/report-card', [App\Http\Controllers\ParentPortal\ReportCardController::class, 'show'])->name('child.report-card');
+        Route::get('/children/{student_id}/report-card/download', [App\Http\Controllers\ParentPortal\ReportCardController::class, 'download'])->name('child.report-card.download');
         Route::get('/children/{student_id}/leave', [App\Http\Controllers\ParentPortal\LeaveController::class, 'show'])->name('child.leave');
         Route::post('/children/{student_id}/leave', [App\Http\Controllers\ParentPortal\LeaveController::class, 'store'])->name('child.leave.store');
         Route::get('/announcements', [App\Http\Controllers\ParentPortal\AnnouncementController::class, 'index'])->name('announcements');
@@ -308,6 +318,14 @@ Route::middleware(['auth', 'role:Parent', 'same_school'])
         Route::post('/messages', [App\Http\Controllers\ParentPortal\MessageController::class, 'send'])->name('messages.send');
         Route::get('/profile', [App\Http\Controllers\ParentPortal\ProfileController::class, 'show'])->name('profile');
         Route::put('/profile', [App\Http\Controllers\ParentPortal\ProfileController::class, 'update'])->name('profile.update');
+
+        Route::get('/children/{student_id}/online-exams',           [App\Http\Controllers\ParentPortal\OnlineExamController::class, 'index'])->name('child.online-exams.index');
+        Route::get('/children/{student_id}/online-exams/{exam_id}', [App\Http\Controllers\ParentPortal\OnlineExamController::class, 'result'])->name('child.online-exams.result');
+
+        Route::get('/notifications',              [App\Http\Controllers\ParentPortal\NotificationController::class, 'index'])->name('notifications.index');
+        Route::post('/notifications/{id}/read',   [App\Http\Controllers\ParentPortal\NotificationController::class, 'markRead'])->name('notifications.read');
+        Route::post('/notifications/read-all',    [App\Http\Controllers\ParentPortal\NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+        Route::get('/notifications/unread-count', [App\Http\Controllers\ParentPortal\NotificationController::class, 'unreadCount'])->name('notifications.count');
     });
 
 // API ROUTES (Scoped internally in controllers based on auth()->user()->role_id)

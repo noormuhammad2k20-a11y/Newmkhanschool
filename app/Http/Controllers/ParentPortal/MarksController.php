@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\Mark;
 
-class MarksController extends Controller
+class MarksController extends BaseParentController
 {
     public function show($student_id)
     {

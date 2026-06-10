@@ -8,8 +8,10 @@ use App\Models\Student;
 use App\Models\Mark;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\AcademicYear;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-class ReportCardController extends Controller
+class ReportCardController extends BaseParentController
 {
     public function show($student_id)
     {
@@ -27,5 +29,14 @@ class ReportCardController extends Controller
         $reportCard = DB::table('report_cards')->where('student_id', $student_id)->latest('created_at')->first();
         
         return view('parent.child-report-card', compact('student', 'marks', 'reportCard'));
+    }
+
+    public function download($student_id)
+    {
+        abort_unless($this->parentOwnsStudent($student_id), 403);
+        $student = Student::with(['currentClass','currentSection','marks.subject','marks.examSchedule'])->findOrFail($student_id);
+        $academicYear = AcademicYear::where('is_active', 1)->first();
+        $pdf = Pdf::loadView('parent.report-card-pdf', compact('student', 'academicYear'));
+        return $pdf->download("report-card-{$student->first_name}.pdf");
     }
 }

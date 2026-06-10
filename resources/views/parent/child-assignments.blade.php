@@ -38,14 +38,14 @@
                 </div>
                 <div class="p-md bg-surface-container-low mt-auto border-t border-outline-variant">
                     @php
-                        $submission = $assignment->submissions->where('student_id', $student->id)->first();
+                        $submission = $assignment->submission;
                     @endphp
                     
                     @if($submission)
                         <div class="flex items-center justify-between">
                             <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-emerald-600">
                                 <span class="material-symbols-outlined text-[18px]">check_circle</span>
-                                Submitted
+                                Submitted ({{ \Carbon\Carbon::parse($submission->submitted_at ?? $submission->created_at)->format('d M') }})
                             </span>
                             @if($submission->marks_obtained !== null)
                                 <span class="font-label-md text-label-md font-bold text-on-surface">{{ $submission->marks_obtained }} Marks</span>
@@ -55,8 +55,8 @@
                         </div>
                     @else
                         <div class="flex items-center justify-between">
-                            <span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-orange-600">
-                                <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                            <span class="inline-flex items-center gap-1.5 font-label-md text-label-md {{ $isOverdue ? 'text-red-600' : 'text-orange-600' }}">
+                                <span class="material-symbols-outlined text-[18px]">{{ $isOverdue ? 'cancel' : 'pending_actions' }}</span>
                                 Not Submitted
                             </span>
                         </div>

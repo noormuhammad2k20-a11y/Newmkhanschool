@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\Fee;
 
-class FeeController extends Controller
+class FeeController extends BaseParentController
 {
     public function show($student_id)
     {

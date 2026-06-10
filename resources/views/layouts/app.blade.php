@@ -660,6 +660,24 @@
                     </a>
                 </li>
                 <li class="mb-1">
+                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.online-exams*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.child.online-exams.index', $firstStudentId) }}">
+                        <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.child.online-exams*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="desktop_windows">desktop_windows</span>
+                        <span class="font-label-md text-label-md tracking-wide">Online Exams</span>
+                        @if(request()->routeIs('parent.child.online-exams*'))
+                            <div class="ml-auto w-1.5 h-1.5 rounded-full bg-primary"></div>
+                        @endif
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.child.fees*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.child.fees', $firstStudentId) }}">
+                        <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.child.fees*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="payments">payments</span>
+                        <span class="font-label-md text-label-md tracking-wide">Fee Payment</span>
+                        @if(request()->routeIs('parent.child.fees*'))
+                            <div class="ml-auto w-1.5 h-1.5 rounded-full bg-primary"></div>
+                        @endif
+                    </a>
+                </li>
+                <li class="mb-1">
                     <a class="group flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 ease-in-out {{ request()->routeIs('parent.profile*') ? 'bg-primary-fixed text-primary font-bold shadow-sm' : 'text-secondary hover:bg-surface-container-high hover:text-on-surface' }}" href="{{ route('parent.profile') }}">
                         <span class="material-symbols-outlined text-[22px] transition-transform duration-300 {{ request()->routeIs('parent.profile*') ? 'scale-110' : 'group-hover:scale-110' }}" data-icon="person">person</span>
                         <span class="font-label-md text-label-md tracking-wide">My Profile</span>
@@ -695,9 +713,16 @@
                 <h1 class="font-headline-md text-headline-md font-bold text-primary">EduGov Management</h1>
             </div>
             <div class="flex items-center gap-sm">
-                <button class="text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
-                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                </button>
+                @if(auth()->check() && auth()->user()->role_id == 5)
+                    <a href="{{ route('parent.notifications.index') }}" class="relative text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                        <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                        <span id="notification-badge" class="absolute top-1 right-1 w-2.5 h-2.5 border-2 border-surface-container-lowest bg-error rounded-full hidden"></span>
+                    </a>
+                @else
+                    <button class="text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                        <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    </button>
+                @endif>
                 <button class="text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
                     <span class="material-symbols-outlined" data-icon="help">help</span>
                 </button>
@@ -865,6 +890,33 @@
                 });
             }
         });
+        });
     </script>
+    @if(auth()->check() && auth()->user()->role_id == 5)
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function checkNotifications() {
+                fetch('{{ route('parent.notifications.count') }}', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    const badge = document.getElementById('notification-badge');
+                    if(badge) {
+                        if(data.count > 0) {
+                            badge.classList.remove('hidden');
+                        } else {
+                            badge.classList.add('hidden');
+                        }
+                    }
+                })
+                .catch(e => console.error('Notification check failed'));
+            }
+            
+            checkNotifications();
+            setInterval(checkNotifications, 60000);
+        });
+    </script>
+    @endif
 </body>
 </html>

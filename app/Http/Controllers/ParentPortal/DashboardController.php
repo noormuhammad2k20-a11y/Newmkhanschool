@@ -9,13 +9,8 @@ use App\Models\Fee;
 use App\Models\Announcement;
 use App\Models\AcademicYear;
 
-class DashboardController extends Controller
+class DashboardController extends BaseParentController
 {
-    private function getLinkedStudentIds(): \Illuminate\Support\Collection
-    {
-        return ParentStudent::where('parent_user_id', auth()->id())
-            ->pluck('student_id');
-    }
 
     public function index()
     {
@@ -32,9 +27,31 @@ class DashboardController extends Controller
             $present = StudentAttendance::where('student_id',$child->id)->where('academic_year_id',$academicYear?->id)->where('status','P')->count();
             $pending = Fee::where('student_id',$child->id)->whereIn('status',['Pending','Overdue'])->sum('amount');
 
+            $sixMonthsAgo = now()->subMonths(5)->startOfMonth();
+            $attendances = StudentAttendance::where('student_id', $child->id)
+                ->where('date', '>=', $sixMonthsAgo)
+                ->get();
+                
+            $monthlyChart = [];
+            for ($i = 5; $i >= 0; $i--) {
+                $month = now()->subMonths($i);
+                $label = $month->format('M Y');
+                
+                $monthAttendances = $attendances->filter(function ($att) use ($month) {
+                    return \Carbon\Carbon::parse($att->date)->format('Y-m') === $month->format('Y-m');
+                });
+                
+                $monthlyChart[] = [
+                    'label' => $label,
+                    'present' => $monthAttendances->where('status', 'P')->count(),
+                    'absent' => $monthAttendances->where('status', 'A')->count(),
+                ];
+            }
+
             $childSummaries[$child->id] = [
                 'attendance_pct' => $total > 0 ? round(($present/$total)*100,1) : 0,
                 'pending_fees'   => $pending,
+                'monthly_chart'  => $monthlyChart,
             ];
         }
 

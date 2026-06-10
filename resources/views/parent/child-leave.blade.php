@@ -144,9 +144,16 @@
                             </tbody>
                         </table>
                     </div>
+                    @if($leaves->hasPages())
+                        <div class="p-4 border-t border-outline-variant bg-surface-lowest">
+                            {{ $leaves->links('pagination::bootstrap-5') }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </main>
 @endsection
+
+

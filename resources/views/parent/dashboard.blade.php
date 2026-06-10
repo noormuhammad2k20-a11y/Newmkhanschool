@@ -144,6 +144,11 @@
                                 </div>
                             </div>
 
+                            <!-- Monthly Attendance Chart -->
+                            <div class="p-3 border-b border-outline-variant bg-surface-container-lowest">
+                                <canvas id="chart-{{ $student->id }}" height="80"></canvas>
+                            </div>
+
                             <!-- Actions -->
                             <div class="p-md grid grid-cols-2 gap-3">
                                 <a href="{{ route('parent.child.attendance', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
@@ -256,4 +261,33 @@
         </div>
     </div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const childSummaries = @json($childSummaries ?? []);
+    for (const [studentId, data] of Object.entries(childSummaries)) {
+        const ctx = document.getElementById('chart-' + studentId);
+        if (ctx && data.monthly_chart && data.monthly_chart.length > 0) {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.monthly_chart.map(c => c.label),
+                    datasets: [
+                        { label: 'Present', data: data.monthly_chart.map(c => c.present), backgroundColor: '#10b981' },
+                        { label: 'Absent', data: data.monthly_chart.map(c => c.absent), backgroundColor: '#ef4444' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
+                    }
+                }
+            });
+        }
+    }
+});
+</script>
 @endsection

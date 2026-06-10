@@ -5,7 +5,7 @@ namespace App\Http\Controllers\ParentPortal;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 
-class AnnouncementController extends Controller
+class AnnouncementController extends BaseParentController
 {
     public function index()
     {

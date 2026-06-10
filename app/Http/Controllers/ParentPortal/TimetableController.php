@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\Timetable;
 
-class TimetableController extends Controller
+class TimetableController extends BaseParentController
 {
     public function show($student_id)
     {
