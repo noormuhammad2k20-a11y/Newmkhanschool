@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Support\Facades\DB;
 use App\Models\Teacher;
 
 class TeacherController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         return view('teachers.index');
@@ -114,10 +116,10 @@ class TeacherController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.teachers.permissions', $id)->with('success', 'Teacher permissions updated successfully.');
+            return $this->ajaxSuccess($request, 'Teacher permissions updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Error updating permissions: ' . $e->getMessage());
+            return $this->ajaxError($request, 'Error updating permissions: ' . $e->getMessage());
         }
     }
 }

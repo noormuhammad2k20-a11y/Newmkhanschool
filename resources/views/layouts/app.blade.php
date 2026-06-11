@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>EduGov Management</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
@@ -210,12 +211,7 @@
                         <span class="font-label-md text-label-md">Teachers</span>
                     </a>
                 </li>
-                <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out" href="{{ route('parent.dashboard') }}">
-                        <span class="material-symbols-outlined" data-icon="family_home">family_home</span>
-                        <span class="font-label-md text-label-md">Parents Portal</span>
-                    </a>
-                </li>
+
 
                 <li class="px-md py-xs mt-sm">
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Attendance & Academics</span>
@@ -464,14 +460,6 @@
                     <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.ai-grader*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.ai-grader') }}">
                         <span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
                         <span class="font-label-md text-label-md">AI Auto Grader</span>
-                    </a>
-                </li>
-                @endif
-                @if(in_array('homework', $assignedModules))
-                <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.homework*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.homework') }}">
-                        <span class="material-symbols-outlined" data-icon="home_work">home_work</span>
-                        <span class="font-label-md text-label-md">Homework</span>
                     </a>
                 </li>
                 @endif
@@ -802,6 +790,24 @@
     <!-- Global Toast Notification -->
     <div id="global-toast" class="fixed top-20 right-6 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
 
+    <!-- Global Alert Modal -->
+    <div id="global-alert-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm transition-opacity opacity-0">
+        <div class="bg-surface-container-lowest rounded-xl max-w-md w-full shadow-lg border border-outline-variant transform scale-95 transition-transform duration-200">
+            <div class="p-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary-container text-primary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px]">info</span>
+                    </div>
+                    <h3 class="text-headline-md font-headline-md font-bold text-on-surface" id="global-alert-title">Alert</h3>
+                </div>
+                <p class="text-body-md font-body-md text-on-surface-variant mb-6" id="global-alert-message"></p>
+                <div class="flex items-center justify-end">
+                    <button id="global-alert-ok" class="px-4 py-2 rounded-lg text-label-md font-label-md bg-primary text-on-primary hover:bg-primary/90 transition-colors shadow-sm">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Global Confirmation Modal -->
     <div id="global-confirm-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm transition-opacity opacity-0">
         <div class="bg-surface-container-lowest rounded-xl max-w-md w-full shadow-lg border border-outline-variant transform scale-95 transition-transform duration-200">
@@ -866,6 +872,11 @@
             confirm: function(title, message, confirmText = 'Confirm', confirmStyle = 'error') {
                 return new Promise((resolve) => {
                     const modal = document.getElementById('global-confirm-modal');
+                    if (!modal) {
+                        alert('Error: global-confirm-modal element not found in HTML!');
+                        resolve(false);
+                        return;
+                    }
                     const modalInner = modal.querySelector('div');
                     const titleEl = document.getElementById('global-confirm-title');
                     const messageEl = document.getElementById('global-confirm-message');
@@ -882,26 +893,33 @@
                         okBtn.className = 'px-4 py-2 rounded-lg text-label-md font-label-md bg-error text-on-error hover:bg-[#93000a] transition-colors shadow-sm';
                         iconContainer.className = 'w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center';
                         icon.textContent = 'delete_forever';
+                    } else if (confirmStyle === 'success') {
+                        okBtn.className = 'px-4 py-2 rounded-lg text-label-md font-label-md bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-sm';
+                        iconContainer.className = 'w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center';
+                        icon.textContent = 'check_circle';
                     } else {
-                        okBtn.className = 'px-4 py-2 rounded-lg text-label-md font-label-md bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm';
+                        okBtn.className = 'px-4 py-2 rounded-lg text-label-md font-label-md bg-primary text-on-primary hover:bg-primary/90 transition-colors shadow-sm';
                         iconContainer.className = 'w-10 h-10 rounded-full bg-primary-container text-primary flex items-center justify-center';
-                        icon.textContent = 'warning';
+                        icon.textContent = 'help';
                     }
                     
-                    // Show modal
+                    // Show modal forcefully
                     modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-                    requestAnimationFrame(() => {
-                        modal.classList.remove('opacity-0');
-                        modalInner.classList.remove('scale-95');
-                    });
+                    modal.style.display = 'flex';
+                    modal.style.opacity = '1';
+                    modal.style.pointerEvents = 'auto';
+                    
+                    if (modalInner) {
+                        modalInner.style.transform = 'scale(1)';
+                    }
                     
                     const cleanup = () => {
-                        modal.classList.add('opacity-0');
-                        modalInner.classList.add('scale-95');
+                        modal.style.opacity = '0';
+                        modal.style.pointerEvents = 'none';
+                        if (modalInner) modalInner.style.transform = 'scale(0.95)';
                         setTimeout(() => {
                             modal.classList.add('hidden');
-                            modal.classList.remove('flex');
+                            modal.style.display = 'none';
                         }, 200);
                         
                         cancelBtn.removeEventListener('click', onCancel);
@@ -914,8 +932,393 @@
                     cancelBtn.addEventListener('click', onCancel);
                     okBtn.addEventListener('click', onOk);
                 });
+            },
+            
+            alert: function(title, message) {
+                return new Promise((resolve) => {
+                    const modal = document.getElementById('global-alert-modal');
+                    if (!modal) {
+                        alert(title + '\n\n' + message);
+                        resolve(true);
+                        return;
+                    }
+                    const modalInner = modal.querySelector('div');
+                    document.getElementById('global-alert-title').textContent = title;
+                    document.getElementById('global-alert-message').textContent = message;
+                    const okBtn = document.getElementById('global-alert-ok');
+                    
+                    // Show modal forcefully
+                    modal.classList.remove('hidden');
+                    modal.style.display = 'flex';
+                    modal.style.opacity = '1';
+                    modal.style.pointerEvents = 'auto';
+                    
+                    if (modalInner) {
+                        modalInner.style.transform = 'scale(1)';
+                    }
+                    
+                    const cleanup = () => {
+                        modal.style.opacity = '0';
+                        modal.style.pointerEvents = 'none';
+                        if (modalInner) modalInner.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                            modal.style.display = 'none';
+                        }, 200);
+                        okBtn.removeEventListener('click', onOk);
+                    };
+                    
+                    const onOk = () => { cleanup(); resolve(true); };
+                    okBtn.addEventListener('click', onOk);
+                });
             }
         };
+
+        // Override native alert globally
+        window.alert = function(message) {
+            window.UI.alert('Alert', message);
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // GLOBAL AJAX FORM INTERCEPTOR — No Page Reloads
+        // ═══════════════════════════════════════════════════════════════════
+        (function() {
+            const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                             || '{{ csrf_token() }}';
+
+            // Forms to exclude from AJAX handling
+            function shouldExclude(form) {
+                // Explicit opt-out
+                if (form.hasAttribute('data-no-ajax')) return true;
+                // Login form
+                if (form.action && form.action.includes('/login')) return true;
+                // Download / external links
+                if (form.target === '_blank') return true;
+                // GET forms (search, filter) — let them work normally
+                if ((form.method || 'GET').toUpperCase() === 'GET') return true;
+                return false;
+            }
+
+            // Determine the real HTTP method (respects _method spoofing)
+            function getRealMethod(form) {
+                const spoofField = form.querySelector('input[name="_method"]');
+                if (spoofField) return spoofField.value.toUpperCase();
+                return (form.method || 'POST').toUpperCase();
+            }
+
+            // Set loading state on submit button
+            function setLoading(btn, loading) {
+                if (!btn) return;
+                if (loading) {
+                    btn.dataset.originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.style.opacity = '0.7';
+                    btn.style.pointerEvents = 'none';
+                    const spinner = `<svg class="animate-spin inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+                    btn.innerHTML = spinner + 'Processing...';
+                } else {
+                    if (btn.dataset.originalText) {
+                        btn.innerHTML = btn.dataset.originalText;
+                    }
+                    btn.disabled = false;
+                    btn.style.opacity = '';
+                    btn.style.pointerEvents = '';
+                }
+            }
+
+            // Clear previous validation errors
+            function clearValidationErrors(form) {
+                form.querySelectorAll('.ajax-field-error').forEach(el => el.remove());
+                form.querySelectorAll('.border-red-500, .border-error').forEach(el => {
+                    el.classList.remove('border-red-500', 'border-error');
+                });
+            }
+
+            // Show validation errors on fields
+            function showValidationErrors(form, errors) {
+                clearValidationErrors(form);
+                for (const [field, messages] of Object.entries(errors)) {
+                    const input = form.querySelector(`[name="${field}"], [name="${field}[]"]`);
+                    if (input) {
+                        input.classList.add('border-red-500');
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'ajax-field-error text-xs text-red-600 mt-1';
+                        errorDiv.textContent = Array.isArray(messages) ? messages[0] : messages;
+                        input.closest('div')?.appendChild(errorDiv) || input.parentNode.appendChild(errorDiv);
+                    }
+                }
+            }
+
+            // Smart content refresh — re-fetch page, replace main content only
+            window.UI.refreshContent = function(callback) {
+                const scrollY = window.scrollY;
+                fetch(window.location.href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-Content-Only': '1'
+                    }
+                })
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    // Find the main content area in both old and new DOM
+                    const newContent = doc.querySelector('main') || doc.querySelector('[role="main"]') || doc.querySelector('.flex-1.overflow-y-auto');
+                    const oldContent = document.querySelector('main') || document.querySelector('[role="main"]') || document.querySelector('.flex-1.overflow-y-auto');
+
+                    if (newContent && oldContent) {
+                        oldContent.innerHTML = newContent.innerHTML;
+                        // Re-run any inline scripts in the new content
+                        oldContent.querySelectorAll('script').forEach(oldScript => {
+                            const newScript = document.createElement('script');
+                            if (oldScript.src) {
+                                newScript.src = oldScript.src;
+                            } else {
+                                newScript.textContent = oldScript.textContent;
+                            }
+                            oldScript.parentNode.replaceChild(newScript, oldScript);
+                        });
+                    } else {
+                        // Fallback: replace entire body content except sidebar
+                        const newBody = doc.querySelector('.flex-1');
+                        const oldBody = document.querySelector('.flex-1');
+                        if (newBody && oldBody) {
+                            oldBody.innerHTML = newBody.innerHTML;
+                        }
+                    }
+
+                    if (callback) callback();
+                })
+                .catch(err => {
+                    console.error('Content refresh failed:', err);
+                    // Silent fallback — the toast already showed success
+                });
+            };
+
+            // Global form submit interceptor
+            document.addEventListener('submit', async function(e) {
+                const form = e.target;
+                if (!form || form.tagName !== 'FORM') return;
+                if (shouldExclude(form)) return;
+
+                // Handle standard form confirm if data-confirm is present
+                if (form.hasAttribute('data-confirm')) {
+                    if (form.dataset.confirmed !== 'true') {
+                        e.preventDefault();
+                        const message = form.getAttribute('data-confirm') || 'Are you sure you want to proceed?';
+                        const isConfirmed = await window.UI.confirm('Confirm Action', message, 'Confirm', 'error');
+                        if (isConfirmed) {
+                            form.dataset.confirmed = 'true';
+                            form.requestSubmit ? form.requestSubmit() : form.submit();
+                        }
+                        return;
+                    } else {
+                        delete form.dataset.confirmed; // Reset for next time
+                    }
+                }
+
+                // Check if this form is a delete form already being handled by confirm
+                // If there's a pending confirm, don't double-intercept
+                if (form.dataset.ajaxProcessing === 'true') return;
+
+                e.preventDefault();
+                form.dataset.ajaxProcessing = 'true';
+
+                const submitBtn = form.querySelector('button[type="submit"], input[type="submit"], button:not([type])');
+                const method = getRealMethod(form);
+                const formData = new FormData(form);
+
+                clearValidationErrors(form);
+                setLoading(submitBtn, true);
+
+                try {
+                    const fetchOptions = {
+                        method: 'POST', // Always POST — Laravel uses _method for spoofing
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        body: formData
+                    };
+
+                    // Ensure _method is in the FormData for spoofed methods
+                    if (['PUT', 'PATCH', 'DELETE'].includes(method)) {
+                        if (!formData.has('_method')) {
+                            formData.append('_method', method);
+                        }
+                    }
+
+                    const response = await fetch(form.action, fetchOptions);
+                    const contentType = response.headers.get('content-type') || '';
+
+                    if (contentType.includes('application/json')) {
+                        const data = await response.json();
+
+                        if (response.ok && (data.status === 'success' || response.status === 200)) {
+                            // Success
+                            window.UI.showToast(data.message || 'Operation completed successfully!', 'success');
+
+                            // If the server sends a redirect URL
+                            if (data.redirect) {
+                                setTimeout(() => { window.location.href = data.redirect; }, 600);
+                            } else {
+                                // Close any open modals
+                                document.querySelectorAll('[id*="modal"]').forEach(modal => {
+                                    if (modal.id !== 'global-confirm-modal' && modal.id !== 'global-toast') {
+                                        if (!modal.classList.contains('hidden')) {
+                                            modal.classList.add('hidden');
+                                            modal.classList.remove('flex');
+                                        }
+                                    }
+                                });
+
+                                // Reset form
+                                if (method === 'POST' && !['PUT', 'PATCH'].includes(formData.get('_method')?.toUpperCase())) {
+                                    form.reset();
+                                }
+
+                                // Refresh page content
+                                setTimeout(() => window.UI.refreshContent(), 300);
+                            }
+                        } else if (response.status === 422 && data.errors) {
+                            // Validation errors
+                            showValidationErrors(form, data.errors);
+                            window.UI.showToast(data.message || 'Please fix the errors below.', 'error');
+                        } else {
+                            // Other error
+                            window.UI.showToast(data.message || 'Something went wrong.', 'error');
+                        }
+                    } else if (contentType.includes('text/html')) {
+                        // Server returned HTML (redirect response that was followed)
+                        // Parse the HTML for session flash messages
+                        const html = await response.text();
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+
+                        // Check if the response is a redirect page (login page, etc.)
+                        if (doc.querySelector('form[action*="login"]')) {
+                            window.location.reload();
+                            return;
+                        }
+
+                        // Replace content with the new HTML
+                        const newContent = doc.querySelector('main') || doc.querySelector('.flex-1.overflow-y-auto');
+                        const oldContent = document.querySelector('main') || document.querySelector('.flex-1.overflow-y-auto');
+                        if (newContent && oldContent) {
+                            oldContent.innerHTML = newContent.innerHTML;
+                            oldContent.querySelectorAll('script').forEach(oldScript => {
+                                const newScript = document.createElement('script');
+                                if (oldScript.src) {
+                                    newScript.src = oldScript.src;
+                                } else {
+                                    newScript.textContent = oldScript.textContent;
+                                }
+                                oldScript.parentNode.replaceChild(newScript, oldScript);
+                            });
+                        }
+
+                        // Extract flash messages from the response HTML
+                        const successMatch = html.match(/showToast\("(.+?)",\s*'success'\)/);
+                        const errorMatch = html.match(/showToast\("(.+?)",\s*'error'\)/);
+                        if (successMatch) {
+                            window.UI.showToast(successMatch[1], 'success');
+                        } else if (errorMatch) {
+                            window.UI.showToast(errorMatch[1], 'error');
+                        } else {
+                            window.UI.showToast('Operation completed.', 'success');
+                        }
+
+                        reattachConfirmInterceptors();
+                    } else {
+                        // Unknown response — check if it might be a file download
+                        if (response.headers.get('content-disposition')?.includes('attachment')) {
+                            // Trigger download
+                            const blob = await response.blob();
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = response.headers.get('content-disposition')?.match(/filename="?(.+?)"?$/)?.[1] || 'download';
+                            document.body.appendChild(a);
+                            a.click();
+                            a.remove();
+                            URL.revokeObjectURL(url);
+                        }
+                    }
+                } catch (error) {
+                    console.error('AJAX form submission error:', error);
+                    window.UI.showToast('Network error. Please try again.', 'error');
+                } finally {
+                    setLoading(submitBtn, false);
+                    delete form.dataset.ajaxProcessing;
+                }
+            }, true); // Use capture phase to intercept before other handlers
+
+            // ─── AJAX Confirm Click & Delete Interceptor ──────────────────────────
+            // Handle buttons/links with data-confirm-click or data-confirm-delete
+            document.addEventListener('click', async function(e) {
+                const btn = e.target.closest('[data-confirm-delete], [data-confirm-click]');
+                if (!btn) return;
+
+                if (btn.hasAttribute('data-confirm-click')) {
+                    if (btn.dataset.confirmed !== 'true') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const message = btn.getAttribute('data-confirm-click') || 'Are you sure you want to proceed?';
+                        const isConfirmed = await window.UI.confirm('Confirm Action', message, 'Confirm', 'error');
+                        if (isConfirmed) {
+                            btn.dataset.confirmed = 'true';
+                            btn.click();
+                        }
+                        return;
+                    } else {
+                        delete btn.dataset.confirmed;
+                        return; // Let original click proceed
+                    }
+                }
+
+                // Handle data-confirm-delete
+                e.preventDefault();
+                e.stopPropagation();
+
+                const message = btn.getAttribute('data-confirm-delete') || 'Are you sure you want to delete this?';
+                const isConfirmed = await window.UI.confirm('Confirm Delete', message, 'Yes, Delete', 'error');
+                if (!isConfirmed) return;
+
+                // Find the associated form
+                const form = btn.closest('form');
+                if (form) {
+                    // Mark it so our submit interceptor picks it up
+                    form.dataset.ajaxProcessing = 'false';
+                    // Trigger submission (our submit interceptor will handle AJAX)
+                    form.requestSubmit ? form.requestSubmit() : form.submit();
+                } else if (btn.dataset.deleteUrl) {
+                    // Standalone button with data-delete-url
+                    try {
+                        const response = await fetch(btn.dataset.deleteUrl, {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': CSRF_TOKEN,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ _method: 'DELETE' })
+                        });
+                        const data = await response.json();
+                        if (response.ok) {
+                            window.UI.showToast(data.message || 'Deleted successfully.', 'success');
+                            setTimeout(() => window.UI.refreshContent(), 300);
+                        } else {
+                            window.UI.showToast(data.message || 'Delete failed.', 'error');
+                        }
+                    } catch (err) {
+                        window.UI.showToast('Network error during delete.', 'error');
+                    }
+                }
+            }, true);
+        })();
 
         // Mobile Sidebar Toggle
         document.addEventListener('DOMContentLoaded', () => {
@@ -949,7 +1352,22 @@
                     sessionStorage.setItem('sidebar-scroll', sidebarNav.scrollTop);
                 });
             }
-        });
+
+
+
+            // --- Global Session Toast Handling ---
+            @if(session('success'))
+                setTimeout(() => window.UI.showToast({!! json_encode(session('success')) !!}, 'success'), 100);
+            @endif
+
+            @if(session('error'))
+                setTimeout(() => window.UI.showToast({!! json_encode(session('error')) !!}, 'error'), 100);
+            @endif
+
+            @if($errors->any())
+                setTimeout(() => window.UI.showToast({!! json_encode($errors->first()) !!}, 'error'), 100);
+            @endif
+
         });
     </script>
     @if(auth()->check() && auth()->user()->role_id == 5)

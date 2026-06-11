@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AjaxResponseTrait;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
+    use AjaxResponseTrait;
 
     public function index()
     {
@@ -58,7 +60,7 @@ class BranchController extends Controller
         }
 
         School::create($data);
-        return redirect()->route('admin.branches.index')->with('success','Branch created successfully.');
+        return $this->ajaxSuccess($request, 'Branch created successfully.', null, route('admin.branches.index'));
     }
 
     public function show($id)
@@ -100,13 +102,13 @@ class BranchController extends Controller
         }
 
         $branch->update($data);
-        return redirect()->route('admin.branches.index')->with('success','Branch updated.');
+        return $this->ajaxSuccess($request, 'Branch updated.', null, route('admin.branches.index'));
     }
 
     public function switchBranch(Request $request)
     {
         $request->validate(['branch_id' => 'required|exists:schools,id']);
         session(['active_branch_id' => $request->branch_id]);
-        return back()->with('success','Switched to branch context successfully.');
+        return $this->ajaxSuccess($request, 'Switched to branch context successfully.');
     }
 }

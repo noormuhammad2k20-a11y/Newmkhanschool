@@ -17,13 +17,7 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="bg-[#d3e2ed] border border-[#bac9d3] text-[#0f1d25] px-4 py-3 rounded relative mb-4 shadow-sm" role="alert">
-                <span class="block sm:inline font-body-md">{{ session('success') }}</span>
-            </div>
-        @endif
-
-        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -47,7 +41,7 @@
                             <td class="p-md text-secondary">{{ $ann->author_name }}</td>
                             <td class="p-md text-secondary">{{ \Carbon\Carbon::parse($ann->created_at)->format('M d, Y') }}</td>
                             <td class="p-md text-right">
-                                <form action="{{ route('admin.announcements.destroy', $ann->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this announcement?');">
+                                <form action="{{ route('admin.announcements.destroy', $ann->id) }}" method="POST" data-confirm="Are you sure you want to delete this announcement?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-error hover:text-[#93000a] p-1 rounded transition-colors" title="Delete">

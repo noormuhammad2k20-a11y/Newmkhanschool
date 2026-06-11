@@ -219,8 +219,10 @@
         logsContainer.innerHTML = html;
     }
 
-    function updateLeave(id, status) {
-        if (!confirm(`Are you sure you want to mark this leave as ${status}?`)) return;
+    async function updateLeave(id, status) {
+        const confirmStyle = status === 'Approved' ? 'primary' : 'error';
+        const isConfirmed = await window.UI.confirm('Confirm Action', `Are you sure you want to mark this leave as ${status}?`, 'Confirm', confirmStyle);
+        if (!isConfirmed) return;
 
         fetch(`/api/teacher-attendance/leaves/${id}/status`, {
             method: 'PUT',
@@ -235,13 +237,14 @@
         .then(response => {
             if (response.status === 'success') {
                 fetchDashboardData();
+                window.UI.showToast(`Leave marked as ${status}`, 'success');
             } else {
-                UI.showToast(response.message || 'Error updating status', 'error');
+                window.UI.showToast(response.message || 'Error updating status', 'error');
             }
         })
         .catch(error => {
             console.error('Error updating leave status:', error);
-            UI.showToast('An error occurred. Check console for details.', 'error');
+            window.UI.showToast('An error occurred. Check console for details.', 'error');
         });
     }
 </script>

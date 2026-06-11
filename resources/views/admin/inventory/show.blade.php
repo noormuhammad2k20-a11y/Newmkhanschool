@@ -14,13 +14,7 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="mb-md p-md bg-surface-container-high border-l-4 border-primary text-on-surface rounded">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-lg">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-lg">
         <div class="bg-surface border border-outline-variant rounded-xl p-md shadow-sm">
             <h3 class="font-headline-md border-b border-outline-variant pb-sm mb-md">Item Details</h3>
             <ul class="space-y-sm text-body-md">

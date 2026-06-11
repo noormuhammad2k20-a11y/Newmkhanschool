@@ -11,18 +11,9 @@
             <p class="text-body-lg font-body-lg text-secondary mt-1">Mark daily attendance for your assigned classes.</p>
         </div>
 
-        @if(session('success'))
-        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
-            {{ session('success') }}
-        </div>
-        @endif
-        @if(session('error'))
-        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-            {{ session('error') }}
-        </div>
-        @endif
 
-        <!-- Filter Form -->
+
+<!-- Filter Form -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
             <form action="{{ route('teacher.attendance') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-md items-end">
                 <div>

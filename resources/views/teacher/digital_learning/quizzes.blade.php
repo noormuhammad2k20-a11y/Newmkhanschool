@@ -13,21 +13,16 @@
         </button>
     </div>
 
-    @if(session('success'))
-        <div class="p-4 bg-green-100 text-green-800 rounded-xl mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-surface-container-low border-b border-outline-variant">
                         <th class="p-md font-label-md text-on-surface-variant">Title</th>
-                        <th class="p-md font-label-md text-on-surface-variant">Class & Section</th>
+                        <th class="p-md font-label-md text-on-surface-variant">Class/Section</th>
                         <th class="p-md font-label-md text-on-surface-variant">Subject</th>
                         <th class="p-md font-label-md text-on-surface-variant">Details</th>
+                        <th class="p-md font-label-md text-on-surface-variant">Submissions</th>
                         <th class="p-md font-label-md text-on-surface-variant">Status</th>
                         <th class="p-md font-label-md text-on-surface-variant text-right">Actions</th>
                     </tr>
@@ -51,6 +46,11 @@
                                 </div>
                                 @endif
                             </td>
+                            <td class="p-md font-body-md text-on-surface">
+                                <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
+                                    {{ $quiz->attempts_count }} Attempts
+                                </span>
+                            </td>
                             <td class="p-md font-body-md">
                                 @if($quiz->is_active)
                                     <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Published</span>
@@ -58,19 +58,23 @@
                                     <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Draft</span>
                                 @endif
                             </td>
-                            <td class="p-md text-right space-x-2">
-                                <a href="{{ route('teacher.digital_learning.quizzes.questions', $quiz->id) }}" class="text-primary hover:underline font-label-md" title="Manage Questions">
-                                    Questions
-                                </a>
-                                <a href="{{ route('teacher.digital_learning.quizzes.results', $quiz->id) }}" class="text-primary hover:underline font-label-md" title="View Results">
-                                    Results
-                                </a>
-                                <form action="{{ route('teacher.digital_learning.quizzes.destroy', $quiz->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this quiz?');">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="text-error hover:text-error/80 ml-2" title="Delete">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                </form>
+                            <td class="p-md">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ route('teacher.digital_learning.quizzes.questions', $quiz->id) }}" class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100 hover:border-blue-200 rounded-lg transition-colors text-sm font-medium shadow-sm" title="Manage Questions">
+                                        <span class="material-symbols-outlined text-[18px]">quiz</span>
+                                        <span>Questions</span>
+                                    </a>
+                                    <a href="{{ route('teacher.digital_learning.quizzes.results', $quiz->id) }}" class="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-100 hover:border-purple-200 rounded-lg transition-colors text-sm font-medium shadow-sm" title="View Results">
+                                        <span class="material-symbols-outlined text-[18px]">analytics</span>
+                                        <span>Results</span>
+                                    </a>
+                                    <form action="{{ route('teacher.digital_learning.quizzes.destroy', $quiz->id) }}" method="POST" class="inline" data-confirm="Delete this quiz?">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="flex items-center justify-center w-8 h-8 bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 hover:border-red-200 rounded-lg transition-colors shadow-sm" title="Delete Quiz">
+                                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

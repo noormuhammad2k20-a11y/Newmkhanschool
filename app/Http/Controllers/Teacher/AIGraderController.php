@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\AssignmentSubmission;
 use App\Services\AIGraderService;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 
 class AIGraderController extends Controller
 {
+    use AjaxResponseTrait;
     protected $aiGrader;
 
     public function __construct(AIGraderService $aiGrader)
@@ -54,9 +56,9 @@ class AIGraderController extends Controller
         $result = $this->aiGrader->gradeSubmission($submission->id);
 
         if ($result['status'] === 'success') {
-            return redirect()->back()->with('success', 'Submission graded successfully using AI.');
+            return $this->ajaxSuccess($request, 'Submission graded successfully using AI.');
         } else {
-            return redirect()->back()->with('error', $result['message']);
+            return $this->ajaxError($request, $result['message']);
         }
     }
 
@@ -86,9 +88,9 @@ class AIGraderController extends Controller
         }
 
         if (empty($errors)) {
-            return redirect()->back()->with('success', "$successCount submissions bulk graded using AI.");
+            return $this->ajaxSuccess($request, "$successCount submissions bulk graded using AI.");
         } else {
-            return redirect()->back()->with('error', "$successCount graded. Errors: " . implode(' | ', $errors));
+            return $this->ajaxError($request, "$successCount graded. Errors: " . implode(' | ', $errors));
         }
     }
 
@@ -110,6 +112,6 @@ class AIGraderController extends Controller
             'status' => 'graded'
         ]);
 
-        return redirect()->back()->with('success', 'Final grade saved successfully.');
+        return $this->ajaxSuccess($request, 'Final grade saved successfully.');
     }
 }

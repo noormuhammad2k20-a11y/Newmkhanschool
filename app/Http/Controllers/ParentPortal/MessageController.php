@@ -4,11 +4,12 @@ namespace App\Http\Controllers\ParentPortal;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Student;
+use App\Http\Traits\AjaxResponseTrait;
 
 class MessageController extends BaseParentController
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $userId = auth()->id();
@@ -50,6 +51,6 @@ class MessageController extends BaseParentController
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Message sent successfully.');
+        return $this->ajaxSuccess($request, 'Message sent successfully.');
     }
 }

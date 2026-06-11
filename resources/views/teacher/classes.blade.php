@@ -3,18 +3,20 @@
 @section('title', 'My Classes')
 
 @section('content')
-<main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
-    <div class="max-w-[1440px] mx-auto space-y-xl">
-        <!-- Header Section -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-                <h2 class="text-headline-xl font-headline-xl text-on-surface">My Classes</h2>
-                <p class="text-body-lg font-body-lg text-secondary mt-1">Overview of classes you are assigned to teach.</p>
+<main class="flex-1 overflow-y-auto bg-background p-4 sm:p-6 lg:p-8">
+    <div class="w-full mx-auto">
+        <div class="bg-surface border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+            <!-- Header Section -->
+            <div class="p-4 sm:p-6 lg:p-8 border-b border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-headline-xl font-headline-xl text-on-surface">My Classes</h2>
+                    <p class="text-body-lg font-body-lg text-secondary mt-1">Overview of classes you are assigned to teach.</p>
+                </div>
             </div>
-        </div>
 
-        <!-- Classes Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-md items-stretch">
+            <!-- Classes Grid -->
+            <div class="p-4 sm:p-6 lg:p-8 bg-surface-container-lowest">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             @forelse($classes as $class)
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col hover:border-primary/50 hover:shadow-sm transition-all duration-300 h-full">
                 
@@ -76,6 +78,8 @@
                 <p class="text-body-md text-secondary max-w-md mx-auto">You have not been assigned to any classes yet. Please contact the administrator.</p>
             </div>
             @endforelse
+                </div>
+            </div>
         </div>
     </div>
 </main>

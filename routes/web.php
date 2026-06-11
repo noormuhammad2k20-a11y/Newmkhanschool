@@ -169,6 +169,7 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
 
         Route::get('/quizzes/{id}/questions', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'manageQuestions'])->name('quizzes.questions');
         Route::post('/quizzes/{id}/questions', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'storeQuestion'])->name('quizzes.questions.store');
+        Route::post('/quizzes/{id}/questions/bulk', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'bulkStoreQuestions'])->name('quizzes.questions.bulk_store');
         Route::put('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'updateQuestion'])->name('quizzes.questions.update');
         Route::delete('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'destroyQuestion'])->name('quizzes.questions.destroy');
 
@@ -255,6 +256,7 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
 
         Route::get('/quizzes/{id}/questions', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'manageQuestions'])->name('quizzes.questions');
         Route::post('/quizzes/{id}/questions', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'storeQuestion'])->name('quizzes.questions.store');
+        Route::post('/quizzes/{id}/questions/bulk', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'bulkStoreQuestions'])->name('quizzes.questions.bulk_store');
         Route::put('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'updateQuestion'])->name('quizzes.questions.update');
         Route::delete('/quizzes/{quiz_id}/questions/{question_id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'destroyQuestion'])->name('quizzes.questions.destroy');
 

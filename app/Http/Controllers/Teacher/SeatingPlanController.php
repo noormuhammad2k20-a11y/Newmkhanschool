@@ -7,11 +7,13 @@ use App\Models\SeatingPlan;
 use App\Models\SeatingAssignment;
 use App\Models\TeacherAssignment;
 use App\Models\Student;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SeatingPlanController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $teacher = auth()->user()->teacher;
@@ -58,7 +60,7 @@ class SeatingPlanController extends Controller
             'school_id' => auth()->user()->school_id,
         ]);
 
-        return redirect()->route('teacher.seating.edit', $plan->id)->with('success', 'Seating plan created. You can now assign seats.');
+        return $this->ajaxSuccess($request, 'Seating plan created. You can now assign seats.', null, route('teacher.seating.edit', $plan->id));
     }
 
     public function edit($id)
@@ -183,12 +185,12 @@ class SeatingPlanController extends Controller
         return view('teacher.seating.show', compact('plan', 'grid'));
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $teacher = auth()->user()->teacher;
         $plan = SeatingPlan::where('teacher_id', $teacher->id)->findOrFail($id);
         $plan->delete();
 
-        return redirect()->route('teacher.seating.index')->with('success', 'Seating plan deleted.');
+        return $this->ajaxSuccess($request, 'Seating plan deleted.', null, route('teacher.seating.index'));
     }
 }

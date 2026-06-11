@@ -32,14 +32,7 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="mb-lg p-md bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg flex items-center gap-3">
-            <span class="material-symbols-outlined">check_circle</span>
-            <span class="font-medium">{{ session('success') }}</span>
-        </div>
-    @endif
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md mb-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md mb-xl">
         <!-- Stat Card 1 -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default shadow-sm">
             <div class="flex justify-between items-start mb-4">

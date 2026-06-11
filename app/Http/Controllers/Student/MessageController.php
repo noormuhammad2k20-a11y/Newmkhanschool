@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $userId = auth()->id();
@@ -46,6 +48,6 @@ class MessageController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Message sent successfully.');
+        return $this->ajaxSuccess($request, 'Message sent successfully.');
     }
 }

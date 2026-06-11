@@ -3,10 +3,12 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\StudentLeaveRequest;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $student = auth()->user()->student;
@@ -35,6 +37,6 @@ class LeaveController extends Controller
             'status'     => 'Pending',
         ]);
 
-        return back()->with('success', 'Leave request submitted successfully.');
+        return $this->ajaxSuccess($request, 'Leave request submitted successfully.');
     }
 }

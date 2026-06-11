@@ -7,13 +7,7 @@
         <p class="text-body-md text-secondary">Search and filter to find the student you want to issue a document for.</p>
     </div>
 
-    @if(session('error'))
-        <div class="mb-md p-md bg-error-container text-on-error-container rounded">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <!-- Advanced Filter Panel -->
+<!-- Advanced Filter Panel -->
     <div class="bg-surface border border-outline-variant rounded-xl p-md shadow-sm mb-lg">
         <form method="GET" action="{{ route('admin.documents.create') }}" id="filterForm">
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-md items-end">

@@ -35,28 +35,7 @@
             <button class="px-4 py-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-t-lg transition-colors text-sm font-medium">Completed</button>
         </div>
 
-        @if(session('success'))
-            <div id="toast-success" class="fixed top-24 right-5 z-50 flex items-center w-full max-w-sm p-4 gap-3 bg-surface-container-lowest border border-[#10b981] rounded-xl shadow-lg transition-opacity duration-300" role="alert">
-                <div class="inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-[#10b981] bg-[#ecfdf5] rounded-lg">
-                    <span class="material-symbols-outlined">check_circle</span>
-                </div>
-                <div class="text-sm font-bold text-[#059669] flex-1">{{ session('success') }}</div>
-                <button type="button" class="text-secondary hover:text-on-surface rounded-lg p-1.5 hover:bg-surface-container-high inline-flex items-center justify-center h-8 w-8" onclick="document.getElementById('toast-success').style.opacity = '0'; setTimeout(() => document.getElementById('toast-success').remove(), 300);">
-                    <span class="material-symbols-outlined text-[18px]">close</span>
-                </button>
-            </div>
-            <script>
-                setTimeout(() => {
-                    const toast = document.getElementById('toast-success');
-                    if(toast) {
-                        toast.style.opacity = '0';
-                        setTimeout(() => toast.remove(), 300);
-                    }
-                }, 4000);
-            </script>
-        @endif
-
-        @if($errors->any())
+@if($errors->any())
             <div class="bg-error text-white p-4 rounded-xl font-bold mb-4">
                 <ul class="list-disc ml-4">
                     @foreach($errors->all() as $error)

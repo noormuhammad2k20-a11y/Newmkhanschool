@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 use App\Models\Fee;
 use App\Models\FeeStructure;
@@ -10,6 +11,7 @@ use App\Models\Student;
 
 class FeeInvoiceController extends Controller
 {
+    use AjaxResponseTrait;
     public function bulkGenerate(Request $request)
     {
         $request->validate([
@@ -35,11 +37,11 @@ class FeeInvoiceController extends Controller
         }
 
         if (!$structure) {
-            return redirect()->back()->with('error', 'No fee structure found for this class and category.');
+            return $this->ajaxError($request, 'No fee structure found for this class and category.');
         }
 
         if ($students->isEmpty()) {
-            return redirect()->back()->with('error', 'No students found in this class.');
+            return $this->ajaxError($request, 'No students found in this class.');
         }
 
         $existingStudentIds = Fee::whereIn('student_id', $students->pluck('id'))
@@ -74,9 +76,9 @@ class FeeInvoiceController extends Controller
         }
 
         if ($count === 0 && $skipped > 0) {
-            return redirect()->back()->with('error', "No new invoices generated. All students in this class already have this fee for the selected month.");
+            return $this->ajaxError($request, "No new invoices generated. All students in this class already have this fee for the selected month.");
         }
 
-        return redirect()->back()->with('success', "Generated $count invoices successfully. " . ($skipped > 0 ? "Skipped $skipped duplicates." : ""));
+        return $this->ajaxSuccess($request, "Generated $count invoices successfully. " . ($skipped > 0 ? "Skipped $skipped duplicates." : ""));
     }
 }

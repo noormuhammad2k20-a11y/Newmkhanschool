@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AjaxResponseTrait;
 use App\Models\Inventory;
 use App\Models\InventoryTransaction;
 use App\Http\Requests\Admin\InventoryRequest;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
+    use AjaxResponseTrait;
     public function index(Request $request)
     {
         $query = Inventory::query();
@@ -59,7 +61,7 @@ class InventoryController extends Controller
             }
         });
 
-        return redirect()->route('admin.inventory')->with('success', 'Item added to inventory.');
+        return $this->ajaxSuccess($request, 'Item added to inventory.', null, route('admin.inventory'));
     }
 
     public function show($id)
@@ -79,14 +81,14 @@ class InventoryController extends Controller
     {
         $item = Inventory::findOrFail($id);
         $item->update($request->validated());
-        return redirect()->route('admin.inventory')->with('success', 'Item updated successfully.');
+        return $this->ajaxSuccess($request, 'Item updated successfully.', null, route('admin.inventory'));
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $item = Inventory::findOrFail($id);
         $item->delete();
-        return redirect()->route('admin.inventory')->with('success', 'Item deleted successfully.');
+        return $this->ajaxSuccess($request, 'Item deleted successfully.');
     }
 
     public function stockInForm($id)
@@ -113,7 +115,7 @@ class InventoryController extends Controller
             ]);
         });
 
-        return redirect()->route('admin.inventory.show', $item->id)->with('success', 'Stock added successfully.');
+        return $this->ajaxSuccess($request, 'Stock added successfully.', null, route('admin.inventory.show', $item->id));
     }
 
     public function stockOutForm($id)
@@ -127,7 +129,7 @@ class InventoryController extends Controller
         $item = Inventory::findOrFail($id);
         
         if ($item->quantity < $request->quantity) {
-            return back()->with('error', 'Insufficient stock.');
+            return $this->ajaxError($request, 'Insufficient stock.');
         }
 
         DB::transaction(function () use ($item, $request) {
@@ -144,7 +146,7 @@ class InventoryController extends Controller
             ]);
         });
 
-        return redirect()->route('admin.inventory.show', $item->id)->with('success', 'Stock issued successfully.');
+        return $this->ajaxSuccess($request, 'Stock issued successfully.', null, route('admin.inventory.show', $item->id));
     }
 
     public function lowStock()

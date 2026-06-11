@@ -15,13 +15,7 @@
             </button>
         </div>
 
-        @if(session('success'))
-        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
-            {{ session('success') }}
-        </div>
-        @endif
-
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>

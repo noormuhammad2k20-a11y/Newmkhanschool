@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 use App\Models\SchoolClass;
 use App\Models\Subject;
 
 class AcademicController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $classes = SchoolClass::all();
@@ -29,17 +31,17 @@ class AcademicController extends Controller
         $class->school_id = 1; // Assuming default school_id as 1 for now if single-school
         $class->save();
 
-        return redirect()->back()->with('success', 'Class added successfully.');
+        return $this->ajaxSuccess($request, 'Class added successfully.');
     }
 
-    public function destroyClass($id)
+    public function destroyClass(Request $request, $id)
     {
         $class = SchoolClass::findOrFail($id);
         // Also delete related subjects
         Subject::where('class_id', $class->id)->delete();
         $class->delete();
 
-        return redirect()->back()->with('success', 'Class deleted successfully.');
+        return $this->ajaxSuccess($request, 'Class deleted successfully.');
     }
 
     public function storeSubject(Request $request)
@@ -56,14 +58,14 @@ class AcademicController extends Controller
         $subject->class_id = $request->class_id;
         $subject->save();
 
-        return redirect()->back()->with('success', 'Subject added successfully.');
+        return $this->ajaxSuccess($request, 'Subject added successfully.');
     }
 
-    public function destroySubject($id)
+    public function destroySubject(Request $request, $id)
     {
         $subject = Subject::findOrFail($id);
         $subject->delete();
 
-        return redirect()->back()->with('success', 'Subject deleted successfully.');
+        return $this->ajaxSuccess($request, 'Subject deleted successfully.');
     }
 }

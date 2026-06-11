@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $exams = \App\Models\ExamSchedule::with(['class_', 'subjectRelation'])->orderBy('exam_date', 'asc')->get();
@@ -44,7 +46,7 @@ class ExamController extends Controller
             'academic_year_id' => 1,
         ]);
 
-        return redirect()->back()->with('success', 'Exam scheduled successfully.');
+        return $this->ajaxSuccess($request, 'Exam scheduled successfully.');
     }
 
     public function update(Request $request, $id)
@@ -77,13 +79,13 @@ class ExamController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->back()->with('success', 'Exam schedule updated successfully.');
+        return $this->ajaxSuccess($request, 'Exam schedule updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         \App\Models\ExamSchedule::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Exam deleted successfully.');
+        return $this->ajaxSuccess($request, 'Exam deleted successfully.');
     }
 
     public function marks()

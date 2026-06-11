@@ -18,14 +18,7 @@
             </button>
         </div>
 
-        @if(session('success'))
-        <div class="bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] p-4 rounded-xl flex items-center gap-3">
-            <span class="material-symbols-outlined">check_circle</span>
-            <p class="text-body-md font-medium">{{ session('success') }}</p>
-        </div>
-        @endif
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-md h-[calc(100vh-16rem)] min-h-[600px]">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md h-[calc(100vh-16rem)] min-h-[600px]">
             <!-- Inbox List -->
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col">
                 <div class="p-4 border-b border-outline-variant bg-surface-bright">

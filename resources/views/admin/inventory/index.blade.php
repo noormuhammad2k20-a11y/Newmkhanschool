@@ -15,13 +15,7 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="mb-md p-md bg-surface-container-high border-l-4 border-primary text-on-surface rounded">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-md mb-md">
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-md mb-md">
         <form method="GET" action="{{ request()->url() }}" class="flex flex-wrap gap-md items-end">
             <div class="flex-1 min-w-[200px]">
                 <label class="block text-label-md text-on-surface-variant mb-xs">Search</label>

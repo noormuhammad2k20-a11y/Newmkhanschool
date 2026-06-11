@@ -10,13 +10,7 @@
             <p class="text-body-lg font-body-lg text-secondary mt-1">Manage your account and personal information.</p>
         </div>
 
-        @if(session('success'))
-        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
-            {{ session('success') }}
-        </div>
-        @endif
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
             <!-- Profile Card -->
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl text-center flex flex-col items-center">
                 <div class="w-32 h-32 rounded-full bg-primary-fixed flex items-center justify-center text-primary text-4xl font-bold mb-4">

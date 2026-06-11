@@ -11,13 +11,7 @@
             <p class="text-body-lg font-body-lg text-secondary mt-1">View your attendance record and apply for leave.</p>
         </div>
 
-        @if(session('success'))
-            <div class="p-md bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-200">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        {{-- Stats Grid --}}
+{{-- Stats Grid --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
             {{-- Present --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">

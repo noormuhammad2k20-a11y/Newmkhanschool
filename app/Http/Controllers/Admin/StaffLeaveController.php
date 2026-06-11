@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AjaxResponseTrait;
 use App\Models\TeacherLeaveRequest;
 use App\Models\SubstituteAssignment;
 use App\Models\Teacher;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class StaffLeaveController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $leaves = TeacherLeaveRequest::with(['teacher.user'])
@@ -58,10 +60,10 @@ class StaffLeaveController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error','Approval failed: '.$e->getMessage());
+            return $this->ajaxError($request, 'Approval failed: '.$e->getMessage());
         }
 
-        return back()->with('success','Leave approved.' . ($request->substitute_teacher_id ? ' Substitute assigned.' : ''));
+        return $this->ajaxSuccess($request, 'Leave approved.' . ($request->substitute_teacher_id ? ' Substitute assigned.' : ''));
     }
 
     public function reject(Request $request, $id)
@@ -73,7 +75,7 @@ class StaffLeaveController extends Controller
             'approved_by'      => auth()->id(),
             'rejection_reason' => $request->rejection_reason,
         ]);
-        return back()->with('success','Leave request rejected.');
+        return $this->ajaxSuccess($request, 'Leave request rejected.');
     }
 
     public function assignSubstituteManually(Request $request, $leaveId)
@@ -84,7 +86,7 @@ class StaffLeaveController extends Controller
         $this->assignSubstitute($leave, $request->substitute_teacher_id);
         $leave->update(['substitute_assigned' => 1]);
 
-        return back()->with('success','Substitute teacher assigned.');
+        return $this->ajaxSuccess($request, 'Substitute teacher assigned.');
     }
 
     public function substituteSchedule()

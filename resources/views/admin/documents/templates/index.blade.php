@@ -9,14 +9,7 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="mb-md p-md bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-200 flex items-center gap-2">
-            <span class="material-symbols-outlined text-[20px]">check_circle</span>
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="bg-surface border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+<div class="bg-surface border border-outline-variant rounded-xl shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>

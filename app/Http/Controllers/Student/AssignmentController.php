@@ -6,9 +6,11 @@ use App\Models\Assignment;
 use App\Models\AssignmentSubmission;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Http\Traits\AjaxResponseTrait;
 
 class AssignmentController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $student = auth()->user()->student;
@@ -80,7 +82,7 @@ class AssignmentController extends Controller
 
         $endOfDueDate = Carbon::parse($assignment->due_date)->endOfDay();
         if (Carbon::now()->gt($endOfDueDate)) {
-            return back()->withErrors(['error' => 'The due date for this assignment has passed. You can no longer submit it.']);
+            return $this->ajaxError($request, 'The due date for this assignment has passed. You can no longer submit it.');
         }
 
         $filePath = null;
@@ -89,7 +91,7 @@ class AssignmentController extends Controller
         }
 
         if (AssignmentSubmission::where('assignment_id', $assignment->id)->where('student_id', $student->id)->exists()) {
-            return back()->withErrors(['error' => 'You have already submitted this assignment and cannot submit it again.']);
+            return $this->ajaxError($request, 'You have already submitted this assignment and cannot submit it again.');
         }
 
         AssignmentSubmission::create([
@@ -100,6 +102,6 @@ class AssignmentController extends Controller
             'status'    => Carbon::now()->gt($assignment->due_date) ? 'Late' : 'Submitted',
         ]);
 
-        return back()->with('success', 'Assignment submitted successfully.');
+        return $this->ajaxSuccess($request, 'Assignment submitted successfully.');
     }
 }

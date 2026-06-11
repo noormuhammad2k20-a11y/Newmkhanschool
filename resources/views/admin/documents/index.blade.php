@@ -15,19 +15,9 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="mb-md p-md bg-surface-container-high border-l-4 border-primary text-on-surface rounded">
-            {{ session('success') }}
-        </div>
-    @endif
-    
-    @if(session('error'))
-        <div class="mb-md p-md bg-error-container text-on-error-container rounded">
-            {{ session('error') }}
-        </div>
-    @endif
 
-    <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>

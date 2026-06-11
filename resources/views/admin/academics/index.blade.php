@@ -12,13 +12,7 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="bg-[#e8f5e9] text-[#2e7d32] px-4 py-3 rounded-lg mb-lg font-body-md border border-[#c8e6c9]">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if($errors->any())
+@if($errors->any())
         <div class="bg-error-container text-on-error-container px-4 py-3 rounded-lg mb-lg font-body-md border border-error">
             <ul class="list-disc pl-5">
                 @foreach($errors->all() as $error)
@@ -65,7 +59,7 @@
                                 <tr class="hover:bg-surface-container-low transition-colors">
                                     <td class="py-3 px-4 text-body-md font-body-md text-on-surface font-medium">{{ $class->name }}</td>
                                     <td class="py-3 px-4 text-right">
-                                        <form action="{{ route('admin.academics.classes.destroy', $class->id) }}" method="POST" onsubmit="return confirm('Are you sure? This will delete all subjects linked to this class.');" class="inline-block">
+                                        <form action="{{ route('admin.academics.classes.destroy', $class->id) }}" method="POST" data-confirm="Are you sure? This will delete all subjects linked to this class." class="inline-block">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-error hover:text-on-error-container transition-colors p-1.5 rounded-md hover:bg-error-container flex items-center justify-center" title="Delete Class">
@@ -139,7 +133,7 @@
                                     <td class="py-3 px-4 text-body-md font-body-md text-secondary">{{ $subject->code ?: '-' }}</td>
                                     <td class="py-3 px-4 text-body-md font-body-md text-primary">{{ $subject->class_name }}</td>
                                     <td class="py-3 px-4 text-right">
-                                        <form action="{{ route('admin.academics.subjects.destroy', $subject->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this subject?');" class="inline-block">
+                                        <form action="{{ route('admin.academics.subjects.destroy', $subject->id) }}" method="POST" data-confirm="Are you sure you want to delete this subject?" class="inline-block">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-error hover:text-on-error-container transition-colors p-1.5 rounded-md hover:bg-error-container flex items-center justify-center" title="Delete Subject">

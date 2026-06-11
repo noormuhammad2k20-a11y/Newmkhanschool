@@ -18,20 +18,9 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="p-4 bg-emerald-100 text-emerald-800 rounded-xl flex items-center gap-2">
-                <span class="material-symbols-outlined">check_circle</span>
-                {{ session('success') }}
-            </div>
-        @endif
-        @if(session('error'))
-            <div class="p-4 bg-red-100 text-red-800 rounded-xl flex items-center gap-2">
-                <span class="material-symbols-outlined">error</span>
-                {{ session('error') }}
-            </div>
-        @endif
 
-        <!-- Stats Grid -->
+
+<!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
             {{-- Available Quizzes Card --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
@@ -127,7 +116,21 @@
                                         {{ $isPassed ? 'Passed' : 'Failed' }}
                                     </span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-surface-variant text-on-surface-variant">Pending</span>
+                                    @php
+                                        $status = 'Pending';
+                                        $statusClass = 'bg-surface-variant text-on-surface-variant';
+                                        if ($quiz->start_at && now() < \Carbon\Carbon::parse($quiz->start_at)) {
+                                            $status = 'Pending';
+                                            $statusClass = 'bg-surface-variant text-on-surface-variant';
+                                        } elseif ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)) {
+                                            $status = 'Expired';
+                                            $statusClass = 'bg-error-container text-error';
+                                        } else {
+                                            $status = 'Available';
+                                            $statusClass = 'bg-primary-container text-on-primary-container';
+                                        }
+                                    @endphp
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $statusClass }}">{{ $status }}</span>
                                 @endif
                             </div>
                             
@@ -187,9 +190,9 @@
                                     if ($quiz->start_at && now() < \Carbon\Carbon::parse($quiz->start_at)) {
                                         $isLocked = true;
                                         $lockReason = 'Available: ' . \Carbon\Carbon::parse($quiz->start_at)->format('M d, g:i A');
-                                    } elseif ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)->endOfDay()) {
+                                    } elseif ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)) {
                                         $isLocked = true;
-                                        $lockReason = 'Past Due';
+                                        $lockReason = 'Expired';
                                     }
                                 @endphp
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AjaxResponseTrait;
 use App\Models\DigitalNote;
 use App\Models\Quiz;
 use App\Models\QuizQuestion;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DigitalLearningController extends Controller
 {
+    use AjaxResponseTrait;
     // --- NOTES ---
     public function notesIndex()
     {
@@ -68,7 +70,7 @@ class DigitalLearningController extends Controller
             'school_id' => auth()->user()->school_id ?? 1,
         ]);
 
-        return redirect()->back()->with('success', 'Digital Note created successfully.');
+        return $this->ajaxSuccess($request, 'Digital Note created successfully.');
     }
 
     public function updateNote(Request $request, $id)
@@ -106,23 +108,24 @@ class DigitalLearningController extends Controller
             'is_public' => $request->has('is_public'),
         ]);
 
-        return redirect()->back()->with('success', 'Digital Note updated successfully.');
+        return $this->ajaxSuccess($request, 'Digital Note updated successfully.');
     }
 
-    public function destroyNote($id)
+    public function destroyNote(Request $request, $id)
     {
         $note = DigitalNote::findOrFail($id);
         if ($note->file_path && Storage::disk('public')->exists($note->file_path)) {
             Storage::disk('public')->delete($note->file_path);
         }
         $note->delete();
-        return redirect()->back()->with('success', 'Digital Note deleted successfully.');
+        return $this->ajaxSuccess($request, 'Digital Note deleted successfully.');
     }
 
     // --- QUIZZES ---
     public function quizzesIndex()
     {
         $quizzes = Quiz::with(['class', 'section', 'subject', 'academicYear', 'creator'])
+            ->withCount('attempts')
             ->orderBy('created_at', 'desc')
             ->get();
         $classes = SchoolClass::all();
@@ -158,7 +161,7 @@ class DigitalLearningController extends Controller
             'school_id' => auth()->user()->school_id ?? 1,
         ]);
 
-        return redirect()->back()->with('success', 'Quiz created successfully.');
+        return $this->ajaxSuccess($request, 'Quiz created successfully.');
     }
 
     public function updateQuiz(Request $request, $id)
@@ -184,13 +187,13 @@ class DigitalLearningController extends Controller
             'is_active' => $request->has('is_active'),
         ]);
 
-        return redirect()->back()->with('success', 'Quiz updated successfully.');
+        return $this->ajaxSuccess($request, 'Quiz updated successfully.');
     }
 
-    public function destroyQuiz($id)
+    public function destroyQuiz(Request $request, $id)
     {
         Quiz::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Quiz deleted successfully.');
+        return $this->ajaxSuccess($request, 'Quiz deleted successfully.');
     }
 
     // --- QUIZ QUESTIONS ---
@@ -198,6 +201,72 @@ class DigitalLearningController extends Controller
     {
         $quiz = Quiz::with('questions')->findOrFail($id);
         return view('admin.digital_learning.quiz_questions', compact('quiz'));
+    }
+
+    public function bulkStoreQuestions(Request $request, $quiz_id)
+    {
+        $quiz = Quiz::findOrFail($quiz_id);
+        
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+        ]);
+
+        $file = $request->file('csv_file');
+        $handle = fopen($file->getRealPath(), 'r');
+        $header = fgetcsv($handle);
+        
+        $importedCount = 0;
+        $totalMarksAdded = 0;
+
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) < 8) continue; // Skip incomplete rows
+
+            $qType = strtolower(trim($row[0]));
+            $qText = trim($row[1]);
+            $optA = trim($row[2]);
+            $optB = trim($row[3]);
+            $optC = trim($row[4]);
+            $optD = trim($row[5]);
+            $correctOpt = strtolower(trim($row[6]));
+            $marks = (int) trim($row[7]);
+            $order = isset($row[8]) ? (int) trim($row[8]) : 1;
+
+            if (empty($qText) || empty($optA) || empty($optB) || empty($correctOpt) || $marks < 1) continue;
+            
+            if (!in_array($qType, ['single', 'multiple', 'true_false'])) {
+                $qType = 'single';
+            }
+
+            if ($qType === 'true_false') {
+                $optC = null;
+                $optD = null;
+            }
+
+            QuizQuestion::create([
+                'quiz_id' => $quiz->id,
+                'question_type' => $qType,
+                'question_text' => $qText,
+                'option_a' => $optA,
+                'option_b' => $optB,
+                'option_c' => $optC,
+                'option_d' => $optD,
+                'correct_option' => $correctOpt,
+                'marks' => $marks,
+                'order' => $order,
+            ]);
+
+            $importedCount++;
+            $totalMarksAdded += $marks;
+        }
+
+        fclose($handle);
+
+        if ($importedCount > 0) {
+            $quiz->increment('total_marks', $totalMarksAdded);
+            return $this->ajaxSuccess($request, "$importedCount questions imported successfully.");
+        }
+
+        return $this->ajaxError($request, 'No valid questions found in the CSV. Please check the format.');
     }
 
     public function storeQuestion(Request $request, $quiz_id)
@@ -226,7 +295,7 @@ class DigitalLearningController extends Controller
         // Update total marks for quiz
         $quiz->increment('total_marks', $request->marks);
 
-        return redirect()->back()->with('success', 'Question added successfully.');
+        return $this->ajaxSuccess($request, 'Question added successfully.');
     }
 
     public function updateQuestion(Request $request, $quiz_id, $question_id)
@@ -259,10 +328,10 @@ class DigitalLearningController extends Controller
             $quiz->increment('total_marks', $marksDifference);
         }
 
-        return redirect()->back()->with('success', 'Question updated successfully.');
+        return $this->ajaxSuccess($request, 'Question updated successfully.');
     }
 
-    public function destroyQuestion($quiz_id, $question_id)
+    public function destroyQuestion(Request $request, $quiz_id, $question_id)
     {
         $quiz = Quiz::findOrFail($quiz_id);
         $question = QuizQuestion::where('quiz_id', $quiz->id)->findOrFail($question_id);
@@ -270,7 +339,7 @@ class DigitalLearningController extends Controller
         $quiz->decrement('total_marks', $question->marks);
         $question->delete();
 
-        return redirect()->back()->with('success', 'Question deleted successfully.');
+        return $this->ajaxSuccess($request, 'Question deleted successfully.');
     }
 
     // --- QUIZ RESULTS ---

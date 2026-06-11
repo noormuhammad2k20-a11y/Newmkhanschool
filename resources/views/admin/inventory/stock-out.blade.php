@@ -7,13 +7,7 @@
         <p class="text-body-md text-secondary">Issue stock for <strong>{{ $item->name }}</strong> (Available: {{ $item->quantity }} {{ $item->unit }})</p>
     </div>
 
-    @if(session('error'))
-        <div class="mb-md p-md bg-error-container text-on-error-container rounded">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <form method="POST" action="{{ route('admin.inventory.stock-out', $item->id) }}" class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm">
+<form method="POST" action="{{ route('admin.inventory.stock-out', $item->id) }}" class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm">
         @csrf
         
         <div class="mb-md">

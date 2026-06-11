@@ -28,21 +28,9 @@
             </div>
         </div>
 
-        @if(session('success'))
-        <div class="mb-md p-md bg-[#e8f5e9] text-[#2e7d32] rounded-DEFAULT border border-[#a5d6a7] flex items-center gap-sm">
-            <span class="material-symbols-outlined text-[20px]">check_circle</span>
-            <span class="font-medium text-body-md">{{ session('success') }}</span>
-        </div>
-        @endif
 
-        @if(session('error'))
-        <div class="mb-md p-md bg-error-container text-on-error-container rounded-DEFAULT border border-error flex items-center gap-sm">
-            <span class="material-symbols-outlined text-[20px]">error</span>
-            <span class="font-medium text-body-md">{{ session('error') }}</span>
-        </div>
-        @endif
 
-        <form action="{{ route('admin.teachers.permissions.update', $teacher->id) }}" method="POST" id="permissions-form">
+<form action="{{ route('admin.teachers.permissions.update', $teacher->id) }}" method="POST" id="permissions-form">
             @csrf
             
             <div class="flex flex-col gap-xl">

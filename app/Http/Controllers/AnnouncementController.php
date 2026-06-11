@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SchoolNotification as Announcement; // The db table is probably school_notifications or announcements... wait, the prompt says `announcements` table exists.
-// Wait, the prompt says "announcements table exists". But my migration created `school_notifications`.
-// Let me verify the model and table.
+use App\Http\Traits\AjaxResponseTrait;
+use App\Models\SchoolNotification as Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AnnouncementController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $schoolId = auth()->user()->school_id ?? 1;
@@ -42,12 +42,12 @@ class AnnouncementController extends Controller
             'updated_at' => now()
         ]);
 
-        return back()->with('success', 'Announcement created successfully.');
+        return $this->ajaxSuccess($request, 'Announcement created successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         DB::table('announcements')->where('id', $id)->delete();
-        return back()->with('success', 'Announcement deleted successfully.');
+        return $this->ajaxSuccess($request, 'Announcement deleted successfully.');
     }
 }

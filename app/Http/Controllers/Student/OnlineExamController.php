@@ -7,10 +7,12 @@ use App\Models\ExamQuestion;
 use App\Models\ExamAttempt;
 use App\Models\ExamAnswer;
 use Carbon\Carbon;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 
 class OnlineExamController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $student = auth()->user()->student;
@@ -110,12 +112,10 @@ class OnlineExamController extends Controller
         ]);
 
         if ($exam->show_result_immediately) {
-            return redirect()->route('student.online-exams.result', $examId)
-                ->with('success', 'Exam submitted! Your result is ready.');
+            return $this->ajaxSuccess($request, 'Exam submitted! Your result is ready.', null, route('student.online-exams.result', $examId));
         }
 
-        return redirect()->route('student.online-exams.index')
-            ->with('success', 'Exam submitted successfully. Result will be announced soon.');
+        return $this->ajaxSuccess($request, 'Exam submitted successfully. Result will be announced soon.', null, route('student.online-exams.index'));
     }
 
     public function result($examId)

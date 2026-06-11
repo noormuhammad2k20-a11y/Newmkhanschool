@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\Permission;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $roles = Role::with('permissions')->get();
@@ -26,6 +28,6 @@ class RoleController extends Controller
         // Sync permissions
         $role->permissions()->sync($permissionIds);
         
-        return back()->with('success', "Permissions for {$role->name} updated successfully.");
+        return $this->ajaxSuccess($request, "Permissions for {$role->name} updated successfully.");
     }
 }

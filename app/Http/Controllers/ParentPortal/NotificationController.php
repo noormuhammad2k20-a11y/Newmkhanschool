@@ -4,9 +4,11 @@ namespace App\Http\Controllers\ParentPortal;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Http\Traits\AjaxResponseTrait;
 
 class NotificationController extends BaseParentController
 {
+    use AjaxResponseTrait;
     public function index()
     {
         $notifications = Notification::where('user_id', auth()->id())
@@ -23,13 +25,13 @@ class NotificationController extends BaseParentController
         return response()->json(['success' => true]);
     }
 
-    public function markAllRead()
+    public function markAllRead(Request $request)
     {
         Notification::where('user_id', auth()->id())
             ->where('is_read', 0)
             ->update(['is_read' => 1]);
             
-        return back()->with('success', 'All notifications marked as read.');
+        return $this->ajaxSuccess($request, 'All notifications marked as read.');
     }
 
     public function unreadCount()

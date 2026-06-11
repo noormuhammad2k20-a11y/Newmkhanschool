@@ -7,14 +7,7 @@
         <p class="text-body-md text-secondary">Manage official digital signatures for your documents.</p>
     </div>
 
-    @if(session('success'))
-        <div class="mb-md p-md bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-200 flex items-center gap-2">
-            <span class="material-symbols-outlined text-[20px]">check_circle</span>
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
         <!-- Principal's Signature Card -->
         <div class="bg-surface border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
             <div class="bg-surface-container-low px-md py-sm border-b border-outline-variant flex items-center gap-2">

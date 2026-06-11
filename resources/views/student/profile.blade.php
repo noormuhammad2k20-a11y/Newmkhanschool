@@ -12,14 +12,7 @@
             <p class="text-body-lg font-body-lg text-secondary mt-1">Manage your account settings and personal details</p>
         </div>
 
-        @if(session('success'))
-        <div class="bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] p-4 rounded-xl flex items-center gap-3">
-            <span class="material-symbols-outlined">check_circle</span>
-            <p class="text-body-md font-medium">{{ session('success') }}</p>
-        </div>
-        @endif
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
             <!-- Left Column: Summary & Quick Info -->
             <div class="lg:col-span-1 space-y-md">
                 <!-- Profile Card -->

@@ -24,13 +24,7 @@
             </div>
         </div>
 
-        @if(session('error'))
-            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        @if($errors->any())
+@if($errors->any())
             <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
                 <ul class="list-disc pl-5">
                     @foreach($errors->all() as $error)
@@ -108,7 +102,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="px-4 py-1.5 bg-primary text-on-primary rounded-lg text-label-sm font-label-sm hover:bg-primary-hover shadow-sm transition-colors" onclick="return confirm('Are you sure you want to process this bulk promotion?')">
+                        <button type="submit" class="px-4 py-1.5 bg-primary text-on-primary rounded-lg text-label-sm font-label-sm hover:bg-primary-hover shadow-sm transition-colors" data-confirm-click="Are you sure you want to process this bulk promotion?">
                             Execute Promotion
                         </button>
                     </div>

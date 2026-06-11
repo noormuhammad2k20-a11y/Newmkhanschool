@@ -18,14 +18,7 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="bg-emerald-100 text-emerald-800 p-4 rounded-xl border border-emerald-200 font-body-md text-body-md flex items-center gap-3 shadow-sm">
-                <span class="material-symbols-outlined">check_circle</span>
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
             <!-- Left Column: Summary -->
             <div class="lg:col-span-1 space-y-xl">
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl text-center shadow-sm flex flex-col items-center">

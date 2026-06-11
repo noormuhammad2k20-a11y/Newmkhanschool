@@ -10,11 +10,12 @@ use App\Models\SchoolClass;
 use App\Models\Subject;
 use App\Models\AcademicYear;
 use App\Traits\TeacherScoped;
+use App\Http\Traits\AjaxResponseTrait;
 use Illuminate\Http\Request;
 
 class OnlineExamController extends Controller
 {
-    use TeacherScoped;
+    use TeacherScoped, AjaxResponseTrait;
 
     public function index()
     {
@@ -77,8 +78,7 @@ class OnlineExamController extends Controller
             'status'                  => 'Draft',
         ]);
 
-        return redirect()->route('teacher.online-exams.questions', $exam->id)
-            ->with('success', 'Exam created. Now add questions.');
+        return $this->ajaxSuccess($request, 'Exam created. Now add questions.', null, route('teacher.online-exams.questions', $exam->id));
     }
 
     public function questions($examId)
@@ -114,16 +114,16 @@ class OnlineExamController extends Controller
             'order_no'       => ExamQuestion::where('exam_id', $exam->id)->max('order_no') + 1,
         ]);
 
-        return back()->with('success', 'Question added.');
+        return $this->ajaxSuccess($request, 'Question added.');
     }
 
-    public function publish($examId)
+    public function publish(Request $request, $examId)
     {
         $teacher = $this->getTeacher();
         $exam    = OnlineExam::where('id', $examId)->where('teacher_id', $teacher->id)->firstOrFail();
         abort_if(ExamQuestion::where('exam_id', $exam->id)->count() === 0, 422, 'Add questions before publishing.');
         $exam->update(['status' => 'Published']);
-        return back()->with('success', 'Exam published. Students can now attempt it.');
+        return $this->ajaxSuccess($request, 'Exam published. Students can now attempt it.');
     }
 
     // View results/attempts

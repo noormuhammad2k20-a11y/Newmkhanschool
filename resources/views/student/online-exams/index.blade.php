@@ -18,13 +18,7 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="p-4 bg-emerald-100 text-emerald-800 rounded-xl flex items-center gap-2">
-                <span class="material-symbols-outlined">check_circle</span>
-                {{ session('success') }}
-            </div>
-        @endif
-        @if(session('info'))
+@if(session('info'))
             <div class="p-4 bg-blue-100 text-blue-800 rounded-xl flex items-center gap-2">
                 <span class="material-symbols-outlined">info</span>
                 {{ session('info') }}

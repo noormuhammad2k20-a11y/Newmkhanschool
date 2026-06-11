@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\ParentPortal;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Traits\AjaxResponseTrait;
 
 class ProfileController extends BaseParentController
 {
+    use AjaxResponseTrait;
     public function show()
     {
         $user = auth()->user();
@@ -31,6 +32,6 @@ class ProfileController extends BaseParentController
 
         $user->save();
 
-        return back()->with('success', 'Profile updated successfully.');
+        return $this->ajaxSuccess($request, 'Profile updated successfully.');
     }
 }

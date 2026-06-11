@@ -1,0 +1,4 @@
+question_type,question_text,option_a,option_b,option_c,option_d,correct_option,marks,order
+single,What is the capital of France?,Paris,London,Berlin,Rome,a,1,1
+multiple,Which of the following are primary colors?,Red,Green,Blue,Yellow,"a,c",2,2
+true_false,The Earth is flat.,True,False,,,b,1,3

@@ -7,9 +7,11 @@ use App\Models\ParentStudent;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Traits\AjaxResponseTrait;
 
 class LeaveController extends BaseParentController
 {
+    use AjaxResponseTrait;
     public function show($student_id)
     {
         ParentStudent::where('parent_user_id', auth()->id())
@@ -46,6 +48,6 @@ class LeaveController extends BaseParentController
             'updated_at' => now(),
         ]);
         
-        return back()->with('success', 'Leave application submitted.');
+        return $this->ajaxSuccess($request, 'Leave application submitted.');
     }
 }

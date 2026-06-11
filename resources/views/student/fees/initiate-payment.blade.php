@@ -6,14 +6,7 @@
 <main class="flex-1 overflow-y-auto p-margin-desktop bg-background py-8">
     <div class="max-w-[1000px] mx-auto">
 
-        @if(session('error'))
-            <div class="bg-error-container border border-error text-error p-4 rounded-xl flex items-center gap-3 mb-6 shadow-sm">
-                <span class="material-symbols-outlined">error</span>
-                <p class="text-sm font-medium">{{ session('error') }}</p>
-            </div>
-        @endif
-
-        <!-- Main Checkout Container -->
+<!-- Main Checkout Container -->
         <div class="bg-surface border border-outline-variant rounded-3xl shadow-md overflow-hidden">
             
             <!-- Header -->

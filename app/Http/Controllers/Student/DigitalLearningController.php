@@ -9,9 +9,11 @@ use App\Models\QuizAttempt;
 use App\Models\QuizQuestion;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Http\Traits\AjaxResponseTrait;
 
 class DigitalLearningController extends Controller
 {
+    use AjaxResponseTrait;
     public function notesIndex()
     {
         $student = Student::where('user_id', auth()->id())->firstOrFail();
@@ -71,7 +73,7 @@ class DigitalLearningController extends Controller
         if ($quiz->start_at && now() < \Carbon\Carbon::parse($quiz->start_at)) {
             return redirect()->route('student.digital_learning.quizzes')->with('error', 'This quiz is not available yet.');
         }
-        if ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)->endOfDay()) {
+        if ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)) {
             return redirect()->route('student.digital_learning.quizzes')->with('error', 'The due date for this quiz has passed.');
         }
 
@@ -90,16 +92,16 @@ class DigitalLearningController extends Controller
         $quiz = Quiz::with('questions')->where('is_active', 1)->findOrFail($id);
 
         if ($quiz->start_at && now() < \Carbon\Carbon::parse($quiz->start_at)) {
-            return redirect()->route('student.digital_learning.quizzes')->with('error', 'This quiz is not available yet.');
+            return $this->ajaxError($request, 'This quiz is not available yet.');
         }
-        if ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)->endOfDay()) {
-            return redirect()->route('student.digital_learning.quizzes')->with('error', 'The due date for this quiz has passed.');
+        if ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)) {
+            return $this->ajaxError($request, 'The due date for this quiz has passed.');
         }
 
         // Check if student already attempted
         $existingAttempt = QuizAttempt::where('quiz_id', $id)->where('student_id', $student->id)->first();
         if ($existingAttempt) {
-            return redirect()->route('student.digital_learning.quizzes')->with('error', 'You have already attempted this quiz.');
+            return $this->ajaxError($request, 'You have already attempted this quiz.');
         }
 
         $answers = $request->input('answers', []);
@@ -133,9 +135,10 @@ class DigitalLearningController extends Controller
             'score' => $score,
             'total_marks' => $quiz->total_marks,
             'percentage' => $percentage,
+            'status' => 'submitted',
             'submitted_at' => now(),
         ]);
 
-        return redirect()->route('student.digital_learning.quizzes')->with('success', 'Quiz submitted successfully. Your score: ' . $score . '/' . $quiz->total_marks);
+        return $this->ajaxSuccess($request, 'Quiz submitted successfully. Your score: ' . $score . '/' . $quiz->total_marks, null, route('student.digital_learning.quizzes'));
     }
 }

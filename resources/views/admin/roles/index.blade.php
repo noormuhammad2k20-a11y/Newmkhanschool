@@ -11,13 +11,7 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="bg-[#d3e2ed] border border-[#bac9d3] text-[#0f1d25] px-4 py-3 rounded relative mb-4 shadow-sm" role="alert">
-                <span class="block sm:inline font-body-md">{{ session('success') }}</span>
-            </div>
-        @endif
-
-        <div class="space-y-lg">
+<div class="space-y-lg">
             @foreach($roles as $role)
             <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
                 <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">

@@ -12,6 +12,7 @@ use Carbon\Carbon;
 class TeacherPortalController extends Controller
 {
     use \App\Traits\TeacherScoped;
+    use \App\Http\Traits\AjaxResponseTrait;
     private function getAssignedSubjects($teacher)
     {
         if (!$teacher) return collect();
@@ -88,7 +89,7 @@ class TeacherPortalController extends Controller
         $classIds = $this->getAssignedClassIds($teacher);
         
         if (!$classIds->contains($request->class_id)) {
-            return redirect()->back()->with('error', 'Unauthorized access to this class.');
+            return $this->ajaxError($request, 'Unauthorized access to this class.');
         }
 
         foreach ($request->attendance as $studentId => $status) {
@@ -98,7 +99,7 @@ class TeacherPortalController extends Controller
             );
         }
 
-        return redirect()->back()->with('success', 'Attendance marked successfully.');
+        return $this->ajaxSuccess($request, 'Attendance marked successfully.');
     }
 
     // 3. Classes
@@ -252,7 +253,7 @@ class TeacherPortalController extends Controller
         $teacher = $this->getTeacher();
         $classIds = $this->getAssignedClassIds($teacher);
         if (!$classIds->contains($request->class_id)) {
-            return redirect()->back()->with('error', 'Unauthorized access to this class.');
+            return $this->ajaxError($request, 'Unauthorized access to this class.');
         }
         
         // Resolve subject_id
@@ -264,15 +265,15 @@ class TeacherPortalController extends Controller
             ->exists();
 
         if (!$isAssignedSubject) {
-            return redirect()->back()->with('error', 'Unauthorized access to this subject.');
+            return $this->ajaxError($request, 'Unauthorized access to this subject.');
         }
 
         $subjectId = DB::table('subjects')->where('name', $request->subject)->value('id');
-        if(!$subjectId) return redirect()->back()->with('error', 'Subject not found.');
+        if(!$subjectId) return $this->ajaxError($request, 'Subject not found.');
 
         $examSchedule = \App\Models\ExamSchedule::find($request->exam_schedule_id);
         if(!$examSchedule || $examSchedule->class_id != $request->class_id || $examSchedule->subject_id != $subjectId) {
-            return redirect()->back()->with('error', 'Unauthorized access to this exam schedule.');
+            return $this->ajaxError($request, 'Unauthorized access to this exam schedule.');
         }
 
         // Validate section
@@ -282,7 +283,7 @@ class TeacherPortalController extends Controller
             ->exists();
             
         if (!$sectionValid) {
-            return redirect()->back()->with('error', 'Unauthorized access to this section.');
+            return $this->ajaxError($request, 'Unauthorized access to this section.');
         }
 
         // Fetch valid student IDs for this class and section
@@ -333,7 +334,7 @@ class TeacherPortalController extends Controller
         
         \App\Observers\AuditObserver::log('marks_entry', 'Mark', 0, "Marks entered for class {$request->class_id} subject {$subjectId}");
         
-        return redirect()->back()->with('success', 'Marks saved successfully.');
+        return $this->ajaxSuccess($request, 'Marks saved successfully.');
     }
 
     // 7. Assignments
@@ -363,7 +364,7 @@ class TeacherPortalController extends Controller
         if($teacher) {
             $classIds = $this->getAssignedClassIds($teacher);
             if (!$classIds->contains($request->class_id)) {
-                return redirect()->back()->with('error', 'Unauthorized to assign to this class.');
+                return $this->ajaxError($request, 'Unauthorized to assign to this class.');
             }
 
             Assignment::create([
@@ -376,9 +377,9 @@ class TeacherPortalController extends Controller
                 'due_date' => $request->due_date,
             ]);
             $msg = $request->type == 'homework' ? 'Homework' : 'Assignment';
-            return redirect()->back()->with('success', $msg . ' created successfully.');
+            return $this->ajaxSuccess($request, $msg . ' created successfully.');
         }
-        return redirect()->back()->with('error', 'Teacher profile not found.');
+        return $this->ajaxError($request, 'Teacher profile not found.');
     }
 
     // 8. Homework
@@ -429,7 +430,7 @@ class TeacherPortalController extends Controller
         $teacher = $this->getTeacher();
         $leaves = [];
         if ($teacher) {
-            $leaves = DB::table('leave_requests')->where('teacher_id', $teacher->id)->orderBy('created_at', 'desc')->get();
+            $leaves = DB::table('teacher_leaves')->where('teacher_id', $teacher->id)->orderBy('created_at', 'desc')->get();
         }
         return view('teacher.leaves', compact('leaves')); 
     }
@@ -443,7 +444,7 @@ class TeacherPortalController extends Controller
         
         $teacher = $this->getTeacher();
         if($teacher) {
-            DB::table('leave_requests')->insert([
+            DB::table('teacher_leaves')->insert([
                 'teacher_id' => $teacher->id,
                 'leave_type' => $request->leave_type,
                 'start_date' => $request->start_date,
@@ -451,9 +452,9 @@ class TeacherPortalController extends Controller
                 'status' => 'Pending',
                 'created_at' => now(),
             ]);
-            return redirect()->back()->with('success', 'Leave request submitted successfully.');
+            return $this->ajaxSuccess($request, 'Leave request submitted successfully.');
         }
-        return redirect()->back()->with('error', 'Teacher profile not found.');
+        return $this->ajaxError($request, 'Teacher profile not found.');
     }
 
     // 12. Announcements
@@ -493,9 +494,9 @@ class TeacherPortalController extends Controller
             ]);
             // Optional: update users table name
             DB::table('users')->where('id', auth()->id())->update(['name' => $request->full_name]);
-            return redirect()->back()->with('success', 'Profile updated successfully.');
+            return $this->ajaxSuccess($request, 'Profile updated successfully.');
         }
-        return redirect()->back()->with('error', 'Profile not found.');
+        return $this->ajaxError($request, 'Profile not found.');
     }
 
     // 15. Messages
@@ -517,7 +518,7 @@ class TeacherPortalController extends Controller
             'subject' => $request->subject,
             'body' => $request->body,
         ]);
-        return redirect()->back()->with('success', 'Message sent.');
+        return $this->ajaxSuccess($request, 'Message sent.');
     }
 
     // 16. Reports
@@ -531,7 +532,7 @@ class TeacherPortalController extends Controller
     // 17. Exam Schedule
     public function examSchedule(Request $request) {
         $teacher = $this->getTeacher();
-        if(!$teacher) return redirect()->back()->with('error', 'Teacher profile not found.');
+        if(!$teacher) return $this->ajaxError($request, 'Teacher profile not found.');
         
         $classIds = $this->getAssignedClassIds($teacher);
         
@@ -546,7 +547,7 @@ class TeacherPortalController extends Controller
     // 18. Student Leave Approval
     public function studentLeaves() {
         $teacher = $this->getTeacher();
-        if(!$teacher) return redirect()->back()->with('error', 'Teacher profile not found.');
+        if(!$teacher) return $this->ajaxError($request, 'Teacher profile not found.');
 
         $classIds = $this->getAssignedClassIds($teacher);
         $studentIds = \App\Models\Student::whereIn('current_class_id', $classIds)->pluck('id');
@@ -562,14 +563,14 @@ class TeacherPortalController extends Controller
         return view('teacher.student-leaves', compact('leaves'));
     }
 
-    public function approveStudentLeave($id) {
+    public function approveStudentLeave(Request $request, $id) {
         DB::table('student_leave_requests')->where('id', $id)->update(['status' => 'Approved', 'updated_at' => now()]);
-        return back()->with('success', 'Student leave approved.');
+        return $this->ajaxSuccess($request, 'Student leave approved.');
     }
 
-    public function rejectStudentLeave($id) {
+    public function rejectStudentLeave(Request $request, $id) {
         DB::table('student_leave_requests')->where('id', $id)->update(['status' => 'Rejected', 'updated_at' => now()]);
-        return back()->with('success', 'Student leave rejected.');
+        return $this->ajaxSuccess($request, 'Student leave rejected.');
     }
 
     // AJAX Methods

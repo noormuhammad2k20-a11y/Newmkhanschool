@@ -142,8 +142,9 @@
             tbody.innerHTML = html;
         }
 
-        window.removeStudent = function(id) {
-            if (confirm('Are you sure you want to remove this student?')) {
+        window.removeStudent = async function(id) {
+            const isConfirmed = await window.UI.confirm('Confirm Action', 'Are you sure you want to remove this student?', 'Confirm', 'error');
+            if (isConfirmed) {
                 fetch(`/api/students/${id}`, {
                     method: 'DELETE',
                     headers: {
@@ -155,7 +156,7 @@
                     if (response.status === 'success') {
                         fetchStudents(); // Refresh the list
                     } else {
-                        UI.showToast('Error removing student', 'error');
+                        window.UI.showToast('Error removing student', 'error');
                     }
                 });
             }

@@ -78,7 +78,7 @@
                                         <button onclick="editExam({{ $exam->id }}, '{{ addslashes($exam->exam_type) }}', '{{ $exam->class_id }}', '{{ $exam->subject_id }}', '{{ $exam->exam_date }}', '{{ addslashes($exam->exam_time) }}', '{{ $exam->max_marks }}', '{{ $exam->passing_marks }}', '{{ $exam->status }}')" class="text-primary hover:text-primary-container p-xs rounded-full hover:bg-surface-variant transition-colors" title="Edit Exam">
                                             <span class="material-symbols-outlined text-[20px]">edit</span>
                                         </button>
-                                        <form action="{{ route('admin.exams.destroy', $exam->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this exam?');">
+                                        <form action="{{ route('admin.exams.destroy', $exam->id) }}" method="POST" class="inline" data-confirm="Are you sure you want to delete this exam?">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-error hover:text-error-container p-xs rounded-full hover:bg-surface-variant transition-colors" title="Delete Exam">

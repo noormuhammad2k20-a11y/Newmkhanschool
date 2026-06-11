@@ -10,7 +10,11 @@
             <h1 class="font-headline-lg text-headline-lg text-on-surface">Manage Questions: {{ $quiz->title }}</h1>
             <p class="font-body-md text-body-md text-on-surface-variant">Class: {{ $quiz->class->name ?? 'N/A' }} | Subject: {{ $quiz->subject->name ?? 'N/A' }}</p>
         </div>
-        <div class="ml-auto">
+        <div class="ml-auto flex items-center gap-2">
+            <button onclick="document.getElementById('bulkAddQuestionModal').classList.remove('hidden')" class="flex items-center gap-sm px-md py-sm border border-outline-variant bg-surface-container-low text-on-surface rounded-full hover:bg-surface-container transition-colors">
+                <span class="material-symbols-outlined text-[20px]">upload_file</span>
+                <span class="font-label-md font-semibold">Bulk Add</span>
+            </button>
             <button onclick="document.getElementById('addQuestionModal').classList.remove('hidden')" class="flex items-center gap-sm px-md py-sm bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-colors">
                 <span class="material-symbols-outlined text-[20px]">add</span>
                 <span class="font-label-md font-semibold">Add Question</span>
@@ -18,20 +22,14 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="p-4 bg-green-100 text-green-800 rounded-xl mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="space-y-4">
+<div class="space-y-4">
         @forelse($quiz->questions->sortBy('order') as $index => $q)
             <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 relative group">
                 <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onclick="openEditQuestionModal({{ json_encode($q) }})" class="text-primary hover:text-primary/80" title="Edit">
                         <span class="material-symbols-outlined">edit</span>
                     </button>
-                    <form action="{{ route('teacher.digital_learning.quizzes.questions.destroy', [$quiz->id, $q->id]) }}" method="POST" onsubmit="return confirm('Delete this question?');">
+                    <form action="{{ route('teacher.digital_learning.quizzes.questions.destroy', [$quiz->id, $q->id]) }}" method="POST" data-confirm="Delete this question?">
                         @csrf @method('DELETE')
                         <button type="submit" class="text-error hover:text-error/80" title="Delete">
                             <span class="material-symbols-outlined">delete</span>
@@ -163,6 +161,47 @@
         </form>
     </div>
 </div>
+
+<!-- Bulk Add Question Modal -->
+<div id="bulkAddQuestionModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-outline-variant flex justify-between items-center">
+            <h2 class="font-headline-md text-on-surface">Bulk Add Questions</h2>
+            <button onclick="document.getElementById('bulkAddQuestionModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form action="{{ route('teacher.digital_learning.quizzes.questions.bulk_store', $quiz->id) }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
+            @csrf
+            
+            <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
+                <h3 class="font-label-lg font-bold text-on-surface mb-2">Instructions</h3>
+                <ol class="list-decimal list-inside text-sm text-on-surface-variant space-y-1">
+                    <li>Download the sample CSV file.</li>
+                    <li>Fill in your questions without changing the column headers.</li>
+                    <li>For true/false, leave options C and D blank.</li>
+                    <li>Upload the completed file below.</li>
+                </ol>
+                <div class="mt-4">
+                    <a href="{{ asset('samples/sample_questions.csv') }}" download class="text-primary hover:underline font-label-md flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[18px]">download</span> Download Sample CSV
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <label class="block font-label-md text-on-surface mb-1">Upload CSV File <span class="text-error">*</span></label>
+                <input type="file" name="csv_file" accept=".csv" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+            </div>
+
+            <div class="flex justify-end gap-sm mt-6">
+                <button type="button" onclick="document.getElementById('bulkAddQuestionModal').classList.add('hidden')" class="px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">Cancel</button>
+                <button type="submit" class="px-4 py-2 font-label-md bg-primary text-on-primary hover:bg-primary/90 rounded-lg transition-colors">Upload Questions</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <script>
     function openEditQuestionModal(question) {

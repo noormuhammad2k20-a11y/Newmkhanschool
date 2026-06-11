@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AjaxResponseTrait;
 use App\Models\Student;
 use App\Models\Mark;
 use App\Models\StudentAttendance;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class StudentPromotionController extends Controller
 {
+    use AjaxResponseTrait;
     // Step 1: Select academic year and class to promote from
     public function index()
     {
@@ -125,12 +127,11 @@ class StudentPromotionController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.promotions.index')
-                ->with('success', "{$promoted} students promoted successfully.");
+            return $this->ajaxSuccess($request, "{$promoted} students promoted successfully.", null, route('admin.promotions.index'));
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Promotion failed: ' . $e->getMessage());
+            return $this->ajaxError($request, 'Promotion failed: ' . $e->getMessage());
         }
     }
 
@@ -166,6 +167,6 @@ class StudentPromotionController extends Controller
             ]
         );
 
-        return back()->with('success', 'Promotion rule saved.');
+        return $this->ajaxSuccess($request, 'Promotion rule saved.');
     }
 }

@@ -20,13 +20,7 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="bg-[#d3e2ed] border border-[#bac9d3] text-[#0f1d25] px-4 py-3 rounded relative mb-4 shadow-sm" role="alert">
-                <span class="block sm:inline font-body-md">{{ session('success') }}</span>
-            </div>
-        @endif
-
-        <!-- Patterns Section -->
+<!-- Patterns Section -->
         <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-lg mb-lg">
             <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Attendance Patterns</h3>
             

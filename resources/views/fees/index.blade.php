@@ -21,20 +21,9 @@
                     <button class="tab-btn shrink-0 px-2 py-3 font-label-md text-body-md text-secondary hover:text-on-surface transition-colors" data-target="tab-generate">Generate</button>
                 </div>
 
-                @if(session('success'))
-                    <div class="mb-lg p-md bg-[#e6f4ea] text-[#137333] rounded-lg text-label-lg flex items-center gap-sm">
-                        <span class="material-symbols-outlined">check_circle</span>
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @if(session('error'))
-                    <div class="mb-lg p-md bg-error-container text-on-error-container rounded-lg text-label-lg flex items-center gap-sm">
-                        <span class="material-symbols-outlined">error</span>
-                        {{ session('error') }}
-                    </div>
-                @endif
 
-                <div id="tab-dashboard" class="tab-content">
+
+<div id="tab-dashboard" class="tab-content">
                 <!-- Metrics Bento Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xl">
                     <!-- Card 1: Total Collected -->
@@ -153,7 +142,7 @@
                                     <td class="px-md py-3 text-right">
                                         <form action="{{ route('admin.fees.categories.destroy', $cat->id) }}" method="POST" class="inline">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="text-error hover:opacity-80" onclick="return confirm('Are you sure?')"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                            <button type="submit" class="text-error hover:opacity-80" data-confirm-click="Are you sure?"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -216,7 +205,7 @@
                                     <td class="px-md py-3 text-right">
                                         <form action="{{ route('admin.fees.structures.destroy', $struct->id) }}" method="POST" class="inline">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="text-error hover:opacity-80" onclick="return confirm('Are you sure?')"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                            <button type="submit" class="text-error hover:opacity-80" data-confirm-click="Are you sure?"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                         </form>
                                     </td>
                                 </tr>

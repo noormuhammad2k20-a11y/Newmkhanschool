@@ -14,19 +14,9 @@
             </div>
         </div>
 
-        @if(session('success'))
-        <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-body-md">
-            {{ session('success') }}
-        </div>
-        @endif
 
-        @if(session('error'))
-        <div class="bg-error-container text-on-error-container p-4 rounded-lg text-body-md">
-            {{ session('error') }}
-        </div>
-        @endif
 
-        <!-- List -->
+<!-- List -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">

@@ -16,17 +16,9 @@
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-body-md">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if(session('error'))
-            <div class="bg-error-container text-on-error-container p-4 rounded-lg text-body-md">
-                {{ session('error') }}
-            </div>
-        @endif
-        @if($errors->any())
+
+
+@if($errors->any())
             <div class="bg-error-container text-on-error-container p-4 rounded-lg text-body-md">
                 <ul class="list-disc pl-5">
                     @foreach($errors->all() as $error)
@@ -166,13 +158,15 @@ function closeGradingModal() {
         checkboxes.forEach(cb => cb.checked = this.checked);
     });
 
-    function submitBulkGrading() {
+    async function submitBulkGrading() {
         const selected = document.querySelectorAll('.submission-checkbox:checked');
         if (selected.length === 0) {
-            alert('Please select at least one submission to grade.');
+            window.UI.alert('Notice', 'Please select at least one submission to grade.');
             return;
         }
-        if (confirm(`Are you sure you want to AI grade ${selected.length} submissions?`)) {
+        
+        const isConfirmed = await window.UI.confirm('Confirm Action', `Are you sure you want to AI grade ${selected.length} submissions?`, 'Confirm', 'error');
+        if (isConfirmed) {
             const form = document.getElementById('bulkGradeForm');
             // Clear previous inputs except CSRF
             form.querySelectorAll('input[name="submission_ids[]"]').forEach(el => el.remove());
@@ -184,7 +178,7 @@ function closeGradingModal() {
                 input.value = cb.value;
                 form.appendChild(input);
             });
-            form.submit();
+            form.requestSubmit ? form.requestSubmit() : form.submit();
         }
     }
 </script>

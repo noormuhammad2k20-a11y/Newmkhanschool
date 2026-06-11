@@ -13,13 +13,7 @@
         </button>
     </div>
 
-    @if(session('success'))
-        <div class="p-4 bg-green-100 text-green-800 rounded-xl mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -56,7 +50,7 @@
                                 <button onclick="openEditNoteModal({{ $note->id }})" class="text-primary hover:text-primary/80 mr-2">
                                     <span class="material-symbols-outlined text-[20px]">edit</span>
                                 </button>
-                                <form action="{{ route('teacher.digital_learning.notes.destroy', $note->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this note?');">
+                                <form action="{{ route('teacher.digital_learning.notes.destroy', $note->id) }}" method="POST" class="inline" data-confirm="Delete this note?">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="text-error hover:text-error/80">
                                         <span class="material-symbols-outlined text-[20px]">delete</span>

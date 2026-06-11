@@ -18,14 +18,7 @@
             </button>
         </div>
 
-        @if(session('success'))
-        <div class="bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] p-4 rounded-xl flex items-center gap-3">
-            <span class="material-symbols-outlined">check_circle</span>
-            <p class="text-body-md font-medium">{{ session('success') }}</p>
-        </div>
-        @endif
-
-        <!-- Leave Stats Grid -->
+<!-- Leave Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-md">
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
@@ -107,7 +100,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-right">
                                     @if($leave->status === 'Pending')
-                                        <button onclick="confirm('Are you sure you want to cancel this leave request?') && alert('Cancel function not yet implemented.')" class="text-error hover:bg-error-container p-2 rounded-lg transition-colors text-sm font-bold flex items-center gap-1 ml-auto">
+                                        <button onclick="window.UI.confirm('Confirm Action', 'Are you sure you want to cancel this leave request?', 'Cancel Leave', 'error').then(c => { if(c) window.UI.alert('Notice', 'Cancel function not yet implemented.'); })" class="text-error hover:bg-error-container p-2 rounded-lg transition-colors text-sm font-bold flex items-center gap-1 ml-auto">
                                             <span class="material-symbols-outlined text-[16px]">cancel</span> Cancel
                                         </button>
                                     @else
