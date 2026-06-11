@@ -56,7 +56,7 @@
                                 <button onclick="openEditNoteModal({{ $note->id }})" class="text-primary hover:text-primary/80 mr-2">
                                     <span class="material-symbols-outlined text-[20px]">edit</span>
                                 </button>
-                                <form action="{{ route('teacher.digital_notes.destroy', $note->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this note?');">
+                                <form action="{{ route('teacher.digital_learning.notes.destroy', $note->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this note?');">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="text-error hover:text-error/80">
                                         <span class="material-symbols-outlined text-[20px]">delete</span>
@@ -78,16 +78,17 @@
 </div>
 
 <!-- Create Note Modal -->
-<div id="createNoteModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-surface-container-lowest rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+<div id="createNoteModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-surface-container-lowest rounded-2xl w-full max-w-2xl my-auto">
         <div class="p-6 border-b border-outline-variant flex justify-between items-center">
             <h2 class="font-headline-md text-on-surface">Upload Digital Note</h2>
-            <button onclick="document.getElementById('createNoteModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
+            <button type="button" onclick="document.getElementById('createNoteModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-        <form action="{{ route('teacher.digital_notes.store') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
-            @csrf
+        <div class="p-6">
+            <form action="{{ route('teacher.digital_learning.notes.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                @csrf
             <div>
                 <label class="block font-label-md text-on-surface mb-1">Title <span class="text-error">*</span></label>
                 <input type="text" name="title" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
@@ -161,6 +162,7 @@
                 <button type="submit" class="px-4 py-2 font-label-md bg-primary text-on-primary hover:bg-primary/90 rounded-lg transition-colors">Upload Note</button>
             </div>
         </form>
+        </div>
     </div>
 </div>
 

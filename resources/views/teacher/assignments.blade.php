@@ -52,7 +52,9 @@
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-center">
-                                <span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded text-xs font-medium">0/0</span>
+                                <a href="{{ route('teacher.assignments.submissions', $assignment->id) }}" class="bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded-lg text-xs font-medium transition-colors inline-flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">visibility</span> View
+                                </a>
                             </td>
                         </tr>
                         @empty

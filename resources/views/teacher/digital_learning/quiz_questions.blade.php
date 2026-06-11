@@ -39,24 +39,32 @@
                     </form>
                 </div>
                 
-                <h3 class="font-headline-md text-on-surface mb-4"><span class="text-primary font-bold">Q{{ $index + 1 }}.</span> {{ $q->question_text }}</h3>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-headline-md text-on-surface"><span class="text-primary font-bold">Q{{ $index + 1 }}.</span> {{ $q->question_text }}</h3>
+                    <span class="px-2 py-1 text-xs rounded-full bg-surface-container-high text-on-surface-variant font-label-md">
+                        {{ ucwords(str_replace('_', ' ', $q->question_type ?? 'single')) }} Choice
+                    </span>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'a' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
-                        <span class="font-bold mr-2 {{ $q->correct_option == 'a' ? 'text-green-700' : 'text-on-surface-variant' }}">A.</span>
+                    @php $correctArr = explode(',', $q->correct_option); @endphp
+                    <div class="p-3 rounded-lg border {{ in_array('a', $correctArr) ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ in_array('a', $correctArr) ? 'text-green-700' : 'text-on-surface-variant' }}">A.</span>
                         <span class="text-on-surface">{{ $q->option_a }}</span>
                     </div>
-                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'b' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
-                        <span class="font-bold mr-2 {{ $q->correct_option == 'b' ? 'text-green-700' : 'text-on-surface-variant' }}">B.</span>
+                    <div class="p-3 rounded-lg border {{ in_array('b', $correctArr) ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ in_array('b', $correctArr) ? 'text-green-700' : 'text-on-surface-variant' }}">B.</span>
                         <span class="text-on-surface">{{ $q->option_b }}</span>
                     </div>
-                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'c' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
-                        <span class="font-bold mr-2 {{ $q->correct_option == 'c' ? 'text-green-700' : 'text-on-surface-variant' }}">C.</span>
+                    @if($q->question_type !== 'true_false')
+                    <div class="p-3 rounded-lg border {{ in_array('c', $correctArr) ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ in_array('c', $correctArr) ? 'text-green-700' : 'text-on-surface-variant' }}">C.</span>
                         <span class="text-on-surface">{{ $q->option_c }}</span>
                     </div>
-                    <div class="p-3 rounded-lg border {{ $q->correct_option == 'd' ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
-                        <span class="font-bold mr-2 {{ $q->correct_option == 'd' ? 'text-green-700' : 'text-on-surface-variant' }}">D.</span>
+                    <div class="p-3 rounded-lg border {{ in_array('d', $correctArr) ? 'bg-green-50 border-green-200' : 'bg-surface-container-low border-outline-variant' }}">
+                        <span class="font-bold mr-2 {{ in_array('d', $correctArr) ? 'text-green-700' : 'text-on-surface-variant' }}">D.</span>
                         <span class="text-on-surface">{{ $q->option_d }}</span>
                     </div>
+                    @endif
                 </div>
                 <div class="mt-4 flex justify-between items-center text-sm font-label-md text-on-surface-variant">
                     <span>Marks: <span class="font-bold text-on-surface">{{ $q->marks }}</span></span>
@@ -83,39 +91,60 @@
         </div>
         <form action="{{ route('teacher.digital_learning.quizzes.questions.store', $quiz->id) }}" method="POST" class="p-6 space-y-4">
             @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Question Type <span class="text-error">*</span></label>
+                    <select name="question_type" id="question_type" onchange="toggleQuestionType()" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                        <option value="single">Single Choice</option>
+                        <option value="multiple">Multiple Choice</option>
+                        <option value="true_false">True / False</option>
+                    </select>
+                </div>
+            </div>
+
             <div>
                 <label class="block font-label-md text-on-surface mb-1">Question Text <span class="text-error">*</span></label>
                 <textarea name="question_text" required rows="3" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="optionsContainer">
                 <div>
                     <label class="block font-label-md text-on-surface mb-1">Option A <span class="text-error">*</span></label>
-                    <input type="text" name="option_a" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="text" name="option_a" id="option_a" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
                 <div>
                     <label class="block font-label-md text-on-surface mb-1">Option B <span class="text-error">*</span></label>
-                    <input type="text" name="option_b" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="text" name="option_b" id="option_b" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
-                <div>
+                <div class="option-cd">
                     <label class="block font-label-md text-on-surface mb-1">Option C <span class="text-error">*</span></label>
-                    <input type="text" name="option_c" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="text" name="option_c" id="option_c" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
-                <div>
+                <div class="option-cd">
                     <label class="block font-label-md text-on-surface mb-1">Option D <span class="text-error">*</span></label>
-                    <input type="text" name="option_d" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                    <input type="text" name="option_d" id="option_d" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block font-label-md text-on-surface mb-1">Correct Option <span class="text-error">*</span></label>
-                    <select name="correct_option" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
-                        <option value="a">Option A</option>
-                        <option value="b">Option B</option>
-                        <option value="c">Option C</option>
-                        <option value="d">Option D</option>
-                    </select>
+                    
+                    <div id="singleChoiceSelect">
+                        <select name="correct_option" id="correct_option_single" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                            <option value="a">Option A</option>
+                            <option value="b">Option B</option>
+                            <option class="option-cd-opt" value="c">Option C</option>
+                            <option class="option-cd-opt" value="d">Option D</option>
+                        </select>
+                    </div>
+
+                    <div id="multipleChoiceSelect" class="hidden space-y-2 mt-2">
+                        <label class="flex items-center gap-2"><input type="checkbox" name="correct_option[]" value="a" class="rounded border-outline-variant text-primary focus:ring-primary"> Option A</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" name="correct_option[]" value="b" class="rounded border-outline-variant text-primary focus:ring-primary"> Option B</label>
+                        <label class="flex items-center gap-2 option-cd"><input type="checkbox" name="correct_option[]" value="c" class="rounded border-outline-variant text-primary focus:ring-primary"> Option C</label>
+                        <label class="flex items-center gap-2 option-cd"><input type="checkbox" name="correct_option[]" value="d" class="rounded border-outline-variant text-primary focus:ring-primary"> Option D</label>
+                    </div>
                 </div>
                 <div>
                     <label class="block font-label-md text-on-surface mb-1">Marks <span class="text-error">*</span></label>
@@ -139,5 +168,56 @@
     function openEditQuestionModal(question) {
         alert('Edit functionality can be implemented using a similar modal populated via JS fetch or redirecting to an edit view.');
     }
+
+    function toggleQuestionType() {
+        const type = document.getElementById('question_type').value;
+        const optCds = document.querySelectorAll('.option-cd');
+        const optCdOpts = document.querySelectorAll('.option-cd-opt');
+        
+        const optA = document.getElementById('option_a');
+        const optB = document.getElementById('option_b');
+        const optC = document.getElementById('option_c');
+        const optD = document.getElementById('option_d');
+
+        const singleSelect = document.getElementById('singleChoiceSelect');
+        const multiSelect = document.getElementById('multipleChoiceSelect');
+        
+        if (type === 'true_false') {
+            optCds.forEach(el => el.classList.add('hidden'));
+            optCdOpts.forEach(el => el.classList.add('hidden'));
+            optC.removeAttribute('required');
+            optD.removeAttribute('required');
+            optA.value = "True";
+            optA.readOnly = true;
+            optB.value = "False";
+            optB.readOnly = true;
+            
+            singleSelect.classList.remove('hidden');
+            multiSelect.classList.add('hidden');
+            document.getElementById('correct_option_single').name = 'correct_option';
+        } else {
+            optCds.forEach(el => el.classList.remove('hidden'));
+            optCdOpts.forEach(el => el.classList.remove('hidden'));
+            optC.setAttribute('required', 'required');
+            optD.setAttribute('required', 'required');
+            optA.readOnly = false;
+            optB.readOnly = false;
+            if (optA.value === "True") optA.value = "";
+            if (optB.value === "False") optB.value = "";
+
+            if (type === 'multiple') {
+                singleSelect.classList.add('hidden');
+                multiSelect.classList.remove('hidden');
+                document.getElementById('correct_option_single').name = '';
+            } else {
+                singleSelect.classList.remove('hidden');
+                multiSelect.classList.add('hidden');
+                document.getElementById('correct_option_single').name = 'correct_option';
+            }
+        }
+    }
+
+    // Initialize
+    toggleQuestionType();
 </script>
 @endsection

@@ -64,7 +64,13 @@ class DashboardController extends Controller
                     'totalStudents' => $totalStudents > 0 ? $totalStudents : 12450,
                     'totalTeachers' => $totalTeachers > 0 ? $totalTeachers : 452,
                     'totalClasses' => $totalClasses > 0 ? $totalClasses : 320,
+                    'documentsGenerated' => class_exists(\App\Models\IssuedDocument::class) ? \App\Models\IssuedDocument::count() : 0,
+                    'inventoryItems' => class_exists(\App\Models\Inventory::class) ? \App\Models\Inventory::count() : 0,
+                    'lowStockAlerts' => class_exists(\App\Models\Inventory::class) ? \App\Models\Inventory::whereColumn('quantity', '<=', 'min_stock_alert')->count() : 0,
+                    'totalBranches' => class_exists(\App\Models\SchoolBranch::class) ? \App\Models\SchoolBranch::count() : 1,
                     'attendancePercent' => $attendancePercent,
+
+
                     'presentCount' => $presentCount,
                     'absentCount' => $absentCount,
                     'recentAdmissions' => $recentAdmissions,

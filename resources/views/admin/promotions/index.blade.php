@@ -105,8 +105,7 @@
                     <p class="text-xs text-secondary mt-1">Select source class to preview results</p>
                 </div>
                 <div class="p-md flex-1">
-                    <form action="{{ route('admin.promotions.preview') }}" method="POST">
-                        @csrf
+                    <form action="{{ route('admin.promotions.preview') }}" method="GET">
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-label-sm font-label-sm text-secondary mb-1">Academic Year</label>

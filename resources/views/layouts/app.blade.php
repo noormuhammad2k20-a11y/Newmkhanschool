@@ -189,7 +189,7 @@
             @if(auth()->check() && in_array(auth()->user()->role_id, [1, 2]))
                 <!-- Admin Links -->
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.dashboard*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.dashboard') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.dashboard*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.dashboard') }}">
                         <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
                         <span class="font-label-md text-label-md">Dashboard</span>
                     </a>
@@ -199,13 +199,13 @@
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">People Management</span>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.students*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.students') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.students*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.students') }}">
                         <span class="material-symbols-outlined" data-icon="school">school</span>
                         <span class="font-label-md text-label-md">Students</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.teachers*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.teachers') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.teachers*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.teachers') }}">
                         <span class="material-symbols-outlined" data-icon="person">person</span>
                         <span class="font-label-md text-label-md">Teachers</span>
                     </a>
@@ -221,49 +221,49 @@
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Attendance & Academics</span>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.attendance.mark*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.attendance.mark') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.attendance.mark*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.attendance.mark') }}">
                         <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
                         <span class="font-label-md text-label-md">Student Attendance</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.attendance.teacher*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.attendance.teacher') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.attendance.teacher*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.attendance.teacher') }}">
                         <span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
                         <span class="font-label-md text-label-md">Teacher Attendance</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.academics*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.academics.index') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.academics*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.academics.index') }}">
                         <span class="material-symbols-outlined" data-icon="library_books">library_books</span>
                         <span class="font-label-md text-label-md">Classes & Subjects</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.classes.timetable*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.classes.timetable') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.classes.timetable*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.classes.timetable') }}">
                         <span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
                         <span class="font-label-md text-label-md">Timetable</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.exams*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.exams') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.exams*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.exams') }}">
                         <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
                         <span class="font-label-md text-label-md">Examination</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.calendar*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.calendar') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.calendar*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.calendar') }}">
                         <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
                         <span class="font-label-md text-label-md">Academic Calendar</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.events*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.events') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.events*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.events') }}">
                         <span class="material-symbols-outlined" data-icon="event">event</span>
                         <span class="font-label-md text-label-md">School Events</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.announcements*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.announcements') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.announcements*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.announcements') }}">
                         <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
                         <span class="font-label-md text-label-md">Announcements</span>
                     </a>
@@ -273,42 +273,70 @@
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Finance & Resources</span>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.fees*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.fees') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.fees*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.fees') }}">
                         <span class="material-symbols-outlined" data-icon="payments">payments</span>
                         <span class="font-label-md text-label-md">Fee Management</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.payroll*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.payroll') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.payroll*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.payroll') }}">
                         <span class="material-symbols-outlined" data-icon="payments">payments</span>
                         <span class="font-label-md text-label-md">Staff Payroll</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.inventory*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.inventory') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.inventory*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.inventory') }}">
                         <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
-                        <span class="font-label-md text-label-md">Asset Management</span>
+                        <span class="font-label-md text-label-md">Inventory Management</span>
                     </a>
                 </li>
 
 
                 <li class="px-md py-xs mt-sm">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Administration</span>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.branches*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.branches.index') }}">
+                        <span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                        <span class="font-label-md text-label-md">Branches</span>
+                    </a>
+                </li>
+
+                <li class="px-md py-xs mt-sm">
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Reports & Analytics</span>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.reports*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.reports') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.documents.index*') || request()->routeIs('admin.documents.create*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.documents.index') }}">
                         <span class="material-symbols-outlined" data-icon="description">description</span>
+                        <span class="font-label-md text-label-md">Documents & Certificates</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.documents.templates*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.documents.templates') }}">
+                        <span class="material-symbols-outlined" data-icon="design_services">design_services</span>
+                        <span class="font-label-md text-label-md">Document Templates</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.documents.signatures*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.documents.signatures') }}">
+                        <span class="material-symbols-outlined" data-icon="draw">draw</span>
+                        <span class="font-label-md text-label-md">Digital Signatures</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.reports*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.reports') }}">
+                        <span class="material-symbols-outlined" data-icon="summarize">summarize</span>
                         <span class="font-label-md text-label-md">Reports</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.analytics*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.analytics.index') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.analytics*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.analytics.index') }}">
                         <span class="material-symbols-outlined" data-icon="insert_chart">insert_chart</span>
                         <span class="font-label-md text-label-md">Analytics</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.promotions*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.promotions.index') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.promotions*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.promotions.index') }}">
                         <span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
                         <span class="font-label-md text-label-md">Promotions</span>
                     </a>
@@ -318,25 +346,25 @@
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">AI Modules</span>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.attendance*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.attendance') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.attendance*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.attendance') }}">
                         <span class="material-symbols-outlined" data-icon="online_prediction">online_prediction</span>
                         <span class="font-label-md text-label-md">Attendance Prediction</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.risk*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.risk') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.risk*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.risk') }}">
                         <span class="material-symbols-outlined" data-icon="psychology_alt">psychology_alt</span>
                         <span class="font-label-md text-label-md">Student Risk Analysis</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.timetable*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.timetable') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.timetable*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.timetable') }}">
                         <span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
                         <span class="font-label-md text-label-md">Timetable Generator</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.reports*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.reports') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.ai.reports*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.ai.reports') }}">
                         <span class="material-symbols-outlined" data-icon="document_scanner">document_scanner</span>
                         <span class="font-label-md text-label-md">AI Report Generator</span>
                     </a>
@@ -346,7 +374,7 @@
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">System Settings</span>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.roles*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.roles') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.roles*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.roles') }}">
                         <span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
                         <span class="font-label-md text-label-md">Roles & Permissions</span>
                     </a>
@@ -358,16 +386,36 @@
                     $teacherUser = \App\Models\Teacher::where('user_id', auth()->id())->first();
                     $assignedModules = $teacherUser ? \Illuminate\Support\Facades\DB::table('teacher_module_access')->where('teacher_id', $teacherUser->id)->pluck('module_name')->toArray() : [];
                 @endphp
-                <!-- Teacher Links -->
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.dashboard*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.dashboard') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.dashboard*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.dashboard') }}">
                         <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
                         <span class="font-label-md text-label-md">Dashboard</span>
                     </a>
                 </li>
+                <li>
+                    <details class="group" {{ request()->routeIs('teacher.digital_learning.*') ? 'open' : '' }}>
+                        <summary class="flex items-center justify-between px-md py-sm rounded-lg transition-colors duration-200 ease-in-out cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden {{ request()->routeIs('teacher.digital_learning.*') ? 'bg-primary/10 text-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}">
+                            <div class="flex items-center gap-md">
+                                <span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+                                <span class="font-label-md text-label-md">Digital Learning</span>
+                            </div>
+                            <span class="material-symbols-outlined transition-transform duration-200 group-open:rotate-180">expand_more</span>
+                        </summary>
+                        <div class="pl-[44px] pr-2 py-2 space-y-1">
+                            <a href="{{ route('teacher.digital_learning.notes') }}" class="flex items-center gap-sm px-3 py-2 rounded-lg transition-colors {{ request()->routeIs('teacher.digital_learning.notes') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}">
+                                <span class="material-symbols-outlined text-[18px]">menu_book</span>
+                                <span class="font-label-md text-label-md">Digital Notes</span>
+                            </a>
+                            <a href="{{ route('teacher.digital_learning.quizzes') }}" class="flex items-center gap-sm px-3 py-2 rounded-lg transition-colors {{ request()->routeIs('teacher.digital_learning.quizzes*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}">
+                                <span class="material-symbols-outlined text-[18px]">quiz</span>
+                                <span class="font-label-md text-label-md">Quizzes</span>
+                            </a>
+                        </div>
+                    </details>
+                </li>
                 @if(in_array('attendance', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.attendance*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.attendance') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.attendance*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.attendance') }}">
                         <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
                         <span class="font-label-md text-label-md">Student Attendance</span>
                     </a>
@@ -375,7 +423,7 @@
                 @endif
                 @if(in_array('classes', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.classes*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.classes') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.classes*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.classes') }}">
                         <span class="material-symbols-outlined" data-icon="class">class</span>
                         <span class="font-label-md text-label-md">My Classes</span>
                     </a>
@@ -383,7 +431,7 @@
                 @endif
                 @if(in_array('subjects', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.subjects*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.subjects') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.subjects*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.subjects') }}">
                         <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
                         <span class="font-label-md text-label-md">My Subjects</span>
                     </a>
@@ -391,7 +439,7 @@
                 @endif
                 @if(in_array('students', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.students*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.students') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.students*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.students') }}">
                         <span class="material-symbols-outlined" data-icon="groups">groups</span>
                         <span class="font-label-md text-label-md">Student Lists</span>
                     </a>
@@ -399,7 +447,7 @@
                 @endif
                 @if(in_array('marks', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.marks*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.marks') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.marks*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.marks') }}">
                         <span class="material-symbols-outlined" data-icon="grade">grade</span>
                         <span class="font-label-md text-label-md">Marks & Grades</span>
                     </a>
@@ -407,15 +455,21 @@
                 @endif
                 @if(in_array('assignments', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.assignments*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.assignments') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.assignments*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.assignments') }}">
                         <span class="material-symbols-outlined" data-icon="assignment">assignment</span>
                         <span class="font-label-md text-label-md">Assignments</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.ai-grader*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.ai-grader') }}">
+                        <span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+                        <span class="font-label-md text-label-md">AI Auto Grader</span>
                     </a>
                 </li>
                 @endif
                 @if(in_array('homework', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.homework*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.homework') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.homework*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.homework') }}">
                         <span class="material-symbols-outlined" data-icon="home_work">home_work</span>
                         <span class="font-label-md text-label-md">Homework</span>
                     </a>
@@ -423,13 +477,13 @@
                 @endif
                 @if(in_array('exams', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.exams*') && !request()->routeIs('teacher.online-exams*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.exams') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.exams*') && !request()->routeIs('teacher.online-exams*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.exams') }}">
                         <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
                         <span class="font-label-md text-label-md">Exams & Results</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.online-exams*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.online-exams.index') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.online-exams*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.online-exams.index') }}">
                         <span class="material-symbols-outlined" data-icon="quiz">quiz</span>
                         <span class="font-label-md text-label-md">Online Exams</span>
                     </a>
@@ -437,15 +491,21 @@
                 @endif
                 @if(in_array('exam_schedule', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.exam-schedule*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.exam-schedule') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.exam-schedule*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.exam-schedule') }}">
                         <span class="material-symbols-outlined" data-icon="event_note">event_note</span>
                         <span class="font-label-md text-label-md">Exam Schedule</span>
                     </a>
                 </li>
                 @endif
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.seating*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.seating.index') }}">
+                        <span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                        <span class="font-label-md text-label-md">Seating Plans</span>
+                    </a>
+                </li>
                 @if(in_array('timetable', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.timetable*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.timetable') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.timetable*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.timetable') }}">
                         <span class="material-symbols-outlined" data-icon="calendar_view_week">calendar_view_week</span>
                         <span class="font-label-md text-label-md">Timetable</span>
                     </a>
@@ -453,7 +513,7 @@
                 @endif
                 @if(in_array('leaves', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.leaves*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.leaves') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.leaves*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.leaves') }}">
                         <span class="material-symbols-outlined" data-icon="event_busy">event_busy</span>
                         <span class="font-label-md text-label-md">Leave Requests</span>
                     </a>
@@ -461,7 +521,7 @@
                 @endif
                 @if(in_array('announcements', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.announcements*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.announcements') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.announcements*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.announcements') }}">
                         <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
                         <span class="font-label-md text-label-md">Announcements</span>
                     </a>
@@ -469,7 +529,7 @@
                 @endif
                 @if(in_array('performance', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.performance*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.performance') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.performance*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.performance') }}">
                         <span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
                         <span class="font-label-md text-label-md">Student Performance</span>
                     </a>
@@ -477,7 +537,7 @@
                 @endif
                 @if(in_array('profile', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.profile*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.profile') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.profile*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.profile') }}">
                         <span class="material-symbols-outlined" data-icon="manage_accounts">manage_accounts</span>
                         <span class="font-label-md text-label-md">My Profile</span>
                     </a>
@@ -485,7 +545,7 @@
                 @endif
                 @if(in_array('messages', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.messages*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.messages') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.messages*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.messages') }}">
                         <span class="material-symbols-outlined" data-icon="forum">forum</span>
                         <span class="font-label-md text-label-md">Messaging</span>
                     </a>
@@ -493,7 +553,7 @@
                 @endif
                 @if(in_array('reports', $assignedModules))
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.reports*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.reports') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('teacher.reports*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('teacher.reports') }}">
                         <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
                         <span class="font-label-md text-label-md">Reports</span>
                     </a>
@@ -502,91 +562,91 @@
             @elseif(auth()->check() && auth()->user()->role_id == 4)
                 <!-- Student Links -->
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.dashboard*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.dashboard') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.dashboard*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.dashboard') }}">
                         <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
                         <span class="font-label-md text-label-md">Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.marks*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.marks') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.marks*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.marks') }}">
                         <span class="material-symbols-outlined" data-icon="grade">grade</span>
                         <span class="font-label-md text-label-md">My Marks</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.fees*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.fees') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.fees*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.fees') }}">
                         <span class="material-symbols-outlined" data-icon="payments">payments</span>
                         <span class="font-label-md text-label-md">Fee Status</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.timetable*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.timetable') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.timetable*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.timetable') }}">
                         <span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
                         <span class="font-label-md text-label-md">Timetable</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.assignments*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.assignments') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.assignments*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.assignments') }}">
                         <span class="material-symbols-outlined" data-icon="assignment">assignment</span>
                         <span class="font-label-md text-label-md">Assignments</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.attendance*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.attendance') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.attendance*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.attendance') }}">
                         <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
                         <span class="font-label-md text-label-md">Attendance</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.report-card*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.report-card') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.report-card*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.report-card') }}">
                         <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
                         <span class="font-label-md text-label-md">Report Card</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.exam-schedule*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.exam-schedule') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.exam-schedule*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.exam-schedule') }}">
                         <span class="material-symbols-outlined" data-icon="event">event</span>
                         <span class="font-label-md text-label-md">Exam Schedule</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.digital_learning.notes*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.digital_learning.notes') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.digital_learning.notes*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.digital_learning.notes') }}">
                         <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
                         <span class="font-label-md text-label-md">Digital Notes</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.digital_learning.quizzes*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.digital_learning.quizzes') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.digital_learning.quizzes*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.digital_learning.quizzes') }}">
                         <span class="material-symbols-outlined" data-icon="quiz">quiz</span>
                         <span class="font-label-md text-label-md">Quizzes</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.online-exams*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.online-exams.index') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.online-exams*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.online-exams.index') }}">
                         <span class="material-symbols-outlined" data-icon="desktop_windows">desktop_windows</span>
                         <span class="font-label-md text-label-md">Online Exams</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.announcements*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.announcements') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.announcements*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.announcements') }}">
                         <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
                         <span class="font-label-md text-label-md">Announcements</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.leave*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.leave.index') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.leave*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.leave.index') }}">
                         <span class="material-symbols-outlined" data-icon="event_busy">event_busy</span>
                         <span class="font-label-md text-label-md">Leave Requests</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.messages*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.messages') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.messages*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.messages') }}">
                         <span class="material-symbols-outlined" data-icon="forum">forum</span>
                         <span class="font-label-md text-label-md">Messages</span>
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.profile*') ? 'bg-primary-container text-on-primary-container font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.profile') }}">
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.profile*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.profile') }}">
                         <span class="material-symbols-outlined" data-icon="person">person</span>
                         <span class="font-label-md text-label-md">My Profile</span>
                     </a>

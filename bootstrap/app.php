@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'same_school' => \App\Http\Middleware\SameSchoolMiddleware::class,
             'teacher_module' => \App\Http\Middleware\CheckTeacherModule::class,
         ]);
+        
+        $middleware->web(append: [
+            \App\Http\Middleware\BranchScopeMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

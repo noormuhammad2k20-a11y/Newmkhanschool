@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\SchoolBranch;
-use App\Models\User;
+use App\Models\School;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Fee;
@@ -12,19 +12,22 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('role:Super Admin');
-    }
 
     public function index()
     {
-        $branches = SchoolBranch::withCount(['students','teachers'])->get();
+        $mainSchoolId = auth()->user()->school_id;
+        
+        $branches = School::where('parent_school_id', $mainSchoolId)
+            ->orWhere('id', $mainSchoolId)
+            ->withCount(['students', 'teachers'])
+            ->get();
 
-        // Summary stats across all branches
-        $totalStudents = Student::count();
-        $totalTeachers = Teacher::count();
-        $totalRevenue  = Fee::where('status','Paid')->sum('paid_amount');
+        // Summary stats across all branches (could be filtered)
+        $totalStudents = Student::withoutGlobalScope('branch')->whereIn('school_id', $branches->pluck('id'))->count();
+        $totalTeachers = Teacher::withoutGlobalScope('branch')->whereIn('school_id', $branches->pluck('id'))->count();
+        $totalRevenue  = Fee::whereHas('student', function ($query) use ($branches) {
+            $query->withoutGlobalScope('branch')->whereIn('school_id', $branches->pluck('id'));
+        })->where('status','Paid')->sum('paid_amount');
 
         return view('admin.branches.index', compact('branches','totalStudents','totalTeachers','totalRevenue'));
     }
@@ -38,7 +41,7 @@ class BranchController extends Controller
     {
         $request->validate([
             'name'           => 'required|string|max:200',
-            'code'           => 'required|string|max:20|unique:school_branches',
+            'branch_code'    => 'required|string|max:50|unique:schools',
             'address'        => 'nullable|string',
             'city'           => 'nullable|string|max:100',
             'phone'          => 'nullable|string|max:20',
@@ -48,28 +51,29 @@ class BranchController extends Controller
         ]);
 
         $data = $request->except('logo');
+        $data['parent_school_id'] = auth()->user()->school_id;
 
         if ($request->hasFile('logo')) {
             $data['logo'] = $request->file('logo')->store('branch-logos','public');
         }
 
-        SchoolBranch::create($data);
+        School::create($data);
         return redirect()->route('admin.branches.index')->with('success','Branch created successfully.');
     }
 
     public function show($id)
     {
-        $branch = SchoolBranch::findOrFail($id);
+        $branch = School::findOrFail($id);
 
         // Branch-specific stats
         $stats = [
-            'students'         => Student::where('school_id', $id)->count(),
-            'teachers'         => Teacher::where('school_id', $id)->count(),
-            'revenue_this_month' => Fee::where('school_id', $id)
-                ->where('status','Paid')
-                ->whereMonth('created_at', now()->month)->sum('paid_amount'),
-            'attendance_today' => StudentAttendance::where('date', today()->toDateString())
-                ->whereHas('student', fn($q) => $q->where('school_id',$id))
+            'students'         => Student::withoutGlobalScope('branch')->where('school_id', $id)->count(),
+            'teachers'         => Teacher::withoutGlobalScope('branch')->where('school_id', $id)->count(),
+            'revenue_this_month' => Fee::whereHas('student', function($q) use ($id) {
+                $q->withoutGlobalScope('branch')->where('school_id', $id);
+            })->where('status','Paid')->whereMonth('created_at', now()->month)->sum('paid_amount'),
+            'attendance_today' => StudentAttendance::withoutGlobalScope('branch')->where('date', today()->toDateString())
+                ->whereHas('student', fn($q) => $q->withoutGlobalScope('branch')->where('school_id',$id))
                 ->where('status','P')->count(),
         ];
 
@@ -78,16 +82,16 @@ class BranchController extends Controller
 
     public function edit($id)
     {
-        $branch = SchoolBranch::findOrFail($id);
+        $branch = School::findOrFail($id);
         return view('admin.branches.edit', compact('branch'));
     }
 
     public function update(Request $request, $id)
     {
-        $branch = SchoolBranch::findOrFail($id);
+        $branch = School::findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:200',
-            'code' => 'required|string|max:20|unique:school_branches,code,'.$id,
+            'branch_code' => 'required|string|max:50|unique:schools,branch_code,'.$id,
         ]);
 
         $data = $request->except('logo');
@@ -101,9 +105,8 @@ class BranchController extends Controller
 
     public function switchBranch(Request $request)
     {
-        // Allow super admin to switch context to a specific branch
-        $request->validate(['branch_id' => 'required|exists:school_branches,id']);
+        $request->validate(['branch_id' => 'required|exists:schools,id']);
         session(['active_branch_id' => $request->branch_id]);
-        return back()->with('success','Switched to branch successfully.');
+        return back()->with('success','Switched to branch context successfully.');
     }
 }

@@ -146,6 +146,8 @@ class DigitalLearningController extends Controller
             'subject_id' => 'required|integer',
             'duration_minutes' => 'required|integer|min:1',
             'passing_marks' => 'required|integer|min:0',
+            'start_at' => 'nullable|date',
+            'end_at' => 'nullable|date|after_or_equal:start_at',
         ]);
 
         Quiz::create([
@@ -158,6 +160,8 @@ class DigitalLearningController extends Controller
             'created_by' => auth()->id(),
             'duration_minutes' => $request->duration_minutes,
             'passing_marks' => $request->passing_marks,
+            'start_at' => $request->start_at,
+            'end_at' => $request->end_at,
             'total_marks' => 0, 
             'is_active' => $request->has('is_active'),
             'school_id' => auth()->user()->school_id ?? 1,
@@ -175,6 +179,8 @@ class DigitalLearningController extends Controller
             'subject_id' => 'required|integer',
             'duration_minutes' => 'required|integer|min:1',
             'passing_marks' => 'required|integer|min:0',
+            'start_at' => 'nullable|date',
+            'end_at' => 'nullable|date|after_or_equal:start_at',
         ]);
 
         $quiz->update([
@@ -186,6 +192,8 @@ class DigitalLearningController extends Controller
             'academic_year_id' => $request->academic_year_id,
             'duration_minutes' => $request->duration_minutes,
             'passing_marks' => $request->passing_marks,
+            'start_at' => $request->start_at,
+            'end_at' => $request->end_at,
             'is_active' => $request->has('is_active'),
         ]);
 
@@ -209,21 +217,31 @@ class DigitalLearningController extends Controller
     {
         $quiz = Quiz::where('created_by', auth()->id())->findOrFail($quiz_id);
         $request->validate([
+            'question_type' => 'required|in:single,multiple,true_false',
             'question_text' => 'required|string',
             'option_a' => 'required|string',
             'option_b' => 'required|string',
-            'correct_option' => 'required|in:a,b,c,d',
             'marks' => 'required|integer|min:1',
         ]);
 
+        $correctOption = is_array($request->correct_option) ? implode(',', $request->correct_option) : $request->correct_option;
+
+        $optC = $request->option_c;
+        $optD = $request->option_d;
+        if ($request->question_type === 'true_false') {
+            $optC = null;
+            $optD = null;
+        }
+
         QuizQuestion::create([
             'quiz_id' => $quiz->id,
+            'question_type' => $request->question_type,
             'question_text' => $request->question_text,
             'option_a' => $request->option_a,
             'option_b' => $request->option_b,
-            'option_c' => $request->option_c,
-            'option_d' => $request->option_d,
-            'correct_option' => $request->correct_option,
+            'option_c' => $optC,
+            'option_d' => $optD,
+            'correct_option' => $correctOption,
             'marks' => $request->marks,
             'order' => $request->order ?? 1,
         ]);
@@ -239,22 +257,32 @@ class DigitalLearningController extends Controller
         $question = QuizQuestion::where('quiz_id', $quiz->id)->findOrFail($question_id);
         
         $request->validate([
+            'question_type' => 'required|in:single,multiple,true_false',
             'question_text' => 'required|string',
             'option_a' => 'required|string',
             'option_b' => 'required|string',
-            'correct_option' => 'required|in:a,b,c,d',
             'marks' => 'required|integer|min:1',
         ]);
 
         $marksDifference = $request->marks - $question->marks;
 
+        $correctOption = is_array($request->correct_option) ? implode(',', $request->correct_option) : $request->correct_option;
+
+        $optC = $request->option_c;
+        $optD = $request->option_d;
+        if ($request->question_type === 'true_false') {
+            $optC = null;
+            $optD = null;
+        }
+
         $question->update([
+            'question_type' => $request->question_type,
             'question_text' => $request->question_text,
             'option_a' => $request->option_a,
             'option_b' => $request->option_b,
-            'option_c' => $request->option_c,
-            'option_d' => $request->option_d,
-            'correct_option' => $request->correct_option,
+            'option_c' => $optC,
+            'option_d' => $optD,
+            'correct_option' => $correctOption,
             'marks' => $request->marks,
             'order' => $request->order ?? $question->order,
         ]);

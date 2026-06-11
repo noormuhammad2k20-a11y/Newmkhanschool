@@ -83,6 +83,69 @@
                         <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
                     </div>
                 </div>
+                <!-- Extra Stats Grid for Modules -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+                    <!-- Stat Card 5 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Docs Generated</h3>
+                            <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-[18px]">description</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="stat-documents-generated" class="text-headline-xl font-headline-xl text-on-surface">...</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                            <span>Total Issued</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 6 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Inventory Items</h3>
+                            <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                                <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="stat-inventory-items" class="text-headline-xl font-headline-xl text-on-surface">...</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                            <span>Tracked Assets</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 7 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Low Stock Alerts</h3>
+                            <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
+                                <span class="material-symbols-outlined text-[18px]">warning</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="stat-low-stock" class="text-headline-xl font-headline-xl text-error">...</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-error">
+                            <span>Needs Attention</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 8 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Branches</h3>
+                            <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                                <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="stat-total-branches" class="text-headline-xl font-headline-xl text-on-surface">...</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-2 text-xs font-medium text-secondary">
+                            <span>Active Campuses</span>
+                        </div>
+                    </div>
+                </div>
                 <!-- Charts Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-md">
                     <!-- Chart 1 -->
@@ -172,6 +235,11 @@
                     document.getElementById('stat-attendance-percent').textContent = data.attendancePercent + '%';
                     document.getElementById('stat-attendance-present').textContent = data.presentCount.toLocaleString() + ' P';
                     document.getElementById('stat-attendance-absent').textContent = data.absentCount.toLocaleString() + ' A';
+                    
+                    document.getElementById('stat-documents-generated').textContent = data.documentsGenerated.toLocaleString();
+                    document.getElementById('stat-inventory-items').textContent = data.inventoryItems.toLocaleString();
+                    document.getElementById('stat-low-stock').textContent = data.lowStockAlerts.toLocaleString();
+                    document.getElementById('stat-total-branches').textContent = data.totalBranches.toLocaleString();
 
                     // Populate recent admissions
                     const tbody = document.getElementById('recent-admissions-tbody');

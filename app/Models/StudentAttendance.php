@@ -8,5 +8,8 @@ class StudentAttendance extends Model
 {
     const UPDATED_AT = null;
 
-    //
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

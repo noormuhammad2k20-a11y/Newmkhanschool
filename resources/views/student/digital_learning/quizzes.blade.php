@@ -148,6 +148,15 @@
                                         {{ $quiz->passing_marks }}/{{ $quiz->total_marks }}
                                     </span>
                                 </div>
+                                @if($quiz->end_at)
+                                <div class="flex flex-col gap-1 col-span-2">
+                                    <span class="text-[10px] text-secondary uppercase tracking-wider">Due Date</span>
+                                    <span class="font-bold text-body-sm text-on-surface flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px] text-error">event</span>
+                                        {{ \Carbon\Carbon::parse($quiz->end_at)->format('M d, Y h:i A') }}
+                                    </span>
+                                </div>
+                                @endif
                             </div>
 
                             @if($attempt)
@@ -171,13 +180,28 @@
                                 <button class="flex-1 py-2 bg-surface-container border border-outline-variant text-on-surface rounded-lg font-bold text-label-md hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2" disabled>
                                     <span class="material-symbols-outlined text-[18px]">done_all</span> Completed
                                 </button>
-                                <button class="flex-1 py-2 bg-primary-fixed text-primary rounded-lg font-bold text-label-md hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
-                                    View Result
-                                </button>
                             @else
-                                <a href="{{ route('student.digital_learning.quizzes.take', $quiz->id) }}" class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px]">play_arrow</span> Start Quiz
-                                </a>
+                                @php
+                                    $isLocked = false;
+                                    $lockReason = '';
+                                    if ($quiz->start_at && now() < \Carbon\Carbon::parse($quiz->start_at)) {
+                                        $isLocked = true;
+                                        $lockReason = 'Available: ' . \Carbon\Carbon::parse($quiz->start_at)->format('M d, g:i A');
+                                    } elseif ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)->endOfDay()) {
+                                        $isLocked = true;
+                                        $lockReason = 'Past Due';
+                                    }
+                                @endphp
+
+                                @if($isLocked)
+                                    <button class="flex-1 py-2 bg-surface-container border border-outline-variant text-on-surface-variant rounded-lg font-bold text-label-md flex items-center justify-center gap-2 cursor-not-allowed opacity-75" title="{{ $lockReason }}" disabled>
+                                        <span class="material-symbols-outlined text-[18px]">lock</span> {{ $lockReason }}
+                                    </button>
+                                @else
+                                    <a href="{{ route('student.digital_learning.quizzes.take', $quiz->id) }}" class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-[18px]">play_arrow</span> Start Quiz
+                                    </a>
+                                @endif
                             @endif
                         </div>
                     </div>

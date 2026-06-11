@@ -7,12 +7,13 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\HasBranchScope;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use \Illuminate\Database\Eloquent\SoftDeletes;
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasBranchScope;
 
     const UPDATED_AT = null;
 

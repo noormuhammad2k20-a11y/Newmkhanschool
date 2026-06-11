@@ -18,6 +18,42 @@ class AnalyticsController extends Controller
         return view('admin.analytics.index');
     }
 
+    public function branchAnalytics()
+    {
+        if (!auth()->user()->hasRole('Super Admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+        
+        $branches = \App\Models\School::withCount(['students' => function($q) {
+            $q->where('status', 'Active');
+        }, 'teachers'])->get();
+
+        return view('admin.analytics.branch', compact('branches'));
+    }
+
+    public function branchRevenue()
+    {
+        if (!auth()->user()->hasRole('Super Admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $branches = \App\Models\School::all();
+        $revenueData = [];
+
+        foreach ($branches as $branch) {
+            $paid = Fee::where('school_id', $branch->id)->where('status', 'Paid')->sum('paid_amount');
+            $pending = Fee::where('school_id', $branch->id)->where('status', 'Pending')->sum('amount');
+            
+            $revenueData[] = [
+                'branch' => $branch->name,
+                'paid' => $paid,
+                'pending' => $pending
+            ];
+        }
+
+        return view('admin.analytics.revenue', compact('branches', 'revenueData'));
+    }
+
     // AJAX endpoint for all chart data
     public function chartData(Request $request)
     {

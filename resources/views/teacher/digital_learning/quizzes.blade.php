@@ -44,6 +44,12 @@
                             <td class="p-md font-body-md text-on-surface text-sm">
                                 <div>Duration: {{ $quiz->duration_minutes }} min</div>
                                 <div>Total: {{ $quiz->total_marks }} | Pass: {{ $quiz->passing_marks }}</div>
+                                @if($quiz->start_at || $quiz->end_at)
+                                <div class="text-on-surface-variant mt-1 text-xs">
+                                    {{ $quiz->start_at ? \Carbon\Carbon::parse($quiz->start_at)->format('M d, Y h:i A') : 'Now' }} - 
+                                    {{ $quiz->end_at ? \Carbon\Carbon::parse($quiz->end_at)->format('M d, Y h:i A') : 'No Due Date' }}
+                                </div>
+                                @endif
                             </td>
                             <td class="p-md font-body-md">
                                 @if($quiz->is_active)
@@ -146,6 +152,17 @@
                 <div>
                     <label class="block font-label-md text-on-surface mb-1">Passing Marks <span class="text-error">*</span></label>
                     <input type="number" name="passing_marks" min="0" value="0" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Available From (Optional)</label>
+                    <input type="datetime-local" name="start_at" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block font-label-md text-on-surface mb-1">Due Date (Optional)</label>
+                    <input type="datetime-local" name="end_at" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                 </div>
             </div>
 

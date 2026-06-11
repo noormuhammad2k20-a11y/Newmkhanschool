@@ -32,26 +32,34 @@
                 </div>
                 
                 <div class="space-y-3">
+                    @php 
+                        $inputType = ($q->question_type === 'multiple') ? 'checkbox' : 'radio';
+                        $inputName = ($q->question_type === 'multiple') ? "answers[{$q->id}][]" : "answers[{$q->id}]";
+                    @endphp
+
                     <label class="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
-                        <input type="radio" name="answers[{{ $q->id }}]" value="a" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
+                        <input type="{{ $inputType }}" name="{{ $inputName }}" value="a" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
                         <span class="font-bold text-on-surface-variant">A.</span>
                         <span class="text-on-surface">{{ $q->option_a }}</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
-                        <input type="radio" name="answers[{{ $q->id }}]" value="b" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
+                        <input type="{{ $inputType }}" name="{{ $inputName }}" value="b" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
                         <span class="font-bold text-on-surface-variant">B.</span>
                         <span class="text-on-surface">{{ $q->option_b }}</span>
                     </label>
+                    
+                    @if($q->question_type !== 'true_false')
                     <label class="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
-                        <input type="radio" name="answers[{{ $q->id }}]" value="c" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
+                        <input type="{{ $inputType }}" name="{{ $inputName }}" value="c" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
                         <span class="font-bold text-on-surface-variant">C.</span>
                         <span class="text-on-surface">{{ $q->option_c }}</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
-                        <input type="radio" name="answers[{{ $q->id }}]" value="d" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
+                        <input type="{{ $inputType }}" name="{{ $inputName }}" value="d" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant">
                         <span class="font-bold text-on-surface-variant">D.</span>
                         <span class="text-on-surface">{{ $q->option_d }}</span>
                     </label>
+                    @endif
                 </div>
             </div>
         @empty

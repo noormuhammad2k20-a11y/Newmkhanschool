@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <span class="text-headline-xl font-headline-xl text-on-surface">4</span>
+                            <span class="text-headline-xl font-headline-xl text-on-surface">{{ $classesCount ?? 4 }}</span>
                         </div>
                         <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
                             <span>Assigned for this term</span>
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <span class="text-headline-xl font-headline-xl text-on-surface">128</span>
+                            <span class="text-headline-xl font-headline-xl text-on-surface">{{ $totalStudents ?? 128 }}</span>
                         </div>
                         <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
                             <span>Across all assigned classes</span>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <span class="text-headline-xl font-headline-xl text-on-surface">12</span>
+                            <span class="text-headline-xl font-headline-xl text-on-surface">{{ $pendingAssignments ?? 12 }}</span>
                         </div>
                         <div class="mt-2 flex items-center gap-1 text-xs font-medium text-error">
                             <span class="material-symbols-outlined text-[14px]">priority_high</span>
@@ -72,12 +72,76 @@
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <span class="text-headline-xl font-headline-xl text-on-surface">3</span>
+                            <span class="text-headline-xl font-headline-xl text-on-surface">{{ isset($todaysTimetable) ? $todaysTimetable->count() : 3 }}</span>
                         </div>
                         <div class="mt-2 flex items-center gap-2 text-xs font-medium text-secondary">
                             <span>Periods scheduled today</span>
                         </div>
                         <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Extra Stats Grid for Modules -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+                    <!-- Stat Card 5 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">AI Graded</h3>
+                            <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-on-surface">{{ $aiGradedCount ?? 0 }}</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                            <span>Submissions Graded</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 6 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Seating Plans</h3>
+                            <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                                <span class="material-symbols-outlined text-[18px]">grid_view</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-on-surface">{{ $seatingPlansCount ?? 0 }}</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
+                            <span>Active Plans</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 7 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending Submissions</h3>
+                            <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
+                                <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-error">{{ $pendingSubmissionsCount ?? 0 }}</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1 text-xs font-medium text-error">
+                            <span>To be graded</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 8 -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Class Performance</h3>
+                            <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                                <span class="material-symbols-outlined text-[18px]">trending_up</span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-headline-xl font-headline-xl text-on-surface">85%</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-2 text-xs font-medium text-emerald-700">
+                            <span>Average Score</span>
+                        </div>
                     </div>
                 </div>
 

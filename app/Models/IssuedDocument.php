@@ -20,6 +20,10 @@ class IssuedDocument extends Model
         'issued_at'
     ];
 
+    protected $casts = [
+        'issued_at' => 'datetime',
+    ];
+
     public function student()
     {
         return $this->belongsTo(Student::class);

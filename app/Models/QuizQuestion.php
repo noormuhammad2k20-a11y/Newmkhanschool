@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class QuizQuestion extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['quiz_id','question_text','option_a','option_b','option_c','option_d','correct_option','marks','order'];
+    protected $fillable = ['quiz_id','question_type','question_text','option_a','option_b','option_c','option_d','correct_option','marks','order'];
     public function quiz() { return $this->belongsTo(Quiz::class); }
 }

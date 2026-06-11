@@ -64,6 +64,13 @@ class DigitalLearningController extends Controller
         $student = Student::where('user_id', auth()->id())->firstOrFail();
         $quiz = Quiz::with('questions')->where('is_active', 1)->findOrFail($id);
 
+        if ($quiz->start_at && now() < \Carbon\Carbon::parse($quiz->start_at)) {
+            return redirect()->route('student.digital_learning.quizzes')->with('error', 'This quiz is not available yet.');
+        }
+        if ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)->endOfDay()) {
+            return redirect()->route('student.digital_learning.quizzes')->with('error', 'The due date for this quiz has passed.');
+        }
+
         // Check if student already attempted
         $existingAttempt = QuizAttempt::where('quiz_id', $id)->where('student_id', $student->id)->first();
         if ($existingAttempt) {
@@ -78,6 +85,13 @@ class DigitalLearningController extends Controller
         $student = Student::where('user_id', auth()->id())->firstOrFail();
         $quiz = Quiz::with('questions')->where('is_active', 1)->findOrFail($id);
 
+        if ($quiz->start_at && now() < \Carbon\Carbon::parse($quiz->start_at)) {
+            return redirect()->route('student.digital_learning.quizzes')->with('error', 'This quiz is not available yet.');
+        }
+        if ($quiz->end_at && now() > \Carbon\Carbon::parse($quiz->end_at)->endOfDay()) {
+            return redirect()->route('student.digital_learning.quizzes')->with('error', 'The due date for this quiz has passed.');
+        }
+
         // Check if student already attempted
         $existingAttempt = QuizAttempt::where('quiz_id', $id)->where('student_id', $student->id)->first();
         if ($existingAttempt) {
@@ -89,7 +103,20 @@ class DigitalLearningController extends Controller
 
         foreach ($quiz->questions as $question) {
             $studentAnswer = $answers[$question->id] ?? null;
-            if ($studentAnswer === $question->correct_option) {
+            
+            if (is_array($studentAnswer)) {
+                // Sort arrays so 'a,b' matches 'b,a' if they selected them out of order (though HTML usually sends in DOM order)
+                sort($studentAnswer);
+                $studentAnswerStr = implode(',', $studentAnswer);
+            } else {
+                $studentAnswerStr = $studentAnswer;
+            }
+
+            $correctArr = explode(',', $question->correct_option);
+            sort($correctArr);
+            $correctStr = implode(',', $correctArr);
+
+            if ($studentAnswerStr === $correctStr && !empty($studentAnswerStr)) {
                 $score += $question->marks;
             }
         }

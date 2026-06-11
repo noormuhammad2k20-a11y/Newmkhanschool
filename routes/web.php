@@ -1,13 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Authentication Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
+});
+
+// Public Verification Route
+Route::get('/verify/document/{uuid}', [\App\Http\Controllers\VerificationController::class, 'verifyQR'])->name('verify.qr');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -52,7 +60,18 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::post('/fees/structures', [\App\Http\Controllers\Admin\FeeStructureController::class, 'store'])->name('admin.fees.structures.store');
     Route::delete('/fees/structures/{id}', [\App\Http\Controllers\Admin\FeeStructureController::class, 'destroy'])->name('admin.fees.structures.destroy');
     Route::post('/fees/bulk-generate', [\App\Http\Controllers\Admin\FeeInvoiceController::class, 'bulkGenerate'])->name('admin.fees.bulk-generate');
-    Route::get('/inventory', [\App\Http\Controllers\InventoryController::class, 'index'])->name('admin.inventory');
+    Route::get('/inventory', [\App\Http\Controllers\Admin\InventoryController::class, 'index'])->name('admin.inventory');
+    Route::get('/inventory/create', [\App\Http\Controllers\Admin\InventoryController::class, 'create'])->name('admin.inventory.create');
+    Route::post('/inventory', [\App\Http\Controllers\Admin\InventoryController::class, 'store'])->name('admin.inventory.store');
+    Route::get('/inventory/low-stock', [\App\Http\Controllers\Admin\InventoryController::class, 'lowStock'])->name('admin.inventory.low-stock');
+    Route::get('/inventory/{id}', [\App\Http\Controllers\Admin\InventoryController::class, 'show'])->name('admin.inventory.show');
+    Route::get('/inventory/{id}/edit', [\App\Http\Controllers\Admin\InventoryController::class, 'edit'])->name('admin.inventory.edit');
+    Route::put('/inventory/{id}', [\App\Http\Controllers\Admin\InventoryController::class, 'update'])->name('admin.inventory.update');
+    Route::delete('/inventory/{id}', [\App\Http\Controllers\Admin\InventoryController::class, 'destroy'])->name('admin.inventory.destroy');
+    Route::get('/inventory/{id}/stock-in', [\App\Http\Controllers\Admin\InventoryController::class, 'stockInForm'])->name('admin.inventory.stock-in.form');
+    Route::post('/inventory/{id}/stock-in', [\App\Http\Controllers\Admin\InventoryController::class, 'stockIn'])->name('admin.inventory.stock-in');
+    Route::get('/inventory/{id}/stock-out', [\App\Http\Controllers\Admin\InventoryController::class, 'stockOutForm'])->name('admin.inventory.stock-out.form');
+    Route::post('/inventory/{id}/stock-out', [\App\Http\Controllers\Admin\InventoryController::class, 'stockOut'])->name('admin.inventory.stock-out');
     Route::get('/calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('admin.calendar');
     Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('admin.reports');
     Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('admin.events');
@@ -77,17 +96,24 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
 
         // Student Promotions
         Route::get('/promotions', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'index'])->name('promotions.index');
-        Route::post('/promotions/preview', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'preview'])->name('promotions.preview');
+        Route::get('/promotions/preview', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'preview'])->name('promotions.preview');
         Route::post('/promotions/execute', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'execute'])->name('promotions.execute');
         Route::get('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'rules'])->name('promotions.rules');
         Route::post('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'saveRule'])->name('promotions.rules.save');
 
         // Document Generation
         Route::get('/documents', [\App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('documents.index');
+        Route::get('/documents/create', [\App\Http\Controllers\Admin\DocumentController::class, 'create'])->name('documents.create');
+        Route::get('/documents/select-template/{student}', [\App\Http\Controllers\Admin\DocumentController::class, 'selectTemplate'])->name('documents.select-template');
+        Route::post('/documents/preview', [\App\Http\Controllers\Admin\DocumentController::class, 'preview'])->name('documents.preview');
         Route::post('/documents/generate', [\App\Http\Controllers\Admin\DocumentController::class, 'generate'])->name('documents.generate');
+        Route::get('/documents/download/{id}', [\App\Http\Controllers\Admin\DocumentController::class, 'download'])->name('documents.download');
         Route::get('/documents/templates', [\App\Http\Controllers\Admin\DocumentController::class, 'templates'])->name('documents.templates');
         Route::get('/documents/templates/{id}/edit', [\App\Http\Controllers\Admin\DocumentController::class, 'editTemplate'])->name('documents.templates.edit');
         Route::put('/documents/templates/{id}', [\App\Http\Controllers\Admin\DocumentController::class, 'updateTemplate'])->name('documents.templates.update');
+        
+        Route::get('/documents/signatures', [\App\Http\Controllers\Admin\DocumentController::class, 'signatures'])->name('documents.signatures');
+        Route::post('/documents/signatures', [\App\Http\Controllers\Admin\DocumentController::class, 'updateSignature'])->name('documents.signatures.update');
 
         // Staff Leave Management
         Route::get('/staff-leaves', [\App\Http\Controllers\Admin\StaffLeaveController::class, 'index'])->name('staff-leaves.index');
@@ -177,6 +203,13 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
     Route::middleware('teacher_module:assignments')->group(function() {
         Route::get('/assignments', [\App\Http\Controllers\TeacherPortalController::class, 'assignments'])->name('teacher.assignments');
         Route::post('/assignments', [\App\Http\Controllers\TeacherPortalController::class, 'storeAssignment'])->name('teacher.assignments.store');
+        
+        // AI Auto Grader Routes
+        Route::get('/ai-grader', [\App\Http\Controllers\Teacher\AIGraderController::class, 'index'])->name('teacher.ai-grader');
+        Route::get('/assignments/{assignment_id}/submissions', [\App\Http\Controllers\Teacher\AIGraderController::class, 'showSubmissions'])->name('teacher.assignments.submissions');
+        Route::post('/submissions/{submission_id}/grade-ai', [\App\Http\Controllers\Teacher\AIGraderController::class, 'gradeWithAI'])->name('teacher.submissions.grade-ai');
+        Route::post('/assignments/{assignment_id}/bulk-grade-ai', [\App\Http\Controllers\Teacher\AIGraderController::class, 'bulkGradeWithAI'])->name('teacher.submissions.bulk-grade-ai');
+        Route::post('/submissions/{submission_id}/apply-grade', [\App\Http\Controllers\Teacher\AIGraderController::class, 'applyGrade'])->name('teacher.submissions.apply-grade');
     });
     
     Route::middleware('teacher_module:homework')->group(function() {
@@ -209,7 +242,7 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
     });
     
     // Digital Learning Routes
-    Route::middleware('teacher_module:digital_learning')->prefix('digital-learning')->name('teacher.digital_learning.')->group(function() {
+    Route::prefix('digital-learning')->name('teacher.digital_learning.')->group(function() {
         Route::get('/notes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'notesIndex'])->name('notes');
         Route::post('/notes', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'storeNote'])->name('notes.store');
         Route::put('/notes/{id}', [\App\Http\Controllers\Teacher\DigitalLearningController::class, 'updateNote'])->name('notes.update');
@@ -231,6 +264,18 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
     Route::middleware('teacher_module:messages')->group(function() {
         Route::get('/messages', [\App\Http\Controllers\TeacherPortalController::class, 'messages'])->name('teacher.messages');
         Route::post('/messages', [\App\Http\Controllers\TeacherPortalController::class, 'storeMessage'])->name('teacher.messages.store');
+    });
+    
+    // Seating Plan Routes
+    Route::prefix('seating')->name('teacher.seating.')->group(function() {
+        Route::get('/', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'create'])->name('create');
+        Route::post('/', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update-grid', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'updateGrid'])->name('update-grid');
+        Route::post('/{id}/auto-arrange', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'autoArrange'])->name('auto-arrange');
+        Route::get('/{id}', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'show'])->name('show');
+        Route::delete('/{id}', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'destroy'])->name('destroy');
     });
     
     Route::middleware('teacher_module:reports')->get('/reports', [\App\Http\Controllers\TeacherPortalController::class, 'reports'])->name('teacher.reports');
@@ -331,6 +376,7 @@ Route::middleware(['auth', 'role:Parent', 'same_school'])
 // API ROUTES (Scoped internally in controllers based on auth()->user()->role_id)
 Route::middleware(['auth', 'same_school'])->prefix('api')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index'])->name('api.dashboard');
+    
     Route::get('/students', [\App\Http\Controllers\Api\StudentController::class, 'index'])->name('api.students.index');
     Route::post('/students', [\App\Http\Controllers\Api\StudentController::class, 'store'])->name('api.students.store');
     Route::put('/students/{id}', [\App\Http\Controllers\Api\StudentController::class, 'update'])->name('api.students.update');

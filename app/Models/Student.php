@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasBranchScope;
 
 class Student extends Model
 {
     const UPDATED_AT = null;
 
     use \Illuminate\Database\Eloquent\SoftDeletes;
+    use HasBranchScope;
 
     protected $fillable = [
         'admission_no','user_id','first_name','last_name','gender','dob',

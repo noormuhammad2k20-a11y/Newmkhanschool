@@ -13,15 +13,37 @@ class AssignmentController extends Controller
     {
         $student = auth()->user()->student;
 
-        $assignments = Assignment::with(['subject','teacher'])
-            ->where('class_id', $student->current_class_id)
-            ->orderByDesc('due_date')
-            ->paginate(15);
+        $submissionCutoff = Carbon::now()->subDay();
+        // A past-due assignment is visible for 1 full day after its deadline.
+        // If deadline is June 11 (23:59:59), it should be visible all of June 12, and disappear on June 13.
+        // So we keep if due_date >= (today - 1 day) at start of day.
+        $dueDateCutoff = Carbon::now()->subDays(1)->startOfDay();
 
-        // Attach submission status for each assignment
+        // Get all submitted assignment IDs for this student
         $submittedIds = AssignmentSubmission::where('student_id', $student->id)
             ->pluck('assignment_id')
             ->toArray();
+
+        $assignments = Assignment::with(['subject','teacher'])
+            ->where('class_id', $student->current_class_id)
+            // 1. Exclude submitted assignments where submission is older than 1 day
+            ->whereNotIn('id', function($query) use ($student, $submissionCutoff) {
+                $query->select('assignment_id')
+                      ->from('assignment_submissions')
+                      ->where('student_id', $student->id)
+                      ->where('created_at', '<', $submissionCutoff);
+            })
+            // 2. Exclude unsubmitted assignments where due date is 1 day past deadline
+            ->where(function($query) use ($submittedIds, $dueDateCutoff) {
+                if (!empty($submittedIds)) {
+                    $query->whereIn('id', $submittedIds)
+                          ->orWhereDate('due_date', '>=', $dueDateCutoff);
+                } else {
+                    $query->whereDate('due_date', '>=', $dueDateCutoff);
+                }
+            })
+            ->orderByDesc('due_date')
+            ->paginate(15);
 
         // Calculate counts
         $totalAssignments = Assignment::where('class_id', $student->current_class_id)->count();
@@ -50,23 +72,33 @@ class AssignmentController extends Controller
             ->firstOrFail();
 
         $request->validate([
-            'file'  => 'nullable|file|max:10240|mimes:pdf,doc,docx,jpg,png,zip',
+            'file'  => 'nullable|file|max:10240|extensions:pdf,doc,docx,jpg,jpeg,png,zip',
             'notes' => 'nullable|string|max:1000',
+        ], [
+            'file.extensions' => 'The file must be a file of type: pdf, doc, docx, jpg, jpeg, png, zip.',
         ]);
+
+        $endOfDueDate = Carbon::parse($assignment->due_date)->endOfDay();
+        if (Carbon::now()->gt($endOfDueDate)) {
+            return back()->withErrors(['error' => 'The due date for this assignment has passed. You can no longer submit it.']);
+        }
 
         $filePath = null;
         if ($request->hasFile('file')) {
             $filePath = $request->file('file')->store('submissions', 'public');
         }
 
-        AssignmentSubmission::updateOrCreate(
-            ['assignment_id' => $assignment->id, 'student_id' => $student->id],
-            [
-                'file_path' => $filePath,
-                'notes'     => $request->notes,
-                'status'    => Carbon::now()->gt($assignment->due_date) ? 'Late' : 'Submitted',
-            ]
-        );
+        if (AssignmentSubmission::where('assignment_id', $assignment->id)->where('student_id', $student->id)->exists()) {
+            return back()->withErrors(['error' => 'You have already submitted this assignment and cannot submit it again.']);
+        }
+
+        AssignmentSubmission::create([
+            'assignment_id' => $assignment->id,
+            'student_id' => $student->id,
+            'file_path' => $filePath,
+            'notes'     => $request->notes,
+            'status'    => Carbon::now()->gt($assignment->due_date) ? 'Late' : 'Submitted',
+        ]);
 
         return back()->with('success', 'Assignment submitted successfully.');
     }

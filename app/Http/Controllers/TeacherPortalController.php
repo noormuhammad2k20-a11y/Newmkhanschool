@@ -46,7 +46,11 @@ class TeacherPortalController extends Controller
             ->take(5)
             ->get();
 
-        return view('teacher.dashboard', compact('classesCount', 'subjectsCount', 'totalStudents', 'pendingAssignments', 'todaysTimetable', 'announcements')); 
+        $aiGradedCount = \App\Models\AssignmentSubmission::where('status', 'graded')->whereHas('assignment', function($q) use($teacher) { $q->where('teacher_id', $teacher?->id); })->count();
+        $seatingPlansCount = class_exists(\App\Models\SeatingPlan::class) ? \App\Models\SeatingPlan::where('teacher_id', $teacher?->id)->count() : 0;
+        $pendingSubmissionsCount = \App\Models\AssignmentSubmission::where('status', 'submitted')->whereHas('assignment', function($q) use($teacher) { $q->where('teacher_id', $teacher?->id); })->count();
+
+        return view('teacher.dashboard', compact('classesCount', 'subjectsCount', 'totalStudents', 'pendingAssignments', 'todaysTimetable', 'announcements', 'aiGradedCount', 'seatingPlansCount', 'pendingSubmissionsCount')); 
     }
 
     // 2. Attendance
@@ -395,11 +399,13 @@ class TeacherPortalController extends Controller
         $teacher = $this->getTeacher();
         $classIds = $this->getAssignedClassIds($teacher);
         
-        // Need to join classes table to match class_name if exam_schedules uses class_name.
-        // Assuming exam_schedules uses class_name text.
-        $classNames = DB::table('classes')->whereIn('id', $classIds)->pluck('name');
-        
-        $exams = DB::table('exam_schedules')->whereIn('class_name', $classNames)->get();
+        $exams = DB::table('exam_schedules')
+            ->whereIn('exam_schedules.class_id', $classIds)
+            ->join('classes', 'exam_schedules.class_id', '=', 'classes.id')
+            ->join('subjects', 'exam_schedules.subject_id', '=', 'subjects.id')
+            ->select('exam_schedules.*', 'classes.name as class_name', 'subjects.name as subject')
+            ->orderBy('exam_schedules.exam_date', 'asc')
+            ->get();
             
         return view('teacher.exams', compact('exams')); 
     }

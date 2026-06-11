@@ -30,4 +30,9 @@ class AssignmentSubmission extends Model
     {
         return $this->belongsTo(Student::class, 'student_id');
     }
+
+    public function aiGradingResult()
+    {
+        return $this->hasOne(AIGradingResult::class, 'submission_id');
+    }
 }
