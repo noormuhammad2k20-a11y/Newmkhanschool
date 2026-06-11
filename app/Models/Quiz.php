@@ -8,6 +8,12 @@ class Quiz extends Model
 {
     protected $fillable = ['title','description','subject_id','class_id','section_id','academic_year_id','created_by','total_marks','passing_marks','duration_minutes','start_at','end_at','is_active','school_id'];
     protected $casts = ['start_at' => 'datetime', 'end_at' => 'datetime'];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new \App\Scopes\SchoolScope());
+    }
+
     
     public function questions() { return $this->hasMany(QuizQuestion::class); }
     public function attempts()  { return $this->hasMany(QuizAttempt::class); }

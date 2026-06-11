@@ -21,6 +21,8 @@ class DigitalLearningController extends Controller
             ->where('class_id', $student->current_class_id)
             ->where(function($q) use ($student) {
                 $q->whereNull('section_id')
+                  ->orWhere('section_id', 0)
+                  ->orWhere('section_id', '')
                   ->orWhere('section_id', $student->current_section_id);
             })
             ->orderBy('created_at', 'desc')
@@ -43,6 +45,8 @@ class DigitalLearningController extends Controller
             ->where('class_id', $student->current_class_id)
             ->where(function($q) use ($student) {
                 $q->whereNull('section_id')
+                  ->orWhere('section_id', 0)
+                  ->orWhere('section_id', '')
                   ->orWhere('section_id', $student->current_section_id);
             })
             ->orderBy('created_at', 'desc')
