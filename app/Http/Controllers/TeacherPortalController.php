@@ -211,7 +211,7 @@ class TeacherPortalController extends Controller
             abort(403, 'Unauthorized access to this subject.');
         }
 
-        $subjectId = DB::table('subjects')->where('name', $selectedSubject)->value('id');
+        $subjectId = DB::table('subjects')->where('name', $selectedSubject)->where('class_id', $selectedClass)->value('id') ?? DB::table('subjects')->where('name', $selectedSubject)->value('id');
         
         $examValid = \App\Models\ExamSchedule::where('id', $selectedExam)
             ->where('class_id', $selectedClass)
@@ -232,20 +232,42 @@ class TeacherPortalController extends Controller
             abort(403, 'Unauthorized access to this section.');
         }
 
-        $students = DB::table('students')
+        $studentsRaw = DB::table('students')
             ->where('current_class_id', $selectedClass)
             ->where('current_section_id', $selectedSection)
             ->get();
             
+        $currentExam = \App\Models\ExamSchedule::find($selectedExam);
+
+        $attendances = DB::table('student_attendances')
+            ->where('date', $currentExam->exam_date)
+            ->whereIn('student_id', $studentsRaw->pluck('id'))
+            ->get()
+            ->keyBy('student_id');
+
+        $presentStudents = collect();
+        $pendingStudents = collect();
+
+        foreach ($studentsRaw as $student) {
+            $att = $attendances->get($student->id);
+            if ($att) {
+                if ($att->status == 'P' || $att->status == 'L') {
+                    $presentStudents->push($student);
+                }
+            } else {
+                $pendingStudents->push($student);
+            }
+        }
+        
+        $students = $presentStudents;
+
         $existingMarks = DB::table('marks')
             ->where('exam_schedule_id', $selectedExam)
             ->whereIn('student_id', $students->pluck('id'))
             ->get()
             ->keyBy('student_id');
-            
-        $currentExam = \App\Models\ExamSchedule::find($selectedExam);
 
-        return view('teacher.partials.marks_table', compact('students', 'existingMarks', 'currentExam', 'selectedClass', 'selectedSection', 'selectedSubject', 'selectedExam'))->render();
+        return view('teacher.partials.marks_table', compact('students', 'pendingStudents', 'existingMarks', 'currentExam', 'selectedClass', 'selectedSection', 'selectedSubject', 'selectedExam'))->render();
     }
 
     public function storeMarks(Request $request) {
@@ -268,7 +290,7 @@ class TeacherPortalController extends Controller
             return $this->ajaxError($request, 'Unauthorized access to this subject.');
         }
 
-        $subjectId = DB::table('subjects')->where('name', $request->subject)->value('id');
+        $subjectId = DB::table('subjects')->where('name', $request->subject)->where('class_id', $request->class_id)->value('id') ?? DB::table('subjects')->where('name', $request->subject)->value('id');
         if(!$subjectId) return $this->ajaxError($request, 'Subject not found.');
 
         $examSchedule = \App\Models\ExamSchedule::find($request->exam_schedule_id);
@@ -293,12 +315,19 @@ class TeacherPortalController extends Controller
             ->pluck('id')
             ->toArray();
 
+        $presentStudentIds = DB::table('student_attendances')
+            ->where('date', $examSchedule->exam_date)
+            ->whereIn('student_id', $validStudentIds)
+            ->whereIn('status', ['P', 'L'])
+            ->pluck('student_id')
+            ->toArray();
+
         $maxMarks = $examSchedule->max_marks ?? 100;
         $passingMarks = $examSchedule->passing_marks ?? 40;
 
         foreach ($request->marks as $studentId => $mark) {
-            if (!in_array($studentId, $validStudentIds)) {
-                continue; // Skip invalid student IDs
+            if (!in_array($studentId, $validStudentIds) || !in_array($studentId, $presentStudentIds)) {
+                continue; // Skip invalid or absent/pending students
             }
             
             if($mark !== null) {
@@ -326,7 +355,8 @@ class TeacherPortalController extends Controller
                         'grade' => $grade,
                         'gpa' => $gpa,
                         'is_pass' => $isPass,
-                        'created_at' => now()
+                        'created_at' => DB::raw('COALESCE(created_at, NOW())'),
+                        'updated_at' => now()
                     ]
                 );
             }
@@ -400,12 +430,9 @@ class TeacherPortalController extends Controller
         $teacher = $this->getTeacher();
         $classIds = $this->getAssignedClassIds($teacher);
         
-        $exams = DB::table('exam_schedules')
-            ->whereIn('exam_schedules.class_id', $classIds)
-            ->join('classes', 'exam_schedules.class_id', '=', 'classes.id')
-            ->join('subjects', 'exam_schedules.subject_id', '=', 'subjects.id')
-            ->select('exam_schedules.*', 'classes.name as class_name', 'subjects.name as subject')
-            ->orderBy('exam_schedules.exam_date', 'asc')
+        $exams = \App\Models\ExamSchedule::whereIn('class_id', $classIds)
+            ->with(['class_', 'subjectRelation'])
+            ->orderBy('exam_date', 'asc')
             ->get();
             
         return view('teacher.exams', compact('exams')); 
@@ -592,7 +619,7 @@ class TeacherPortalController extends Controller
     }
     
     public function getExams(Request $request) {
-        $subjectId = DB::table('subjects')->where('name', $request->subject)->value('id');
+        $subjectId = DB::table('subjects')->where('name', $request->subject)->where('class_id', $request->class_id)->value('id') ?? DB::table('subjects')->where('name', $request->subject)->value('id');
         $exams = \App\Models\ExamSchedule::where('class_id', $request->class_id)
             ->where('subject_id', $subjectId)
             ->get()
@@ -601,7 +628,7 @@ class TeacherPortalController extends Controller
                     'id' => $exam->id,
                     'text' => $exam->exam_type . ' (' . \Carbon\Carbon::parse($exam->exam_date)->format('d M Y') . ')'
                 ];
-            });
+            })->values();
         return response()->json($exams);
     }
 }

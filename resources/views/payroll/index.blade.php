@@ -30,7 +30,7 @@
                             <span class="material-symbols-outlined text-primary bg-primary-fixed-dim bg-opacity-20 p-xs rounded-md">account_balance</span>
                         </div>
                         <div>
-                            <div class="font-headline-xl text-headline-xl text-on-background">$1,245,000</div>
+                            <div class="font-headline-xl text-headline-xl text-on-background">1,245,000</div>
                             <div class="font-label-md text-label-md text-secondary mt-xs flex items-center gap-xs">
                                 <span class="material-symbols-outlined text-[14px] text-green-600">trending_up</span>
                                 +2.4% from last month
@@ -44,7 +44,7 @@
                             <span class="material-symbols-outlined text-error bg-error-container p-xs rounded-md">receipt_long</span>
                         </div>
                         <div>
-                            <div class="font-headline-xl text-headline-xl text-on-background">$210,500</div>
+                            <div class="font-headline-xl text-headline-xl text-on-background">210,500</div>
                             <div class="font-label-md text-label-md text-secondary mt-xs flex items-center gap-xs">
                                 <span class="material-symbols-outlined text-[14px] text-error">trending_down</span>
                                 -0.5% from last month
@@ -60,7 +60,7 @@
                             <span class="material-symbols-outlined text-on-primary">price_check</span>
                         </div>
                         <div class="relative z-10">
-                            <div class="font-headline-xl text-headline-xl">$1,034,500</div>
+                            <div class="font-headline-xl text-headline-xl">1,034,500</div>
                             <div class="font-label-md text-label-md text-primary-fixed-dim mt-xs flex items-center gap-xs">
                                 <span class="material-symbols-outlined text-[14px]">check_circle</span> 245 Staff Processed
                             </div>
@@ -158,14 +158,14 @@
                                     </div>
                                 </td>
                                 <td class="py-sm px-md">Senior Math Teacher</td>
-                                <td class="py-sm px-md text-right">$4,200</td>
+                                <td class="py-sm px-md text-right">4,200</td>
                                 <td class="py-sm px-md text-right text-secondary text-sm">
-                                    <div title="HRA: $400, TA: $150">$550</div>
+                                    <div title="HRA: 400, TA: 150">550</div>
                                 </td>
                                 <td class="py-sm px-md text-right text-error text-sm">
-                                    <div title="PF: $210, Tax: $450">-$660</div>
+                                    <div title="PF: 210, Tax: 450">-660</div>
                                 </td>
-                                <td class="py-sm px-md text-right font-medium">$4,090</td>
+                                <td class="py-sm px-md text-right font-medium">4,090</td>
                                 <td class="py-sm px-md text-center">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">Paid</span>
                                 </td>
@@ -185,14 +185,14 @@
                                     </div>
                                 </td>
                                 <td class="py-sm px-md">Science Dept Head</td>
-                                <td class="py-sm px-md text-right">$5,100</td>
+                                <td class="py-sm px-md text-right">5,100</td>
                                 <td class="py-sm px-md text-right text-secondary text-sm">
-                                    <div title="HRA: $500, TA: $200">$700</div>
+                                    <div title="HRA: 500, TA: 200">700</div>
                                 </td>
                                 <td class="py-sm px-md text-right text-error text-sm">
-                                    <div title="PF: $255, Tax: $600">-$855</div>
+                                    <div title="PF: 255, Tax: 600">-855</div>
                                 </td>
-                                <td class="py-sm px-md text-right font-medium">$4,945</td>
+                                <td class="py-sm px-md text-right font-medium">4,945</td>
                                 <td class="py-sm px-md text-center">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">Processing</span>
                                 </td>
@@ -212,14 +212,14 @@
                                     </div>
                                 </td>
                                 <td class="py-sm px-md">Admin Staff</td>
-                                <td class="py-sm px-md text-right">$3,500</td>
+                                <td class="py-sm px-md text-right">3,500</td>
                                 <td class="py-sm px-md text-right text-secondary text-sm">
-                                    <div title="HRA: $300, TA: $100">$400</div>
+                                    <div title="HRA: 300, TA: 100">400</div>
                                 </td>
                                 <td class="py-sm px-md text-right text-error text-sm">
-                                    <div title="PF: $175, Tax: $250">-$425</div>
+                                    <div title="PF: 175, Tax: 250">-425</div>
                                 </td>
-                                <td class="py-sm px-md text-right font-medium">$3,475</td>
+                                <td class="py-sm px-md text-right font-medium">3,475</td>
                                 <td class="py-sm px-md text-center">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-variant text-on-surface-variant border border-outline-variant">Pending</span>
                                 </td>

@@ -66,6 +66,10 @@
                                 <input name="last_name" placeholder="e.g. Ahmed" class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors" type="text" />
                             </div>
                             <div>
+                                <label class="block text-label-md font-label-md text-secondary mb-xs">Email <span class="text-error">*</span></label>
+                                <input name="email" placeholder="e.g. student@school.com" class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors" required type="email" />
+                            </div>
+                            <div>
                                 <label class="block text-label-md font-label-md text-secondary mb-xs">Date of Birth <span class="text-error">*</span></label>
                                 <div class="relative">
                                     <input name="date_of_birth" class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none" required type="date" />
@@ -129,7 +133,9 @@
                             <div class="relative">
                                 <select name="current_class_id" id="classSelect" class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none" required>
                                     <option disabled selected value="">Select Class</option>
-                                    <!-- Options populated by JS -->
+                                    @foreach($classes as $cls)
+                                        <option value="{{ $cls->id }}">{{ $cls->name }}</option>
+                                    @endforeach
                                 </select>
                                 <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
                             </div>
@@ -137,11 +143,11 @@
                         <div>
                             <label class="block text-label-md font-label-md text-secondary mb-xs">Current Section <span class="text-error">*</span></label>
                             <div class="relative">
-                                <select name="section" class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none" required>
+                                <select name="current_section_id" class="w-full h-10 px-sm border border-outline-variant rounded bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none" required>
                                     <option disabled selected value="">Select Section</option>
-                                    <option value="1">Section A</option>
-                                    <option value="2">Section B</option>
-                                    <option value="3">Section C</option>
+                                    @foreach($sections as $sec)
+                                        <option value="{{ $sec->id }}">{{ $sec->name }}</option>
+                                    @endforeach
                                 </select>
                                 <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
                             </div>
@@ -205,6 +211,19 @@
                                     <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
                                 </div>
                             </div>
+                            <div class="pt-sm border-t border-outline-variant">
+                                <label class="flex items-center gap-sm cursor-pointer group">
+                                    <div class="relative flex items-center justify-center w-5 h-5">
+                                        <input type="hidden" name="is_tuition" value="0">
+                                        <input type="checkbox" name="is_tuition" value="1" class="peer appearance-none w-5 h-5 border-2 border-outline rounded-[2px] checked:bg-primary checked:border-primary transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                                        <span class="material-symbols-outlined absolute text-on-primary text-[16px] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                    </div>
+                                    <div>
+                                        <div class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">Tuition Student</div>
+                                        <div class="text-body-sm font-body-sm text-secondary">Check if this student is enrolled in tuition classes.</div>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -217,16 +236,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Basic class loading
     const classSelect = document.getElementById('classSelect');
-    const classes = [
-        { id: 1, name: 'Class X' },
-        { id: 2, name: 'Class XI' },
-        { id: 3, name: 'Class XII' }
-    ];
-    classes.forEach(cls => {
-        classSelect.innerHTML += `<option value="${cls.id}">${cls.name}</option>`;
-    });
 
     const form = document.getElementById('studentForm');
     const badge = document.getElementById('status-badge');

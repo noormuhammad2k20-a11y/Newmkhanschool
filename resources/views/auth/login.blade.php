@@ -1,187 +1,352 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>EduGov Management - Login</title>
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-container-lowest": "#ffffff",
-                        "surface-bright": "#f8f9fa",
-                        "on-tertiary-container": "#999897",
-                        "surface-dim": "#d9dadb",
-                        "on-tertiary-fixed-variant": "#474747",
-                        "on-surface-variant": "#454652",
-                        "surface-tint": "#4c56af",
-                        "secondary-fixed": "#d6e5ef",
-                        "on-tertiary-fixed": "#1b1c1c",
-                        "primary": "#000666",
-                        "on-primary-fixed-variant": "#343d96",
-                        "on-secondary-container": "#56656e",
-                        "on-tertiary": "#ffffff",
-                        "surface-container-highest": "#e1e3e4",
-                        "inverse-primary": "#bdc2ff",
-                        "primary-container": "#1a237e",
-                        "error-container": "#ffdad6",
-                        "outline-variant": "#c6c5d4",
-                        "outline": "#767683",
-                        "surface-container-high": "#e7e8e9",
-                        "tertiary-fixed-dim": "#c8c6c6",
-                        "surface-container": "#edeeef",
-                        "secondary-container": "#d3e2ed",
-                        "primary-fixed": "#e0e0ff",
-                        "primary-fixed-dim": "#bdc2ff",
-                        "surface": "#f8f9fa",
-                        "on-primary-fixed": "#000767",
-                        "on-primary-container": "#8690ee",
-                        "secondary": "#526069",
-                        "on-background": "#191c1d",
-                        "inverse-on-surface": "#f0f1f2",
-                        "secondary-fixed-dim": "#bac9d3",
-                        "on-secondary-fixed": "#0f1d25",
-                        "on-secondary": "#ffffff",
-                        "error": "#ba1a1a",
-                        "tertiary": "#1b1b1b",
-                        "on-error": "#ffffff",
-                        "on-primary": "#ffffff",
-                        "surface-container-low": "#f3f4f5",
-                        "tertiary-container": "#303030",
-                        "inverse-surface": "#2e3132",
-                        "tertiary-fixed": "#e4e2e1",
-                        "on-surface": "#191c1d",
-                        "on-secondary-fixed-variant": "#3b4951",
-                        "surface-variant": "#e1e3e4",
-                        "on-error-container": "#93000a",
-                        "background": "#f8f9fa"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "xl": "32px",
-                        "xs": "4px",
-                        "md": "16px",
-                        "margin-mobile": "16px",
-                        "sm": "8px",
-                        "max-width": "1440px",
-                        "base": "4px",
-                        "lg": "24px",
-                        "margin-desktop": "32px",
-                        "gutter": "20px"
-                    },
-                    "fontFamily": {
-                        "headline-md": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "label-md": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-xl": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
-                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
-                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .material-symbols-outlined {
-            font-family: 'Material Symbols Outlined';
-            font-weight: normal;
-            font-style: normal;
-            font-size: 24px;
-            line-height: 1;
-            letter-spacing: normal;
-            text-transform: none;
-            display: inline-block;
-            white-space: nowrap;
-            word-wrap: normal;
-            direction: ltr;
-            -webkit-font-feature-settings: 'liga';
-            -webkit-font-smoothing: antialiased;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusOS - College Management System | Login</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+<style>
+/* ============ GLOBAL ============ */
+*{ margin:0; padding:0; box-sizing:border-box; }
+.material-symbols-outlined{ font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal; font-size:16px; line-height:1; vertical-align:middle; }
+:focus-visible{ outline:2px solid #6C2BD9; outline-offset:2px; }
+
+body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
+
+.page{ width:100%; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:12px; }
+
+/* =========================================================
+   DESIGN 1 - "Aurora" Purple Theme
+========================================================= */
+#page1{ 
+  background:radial-gradient(circle at 20% 20%, #F2EEFE 0%, #EEF0FB 55%); 
+  font-family:'Plus Jakarta Sans',sans-serif; 
+}
+
+.card1{
+  width:100%; max-width:900px;
+  background:#fff; border-radius:18px; overflow:hidden;
+  display:grid; grid-template-columns:1fr 1.05fr;
+  box-shadow:0 15px 40px -15px rgba(76,29,149,.15);
+  max-height: 90vh; /* Limits height on desktop */
+}
+
+/* Left panel with the form */
+.left1{ 
+  padding:20px 30px; 
+  display:flex; flex-direction:column; justify-content:center; 
+  position:relative; 
+  overflow-y:auto; /* Allow scroll inside if content is slightly taller */
+}
+
+/* Hide scrollbar for a cleaner look */
+.left1::-webkit-scrollbar { width: 4px; }
+.left1::-webkit-scrollbar-thumb { background: #E4DBFB; border-radius: 10px; }
+
+.brand1{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.brand1 .logo-icon{
+  width:32px; height:32px; border-radius:8px;
+  background:linear-gradient(135deg,#8B5CF6,#5B21B6);
+  display:flex; align-items:center; justify-content:center; color:#fff;
+  box-shadow:0 4px 10px -4px rgba(91,33,182,.5);
+}
+.brand1 .logo-text b{ display:block; font-size:14px; font-weight:800; color:#2D2A4A; letter-spacing:.2px; }
+.brand1 .logo-text b span{ color:#7C3AED; }
+.brand1 .logo-text small{ display:block; font-size:8.5px; color:#9492AA; letter-spacing:1px; font-weight:600; text-transform:uppercase; }
+
+.badge1{
+  display:inline-flex; align-items:center; gap:4px; align-self:flex-start;
+  background:#F3EEFE; color:#7C3AED; font-size:10px; font-weight:700;
+  padding:4px 8px; border-radius:12px; margin-bottom:6px;
+}
+.badge1 .material-symbols-outlined{ font-size:12px; }
+
+.left1 h1{ font-size:20px; font-weight:800; color:#221F3B; margin-bottom:2px; letter-spacing:-.5px; }
+.left1 .sub{ font-size:11.5px; color:#9492AA; margin-bottom:10px; line-height:1.4; }
+
+.field1{ margin-bottom:8px; }
+.field1 label{ display:block; font-size:10px; font-weight:700; color:#5B5874; margin-bottom:3px; letter-spacing:.3px; }
+.input-wrap1{
+  display:flex; align-items:center; gap:8px;
+  background:#F7F6FD; border:1.5px solid #ECEAF6; border-radius:10px;
+  padding:8px 12px; transition:.2s;
+}
+.input-wrap1:focus-within{ border-color:#8B5CF6; background:#fff; box-shadow:0 0 0 4px #F3EEFE; }
+.input-wrap1 .material-symbols-outlined{ color:#A7A4C2; font-size:15px; }
+.input-wrap1 input{ border:none; outline:none; background:transparent; width:100%; font-size:12px; font-family:'Inter',sans-serif; color:#2D2A4A; }
+.input-wrap1 input::placeholder{ color:#BBB9D2; }
+.toggle-eye{ cursor:pointer; color:#A7A4C2; transition:.15s; }
+.toggle-eye:hover{ color:#7C3AED; }
+
+.row1{ display:flex; justify-content:space-between; align-items:center; margin:2px 0 10px; font-size:10.5px; }
+.remember1{ display:flex; align-items:center; gap:6px; color:#7C7A93; cursor:pointer; user-select:none; }
+
+.remember1 input[type="checkbox"] { display: none; }
+.remember1 .check-box {
+  width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid #D2CFEA;
+  display: flex; align-items: center; justify-content: center; background: transparent;
+  transition: .2s;
+}
+.remember1 .check-box .material-symbols-outlined { opacity: 0; color: #fff; font-size: 11px; transition: .2s; }
+.remember1 input[type="checkbox"]:checked + .check-box { background: #7C3AED; border-color: #7C3AED; }
+.remember1 input[type="checkbox"]:checked + .check-box .material-symbols-outlined { opacity: 1; }
+
+.row1 a{ color:#7C3AED; font-weight:700; text-decoration:none; }
+.row1 a:hover{ text-decoration:underline; }
+
+.btn-primary1{
+  width:100%; border:none; border-radius:10px; padding:10px;
+  background:linear-gradient(135deg,#8B5CF6,#5B21B6); color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:12.5px;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  cursor:pointer; transition:.2s; box-shadow:0 8px 16px -6px rgba(91,33,182,.5);
+}
+.btn-primary1:hover{ box-shadow:0 10px 20px -6px rgba(91,33,182,.6); }
+
+/* Demo accounts */
+.demo1{ margin-top:10px; background:#F8F7FE; border:1px dashed #D9D5F2; border-radius:10px; padding:8px 12px; }
+.demo1 .demo-title{ display:flex; align-items:center; gap:6px; font-weight:700; font-size:10.5px; color:#5B5874; margin-bottom:6px; }
+.demo1 .demo-title .material-symbols-outlined{ color:#F5B500; font-size:13px; }
+.demo-grid1{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.demo-item1{ display:flex; align-items:center; gap:6px; background:#fff; border:1px solid #ECEAF6; border-radius:8px; padding:6px 8px; cursor:pointer; transition:.2s; }
+.demo-item1:hover{ border-color:#8B5CF6; }
+.demo-item1 .ic{ width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; flex-shrink:0; }
+.demo-item1 .meta .role{ font-size:10px; font-weight:700; color:#2D2A4A; }
+.demo-item1 .meta .mail{ font-size:8.5px; color:#A7A4C2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ic-admin{ background:linear-gradient(135deg,#8B5CF6,#5B21B6); }
+.ic-teacher{ background:linear-gradient(135deg,#34D399,#059669); }
+.ic-student{ background:linear-gradient(135deg,#60A5FA,#2563EB); }
+.ic-parent{ background:linear-gradient(135deg,#FB923C,#EA580C); }
+
+/* Right panel */
+.right1{
+  position:relative; background:linear-gradient(160deg,#8B5CF6 0%,#5B21B6 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; padding:20px;
+}
+.right1 .grid-pattern{
+  position:absolute; inset:0; opacity:.08;
+  background-image:linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg,#fff 1px, transparent 1px);
+  background-size:20px 20px;
+}
+.right1::before{ content:''; position:absolute; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.06); top:-60px; right:-80px; }
+.right1::after{ content:''; position:absolute; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,.05); bottom:-50px; left:-50px; }
+
+.right1 .heading2{ position:relative; z-index:2; text-align:center; color:#fff; margin-bottom:16px; }
+.right1 .heading2 h2{ font-size:17px; font-weight:800; margin-bottom:2px; }
+.right1 .heading2 p{ font-size:11px; color:#E4DBFB; max-width:260px; margin:0 auto; line-height:1.4; }
+
+.stack1{ position:relative; width:220px; height:220px; z-index:2; }
+.panel1{
+  position:absolute; width:180px; height:105px; border-radius:10px;
+  background:rgba(255,255,255,.97); box-shadow:0 10px 20px -5px rgba(40,15,90,.25);
+  padding:10px; display:flex; flex-direction:column; justify-content:space-between;
+}
+.panel1 .top{ display:flex; align-items:center; gap:6px; }
+.panel1 .top .pic{ width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:13px; }
+.panel1 .top .txt b{ display:block; font-size:10.5px; color:#2D2A4A; }
+.panel1 .top .txt span{ font-size:8.5px; color:#A7A4C2; }
+.panel1 .bar{ height:4px; border-radius:3px; background:#EFEDFB; overflow:hidden; }
+.panel1 .bar i{ display:block; height:100%; border-radius:3px; }
+
+.p-admin{ top:0; left:20px; transform:rotate(-6deg); z-index:4; }
+.p-teacher{ top:36px; left:0; transform:rotate(4deg); z-index:3; opacity:.97; }
+.p-student{ top:72px; left:40px; transform:rotate(-3deg); z-index:2; opacity:.93; }
+.p-parent{ top:108px; left:5px; transform:rotate(5deg); z-index:1; opacity:.9; }
+
+.features1{ position:relative; z-index:2; display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; justify-content:center; }
+.features1 .feature{
+  display:flex; align-items:center; gap:4px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18); border-radius:20px;
+  padding:6px 12px; backdrop-filter:blur(6px);
+}
+.features1 .feature .material-symbols-outlined{ font-size:14px; color:#E4DBFB; }
+.features1 .feature b{ font-size:10.5px; font-weight:600; color:#fff; letter-spacing:.3px; }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width:980px){
+  .card1{ 
+    grid-template-columns:1fr; 
+    max-width: 500px; 
+    margin: 0 auto; 
+    max-height: none; /* Allow full height on mobile to prevent squishing */
+    height: auto;
+  }
+  .page { height: auto; min-height: 100vh; padding: 20px 16px; overflow-y: visible; }
+  .left1{ padding:30px 24px; overflow-y: visible; }
+  .right1{ min-height:320px; order:-1; padding:30px 20px; }
+  
+  .demo-grid1{ grid-template-columns:1fr 1fr; gap:8px; } /* Keep 2 columns on tablet/large mobile if possible */
+  
+  .stack1{ transform:scale(.85); height: 180px; margin-bottom: -10px; }
+  .features1{ margin-top: 5px; }
+
+  /* Increase input sizing slightly for touch usability on mobile */
+  .input-wrap1{ padding: 12px 14px; }
+  .input-wrap1 input{ font-size: 13px; }
+  .btn-primary1{ padding: 14px; font-size: 14px; }
+  .demo1{ padding: 12px; }
+}
+
+@media (max-width:480px){
+  .demo-grid1{ grid-template-columns:1fr; } /* Stack demo accounts on very small screens */
+  .left1{ padding:24px 16px; }
+  .right1{ min-height: 280px; padding: 24px 16px; }
+  .stack1{ transform:scale(.7); height: 150px; }
+  .right1 .heading2 h2 { font-size: 16px; }
+}
+
+/* Alert Styling for Laravel Validation Errors */
+.alert-error {
+  background: #ffdad6; color: #93000a; padding: 8px 12px; border-radius: 8px;
+  margin-bottom: 10px; font-size: 11px; font-weight: 500; border: 1px solid #ffb4ab;
+  display: flex; align-items: center; gap: 6px;
+}
+</style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen flex items-center justify-center p-md">
-    
-    <div class="w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-lg">
-        
-        <div class="flex flex-col items-center justify-center mb-lg">
-            <div class="w-16 h-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-xl font-bold mb-md">
-                SE
-            </div>
-            <h1 class="font-headline-lg text-headline-lg text-primary text-center">State Education</h1>
-            <p class="font-body-md text-secondary mt-xs">Login to your account</p>
+<body>
+
+<div class="page" id="page1">
+  <div class="card1">
+
+    <div class="left1">
+      <div class="brand1">
+        <div class="logo-icon"><span class="material-symbols-outlined">school</span></div>
+        <div class="logo-text">
+          <b>Campus<span>OS</span></b>
+          <small>College Management System</small>
+        </div>
+      </div>
+
+      <span class="badge1"><span class="material-symbols-outlined">verified</span> Secure Campus Login</span>
+      <h1>Welcome Back</h1>
+      <p class="sub">Please enter your credentials to access your account.</p>
+
+      @if ($errors->any())
+        <div class="alert-error">
+          <span class="material-symbols-outlined" style="font-size:16px;">error</span>
+          {{ $errors->first() }}
+        </div>
+      @endif
+
+      <form method="POST" action="{{ route('login.post') }}">
+        @csrf
+        <div class="field1">
+          <label>Email Address</label>
+          <div class="input-wrap1">
+            <span class="material-symbols-outlined">mail</span>
+            <input type="email" name="email" value="{{ old('email') }}" required autofocus placeholder="you@college.edu">
+          </div>
         </div>
 
-        @if ($errors->any())
-            <div class="bg-error-container text-on-error-container p-sm rounded-lg mb-md font-body-md">
-                {{ $errors->first() }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login.post') }}" class="flex flex-col gap-md">
-            @csrf
-            
-            <div class="flex flex-col gap-xs">
-                <label class="font-label-md text-label-md text-on-surface-variant uppercase" for="email">Email</label>
-                <div class="relative">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">mail</span>
-                    <input class="w-full border border-outline-variant rounded-lg py-sm pl-10 pr-sm font-body-md bg-transparent focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" type="email" name="email" id="email" value="{{ old('email') }}" required autofocus placeholder="Enter your email">
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-xs">
-                <label class="font-label-md text-label-md text-on-surface-variant uppercase" for="password">Password</label>
-                <div class="relative">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">lock</span>
-                    <input class="w-full border border-outline-variant rounded-lg py-sm pl-10 pr-sm font-body-md bg-transparent focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" type="password" name="password" id="password" required placeholder="Enter your password">
-                </div>
-            </div>
-
-            <button type="submit" class="mt-sm w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-sm px-md rounded-full transition-colors flex items-center justify-center gap-xs h-10 uppercase tracking-wider">
-                <span class="material-symbols-outlined text-[20px]">login</span>
-                Sign In
-            </button>
-        </form>
-
-        <div class="mt-lg pt-md border-t border-outline-variant">
-            <p class="font-label-md text-secondary uppercase mb-sm">Demo Accounts (Password: password)</p>
-            <div class="flex flex-col gap-xs font-body-md text-on-surface-variant text-sm">
-                <div class="flex justify-between items-center bg-surface-container py-xs px-sm rounded">
-                    <span>Admin:</span>
-                    <span class="font-medium text-primary">admin@school.com</span>
-                </div>
-                <div class="flex justify-between items-center bg-surface-container py-xs px-sm rounded">
-                    <span>Teacher:</span>
-                    <span class="font-medium text-primary">teacher@school.com</span>
-                </div>
-                <div class="flex justify-between items-center bg-surface-container py-xs px-sm rounded">
-                    <span>Student:</span>
-                    <span class="font-medium text-primary">student@school.com</span>
-                </div>
-            </div>
+        <div class="field1">
+          <label>Password</label>
+          <div class="input-wrap1">
+            <span class="material-symbols-outlined">lock</span>
+            <input type="password" name="password" required placeholder="Enter your password" id="pass1">
+            <span class="material-symbols-outlined toggle-eye" onclick="togglePass('pass1', this)">visibility_off</span>
+          </div>
         </div>
-        
+
+        <div class="row1">
+          <label class="remember1">
+            <input type="checkbox" name="remember" id="remember">
+            <span class="check-box"><span class="material-symbols-outlined">check</span></span>
+            Remember me
+          </label>
+          <a href="#">Forgot?</a>
+        </div>
+
+        <button type="submit" class="btn-primary1">
+          Sign In to Dashboard
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+      </form>
+
+      <div class="demo1">
+        <div class="demo-title"><span class="material-symbols-outlined">lightbulb</span> Demo Accounts (Pass: password)</div>
+        <div class="demo-grid1">
+          <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='admin@school.com'; document.querySelector('input[name=password]').value='password';">
+            <div class="ic ic-admin"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+            <div class="meta"><div class="role">Administrator</div><div class="mail">admin@school.com</div></div>
+          </div>
+          <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='teacher@school.com'; document.querySelector('input[name=password]').value='password';">
+            <div class="ic ic-teacher"><span class="material-symbols-outlined">person_play</span></div>
+            <div class="meta"><div class="role">Teacher</div><div class="mail">teacher@school.com</div></div>
+          </div>
+          <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='student@school.com'; document.querySelector('input[name=password]').value='password';">
+            <div class="ic ic-student"><span class="material-symbols-outlined">school</span></div>
+            <div class="meta"><div class="role">Student</div><div class="mail">student@school.com</div></div>
+          </div>
+          <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='parent@school.com'; document.querySelector('input[name=password]').value='password';">
+            <div class="ic ic-parent"><span class="material-symbols-outlined">family_restroom</span></div>
+            <div class="meta"><div class="role">Parent</div><div class="mail">parent@school.com</div></div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <div class="right1">
+      <div class="grid-pattern"></div>
+      <div class="heading2">
+        <h2>One Platform. Entire Campus.</h2>
+        <p>Manage admissions, attendance, examinations, fee collection and faculty operations — all from a single dashboard.</p>
+      </div>
+
+      <div class="stack1">
+        <div class="panel1 p-parent">
+          <div class="top"><div class="pic ic-parent"><span class="material-symbols-outlined">family_restroom</span></div>
+            <div class="txt"><b>Parent Portal</b><span>Track ward's progress</span></div></div>
+          <div class="bar"><i style="width:55%; background:#FB923C;"></i></div>
+        </div>
+        <div class="panel1 p-student">
+          <div class="top"><div class="pic ic-student"><span class="material-symbols-outlined">school</span></div>
+            <div class="txt"><b>Student Portal</b><span>Assignments & Results</span></div></div>
+          <div class="bar"><i style="width:70%; background:#60A5FA;"></i></div>
+        </div>
+        <div class="panel1 p-teacher">
+          <div class="top"><div class="pic ic-teacher"><span class="material-symbols-outlined">person_play</span></div>
+            <div class="txt"><b>Faculty Portal</b><span>Attendance & Grading</span></div></div>
+          <div class="bar"><i style="width:80%; background:#34D399;"></i></div>
+        </div>
+        <div class="panel1 p-admin">
+          <div class="top"><div class="pic ic-admin"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+            <div class="txt"><b>Admin Panel</b><span>Manage entire college</span></div></div>
+          <div class="bar"><i style="width:90%; background:#8B5CF6;"></i></div>
+        </div>
+      </div>
+
+      <div class="features1">
+        <div class="feature">
+          <span class="material-symbols-outlined">security</span>
+          <b>Secure</b>
+        </div>
+        <div class="feature">
+          <span class="material-symbols-outlined">bolt</span>
+          <b>Fast</b>
+        </div>
+        <div class="feature">
+          <span class="material-symbols-outlined">sync</span>
+          <b>Real-time</b>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function togglePass(id, el){
+  const input = document.getElementById(id);
+  if(input.type === 'password'){ input.type = 'text'; el.textContent = 'visibility'; }
+  else{ input.type = 'password'; el.textContent = 'visibility_off'; }
+}
+</script>
 </body>
 </html>

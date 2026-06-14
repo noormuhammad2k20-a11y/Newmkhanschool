@@ -52,17 +52,17 @@
                 <!-- Action Buttons -->
                 <div class="mt-auto pt-4 border-t border-outline-variant grid grid-cols-3 gap-2">
                     <!-- Students Button - Light Blue -->
-                    <a href="{{ route('teacher.students', ['class_id' => $class->id]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-100 hover:border-blue-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
+                    <a href="{{ route('teacher.students', ['class_id' =>$class->id]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-100 hover:border-blue-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">person_search</span>
                         <span>Students</span>
                     </a>
                     <!-- Attendance Button - Light Emerald -->
-                    <a href="{{ route('teacher.attendance', ['class_id' => $class->id]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-100 hover:border-emerald-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
+                    <a href="{{ route('teacher.attendance', ['class_id' =>$class->id]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-100 hover:border-emerald-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">fact_check</span>
                         <span>Attendance</span>
                     </a>
                     <!-- Marks Button - Light Purple -->
-                    <a href="{{ route('teacher.marks', ['class_id' => $class->id]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-100 hover:border-purple-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
+                    <a href="{{ route('teacher.marks', ['class_id' =>$class->id]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-100 hover:border-purple-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">draw</span>
                         <span>Marks</span>
                     </a>

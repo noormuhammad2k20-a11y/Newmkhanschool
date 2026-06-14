@@ -21,4 +21,21 @@ class ExamController extends Controller
 
         return view('student.exam-schedule', compact('schedules'));
     }
+
+    public function getExamStatuses()
+    {
+        $student = auth()->user()->student;
+        $academicYear = AcademicYear::where('is_active', 1)->first();
+
+        $schedules = ExamSchedule::where('class_id', $student->current_class_id)
+            ->where('academic_year_id', $academicYear?->id)
+            ->get();
+
+        $statuses = [];
+        foreach ($schedules as $schedule) {
+            $statuses[$schedule->id] = $schedule->getStudentStatus($student);
+        }
+
+        return response()->json($statuses);
+    }
 }

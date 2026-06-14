@@ -28,7 +28,7 @@
         </div>
         <div class="bg-surface border border-outline-variant rounded-xl p-md shadow-sm">
             <h3 class="text-label-md text-secondary uppercase tracking-wider mb-xs">Total Revenue</h3>
-            <p class="text-display-sm font-display-sm text-on-surface">${{ number_format($totalRevenue, 2) }}</p>
+            <p class="text-display-sm font-display-sm text-on-surface">{{ number_format($totalRevenue, 2) }}</p>
             <p class="text-xs text-secondary mt-xs">Paid fees across all branches</p>
         </div>
     </div>

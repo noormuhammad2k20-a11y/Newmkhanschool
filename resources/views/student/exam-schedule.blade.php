@@ -55,7 +55,7 @@
                         $daysDiff = $now->diffInDays(\Carbon\Carbon::parse($nextExam->exam_date)->startOfDay(), false);
                     @endphp
                     <div class="bg-on-primary-container text-primary-container p-xl flex flex-col items-center justify-center md:w-64">
-                        <span class="font-display-lg text-display-lg font-black leading-none">{{ $daysDiff == 0 ? 'Today' : $daysDiff }}</span>
+                        <span class="font-display-lg text-display-lg font-black leading-none">{{ $daysDiff == 0 ? 'Today' : daysDiff }}</span>
                         <span class="font-label-md text-label-md uppercase tracking-widest mt-2 font-bold">{{ $daysDiff == 0 ? '' : ($daysDiff == 1 ? 'Day Left' : 'Days Left') }}</span>
                     </div>
                 </div>
@@ -73,26 +73,30 @@
                 @foreach($schedules as $schedule)
                 @php
                     $examDate = \Carbon\Carbon::parse($schedule->exam_date)->startOfDay();
-                    $isPast = $examDate->lt($now);
-                    $isToday = $examDate->equalTo($now);
-                    $isTomorrow = $examDate->equalTo($now->copy()->addDay());
+                    $status = $schedule->getStudentStatus(auth()->user()->student);
                 @endphp
-                <div class="card p-lg bg-surface-container-lowest border border-outline-variant flex flex-col hover:shadow-md transition-shadow {{ $isPast ? 'opacity-60 grayscale' : '' }}">
+                <div id="exam-card-{{ $schedule->id }}" class="card p-lg bg-surface-container-lowest border border-outline-variant flex flex-col hover:shadow-md transition-shadow {{ in_array($status, ['Completed', 'Absent / Missed']) ? 'opacity-60 grayscale' : '' }}">
                     <div class="flex justify-between items-start mb-md">
                         <div class="bg-surface-container-high rounded-lg text-center px-4 py-2 border border-outline-variant/50 shadow-sm">
                             <span class="block font-label-md text-error font-bold uppercase tracking-wide">{{ $examDate->format('M') }}</span>
                             <span class="block font-display-sm font-black text-on-surface">{{ $examDate->format('d') }}</span>
                         </div>
                         
-                        @if($isPast)
-                            <span class="bg-surface-container-highest text-on-surface-variant text-[10px] uppercase font-bold px-2 py-1 rounded-full">Completed</span>
-                        @elseif($isToday)
-                            <span class="bg-error text-on-error text-[10px] uppercase font-bold px-2 py-1 rounded-full animate-pulse">Today</span>
-                        @elseif($isTomorrow)
-                            <span class="bg-tertiary-container text-on-tertiary-container text-[10px] uppercase font-bold px-2 py-1 rounded-full">Tomorrow</span>
-                        @else
-                            <span class="bg-primary-container text-on-primary-container text-[10px] uppercase font-bold px-2 py-1 rounded-full">Upcoming</span>
-                        @endif
+                        <div class="exam-status-container" data-exam-id="{{ $schedule->id }}">
+                            @if($status === 'Scheduled')
+                                <span class="bg-surface-variant text-on-surface-variant text-[10px] uppercase font-bold px-2 py-1 rounded-full">Scheduled</span>
+                            @elseif($status === 'In Progress')
+                                <span class="bg-primary/10 text-primary border border-primary/20 text-[10px] uppercase font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> In Progress
+                                </span>
+                            @elseif($status === 'Pending Results')
+                                <span class="bg-orange-100 text-orange-700 border border-orange-200 text-[10px] uppercase font-bold px-2 py-1 rounded-full">Pending Results</span>
+                            @elseif($status === 'Completed')
+                                <span class="bg-secondary/10 text-secondary border border-secondary/20 text-[10px] uppercase font-bold px-2 py-1 rounded-full">Completed</span>
+                            @elseif($status === 'Absent / Missed')
+                                <span class="bg-error/10 text-error border border-error/20 text-[10px] uppercase font-bold px-2 py-1 rounded-full">Absent / Missed</span>
+                            @endif
+                        </div>
                     </div>
                     
                     <h4 class="font-title-lg text-title-lg font-bold text-on-surface mb-xs truncate">{{ $schedule->subjectRelation->name ?? $schedule->subject }}</h4>
@@ -138,6 +142,57 @@
     </div>
 
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fetchInterval = 10000; // 10 seconds
+
+        function fetchExamStatuses() {
+            fetch("{{ route('student.api.exam-statuses') }}")
+                .then(response => response.json())
+                .then(statuses => {
+                    Object.keys(statuses).forEach(id => {
+                        const status = statuses[id];
+                        const container = document.querySelector(`.exam-status-container[data-exam-id="${id}"]`);
+                        const card = document.getElementById(`exam-card-${id}`);
+                        
+                        if (container) {
+                            let badgeHtml = '';
+                            if (status === 'Scheduled') {
+                                badgeHtml = `<span class="bg-surface-variant text-on-surface-variant text-[10px] uppercase font-bold px-2 py-1 rounded-full">Scheduled</span>`;
+                            } else if (status === 'In Progress') {
+                                badgeHtml = `<span class="bg-primary/10 text-primary border border-primary/20 text-[10px] uppercase font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> In Progress
+                                </span>`;
+                            } else if (status === 'Pending Results') {
+                                badgeHtml = `<span class="bg-orange-100 text-orange-700 border border-orange-200 text-[10px] uppercase font-bold px-2 py-1 rounded-full">Pending Results</span>`;
+                            } else if (status === 'Completed') {
+                                badgeHtml = `<span class="bg-secondary/10 text-secondary border border-secondary/20 text-[10px] uppercase font-bold px-2 py-1 rounded-full">Completed</span>`;
+                            } else if (status === 'Absent / Missed') {
+                                badgeHtml = `<span class="bg-error/10 text-error border border-error/20 text-[10px] uppercase font-bold px-2 py-1 rounded-full">Absent / Missed</span>`;
+                            }
+                            
+                            // Only update DOM if the HTML actually changed
+                            if (container.innerHTML.trim() !== badgeHtml.trim() && badgeHtml !== '') {
+                                container.innerHTML = badgeHtml;
+                            }
+                        }
+
+                        if (card) {
+                            if (status === 'Completed' || status === 'Absent / Missed') {
+                                card.classList.add('opacity-60', 'grayscale');
+                            } else {
+                                card.classList.remove('opacity-60', 'grayscale');
+                            }
+                        }
+                    });
+                })
+                .catch(err => console.error("Error fetching exam statuses:", err));
+        }
+
+        setInterval(fetchExamStatuses, fetchInterval);
+    });
+</script>
 
 <style>
     @media print {

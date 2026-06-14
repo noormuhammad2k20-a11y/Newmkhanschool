@@ -11,12 +11,23 @@
                 <h1 class="text-headline-lg font-headline-lg font-semibold text-on-surface">Daily Attendance &amp; Leave Management</h1>
                 <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Overview for <span id="current-date">{{ date('l, F j, Y') }}</span></p>
             </div>
-            <button class="inline-flex items-center gap-sm px-lg py-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:opacity-90 transition-opacity whitespace-nowrap shadow-[0_4px_12px_rgba(26,35,126,0.08)]">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
-                Generate Monthly Duty Report
-            </button>
+            <div class="flex items-center gap-sm">
+                <button class="inline-flex items-center gap-sm px-lg py-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:opacity-90 transition-opacity whitespace-nowrap shadow-[0_4px_12px_rgba(26,35,126,0.08)]">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+                    Generate Monthly Duty Report
+                </button>
+            </div>
         </div>
         
+        <!-- Tabs -->
+        <div class="border-b border-outline-variant mb-md">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button onclick="switchTab('overview')" id="tab-overview" class="border-primary text-primary whitespace-nowrap py-3 px-1 border-b-2 font-label-lg text-label-lg transition-colors">Dashboard Overview</button>
+                <button onclick="switchTab('mark-attendance')" id="tab-mark-attendance" class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline whitespace-nowrap py-3 px-1 border-b-2 font-label-lg text-label-lg transition-colors">Mark Daily Attendance</button>
+            </nav>
+        </div>
+
+        <div id="view-overview" class="space-y-xl">
         <!-- Summary Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
             <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg flex items-center justify-between">
@@ -102,7 +113,54 @@
                 </div>
             </div>
         </div>
+        </div> <!-- End Overview View -->
+
+        <!-- Mark Attendance View -->
+        <div id="view-mark-attendance" class="hidden bg-surface-container-lowest border border-outline-variant rounded flex flex-col min-h-[600px]">
+            <div class="p-md border-b border-outline-variant flex flex-col md:flex-row justify-between items-start md:items-center gap-md bg-surface-container-low rounded-t">
+                <div class="flex items-center gap-md">
+                    <h2 class="font-headline-md text-headline-md text-on-surface hidden lg:block">Mark Teacher Attendance</h2>
+                    <div class="hidden lg:block h-6 w-px bg-outline-variant"></div>
+                    <div class="flex flex-wrap gap-xs">
+                        <button onclick="markAll('P')" class="px-3 py-1.5 text-label-sm font-label-sm bg-primary-container text-on-primary-container rounded hover:bg-primary hover:text-on-primary transition-colors">All Present</button>
+                        <button onclick="markAll('A')" class="px-3 py-1.5 text-label-sm font-label-sm bg-error-container text-on-error-container rounded hover:bg-error hover:text-on-error transition-colors">All Absent</button>
+                        <button onclick="markAll('L')" class="px-3 py-1.5 text-label-sm font-label-sm bg-secondary-container text-on-secondary-container rounded hover:bg-secondary hover:text-on-secondary transition-colors">All Late</button>
+                        <button onclick="markAll('HD')" class="px-3 py-1.5 text-label-sm font-label-sm bg-surface-container-highest text-on-surface rounded hover:bg-outline hover:text-surface transition-colors">All Half Day</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-md w-full md:w-auto">
+                    <label class="font-label-md text-label-md text-on-surface whitespace-nowrap">Date:</label>
+                    <input type="date" id="roster-date" class="w-full md:w-auto border border-outline-variant rounded px-sm py-xs focus:ring-1 focus:ring-primary focus:border-primary bg-surface-bright" value="{{ date('Y-m-d') }}" onchange="fetchRoster()">
+                </div>
+            </div>
+            <div class="p-0 flex-1 overflow-y-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container border-b border-outline-variant">
+                            <th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase">Employee No</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase">Teacher Name</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase text-center">Present</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase text-center">Absent</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase text-center">Late</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase text-center">Half Day</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roster-tbody" class="font-body-md text-body-md text-on-surface">
+                        <tr>
+                            <td colspan="6" class="py-md px-md text-center text-on-surface-variant">Loading roster...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-md border-t border-outline-variant flex justify-end gap-sm bg-surface-container-low rounded-b">
+                <button onclick="saveAttendance()" class="px-xl py-sm bg-primary text-on-primary rounded hover:opacity-90 transition-opacity font-label-md shadow-[0_2px_8px_rgba(26,35,126,0.12)]">Save Attendance</button>
+            </div>
+        </div>
+        <!-- End Mark Attendance View -->
+
     </div>
+</main>
+
 </main>
 
 <script>
@@ -154,11 +212,11 @@
         leaves.forEach(leave => {
             html += `
                 <tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
-                    <td class="py-md px-md font-semibold">${leave.teacher_name}</td>
-                    <td class="py-md px-md">${leave.leave_type}</td>
-                    <td class="py-md px-md">${leave.duration}</td>
+                    <td class="py-md px-md font-semibold">{leave.teacher_name}</td>
+                    <td class="py-md px-md">{leave.leave_type}</td>
+                    <td class="py-md px-md">{leave.duration}</td>
                     <td class="py-md px-md">
-                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[10px] uppercase">${leave.status}</span>
+                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[10px] uppercase">{leave.status}</span>
                     </td>
                     <td class="py-md px-md text-right space-x-2">
                         <button onclick="updateLeave(${leave.id}, 'Approved')" class="px-3 py-1 bg-secondary-container text-primary font-label-md text-label-md rounded hover:bg-primary-container hover:text-on-primary transition-colors">Approve</button>
@@ -202,15 +260,15 @@
             html += `
                 <div class="flex items-center justify-between p-sm rounded transition-colors ${containerClass}">
                     <div class="flex items-center gap-sm">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-label-md text-label-md uppercase ${bgClass}">${initials}</div>
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-label-md text-label-md uppercase ${bgClass}">{initials}</div>
                         <div>
-                            <p class="font-body-md text-body-md font-semibold text-on-surface leading-tight">${log.teacher_name}</p>
-                            <p class="font-label-md text-label-md text-secondary">${log.department}</p>
+                            <p class="font-body-md text-body-md font-semibold text-on-surface leading-tight">{log.teacher_name}</p>
+                            <p class="font-label-md text-label-md text-secondary">{log.department}</p>
                         </div>
                     </div>
                     <div class="text-right">
                         <p class="font-label-md text-label-md flex items-center gap-1 justify-end ${timeColor}">
-                            <span class="material-symbols-outlined" style="font-size: 14px;">${statusIcon}</span> ${log.time}
+                            <span class="material-symbols-outlined" style="font-size: 14px;">{statusIcon}</span>{log.time}
                         </p>
                     </div>
                 </div>
@@ -245,6 +303,142 @@
         .catch(error => {
             console.error('Error updating leave status:', error);
             window.UI.showToast('An error occurred. Check console for details.', 'error');
+        });
+    }
+
+    // Tab Functions
+    function switchTab(tabId) {
+        // Update tab styling
+        document.getElementById('tab-overview').className = 'border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline whitespace-nowrap py-3 px-1 border-b-2 font-label-lg text-label-lg transition-colors';
+        document.getElementById('tab-mark-attendance').className = 'border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline whitespace-nowrap py-3 px-1 border-b-2 font-label-lg text-label-lg transition-colors';
+        
+        document.getElementById('tab-' + tabId).className = 'border-primary text-primary whitespace-nowrap py-3 px-1 border-b-2 font-label-lg text-label-lg transition-colors';
+
+        // Toggle views
+        document.getElementById('view-overview').classList.add('hidden');
+        document.getElementById('view-mark-attendance').classList.add('hidden');
+        
+        document.getElementById('view-' + tabId).classList.remove('hidden');
+
+        // Load data if switching to mark attendance
+        if (tabId === 'mark-attendance') {
+            fetchRoster();
+        } else {
+            fetchDashboardData();
+        }
+    }
+
+    function fetchRoster() {
+        const date = document.getElementById('roster-date').value;
+        const tbody = document.getElementById('roster-tbody');
+        tbody.innerHTML = `<tr><td colspan="6" class="py-md px-md text-center text-on-surface-variant">Loading...</td></tr>`;
+        
+        fetch(`/api/teacher-attendance/roster?date=${date}`)
+            .then(res => res.json())
+            .then(response => {
+                if (response.status === 'success') {
+                    renderRoster(response.data);
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" class="py-md px-md text-center text-error">{response.message}</td></tr>`;
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching roster:", error);
+                tbody.innerHTML = `<tr><td colspan="6" class="py-md px-md text-center text-error">Failed to load roster.</td></tr>`;
+            });
+    }
+
+    function renderRoster(roster) {
+        const tbody = document.getElementById('roster-tbody');
+        if (roster.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="py-md px-md text-center text-on-surface-variant">No active teachers found.</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        roster.forEach(teacher => {
+            const isP = teacher.status === 'P' || !teacher.status ? 'checked' : '';
+            const isA = teacher.status === 'A' ? 'checked' : '';
+            const isL = teacher.status === 'L' ? 'checked' : '';
+            const isHD = teacher.status === 'HD' ? 'checked' : '';
+
+            html += `
+                <tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors" data-teacher-id="${teacher.id}">
+                    <td class="py-sm px-md">${teacher.employee_number || '-'}</td>
+                    <td class="py-sm px-md font-semibold">${teacher.full_name}</td>
+                    <td class="py-sm px-md text-center">
+                        <input type="radio" name="status_${teacher.id}" value="P" ${isP} class="w-4 h-4 text-primary bg-surface border-outline-variant focus:ring-primary">
+                    </td>
+                    <td class="py-sm px-md text-center">
+                        <input type="radio" name="status_${teacher.id}" value="A" ${isA} class="w-4 h-4 text-error bg-surface border-outline-variant focus:ring-error">
+                    </td>
+                    <td class="py-sm px-md text-center">
+                        <input type="radio" name="status_${teacher.id}" value="L" ${isL} class="w-4 h-4 text-secondary bg-surface border-outline-variant focus:ring-secondary">
+                    </td>
+                    <td class="py-sm px-md text-center">
+                        <input type="radio" name="status_${teacher.id}" value="HD" ${isHD} class="w-4 h-4 text-surface-tint bg-surface border-outline-variant focus:ring-surface-tint">
+                    </td>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function saveAttendance() {
+        const date = document.getElementById('roster-date').value;
+        const rows = document.querySelectorAll('#roster-tbody tr[data-teacher-id]');
+        const attendances = [];
+
+        rows.forEach(row => {
+            const teacherId = row.getAttribute('data-teacher-id');
+            const statusInput = row.querySelector(`input[name="status_${teacherId}"]:checked`);
+            if (statusInput) {
+                attendances.push({
+                    teacher_id: teacherId,
+                    status: statusInput.value
+                });
+            }
+        });
+
+        if (attendances.length === 0) {
+            window.UI.showToast('No attendance data to save.', 'warning');
+            return;
+        }
+
+        fetch('/api/teacher-attendance/mark', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                date: date,
+                attendances: attendances
+            })
+        })
+        .then(res => res.json())
+        .then(response => {
+            if (response.status === 'success') {
+                window.UI.showToast(response.message, 'success');
+                if (date === '{{ date('Y-m-d') }}') {
+                    // Update dashboard data in background
+                    fetchDashboardData();
+                }
+            } else {
+                window.UI.showToast(response.message || 'Error saving attendance', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error saving attendance:', error);
+            window.UI.showToast('An error occurred. Check console for details.', 'error');
+        });
+    }
+
+    function markAll(status) {
+        const radios = document.querySelectorAll(`#roster-tbody input[type="radio"][value="${status}"]`);
+        radios.forEach(radio => {
+            radio.checked = true;
         });
     }
 </script>

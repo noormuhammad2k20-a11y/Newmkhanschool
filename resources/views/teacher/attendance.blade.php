@@ -38,6 +38,21 @@
         </div>
 
         @if($selectedClass && count($students) > 0)
+        
+        @php
+            $hasExamToday = \App\Models\ExamSchedule::where('class_id', $selectedClass)->whereDate('exam_date', $date)->exists();
+        @endphp
+        
+        @if($hasExamToday)
+        <div class="mb-md bg-orange-50 border border-orange-200 text-orange-800 p-4 rounded-xl flex gap-3 items-start shadow-sm">
+            <span class="material-symbols-outlined text-orange-600 mt-0.5">campaign</span>
+            <div>
+                <h4 class="font-bold text-orange-900 text-label-lg">Physical Exam Scheduled Today</h4>
+                <p class="text-body-sm mt-1 opacity-90">An exam is scheduled for this class today. Marking a student Absent will automatically forfeit their exam status to "Absent / Missed".</p>
+            </div>
+        </div>
+        @endif
+
         <!-- Attendance Form -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
             <div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">

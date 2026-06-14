@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class FeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
+            $page = (int) $request->get('page', 1);
+            $limit = (int) $request->get('limit', 10);
+            $offset = ($page - 1) * $limit;
+
             // Get metrics
             $metricsQuery = "
                 SELECT 
@@ -21,6 +25,9 @@ class FeeController extends Controller
             ";
             $metrics = collect(DB::select($metricsQuery))->first();
 
+            $totalQuery = "SELECT COUNT(*) as count FROM fees";
+            $totalCount = collect(DB::select($totalQuery))->first()->count;
+
             // Get transactions
             $txQuery = "
                 SELECT f.*, s.first_name, s.last_name, c.name as class_name, sec.name as section_name
@@ -29,9 +36,9 @@ class FeeController extends Controller
                 LEFT JOIN classes c ON s.current_class_id = c.id
                 LEFT JOIN sections sec ON s.current_section_id = sec.id
                 ORDER BY f.due_date DESC
-                LIMIT 50
+                LIMIT ? OFFSET ?
             ";
-            $transactions = DB::select($txQuery);
+            $transactions = DB::select($txQuery, [$limit, $offset]);
 
             return response()->json([
                 'status' => 'success', 
@@ -41,7 +48,13 @@ class FeeController extends Controller
                         'pending' => $metrics->total_pending ?? 0,
                         'pending_students' => $metrics->pending_students ?? 0
                     ],
-                    'transactions' => $transactions
+                    'transactions' => $transactions,
+                    'pagination' => [
+                        'current_page' => $page,
+                        'per_page' => $limit,
+                        'total' => $totalCount,
+                        'last_page' => ceil($totalCount / max(1, $limit))
+                    ]
                 ]
             ]);
         } catch (\Exception $e) {

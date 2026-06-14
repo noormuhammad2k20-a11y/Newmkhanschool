@@ -23,7 +23,7 @@
     </div>
 
 <div class="space-y-4">
-        @forelse($quiz->questions->sortBy('order') as $index => $q)
+        @forelse($quiz->questions->sortBy('order') as $index =>q)
             <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 relative group">
                 <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onclick="openEditQuestionModal({{ json_encode($q) }})" class="text-primary hover:text-primary/80" title="Edit">

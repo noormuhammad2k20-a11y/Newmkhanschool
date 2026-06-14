@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="flex items-baseline gap-2">
-                <span class="text-headline-xl font-headline-xl text-on-surface">${{ number_format($stats['revenue_this_month'], 2) }}</span>
+                <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($stats['revenue_this_month'], 2) }}</span>
             </div>
             <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-700">
                 <span class="material-symbols-outlined text-[14px]">trending_up</span>

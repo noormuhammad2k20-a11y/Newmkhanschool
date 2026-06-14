@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($fees as $index => $fee)
+                @foreach($fees as $index =>fee)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $fee->feeType->name ?? 'Tuition Fee' }} - {{ \Carbon\Carbon::parse($fee->due_date)->format('F Y') }}</td>

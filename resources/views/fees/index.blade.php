@@ -14,11 +14,11 @@
                     </div>
                 </div>
 
-                <div class="flex flex-nowrap gap-6 border-b border-outline-variant mb-xl overflow-x-auto whitespace-nowrap hide-scrollbar pb-1">
-                    <button class="tab-btn shrink-0 active px-2 py-3 font-label-md text-body-md text-primary border-b-2 border-primary transition-colors" data-target="tab-dashboard">Dashboard</button>
-                    <button class="tab-btn shrink-0 px-2 py-3 font-label-md text-body-md text-secondary hover:text-on-surface transition-colors" data-target="tab-categories">Categories</button>
-                    <button class="tab-btn shrink-0 px-2 py-3 font-label-md text-body-md text-secondary hover:text-on-surface transition-colors" data-target="tab-structures">Fee Structures</button>
-                    <button class="tab-btn shrink-0 px-2 py-3 font-label-md text-body-md text-secondary hover:text-on-surface transition-colors" data-target="tab-generate">Generate</button>
+                <div class="flex flex-nowrap gap-2 border-b border-outline-variant mb-xl overflow-x-auto whitespace-nowrap hide-scrollbar pb-3">
+                    <button class="tab-btn shrink-0 active px-4 py-2 rounded-lg font-label-md text-body-md bg-primary text-white transition-colors" data-target="tab-dashboard">Dashboard</button>
+                    <button class="tab-btn shrink-0 px-4 py-2 rounded-lg font-label-md text-body-md text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" data-target="tab-categories">Categories</button>
+                    <button class="tab-btn shrink-0 px-4 py-2 rounded-lg font-label-md text-body-md text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" data-target="tab-structures">Fee Structures</button>
+                    <button class="tab-btn shrink-0 px-4 py-2 rounded-lg font-label-md text-body-md text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" data-target="tab-generate">Generate</button>
                 </div>
 
 
@@ -104,6 +104,8 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- Pagination -->
+                    <div id="pagination-container" class="px-md py-sm border-t border-outline-variant flex justify-between items-center bg-surface flex-wrap gap-2"></div>
                 </div>
                 </div> <!-- End Dashboard Tab -->
 
@@ -156,164 +158,216 @@
 
                 <!-- Fee Structures Tab -->
                 <div id="tab-structures" class="tab-content hidden">
-                    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md mb-xl">
-                        <h3 class="font-headline-sm text-headline-sm text-on-surface mb-md">Set Class Fee Structure</h3>
-                        <form action="{{ route('admin.fees.structures.store') }}" method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
-                            @csrf
-                            <div>
-                                <label class="block font-label-md text-secondary mb-xs">Class</label>
-                                <select name="class_id" required class="w-full bg-surface border border-outline-variant rounded-lg px-md py-2 text-on-surface">
-                                    <option value="">Select Class</option>
-                                    @foreach($classes as $cls)
-                                        <option value="{{ $cls->id }}">{{ $cls->name }}</option>
-                                    @endforeach
-                                </select>
+                    <form action="{{ route('admin.fees.structures.bulk') }}" method="POST" id="fee-matrix-form">
+                        @csrf
+                        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col mb-xl shadow-sm">
+                            <!-- Professional Toolbar -->
+                            <div class="px-md py-md border-b border-outline-variant flex flex-col md:flex-row justify-between items-start md:items-center bg-surface gap-md">
+                                <div>
+                                    <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary bg-primary-container p-1.5 rounded-md text-[20px]">table_chart</span>
+                                        Fee Matrix
+                                    </h3>
+                                    <p class="text-body-sm text-secondary mt-1">Manage all class fee structures centrally. Empty fields are treated as zero.</p>
+                                </div>
+                                <div class="flex flex-wrap gap-sm">
+                                    <button type="button" class="flex items-center gap-1.5 px-4 py-2 text-primary border border-primary rounded-lg font-label-md hover:bg-primary-container transition-colors bg-transparent" onclick="document.querySelector('[data-target=\'tab-categories\']').click()">
+                                        <span class="material-symbols-outlined text-[18px]">add_circle</span> Add Category
+                                    </button>
+                                    <button type="button" class="flex items-center gap-1.5 px-4 py-2 text-secondary border border-outline-variant rounded-lg font-label-md hover:bg-surface-container hover:text-on-surface transition-colors bg-transparent">
+                                        <span class="material-symbols-outlined text-[18px]">content_copy</span> Apply Template
+                                    </button>
+                                    <button type="submit" class="flex items-center gap-1.5 bg-primary text-on-primary px-5 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors shadow-sm">
+                                        <span class="material-symbols-outlined text-[18px]">save</span> Bulk Update
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <label class="block font-label-md text-secondary mb-xs">Category</label>
-                                <select name="fee_category_id" required class="w-full bg-surface border border-outline-variant rounded-lg px-md py-2 text-on-surface">
-                                    <option value="">Select Category</option>
-                                    @foreach($categories as $cat)
-                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block font-label-md text-secondary mb-xs">Amount (₨)</label>
-                                <input type="number" name="amount" required min="0" step="0.01" class="w-full bg-surface border border-outline-variant rounded-lg px-md py-2 text-on-surface" placeholder="e.g. 5000">
-                            </div>
-                            <button type="submit" class="bg-primary text-on-primary px-lg py-2.5 rounded-lg font-label-md whitespace-nowrap h-[42px]">Save Structure</button>
-                        </form>
-                    </div>
 
-                    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-surface-container-highest border-b border-outline-variant">
-                                <tr>
-                                    <th class="px-md py-3 font-label-md text-on-surface-variant uppercase">Class</th>
-                                    <th class="px-md py-3 font-label-md text-on-surface-variant uppercase">Fee Category</th>
-                                    <th class="px-md py-3 font-label-md text-on-surface-variant uppercase text-right">Amount (₨)</th>
-                                    <th class="px-md py-3 font-label-md text-on-surface-variant uppercase text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-outline-variant/50">
-                                @forelse($structures as $struct)
-                                <tr class="hover:bg-surface-container transition-colors">
-                                    <td class="px-md py-3 font-medium">{{ $struct->class->name }}</td>
-                                    <td class="px-md py-3">{{ $struct->category->name }}</td>
-                                    <td class="px-md py-3 text-right">₨{{ number_format($struct->amount, 2) }}</td>
-                                    <td class="px-md py-3 text-right">
-                                        <form action="{{ route('admin.fees.structures.destroy', $struct->id) }}" method="POST" class="inline">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="text-error hover:opacity-80" data-confirm-click="Are you sure?"><span class="material-symbols-outlined text-[20px]">delete</span></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr><td colspan="4" class="px-md py-8 text-center text-secondary">No fee structures defined.</td></tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                            <!-- Spreadsheet Matrix -->
+                            <div class="overflow-x-auto w-full">
+                                <table class="w-full text-left border-collapse min-w-max">
+                                    <thead class="bg-surface-container-highest border-b border-outline-variant">
+                                        <tr>
+                                            <th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-wider bg-surface-container-highest sticky left-0 z-20 border-r border-outline-variant w-[200px] shadow-[2px_0_4px_rgba(0,0,0,0.02)]">
+                                                Class \ Category
+                                            </th>
+                                            @foreach($categories as $category)
+                                                <th class="px-md py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right min-w-[140px] border-r border-outline-variant last:border-r-0">
+                                                    {{ $category->name }}
+                                                </th>
+                                            @endforeach
+                                            <th class="px-md py-4 font-label-md text-primary uppercase tracking-wider text-right w-[160px] bg-primary-container/10">
+                                                Total Fee
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-outline-variant/50">
+                                        @forelse($classes as $cls)
+                                            <tr class="hover:bg-surface-container/50 transition-colors group">
+                                                <td class="px-md py-3 font-medium text-on-surface bg-surface-container-lowest sticky left-0 z-10 border-r border-outline-variant group-hover:bg-surface-container/50 shadow-[2px_0_4px_rgba(0,0,0,0.02)]">
+                                                    {{ $cls->name }}
+                                                </td>
+                                                @php $rowTotal = 0; @endphp
+                                                @foreach($categories as $category)
+                                                    @php
+                                                        // Find existing amount if any
+                                                        $existingStruct = $structures->first(function($s) use ($cls, $category) {
+                                                            return $s->class_id == $cls->id && $s->fee_category_id == $category->id;
+                                                        });
+                                                        $amount = $existingStruct ? $existingStruct->amount : '';
+                                                        $rowTotal += (float)$amount;
+                                                    @endphp
+                                                    <td class="px-sm py-2 border-r border-outline-variant last:border-r-0 relative group/cell">
+                                                        <div class="flex items-center bg-transparent border border-transparent hover:border-outline-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md transition-all overflow-hidden">
+                                                            <span class="text-secondary pl-2 text-sm select-none">₨</span>
+                                                            <input type="number" 
+                                                                   name="fees[{{ $cls->id }}][{{ $category->id }}]" 
+                                                                   value="{{ $amount }}" 
+                                                                   min="0" step="0.01" 
+                                                                   class="fee-input w-full bg-transparent border-none px-2 py-1.5 text-right text-on-surface text-body-md focus:outline-none focus:ring-0 placeholder:text-on-surface-variant/30" 
+                                                                   placeholder="0"
+                                                                   data-row="{{ $cls->id }}">
+                                                        </div>
+                                                    </td>
+                                                @endforeach
+                                                <td class="px-md py-3 text-right font-semibold text-primary bg-primary-container/5">
+                                                    <span class="text-xs text-primary/70 mr-1">₨</span>
+                                                    <span class="row-total" id="total-{{ $cls->id }}">{{ number_format($rowTotal, 2) }}</span>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="{{ count($categories) + 2 }}" class="px-md py-12 text-center">
+                                                    <div class="flex flex-col items-center justify-center text-secondary">
+                                                        <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">meeting_room</span>
+                                                        <p class="text-body-lg">No classes available.</p>
+                                                        <p class="text-body-sm mt-1">Please add classes in the Academic section first.</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- Generate Invoices Tab -->
                 <div id="tab-generate" class="tab-content hidden">
-                    <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm p-8 max-w-2xl mx-auto mt-6">
-                        <div class="text-center mb-8 pb-6 border-b border-outline-variant">
-                            <div class="w-16 h-16 bg-primary-container text-primary rounded-2xl flex items-center justify-center mx-auto mb-4 rotate-3 hover:rotate-0 transition-transform">
-                                <span class="material-symbols-outlined text-[32px]">receipt_long</span>
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg mb-xl overflow-hidden">
+                        
+                        <div class="px-xl py-lg border-b border-outline-variant bg-surface flex items-start md:items-center gap-md">
+                            <div class="w-12 h-12 bg-primary-fixed text-primary rounded-xl flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[24px]">receipt_long</span>
                             </div>
-                            <h2 class="text-2xl font-bold text-on-surface">Bulk Invoice Generation</h2>
-                            <p class="text-secondary mt-2">Generate fee invoices for an entire class based on defined fee structures.</p>
+                            <div>
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface">Bulk Invoice Generation</h3>
+                                <p class="text-body-md font-body-md text-secondary mt-1">Generate fee invoices for an entire class based on defined fee structures.</p>
+                            </div>
                         </div>
 
-                        <form id="bulk-generate-form" action="{{ route('admin.fees.bulk-generate') }}" method="POST" class="space-y-6">
-                            @csrf
-                            <!-- Class Selection -->
-                            <div>
-                                <label class="block font-label-md text-on-surface-variant mb-2">Select Class <span class="text-error">*</span></label>
-                                <div class="relative group">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">meeting_room</span>
+                        <div class="p-xl bg-surface-container-lowest">
+                            <form id="bulk-generate-form" action="{{ route('admin.fees.bulk-generate') }}" method="POST" class="flex flex-col gap-lg">
+                                @csrf
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+                                    <!-- Class Selection -->
+                                    <div>
+                                        <label class="block font-label-md text-on-surface-variant mb-xs">Select Class <span class="text-error">*</span></label>
+                                        <div class="relative group">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">meeting_room</span>
+                                            </div>
+                                            <select name="class_id" required class="form-input w-full bg-surface border border-outline-variant rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer text-body-md">
+                                                <option value="" disabled selected>-- Choose Class --</option>
+                                                @foreach($classes as $cls)
+                                                    <option value="{{ $cls->id }}">{{ $cls->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                <span class="material-symbols-outlined text-secondary text-[20px]">expand_more</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <select name="class_id" required class="form-input w-full bg-surface border border-outline-variant rounded-xl pl-10 pr-4 py-3 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer">
-                                        <option value="" disabled selected>-- Choose Class --</option>
-                                        @foreach($classes as $cls)
-                                            <option value="{{ $cls->id }}">{{ $cls->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="material-symbols-outlined text-secondary text-[20px]">expand_more</span>
+
+                                    <!-- Category Selection -->
+                                    <div>
+                                        <label class="block font-label-md text-on-surface-variant mb-xs">Select Fee Category <span class="text-error">*</span></label>
+                                        <div class="relative group">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">category</span>
+                                            </div>
+                                            <select name="fee_category_id" required class="form-input w-full bg-surface border border-outline-variant rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer text-body-md">
+                                                <option value="" disabled selected>-- Choose Category --</option>
+                                                @foreach($categories as $cat)
+                                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                <span class="material-symbols-outlined text-secondary text-[20px]">expand_more</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Due Date -->
+                                    <div>
+                                        <label class="block font-label-md text-on-surface-variant mb-xs">Due Date <span class="text-error">*</span></label>
+                                        <div class="relative group">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">calendar_today</span>
+                                            </div>
+                                            <input type="date" name="due_date" required min="{{ date('Y-m-d') }}" class="form-input w-full bg-surface border border-outline-variant rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer text-body-md">
+                                        </div>
+                                        <p class="text-[12px] text-secondary mt-1.5 flex items-center gap-1 font-body-sm">
+                                            <span class="material-symbols-outlined text-[14px]">info</span>
+                                            Due date cannot be in the past.
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Category Selection -->
-                            <div>
-                                <label class="block font-label-md text-on-surface-variant mb-2">Select Fee Category <span class="text-error">*</span></label>
-                                <div class="relative group">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">category</span>
-                                    </div>
-                                    <select name="fee_category_id" required class="form-input w-full bg-surface border border-outline-variant rounded-xl pl-10 pr-4 py-3 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer">
-                                        <option value="" disabled selected>-- Choose Category --</option>
-                                        @foreach($categories as $cat)
-                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="material-symbols-outlined text-secondary text-[20px]">expand_more</span>
-                                    </div>
+                                <!-- Separator -->
+                                <div class="w-full h-px bg-outline-variant mt-sm"></div>
+
+                                <!-- Actions -->
+                                <div class="flex justify-end pt-sm">
+                                    <button type="submit" id="btn-generate" disabled class="relative flex justify-center items-center gap-2 bg-primary text-on-primary px-xl py-2.5 rounded-lg font-label-md shadow-sm hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                                        <span class="material-symbols-outlined text-[20px] btn-icon">flash_on</span>
+                                        <span class="btn-text">Generate Invoices</span>
+                                        <!-- Spinner -->
+                                        <svg class="animate-spin hidden w-5 h-5 text-current btn-spinner absolute" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                            </div>
-
-                            <!-- Due Date -->
-                            <div>
-                                <label class="block font-label-md text-on-surface-variant mb-2">Due Date <span class="text-error">*</span></label>
-                                <div class="relative group">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">calendar_today</span>
-                                    </div>
-                                    <input type="date" name="due_date" required min="{{ date('Y-m-d') }}" class="form-input w-full bg-surface border border-outline-variant rounded-xl pl-10 pr-4 py-3 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer">
-                                </div>
-                                <p class="text-xs text-secondary mt-2 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[14px]">info</span>
-                                    Due date cannot be in the past.
-                                </p>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="pt-4">
-                                <button type="submit" id="btn-generate" disabled class="w-full relative flex justify-center items-center gap-2 bg-primary text-on-primary py-3.5 rounded-xl font-label-lg shadow-sm hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:text-on-primary transition-all">
-                                    <span class="material-symbols-outlined text-[20px] btn-icon">flash_on</span>
-                                    <span class="btn-text">Generate Invoices</span>
-                                    <!-- Spinner -->
-                                    <svg class="animate-spin hidden w-5 h-5 text-current btn-spinner absolute" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
             </div>
 
-        </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    (function() {
         const tbody = document.getElementById('fees-tbody');
+        let currentPage = 1;
+        const limit = 10;
         
-        fetch(`/api/fees`)
-            .then(res => res.json())
-            .then(response => {
-                if (response.status === 'success') {
-                    renderFees(response.data);
-                }
-            });
+        window.loadFees = function(page = 1) {
+            fetch(`/api/fees?page=${page}&limit=${limit}`)
+                .then(res => res.json())
+                .then(response => {
+                    if (response.status === 'success') {
+                        currentPage = page;
+                        renderFees(response.data);
+                        renderPagination(response.data.pagination);
+                    }
+                });
+        }
+
+        loadFees();
 
         function formatCurrency(amount) {
             return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', maximumSignificantDigits: 3 }).format(amount);
@@ -348,8 +402,7 @@
                     <td class="px-md py-3 font-medium text-secondary">#CH-${9000 + tx.id}</td>
                     <td class="px-md py-3">
                         <div class="flex items-center gap-sm">
-                            <div class="w-8 h-8 rounded bg-secondary-container text-primary flex items-center justify-center font-label-md">${initials}</div>
-                            ${tx.first_name} ${tx.last_name || ''}
+                            <div class="w-8 h-8 rounded bg-secondary-container text-primary flex items-center justify-center font-label-md">${initials}</div>${tx.first_name} ${tx.last_name || ''}
                         </div>
                     </td>
                     <td class="px-md py-3">${tx.class_name || '-'} ${tx.section_name || ''}</td>
@@ -366,29 +419,90 @@
             tbody.innerHTML = html;
         }
 
+        function renderPagination(pagination) {
+            const container = document.getElementById('pagination-container');
+            if (!container || !pagination) return;
+            
+            if (pagination.total === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            const start = (pagination.current_page - 1) * pagination.per_page + 1;
+            const end = Math.min(start + pagination.per_page - 1, pagination.total);
+            
+            let html = `
+                <div class="font-body-sm text-secondary">
+                    Showing ${start} to ${end} of ${pagination.total} entries
+                </div>
+                <div class="flex gap-1">
+                    <button class="px-3 py-1 border border-outline-variant rounded-md text-secondary hover:bg-surface-container disabled:opacity-50 transition-colors" 
+                        ${pagination.current_page === 1 ? 'disabled' : ''} onclick="loadFees(${pagination.current_page - 1})">
+                        Previous
+                    </button>
+            `;
+            
+            for (let i = 1; i <= pagination.last_page; i++) {
+                if (i === pagination.current_page) {
+                    html += `<button class="px-3 py-1 bg-primary text-on-primary rounded-md shadow-sm" onclick="loadFees(${i})">${i}</button>`;
+                } else if (i === 1 || i === pagination.last_page || Math.abs(i - pagination.current_page) <= 1) {
+                    html += `<button class="px-3 py-1 border border-outline-variant rounded-md text-secondary hover:bg-surface-container transition-colors" onclick="loadFees(${i})">${i}</button>`;
+                } else if (Math.abs(i - pagination.current_page) === 2) {
+                    html += `<span class="px-2 py-1 text-secondary">...</span>`;
+                }
+            }
+            
+            html += `
+                    <button class="px-3 py-1 border border-outline-variant rounded-md text-secondary hover:bg-surface-container disabled:opacity-50 transition-colors" 
+                        ${pagination.current_page === pagination.last_page ? 'disabled' : ''} onclick="loadFees(${pagination.current_page + 1})">
+                        Next
+                    </button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
         // Tab Switching Logic
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
+        function activateTab(target) {
+            // Update buttons
+            tabBtns.forEach(b => {
+                b.classList.remove('bg-primary', 'text-white', 'active');
+                b.classList.add('text-secondary', 'hover:bg-surface-container', 'hover:text-on-surface');
+            });
+            const activeBtn = document.querySelector(`.tab-btn[data-target="${target}"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-secondary', 'hover:bg-surface-container', 'hover:text-on-surface');
+                activeBtn.classList.add('bg-primary', 'text-white', 'active');
+            }
+
+            // Update contents
+            tabContents.forEach(c => {
+                c.classList.add('hidden');
+            });
+            const activeContent = document.getElementById(target);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
+            
+            // Save state
+            sessionStorage.setItem('activeFeeTab', target);
+        }
+
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                const target = btn.dataset.target;
-                
-                // Update buttons
-                tabBtns.forEach(b => {
-                    b.classList.remove('text-primary', 'border-b-2', 'border-primary', 'active');
-                    b.classList.add('text-secondary');
-                });
-                btn.classList.remove('text-secondary');
-                btn.classList.add('text-primary', 'border-b-2', 'border-primary', 'active');
-
-                // Update contents
-                tabContents.forEach(c => {
-                    c.classList.add('hidden');
-                });
-                document.getElementById(target).classList.remove('hidden');
+                activateTab(btn.dataset.target);
             });
         });
+
+        // Restore active tab
+        const savedTab = sessionStorage.getItem('activeFeeTab');
+        if (savedTab) {
+            activateTab(savedTab);
+        }
 
         // Form Validation & Interaction Logic for Bulk Generate
         const generateForm = document.getElementById('bulk-generate-form');
@@ -410,13 +524,96 @@
             input.addEventListener('input', checkFormValidity);
         });
 
-        generateForm.addEventListener('submit', function(e) {
-            // UI Loading State
-            btnGenerate.disabled = true;
-            btnGenerate.querySelector('.btn-icon').classList.add('hidden');
-            btnGenerate.querySelector('.btn-text').textContent = 'Generating...';
-            btnGenerate.querySelector('.btn-spinner').classList.remove('hidden');
+        if (generateForm) {
+            generateForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const classSelect = generateForm.querySelector('select[name="class_id"]');
+                const categorySelect = generateForm.querySelector('select[name="fee_category_id"]');
+                const selectedCategoryName = categorySelect.options[categorySelect.selectedIndex].text;
+                
+                let countMessage = 'Are you sure you want to generate invoices for the selected class?';
+                
+                // If it's tuition fees, check how many students have is_tuition=1
+                if (selectedCategoryName.toLowerCase().includes('tuition')) {
+                    try {
+                        const res = await fetch(`/api/students?class_id=${classSelect.value}&is_tuition=1`);
+                        const data = await res.json();
+                        if (data.status === 'success') {
+                            const count = data.data.length;
+                            countMessage = `Are you sure? ${count} Tuition Student(s) found in the selected class. Invoices will ONLY be generated for them.`;
+                        }
+                    } catch (err) {
+                        console.error('Could not fetch student count', err);
+                    }
+                } else {
+                    try {
+                        const res = await fetch(`/api/students?class_id=${classSelect.value}`);
+                        const data = await res.json();
+                        if (data.status === 'success') {
+                            const count = data.data.length;
+                            countMessage = `Are you sure? ${count} Student(s) found in the selected class. Invoices will be generated for all of them.`;
+                        }
+                    } catch (err) {
+                        console.error('Could not fetch student count', err);
+                    }
+                }
+
+                const confirmed = await window.UI.confirm('Confirm Bulk Generation', countMessage, 'Generate', 'primary');
+                
+                if (confirmed) {
+                    if (btnGenerate) {
+                        btnGenerate.disabled = true;
+                        const icon = btnGenerate.querySelector('.btn-icon');
+                        if (icon) icon.classList.add('hidden');
+                        const text = btnGenerate.querySelector('.btn-text');
+                        if (text) text.textContent = 'Generating...';
+                        const spinner = btnGenerate.querySelector('.btn-spinner');
+                        if (spinner) spinner.classList.remove('hidden');
+                    }
+                    generateForm.submit();
+                }
+            });
+        }
+
+        // Fee Matrix Calculations
+        const feeInputs = document.querySelectorAll('.fee-input');
+        
+        function updateRowTotal(rowId) {
+            const inputs = document.querySelectorAll(`.fee-input[data-row="${rowId}"]`);
+            let total = 0;
+            inputs.forEach(input => {
+                const val = parseFloat(input.value);
+                if (!isNaN(val)) {
+                    total += val;
+                }
+            });
+            const totalEl = document.getElementById(`total-${rowId}`);
+            if (totalEl) {
+                totalEl.textContent = total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        }
+
+        feeInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                updateRowTotal(this.dataset.row);
+            });
         });
-    });
+
+        // Matrix Form Submit State
+        const matrixForm = document.getElementById('fee-matrix-form');
+        if (matrixForm) {
+            matrixForm.addEventListener('submit', function(e) {
+                const btn = this.querySelector('button[type="submit"]');
+                if (btn) {
+                    setTimeout(() => {
+                        btn.disabled = true;
+                        btn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Updating...`;
+                    }, 10);
+                }
+            });
+        }
+    })();
 </script>
+        </main>
 @endsection

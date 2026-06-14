@@ -45,6 +45,10 @@ class StudentController extends Controller
                 $query->where('s.current_section_id', $request->section_id);
             }
 
+            if ($request->filled('is_tuition')) {
+                $query->where('s.is_tuition', $request->is_tuition);
+            }
+
             if ($request->filled('status')) {
                 $query->where('s.status', ucfirst($request->status));
             }
@@ -63,12 +67,33 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->filled(['first_name', 'admission_number'])) {
-            return response()->json(['status' => 'error', 'message' => 'Missing required fields.'], 400);
+        if (!$request->filled(['first_name', 'admission_number', 'email'])) {
+            return response()->json(['status' => 'error', 'message' => 'Missing required fields (First Name, Admission Number, Email).'], 400);
+        }
+
+        // Check if email already exists
+        $existingUser = DB::table('users')->where('email', $request->email)->first();
+        if ($existingUser) {
+            return response()->json(['status' => 'error', 'message' => 'The email address is already in use.'], 400);
         }
 
         try {
+            DB::beginTransaction();
+
+            $schoolId = auth()->check() ? auth()->user()->school_id : null;
+
+            $userId = DB::table('users')->insertGetId([
+                'name' => trim($request->first_name . ' ' . ($request->last_name ?? '')),
+                'email' => $request->email,
+                'password_hash' => bcrypt('password'),
+                'role_id' => 4, // Student Role
+                'school_id' => $schoolId,
+                'status' => 'active',
+                'created_at' => now()
+            ]);
+
             DB::table('students')->insert([
+                'user_id' => $userId,
                 'admission_no' => $request->admission_number,
                 'exam_roll' => $request->exam_roll ?? null,
                 'first_name' => $request->first_name,
@@ -81,7 +106,7 @@ class StudentController extends Controller
                 'mobile_number' => $request->emergency_contact ?? null,
                 'class_admitted' => $request->class_admitted ?? null,
                 'current_class_id' => $request->current_class_id ?: null,
-                'current_section_id' => $request->section ?: null,
+                'current_section_id' => $request->current_section_id ?: null,
                 'admission_date' => $request->admission_date ?? null,
                 'previous_school' => $request->previous_school ?? null,
                 'current_school' => $request->current_school ?? null,
@@ -90,26 +115,47 @@ class StudentController extends Controller
                 'religion' => $request->religion ?? null,
                 'caste' => $request->caste ?? null,
                 'status' => $request->status ?? 'Regular',
-                'created_at' => now(),
-                'updated_at' => now()
+                'is_tuition' => $request->is_tuition ?? 0
             ]);
+
+            DB::commit();
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Student added successfully.'
             ]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
 
     public function update(Request $request, $id)
     {
-        if (!$request->filled(['first_name', 'admission_number'])) {
-            return response()->json(['status' => 'error', 'message' => 'Missing required fields.'], 400);
+        if (!$request->filled(['first_name', 'admission_number', 'email'])) {
+            return response()->json(['status' => 'error', 'message' => 'Missing required fields (First Name, Admission Number, Email).'], 400);
         }
 
         try {
+            DB::beginTransaction();
+
+            $student = DB::table('students')->where('id', $id)->first();
+
+            if ($student && $student->user_id) {
+                $existingUser = DB::table('users')
+                                  ->where('email', $request->email)
+                                  ->where('id', '!=', $student->user_id)
+                                  ->first();
+                if ($existingUser) {
+                    return response()->json(['status' => 'error', 'message' => 'The email address is already in use by another user.'], 400);
+                }
+
+                DB::table('users')->where('id', $student->user_id)->update([
+                    'name' => trim($request->first_name . ' ' . ($request->last_name ?? '')),
+                    'email' => $request->email
+                ]);
+            }
+
             DB::table('students')->where('id', $id)->update([
                 'admission_no' => $request->admission_number,
                 'exam_roll' => $request->exam_roll ?? null,
@@ -123,7 +169,7 @@ class StudentController extends Controller
                 'mobile_number' => $request->emergency_contact ?? null,
                 'class_admitted' => $request->class_admitted ?? null,
                 'current_class_id' => $request->current_class_id ?: null,
-                'current_section_id' => $request->section_id ?: null,
+                'current_section_id' => $request->current_section_id ?: null,
                 'admission_date' => $request->admission_date ?? null,
                 'previous_school' => $request->previous_school ?? null,
                 'current_school' => $request->current_school ?? null,
@@ -132,14 +178,17 @@ class StudentController extends Controller
                 'religion' => $request->religion ?? null,
                 'caste' => $request->caste ?? null,
                 'status' => $request->status ?? 'Regular',
-                'updated_at' => now()
+                'is_tuition' => $request->is_tuition ?? 0
             ]);
+
+            DB::commit();
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Student updated successfully.'
             ]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
@@ -147,18 +196,29 @@ class StudentController extends Controller
     public function destroy($id)
     {
         try {
-            // Delete related records first to avoid foreign key constraint violations
+            DB::beginTransaction();
+            $student = DB::table('students')->where('id', $id)->first();
+            $userId = $student ? $student->user_id : null;
+
+            // First remove related records to prevent foreign key constraint violations
             DB::table('marks')->where('student_id', $id)->delete();
-            DB::table('attendance_records')->where('student_id', $id)->delete();
-            // DB::table('fee_records')->where('student_id', $id)->delete(); // If fee_records exist
+            DB::table('student_attendances')->where('student_id', $id)->delete();
+            DB::table('fees')->where('student_id', $id)->delete(); 
 
             DB::table('students')->where('id', $id)->delete();
+
+            if ($userId) {
+                DB::table('users')->where('id', $userId)->delete();
+            }
             
+            DB::commit();
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Student removed successfully.'
             ]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }

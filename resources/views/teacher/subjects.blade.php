@@ -45,7 +45,7 @@
                         <span>Assignments</span>
                     </a>
                     <!-- Marks Button - Light Purple -->
-                    <a href="{{ route('teacher.marks', ['class_id' => $subject->class_id, 'subject' => $subject->subject]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-100 hover:border-purple-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
+                    <a href="{{ route('teacher.marks', ['class_id' =>$subject->class_id, 'subject' =>$subject->subject]) }}" class="flex flex-col xl:flex-row items-center justify-center gap-1 xl:gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-100 hover:border-purple-200 rounded-lg py-1.5 xl:py-2 px-1 text-[11px] xl:text-label-sm font-medium transition-colors text-center shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">draw</span>
                         <span>Marks</span>
                     </a>

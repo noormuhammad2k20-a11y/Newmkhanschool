@@ -21,7 +21,16 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\BranchScopeMiddleware::class,
         ]);
+        
+        $middleware->validateCsrfTokens(except: [
+            'login', '/login'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, \Illuminate\Http\Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'CSRF token mismatch.'], 419);
+            }
+            return redirect()->route('login')->with('error', 'Your session has expired. Please log in again.');
+        });
     })->create();

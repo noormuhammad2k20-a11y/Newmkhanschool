@@ -50,7 +50,7 @@
                     </div>
                     <div class="p-0">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y md:divide-y-0 border-t border-outline-variant">
-                            @foreach($modules as $key => $name)
+                            @foreach($modules as $key =>name)
                             <label class="flex items-center justify-between cursor-pointer hover:bg-surface-container-lowest p-md transition-colors group md:border-b md:border-r border-outline-variant last:border-r-0">
                                 <span class="text-body-md font-medium text-on-surface select-none group-hover:text-primary transition-colors">{{ $name }}</span>
                                 <div class="relative flex items-center">

@@ -39,7 +39,7 @@
                 
                 <!-- Left Column: Questions -->
                 <div class="flex-1 w-full space-y-6">
-                    @forelse($quiz->questions->sortBy('order') as $index => $q)
+                    @forelse($quiz->questions->sortBy('order') as $index =>q)
                         <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 md:p-8 shadow-sm transition-shadow hover:shadow-md question-card" data-question-id="{{ $q->id }}">
                             <div class="flex justify-between items-start mb-6 gap-4 border-b border-outline-variant pb-4">
                                 <h3 class="font-headline-md text-on-surface leading-snug">
@@ -156,7 +156,7 @@
 
                         <!-- Mini Map of Questions -->
                         <div class="grid grid-cols-5 gap-2 mb-6">
-                            @foreach($quiz->questions->sortBy('order') as $index => $q)
+                            @foreach($quiz->questions->sortBy('order') as $index =>q)
                                 <a href="javascript:void(0)" onclick="document.querySelector('.question-card[data-question-id=\'{{ $q->id }}\']').scrollIntoView({behavior: 'smooth', block: 'center'})" 
                                    id="nav-q-{{ $q->id }}"
                                    class="w-full aspect-square flex items-center justify-center rounded-lg border border-outline-variant text-label-sm font-bold text-secondary hover:border-primary hover:text-primary transition-colors">
@@ -205,7 +205,7 @@
         let minutes = Math.floor(timeRemaining / 60);
         let seconds = timeRemaining % 60;
         
-        timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        timerElement.innerText = `${minutes}: {seconds < 10 ? '0' : ''}${seconds}`;
         
         // Update Time Progress Bar
         const percentage = (timeRemaining / totalTime) * 100;

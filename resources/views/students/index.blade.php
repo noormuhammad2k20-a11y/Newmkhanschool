@@ -47,6 +47,15 @@
                                 <option value="Graduated">Graduated</option>
                             </select>
                         </div>
+                        <div class="flex items-center mt-6">
+                            <label class="flex items-center gap-sm cursor-pointer group">
+                                <div class="relative flex items-center justify-center w-5 h-5">
+                                    <input type="checkbox" id="filter-tuition" value="1" class="peer appearance-none w-5 h-5 border-2 border-outline rounded-[2px] checked:bg-primary checked:border-primary transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                                    <span class="material-symbols-outlined absolute text-on-primary text-[16px] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                </div>
+                                <span class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">Tuition Students Only</span>
+                            </label>
+                        </div>
                     </form>
                 </div>
                 <!-- Data Table Card -->
@@ -81,13 +90,15 @@
         const classSelect = document.getElementById('filter-class');
         const sectionSelect = document.getElementById('filter-section');
         const statusSelect = document.getElementById('filter-status');
+        const tuitionCheckbox = document.getElementById('filter-tuition');
 
         function fetchStudents() {
             const params = new URLSearchParams({
                 search: searchInput.value,
                 class_id: classSelect.value,
                 section_id: sectionSelect.value,
-                status: statusSelect.value
+                status: statusSelect.value,
+                is_tuition: tuitionCheckbox.checked ? '1' : ''
             });
             
             fetch(`/api/students?${params}`)
@@ -119,12 +130,15 @@
                     statusBadge = `<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-surface-variant text-on-surface-variant border border-outline-variant">${student.status}</span>`;
                 }
 
+                if (student.is_tuition) {
+                    statusBadge += ` <span class="inline-flex items-center px-2 py-1 ml-1 rounded-full text-[10px] font-bold bg-primary-container text-on-primary-container border border-primary">Tuition</span>`;
+                }
+
                 html += `
                 <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors ${bgClass}">
                     <td class="py-sm px-md text-secondary">${student.admission_no}</td>
                     <td class="py-sm px-md font-medium text-on-background flex items-center gap-sm">
-                        <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-label-md font-bold uppercase">${initials}</div>
-                        ${student.first_name} ${student.last_name}
+                        <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-label-md font-bold uppercase">${initials}</div>${student.first_name} ${student.last_name}
                     </td>
                     <td class="py-sm px-md text-on-surface-variant">${student.father_name || '-'}</td>
                     <td class="py-sm px-md text-on-surface-variant">${student.class_name || '-'} / ${student.section_name || '-'}</td>
@@ -154,6 +168,7 @@
                 .then(res => res.json())
                 .then(response => {
                     if (response.status === 'success') {
+                        window.UI.showToast('Student removed successfully', 'success');
                         fetchStudents(); // Refresh the list
                     } else {
                         window.UI.showToast('Error removing student', 'error');
@@ -166,6 +181,7 @@
         classSelect.addEventListener('change', fetchStudents);
         sectionSelect.addEventListener('change', fetchStudents);
         statusSelect.addEventListener('change', fetchStudents);
+        tuitionCheckbox.addEventListener('change', fetchStudents);
 
         fetchStudents();
     });

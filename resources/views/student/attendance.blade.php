@@ -177,8 +177,15 @@
                                 $label = 'Late';
                                 $borderColor = 'border-emerald-200';
                             }
+
+                            $hasExam = \App\Models\ExamSchedule::where('class_id', auth()->user()->student->current_class_id)->whereDate('exam_date', $dateKey)->exists();
                         @endphp
-                        <div class="flex flex-col items-center justify-center p-3 rounded-lg {{ $bgColor }} min-h-[80px] border {{ $borderColor }} shadow-sm">
+                        <div class="relative flex flex-col items-center justify-center p-3 rounded-lg {{ $bgColor }} min-h-[80px] border {{ $borderColor }} shadow-sm">
+                            @if($hasExam)
+                                <div class="absolute top-1 right-1 text-[10px] bg-orange-100 text-orange-800 px-1 rounded flex items-center border border-orange-200" title="Physical Exam Day">
+                                    <span class="material-symbols-outlined text-[10px]">campaign</span>
+                                </div>
+                            @endif
                             <span class="text-title-lg font-title-lg font-bold {{ $textColor }}">{{ $d }}</span>
                             <span class="text-label-sm font-label-sm {{ $textColor }} opacity-80 mt-1">{{ $label }}</span>
                         </div>

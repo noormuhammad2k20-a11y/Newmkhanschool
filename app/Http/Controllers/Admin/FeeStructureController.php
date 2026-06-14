@@ -25,6 +25,42 @@ class FeeStructureController extends Controller
         return $this->ajaxSuccess($request, 'Fee Structure saved successfully.');
     }
 
+    public function bulkUpdate(Request $request)
+    {
+        $request->validate([
+            'fees' => 'required|array',
+            'fees.*' => 'array',
+            'fees.*.*' => 'nullable|numeric|min:0'
+        ]);
+
+        $schoolId = auth()->user()->school_id;
+
+        foreach ($request->fees as $classId => $categories) {
+            foreach ($categories as $categoryId => $amount) {
+                if ($amount === null || $amount === '') {
+                    // Delete if amount is cleared
+                    FeeStructure::where([
+                        'school_id' => $schoolId,
+                        'class_id' => $classId,
+                        'fee_category_id' => $categoryId
+                    ])->delete();
+                } else {
+                    // Update or Create
+                    FeeStructure::updateOrCreate(
+                        [
+                            'school_id' => $schoolId,
+                            'class_id' => $classId,
+                            'fee_category_id' => $categoryId
+                        ],
+                        ['amount' => $amount]
+                    );
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'Fee structures updated successfully.')->with('active_tab', 'tab-structures');
+    }
+
     public function destroy(Request $request, $id)
     {
         $structure = FeeStructure::where('school_id', auth()->user()->school_id)->findOrFail($id);

@@ -41,7 +41,7 @@ class ClassController extends Controller
         $publishedVersion = null;
         if ($academicYear) {
             $publishedVersion = \App\Models\TimetableVersion::where('academic_year_id', $academicYear->id)
-                ->where('status', 'Approved')
+                ->whereIn('status', ['Approved', 'Published'])
                 ->first();
         }
 

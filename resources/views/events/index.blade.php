@@ -116,11 +116,10 @@
             <div class="bento-item-large bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col md:flex-row relative">
                 <div class="md:w-1/2 p-lg flex flex-col justify-center z-10 bg-surface-container-lowest md:bg-transparent md:bg-gradient-to-r md:from-surface-container-lowest md:via-surface-container-lowest md:to-transparent">
                     <span class="bg-secondary-container text-primary font-label-md text-label-md px-sm py-xs rounded-full w-fit mb-md border border-primary-fixed-dim">Featured ${events[0].type}</span>
-                    <h3 class="font-headline-lg text-headline-lg text-on-surface mb-sm">${events[0].title}</h3>
-                    <p class="font-body-md text-body-md text-secondary mb-lg max-w-md">${events[0].description || ''}</p>
+                    <h3 class="font-headline-lg text-headline-lg text-on-surface mb-sm">{events[0].title}</h3>
+                    <p class="font-body-md text-body-md text-secondary mb-lg max-w-md">{events[0].description || ''}</p>
                     <div class="flex items-center gap-md font-label-md text-label-md text-secondary">
-                        <div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-size: 16px;">calendar_today</span> ${events[0].start_date}</div>
-                        ${events[0].location ? `<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-size: 16px;">location_on</span> ${events[0].location}</div>` : ''}
+                        <div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-size: 16px;">calendar_today</span>{events[0].start_date}</div>{events[0].location ? `<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>{events[0].location}</div>` : ''}
                     </div>
                 </div>
                 <div class="md:w-1/2 h-64 md:h-auto absolute inset-0 md:relative z-0" style="background-image: url('${events[0].image_url || 'https://lh3.googleusercontent.com/aida-public/AB6AXuCck7gLRp59TQXrEOhATjQDOpgqS-kodIk6Y1EjM2S8pjPnsdriMxcWKXiH-S7l8B61gHN2qv1X6eL2GoZAuSnMXRFhvaZvsa0mudsbcn4y8duMsAIykUvW_1hDhG6H4R1PVSgdtuMD8_DAIh4PEO83hAiFDKWnShV09Jd6RdI5-W-iFDOAppEQ_1sumaDtZMmQR4wjFd9hDCtvT3sg0nb0-RUhUlGlB0V-FUTsjxAn2JbFUsn5FGfWFsehOIQ8M4blJyZHbDI-'}'); background-size: cover; background-position: center;">
@@ -144,9 +143,9 @@
                         <span class="material-symbols-outlined">campaign</span>
                     </div>
                     <div>
-                        <h4 class="font-label-md text-label-md text-on-surface">${event.title}</h4>
-                        <p class="font-body-md text-body-md text-secondary mt-xs line-clamp-2">${event.description || ''}</p>
-                        <span class="font-label-md text-label-md text-outline mt-sm block">${event.start_date}</span>
+                        <h4 class="font-label-md text-label-md text-on-surface">{event.title}</h4>
+                        <p class="font-body-md text-body-md text-secondary mt-xs line-clamp-2">{event.description || ''}</p>
+                        <span class="font-label-md text-label-md text-outline mt-sm block">{event.start_date}</span>
                     </div>
                 </div>`;
             }
@@ -168,12 +167,11 @@
                 html += `
                 <div class="flex gap-sm items-start p-sm rounded-lg border border-outline-variant bg-surface-bright">
                     <div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex flex-col items-center justify-center flex-shrink-0">
-                        <span class="text-[10px] font-bold uppercase leading-none">${month}</span>
-                        <span class="font-bold text-lg leading-none">${day}</span>
+                        <span class="text-[10px] font-bold uppercase leading-none">{month}</span>
+                        <span class="font-bold text-lg leading-none">{day}</span>
                     </div>
                     <div>
-                        <h4 class="font-label-md text-label-md text-on-surface">${event.title}</h4>
-                        ${event.location ? `<p class="text-[11px] text-secondary mt-xs flex items-center gap-1"><span class="material-symbols-outlined" style="font-size: 12px;">location_on</span> ${event.location}</p>` : ''}
+                        <h4 class="font-label-md text-label-md text-on-surface">{event.title}</h4>{event.location ? `<p class="text-[11px] text-secondary mt-xs flex items-center gap-1"><span class="material-symbols-outlined" style="font-size: 12px;">location_on</span>{event.location}</p>` : ''}
                     </div>
                 </div>`;
             }

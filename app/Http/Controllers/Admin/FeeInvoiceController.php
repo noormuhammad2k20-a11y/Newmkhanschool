@@ -25,7 +25,7 @@ class FeeInvoiceController extends Controller
                             ->where('class_id', $request->class_id)
                             ->where('fee_category_id', $request->fee_category_id)
                             ->first();
-            $students = Student::where('current_class_id', $request->class_id)->get();
+            $studentsQuery = Student::where('current_class_id', $request->class_id);
         } else {
             $schoolId = auth()->user()->school_id;
             $structure = FeeStructure::with('category')
@@ -33,15 +33,21 @@ class FeeInvoiceController extends Controller
                             ->where('class_id', $request->class_id)
                             ->where('fee_category_id', $request->fee_category_id)
                             ->first();
-            $students = Student::where('school_id', $schoolId)->where('current_class_id', $request->class_id)->get();
+            $studentsQuery = Student::where('school_id', $schoolId)->where('current_class_id', $request->class_id);
         }
 
         if (!$structure) {
             return $this->ajaxError($request, 'No fee structure found for this class and category.');
         }
 
+        if (stripos($structure->category->name, 'tuition') !== false) {
+            $studentsQuery->where('is_tuition', true);
+        }
+
+        $students = $studentsQuery->get();
+
         if ($students->isEmpty()) {
-            return $this->ajaxError($request, 'No students found in this class.');
+            return $this->ajaxError($request, 'No students found in this class matching the criteria.');
         }
 
         $existingStudentIds = Fee::whereIn('student_id', $students->pluck('id'))

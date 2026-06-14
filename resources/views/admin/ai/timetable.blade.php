@@ -310,7 +310,7 @@
             let metadataHtml = [];
             
             if (versionData.approved_by && versionData.approved_by.name) {
-                metadataHtml.push(`<div><strong class="text-on-surface">Approved:</strong> ${versionData.approved_by.name} on ${new Date(versionData.approved_at).toLocaleString()}</div>`);
+                metadataHtml.push(`<div><strong class="text-on-surface">Approved:</strong>{versionData.approved_by.name} on ${new Date(versionData.approved_at).toLocaleString()}</div>`);
             }
             
             if (metadataHtml.length > 0) {
@@ -351,7 +351,7 @@
             let html = `
                 <div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden mb-lg">
                     <div class="p-lg border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
-                        <h3 class="font-headline-md text-headline-md font-semibold text-primary">Class: ${className}</h3>
+                        <h3 class="font-headline-md text-headline-md font-semibold text-primary">Class: {className}</h3>
                         <button class="text-secondary hover:text-primary transition-colors">
                             <span class="material-symbols-outlined">download</span>
                         </button>
@@ -360,19 +360,16 @@
                         <table class="w-full text-left border-collapse min-w-max">
                             <thead>
                                 <tr class="bg-surface text-on-surface-variant border-b border-outline-variant">
-                                    <th class="p-md font-label-md border-r border-outline-variant w-32 min-w-[120px] whitespace-nowrap">Day / Period</th>
-                                    ${periods.map(p => `<th class="p-md font-label-md text-center border-r border-outline-variant min-w-[160px] ${p==='Break'?'bg-surface-container min-w-[120px]':''} whitespace-nowrap">${p}</th>`).join('')}
+                                    <th class="p-md font-label-md border-r border-outline-variant w-32 min-w-[120px] whitespace-nowrap">Day / Period</th>{periods.map(p => `<th class="p-md font-label-md text-center border-r border-outline-variant min-w-[160px] ${p==='Break'?'bg-surface-container min-w-[120px]':''} whitespace-nowrap">{p}</th>`).join('')}
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-outline-variant">
-                                ${days.map(day => `
+                            <tbody class="divide-y divide-outline-variant">{days.map(day => `
                                     <tr class="hover:bg-surface-container-low transition-colors">
-                                        <td class="p-md font-semibold border-r border-outline-variant bg-surface text-on-surface whitespace-nowrap">${day}</td>
-                                        ${periods.map(period => {
+                                        <td class="p-md font-semibold border-r border-outline-variant bg-surface text-on-surface whitespace-nowrap">{day}</td>{periods.map(period => {
                                             const cell = schedule[day] ? schedule[day][period] : null;
                                             if (!cell) return '<td class="p-sm border-r border-outline-variant text-center text-secondary min-w-[160px]">-</td>';
                                             if (period === 'Break') {
-                                                return `<td class="p-sm border-r border-outline-variant bg-surface-container text-center font-bold text-secondary uppercase tracking-widest text-xs min-w-[120px]">${cell.subject}</td>`;
+                                                return `<td class="p-sm border-r border-outline-variant bg-surface-container text-center font-bold text-secondary uppercase tracking-widest text-xs min-w-[120px]">{cell.subject}</td>`;
                                             }
                                             
                                             const cursorClass = isEditMode ? 'cursor-pointer hover:bg-primary-container/20 transition-colors' : '';
@@ -380,12 +377,12 @@
                                             
                                             return `
                                                 <td class="p-sm border-r border-outline-variant align-top min-w-[160px] w-40 ${cursorClass}" ${onClick}>
-                                                    <div class="font-body-md font-bold text-on-surface mb-1 text-sm">${cell.subject}</div>
+                                                    <div class="font-body-md font-bold text-on-surface mb-1 text-sm">{cell.subject}</div>
                                                     <div class="text-xs text-on-surface-variant flex items-center gap-1 mb-1">
-                                                        <span class="material-symbols-outlined text-[12px]">person</span> ${cell.teacher}
+                                                        <span class="material-symbols-outlined text-[12px]">person</span>{cell.teacher}
                                                     </div>
                                                     <div class="text-xs text-secondary flex items-center gap-1">
-                                                        <span class="material-symbols-outlined text-[12px]">room</span> ${cell.room}
+                                                        <span class="material-symbols-outlined text-[12px]">room</span>{cell.room}
                                                     </div>
                                                 </td>
                                             `;
@@ -467,7 +464,7 @@
         const teacherSel = document.getElementById('editTeacher');
         teacherSel.innerHTML = '<option value="">Select Teacher</option>';
         data.teachers.forEach(t => {
-            teacherSel.innerHTML += `<option value="${t.id}">${t.full_name}</option>`;
+            teacherSel.innerHTML += `<option value="${t.id}">{t.full_name}</option>`;
         });
         if (currentEditValues.teacher_id && currentEditValues.teacher_id !== 'null') {
             teacherSel.value = currentEditValues.teacher_id;
@@ -476,7 +473,7 @@
         const roomSel = document.getElementById('editRoom');
         roomSel.innerHTML = '<option value="">Select Room</option>';
         data.rooms.forEach(r => {
-            roomSel.innerHTML += `<option value="${r}">${r}</option>`;
+            roomSel.innerHTML += `<option value="${r}">{r}</option>`;
         });
         if (currentEditValues.room && currentEditValues.room !== 'null') {
             roomSel.value = currentEditValues.room;
@@ -485,7 +482,7 @@
         const subSel = document.getElementById('editSubject');
         subSel.innerHTML = '<option value="">Select Subject</option>';
         data.subjects.forEach(s => {
-            subSel.innerHTML += `<option value="${s.id}">${s.name}</option>`;
+            subSel.innerHTML += `<option value="${s.id}">{s.name}</option>`;
         });
         if (currentEditValues.subject_id && currentEditValues.subject_id !== 'null') {
             subSel.value = currentEditValues.subject_id;
@@ -547,8 +544,8 @@
                     const date = new Date(log.created_at).toLocaleString();
                     html += `
                         <div class="p-sm bg-surface-container-lowest border border-outline-variant rounded-md">
-                            <div class="text-xs text-secondary mb-1">${date}</div>
-                            <div class="text-sm text-on-surface">${log.description}</div>
+                            <div class="text-xs text-secondary mb-1">{date}</div>
+                            <div class="text-sm text-on-surface">{log.description}</div>
                         </div>
                     `;
                 });

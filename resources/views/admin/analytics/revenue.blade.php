@@ -19,8 +19,8 @@
                                 {{ $data['branch'] }}
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                Paid: ${{ number_format($data['paid'], 2) }} <br>
-                                Pending: ${{ number_format($data['pending'], 2) }}
+                                Paid: {{ number_format($data['paid'], 2) }} <br>
+                                Pending: {{ number_format($data['pending'], 2) }}
                             </div>
                         </div>
                         <div class="col-auto">

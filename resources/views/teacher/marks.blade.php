@@ -109,6 +109,67 @@
 </script>
 
 <script>
+    window.enableEdit = function(id) {
+        let input = document.getElementById('mark_input_' + id);
+        if(input) {
+            input.readOnly = false;
+            input.classList.remove('bg-surface-container', 'opacity-70', 'pointer-events-none');
+            input.classList.add('bg-surface-bright', 'focus:border-primary', 'focus:ring-1', 'focus:ring-primary', 'outline-none');
+            input.focus();
+            
+            let checkIcon = document.getElementById('saved_check_' + id);
+            if (checkIcon) {
+                checkIcon.classList.add('hidden');
+            }
+        }
+    };
+
+    document.addEventListener('submit', function(e) {
+        if (e.target && e.target.id === 'marksForm') {
+            e.preventDefault();
+            const form = e.target;
+            
+            // Re-enable all inputs before submit so data is sent
+            const inputs = form.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.readOnly = false;
+                input.disabled = false;
+            });
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Saving...';
+            
+            const formData = new FormData(form);
+            
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(async res => {
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.message || 'Error saving marks');
+                }
+                return data;
+            })
+            .then(data => {
+                alert(data.message || 'Marks saved successfully!');
+                document.getElementById('filterForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            })
+            .catch(err => {
+                alert(err.message);
+                submitBtn.disabled = false;
+                submitBtn.innerText = originalText;
+            });
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const classSelect = document.getElementById('class_id');
         const sectionSelect = document.getElementById('section_id');
@@ -175,13 +236,17 @@
                 return;
             }
             
-            fetch(`{{ route('teacher.api.exams') }}?class_id=${classId}&subject=${subject}`)
+            fetch(`{{ route('teacher.api.exams') }}?class_id=${classId}&subject=${encodeURIComponent(subject)}`)
                 .then(res => res.json())
                 .then(data => {
                     examSelect.innerHTML = '<option value="">-- Select Exam --</option>';
-                    data.forEach(e => {
-                        examSelect.innerHTML += `<option value="${e.id}">${e.text}</option>`;
-                    });
+                    if (data.length === 0) {
+                        examSelect.innerHTML = '<option value="">No exams scheduled</option>';
+                    } else {
+                        data.forEach(e => {
+                            examSelect.innerHTML += `<option value="${e.id}">${e.text}</option>`;
+                        });
+                    }
                     examSelect.disabled = false;
                 })
                 .catch(err => {

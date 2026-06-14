@@ -30,12 +30,12 @@
                         @forelse($exams as $exam)
                         <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
                             <td class="py-3 px-4 font-medium text-on-surface">{{ $exam->exam_type }}</td>
-                            <td class="py-3 px-4 text-secondary">{{ $exam->class_name }}</td>
-                            <td class="py-3 px-4 text-secondary">{{ $exam->subject }}</td>
+                            <td class="py-3 px-4 text-secondary">{{ $exam->class_->name ?? 'N/A' }}</td>
+                            <td class="py-3 px-4 text-secondary">{{ $exam->subjectRelation->name ?? 'N/A' }}</td>
                             <td class="py-3 px-4">{{ \Carbon\Carbon::parse($exam->exam_date)->format('d M, Y') }}</td>
                             <td class="py-3 px-4">{{ $exam->exam_time }}</td>
                             <td class="py-3 px-4 text-center">
-                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">{{ $exam->status }}</span>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">{{ $exam->general_status }}</span>
                             </td>
                         </tr>
                         @empty

@@ -9,7 +9,9 @@ class StudentController extends Controller
     }
     public function create()
     {
-        return view('students.create');
+        $classes = \Illuminate\Support\Facades\DB::table('classes')->get();
+        $sections = \Illuminate\Support\Facades\DB::table('sections')->get();
+        return view('students.create', compact('classes', 'sections'));
     }
     public function show($id)
     {
@@ -28,7 +30,11 @@ class StudentController extends Controller
     }
     public function edit($id)
     {
-        $student = \Illuminate\Support\Facades\DB::table('students')->where('id', $id)->first();
+        $student = \Illuminate\Support\Facades\DB::table('students')
+            ->leftJoin('users', 'students.user_id', '=', 'users.id')
+            ->where('students.id', $id)
+            ->select('students.*', 'users.email')
+            ->first();
         if (!$student) abort(404);
         
         $classes = \Illuminate\Support\Facades\DB::table('classes')->get();

@@ -86,7 +86,7 @@
                     <span class="material-symbols-outlined text-[18px]">print</span>
                     Print Report
                 </button>
-                <a href="{{ route('student.report-card.download', ['exam_type_id' => $examTypeId]) }}" class="py-2 px-4 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
+                <a href="{{ route('student.report-card.download', ['exam_type_id' =>examTypeId]) }}" class="py-2 px-4 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
                     <span class="material-symbols-outlined text-[18px]">download</span>
                     Download PDF
                 </a>

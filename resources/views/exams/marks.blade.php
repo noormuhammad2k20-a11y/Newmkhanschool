@@ -150,8 +150,8 @@
                 
                 html += `
                 <tr class="${rowClass} transition-colors marks-row">
-                    <td class="py-sm px-md font-semibold">${student.roll_no || '-'}</td>
-                    <td class="py-sm px-md">${student.first_name} ${student.last_name || ''}</td>
+                    <td class="py-sm px-md font-semibold">{student.roll_no || '-'}</td>
+                    <td class="py-sm px-md">{student.first_name} ${student.last_name || ''}</td>
                     <td class="py-sm px-md text-center text-secondary">100</td>
                     <td class="py-sm px-md">
                         <input class="mark-input w-full px-sm py-xs border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary text-body-md outline-none transition-all" max="100" min="0" tabindex="${tabIndex++}" type="number" />

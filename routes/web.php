@@ -5,10 +5,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 
 // Authentication Routes
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
-});
+Route::get('/login', [\App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
 
 // Public Verification Route
 Route::get('/verify/document/{uuid}', [\App\Http\Controllers\VerificationController::class, 'verifyQR'])->name('verify.qr');
@@ -18,18 +16,22 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', function () {
-    if (auth()->check()) {
-        $roleId = auth()->user()->role_id;
-        if (in_array($roleId, [1, 2])) return redirect()->route('admin.dashboard');
-        if ($roleId == 3) return redirect()->route('teacher.dashboard');
-        if ($roleId == 4) return redirect()->route('student.dashboard');
-        if ($roleId == 5) return redirect()->route('parent.dashboard');
+    $guards = ['admin', 'teacher', 'student', 'parent', 'accountant'];
+    foreach ($guards as $guard) {
+        if (auth()->guard($guard)->check()) {
+            $roleId = auth()->guard($guard)->user()->role_id;
+            if (in_array($roleId, [1, 2])) return redirect()->route('admin.dashboard');
+            if ($roleId == 3) return redirect()->route('teacher.dashboard');
+            if ($roleId == 4) return redirect()->route('student.dashboard');
+            if ($roleId == 5) return redirect()->route('parent.dashboard');
+            if ($roleId == 6) return redirect()->route('accountant.dashboard');
+        }
     }
     return redirect()->route('login');
 });
 
 // ADMIN ROUTES
-Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/students', [\App\Http\Controllers\StudentController::class, 'index'])->name('admin.students');
     Route::get('/students/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('admin.students.create');
@@ -45,12 +47,17 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::post('/academics/classes', [\App\Http\Controllers\AcademicController::class, 'storeClass'])->name('admin.academics.classes.store');
     Route::delete('/academics/classes/{id}', [\App\Http\Controllers\AcademicController::class, 'destroyClass'])->name('admin.academics.classes.destroy');
     Route::post('/academics/subjects', [\App\Http\Controllers\AcademicController::class, 'storeSubject'])->name('admin.academics.subjects.store');
+    Route::put('/academics/subjects/{id}', [\App\Http\Controllers\AcademicController::class, 'updateSubject'])->name('admin.academics.subjects.update');
     Route::delete('/academics/subjects/{id}', [\App\Http\Controllers\AcademicController::class, 'destroySubject'])->name('admin.academics.subjects.destroy');
+    Route::post('/academics/assignments', [\App\Http\Controllers\AcademicController::class, 'storeAssignment'])->name('admin.academics.assignments.store');
+    Route::delete('/academics/assignments/{id}', [\App\Http\Controllers\AcademicController::class, 'destroyAssignment'])->name('admin.academics.assignments.destroy');
     Route::get('/classes/timetable', [\App\Http\Controllers\ClassController::class, 'timetable'])->name('admin.classes.timetable');
     Route::get('/attendance/mark', [\App\Http\Controllers\AttendanceController::class, 'mark'])->name('admin.attendance.mark');
     Route::get('/attendance/teachers', [\App\Http\Controllers\AttendanceController::class, 'teacher'])->name('admin.attendance.teacher');
     Route::get('/exams', [\App\Http\Controllers\ExamController::class, 'index'])->name('admin.exams');
     Route::post('/exams', [\App\Http\Controllers\ExamController::class, 'store'])->name('admin.exams.store');
+    Route::get('/exams/classes/{class_id}/subjects', [\App\Http\Controllers\ExamController::class, 'getSubjectsByClass'])->name('admin.exams.class-subjects');
+    Route::get('/exams/classes/{class_id}/type/{exam_type}', [\App\Http\Controllers\ExamController::class, 'getEventSchedules'])->name('admin.exams.event-schedules');
     Route::put('/exams/{id}', [\App\Http\Controllers\ExamController::class, 'update'])->name('admin.exams.update');
     Route::delete('/exams/{id}', [\App\Http\Controllers\ExamController::class, 'destroy'])->name('admin.exams.destroy');
     Route::get('/exams/marks', [\App\Http\Controllers\ExamController::class, 'marks'])->name('admin.exams.marks');
@@ -58,6 +65,7 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::post('/fees/categories', [\App\Http\Controllers\Admin\FeeCategoryController::class, 'store'])->name('admin.fees.categories.store');
     Route::delete('/fees/categories/{id}', [\App\Http\Controllers\Admin\FeeCategoryController::class, 'destroy'])->name('admin.fees.categories.destroy');
     Route::post('/fees/structures', [\App\Http\Controllers\Admin\FeeStructureController::class, 'store'])->name('admin.fees.structures.store');
+    Route::post('/fees/structures/bulk', [\App\Http\Controllers\Admin\FeeStructureController::class, 'bulkUpdate'])->name('admin.fees.structures.bulk');
     Route::delete('/fees/structures/{id}', [\App\Http\Controllers\Admin\FeeStructureController::class, 'destroy'])->name('admin.fees.structures.destroy');
     Route::post('/fees/bulk-generate', [\App\Http\Controllers\Admin\FeeInvoiceController::class, 'bulkGenerate'])->name('admin.fees.bulk-generate');
     Route::get('/inventory', [\App\Http\Controllers\Admin\InventoryController::class, 'index'])->name('admin.inventory');
@@ -79,6 +87,7 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     Route::post('/announcements', [\App\Http\Controllers\AnnouncementController::class, 'store'])->name('admin.announcements.store');
     Route::delete('/announcements/{id}', [\App\Http\Controllers\AnnouncementController::class, 'destroy'])->name('admin.announcements.destroy');
     Route::get('/payroll', [\App\Http\Controllers\PayrollController::class, 'index'])->name('admin.payroll');
+    Route::post('/payroll', [\App\Http\Controllers\PayrollController::class, 'store'])->name('admin.payroll.store');
     
     // ADVANCED UPGRADE ROUTES
     Route::prefix('advanced')->name('admin.')->group(function() {
@@ -177,8 +186,60 @@ Route::middleware(['auth', 'same_school', 'role:Super Admin,School Admin'])->pre
     });
 });
 
+// ACCOUNTANT ROUTES
+Route::middleware(['auth:accountant', 'same_school', 'role:Accountant'])->prefix('accountant')->name('accountant.')->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Accountant\AccountantDashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('fees', \App\Http\Controllers\Accountant\AccountantFeeController::class);
+    Route::post('fees/{fee}/collect', [\App\Http\Controllers\Accountant\AccountantFeeController::class, 'collectPayment'])->name('fees.collect');
+    Route::get('fees/{fee}/receipt', [\App\Http\Controllers\Accountant\AccountantFeeController::class, 'printReceipt'])->name('fees.receipt');
+    Route::post('fees/generate-challans', [\App\Http\Controllers\Accountant\AccountantFeeController::class, 'generateChallans'])->name('fees.generate-challans');
+    Route::get('transactions', [\App\Http\Controllers\Accountant\FeeTransactionController::class, 'index'])->name('transactions.index');
+
+    Route::get('fee-structure', [\App\Http\Controllers\Accountant\FeeStructureController::class, 'index'])->name('fee-structure.index');
+    Route::resource('fee-categories', \App\Http\Controllers\Accountant\FeeCategoryController::class);
+
+    Route::get('defaulters', [\App\Http\Controllers\Accountant\DefaulterController::class, 'index'])->name('defaulters.index');
+    Route::post('defaulters/remind-all', [\App\Http\Controllers\Accountant\DefaulterController::class, 'sendReminders'])->name('defaulters.remind-all');
+    Route::post('defaulters/{student}/remind', [\App\Http\Controllers\Accountant\DefaulterController::class, 'remind'])->name('defaulters.remind');
+
+    Route::get('payroll', [\App\Http\Controllers\Accountant\PayrollController::class, 'index'])->name('payroll.index');
+    Route::post('payroll/generate', [\App\Http\Controllers\Accountant\PayrollController::class, 'generate'])->name('payroll.generate');
+    Route::put('payroll/{payroll}', [\App\Http\Controllers\Accountant\PayrollController::class, 'update'])->name('payroll.update');
+    Route::post('payroll/{payroll}/mark-paid', [\App\Http\Controllers\Accountant\PayrollController::class, 'markPaid'])->name('payroll.mark-paid');
+    Route::get('payroll/{payroll}/slip', [\App\Http\Controllers\Accountant\PayrollController::class, 'slip'])->name('payroll.slip');
+
+    Route::resource('tax-slips', \App\Http\Controllers\Accountant\TaxSlipController::class);
+    Route::get('tax-slips/{taxSlip}/pdf', [\App\Http\Controllers\Accountant\TaxSlipController::class, 'pdf'])->name('tax-slips.pdf');
+
+    Route::resource('expenses', \App\Http\Controllers\Accountant\ExpenseController::class);
+    Route::resource('expense-categories', \App\Http\Controllers\Accountant\ExpenseCategoryController::class);
+    Route::post('expenses/{expense}/status', [\App\Http\Controllers\Accountant\ExpenseController::class, 'updateStatus'])->name('expenses.status');
+    Route::get('expenses/{expense}/voucher', [\App\Http\Controllers\Accountant\ExpenseController::class, 'voucher'])->name('expenses.voucher');
+
+    Route::resource('bank-accounts', \App\Http\Controllers\Accountant\BankAccountController::class);
+    Route::post('bank-accounts/{bankAccount}/transaction', [\App\Http\Controllers\Accountant\BankAccountController::class, 'transaction'])->name('bank-accounts.transaction');
+
+    Route::get('cash-book', [\App\Http\Controllers\Accountant\CashBookController::class, 'index'])->name('cash-book.index');
+    Route::post('cash-book', [\App\Http\Controllers\Accountant\CashBookController::class, 'store'])->name('cash-book.store');
+    Route::get('cash-book/print', [\App\Http\Controllers\Accountant\CashBookController::class, 'print'])->name('cash-book.print');
+
+    Route::get('inventory-purchases', [\App\Http\Controllers\Accountant\InventoryPurchaseController::class, 'index'])->name('inventory-purchases.index');
+    Route::post('inventory-purchases', [\App\Http\Controllers\Accountant\InventoryPurchaseController::class, 'store'])->name('inventory-purchases.store');
+
+    Route::get('reports', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/fee-collection', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'feeCollection'])->name('reports.fee-collection');
+    Route::get('reports/income-statement', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'incomeStatement'])->name('reports.income-statement');
+    Route::get('reports/expenses', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'expenses'])->name('reports.expenses');
+    Route::get('reports/payroll-summary', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'payrollSummary'])->name('reports.payroll-summary');
+    Route::get('reports/bank-statement', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'bankStatement'])->name('reports.bank-statement');
+
+    Route::get('profile', [\App\Http\Controllers\Accountant\AccountantProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [\App\Http\Controllers\Accountant\AccountantProfileController::class, 'update'])->name('profile.update');
+});
+
 // TEACHER ROUTES
-Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->group(function () {
+Route::middleware(['auth:teacher', 'same_school', 'role:Teacher'])->prefix('teacher')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\TeacherPortalController::class, 'dashboard'])->name('teacher.dashboard');
     
     Route::middleware('teacher_module:attendance')->group(function() {
@@ -293,7 +354,7 @@ Route::middleware(['auth', 'same_school', 'role:Teacher'])->prefix('teacher')->g
 });
 
 // ─── STUDENT ─────────────────────────────────────────────────────────────────
-Route::middleware(['auth', 'role:Student', 'same_school'])
+Route::middleware(['auth:student', 'role:Student', 'same_school'])
     ->prefix('student')
     ->name('student.')
     ->group(function () {
@@ -319,9 +380,10 @@ Route::middleware(['auth', 'role:Student', 'same_school'])
         Route::get('/announcements', [App\Http\Controllers\Student\AnnouncementController::class, 'index'])->name('announcements');
         Route::get('/report-card', [App\Http\Controllers\Student\ReportCardController::class, 'index'])->name('report-card');
         Route::get('/report-card/download', [App\Http\Controllers\Student\ReportCardController::class, 'download'])->name('report-card.download');
-        Route::get('/exam-schedule', [App\Http\Controllers\Student\ExamController::class, 'index'])->name('exam-schedule');
-        Route::get('/library', [App\Http\Controllers\Student\LibraryController::class, 'index'])->name('library');
-        Route::get('/transport', [App\Http\Controllers\Student\TransportController::class, 'index'])->name('transport');
+        Route::get('/exam-schedule', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exam-schedule');
+        Route::get('/api/exam-statuses', [\App\Http\Controllers\Student\ExamController::class, 'getExamStatuses'])->name('api.exam-statuses');
+        Route::get('/library', [\App\Http\Controllers\Student\LibraryController::class, 'index'])->name('library');
+        Route::get('/transport', [\App\Http\Controllers\Student\TransportController::class, 'index'])->name('transport');
         Route::get('/health-records', [App\Http\Controllers\Student\HealthController::class, 'index'])->name('health-records');
         Route::get('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'index'])->name('leave.index');
         Route::post('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'store'])->name('leave.store');
@@ -340,7 +402,7 @@ Route::middleware(['auth', 'role:Student', 'same_school'])
     });
 
 // ─── PARENT ───────────────────────────────────────────────────────────────────
-Route::middleware(['auth', 'role:Parent', 'same_school'])
+Route::middleware(['auth:parent', 'role:Parent', 'same_school'])
     ->prefix('parent')
     ->name('parent.')
     ->group(function () {
@@ -376,7 +438,7 @@ Route::middleware(['auth', 'role:Parent', 'same_school'])
     });
 
 // API ROUTES (Scoped internally in controllers based on auth()->user()->role_id)
-Route::middleware(['auth', 'same_school'])->prefix('api')->group(function () {
+Route::middleware(['auth:admin,teacher,student,parent,accountant', 'same_school'])->prefix('api')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index'])->name('api.dashboard');
     
     Route::get('/students', [\App\Http\Controllers\Api\StudentController::class, 'index'])->name('api.students.index');
@@ -392,6 +454,8 @@ Route::middleware(['auth', 'same_school'])->prefix('api')->group(function () {
     Route::get('/attendance', [\App\Http\Controllers\Api\AttendanceController::class, 'index'])->name('api.attendance.index');
     Route::post('/attendance', [\App\Http\Controllers\Api\AttendanceController::class, 'store'])->name('api.attendance.store');
     Route::get('/teacher-attendance/dashboard', [\App\Http\Controllers\Api\TeacherAttendanceController::class, 'dashboard'])->name('api.teacher-attendance.dashboard');
+    Route::get('/teacher-attendance/roster', [\App\Http\Controllers\Api\TeacherAttendanceController::class, 'roster'])->name('api.teacher-attendance.roster');
+    Route::post('/teacher-attendance/mark', [\App\Http\Controllers\Api\TeacherAttendanceController::class, 'markAttendance'])->name('api.teacher-attendance.mark');
     Route::put('/teacher-attendance/leaves/{id}/status', [\App\Http\Controllers\Api\TeacherAttendanceController::class, 'updateLeaveStatus'])->name('api.teacher-attendance.leaves.status');
     Route::get('/exams', [\App\Http\Controllers\Api\ExamController::class, 'index'])->name('api.exams');
     Route::get('/exams/marks', [\App\Http\Controllers\Api\ExamController::class, 'getMarks'])->name('api.exams.marks');
@@ -411,6 +475,28 @@ Route::post('/student/fees/easypaisa/callback', [\App\Http\Controllers\Student\O
     ->name('student.fees.easypaisa.callback');
 
 // Generic Shared Routes
-Route::middleware(['auth', 'same_school'])->group(function () {
+Route::middleware(['auth:admin,teacher,student,parent,accountant', 'same_school'])->group(function () {
     Route::get('/fees/receipt/{id}', [\App\Http\Controllers\FeeReceiptController::class, 'download'])->name('fees.receipt.download');
 });
+
+Route::post('/admin/report-card/narrative/{reportCardId}', [\App\Http\Controllers\ReportCardNarrativeController::class, 'generate'])->name('admin.report_card.narrative.generate')->middleware(['auth:admin']);
+Route::put('/admin/report-card/narrative/{id}', [\App\Http\Controllers\ReportCardNarrativeController::class, 'update'])->name('admin.report_card.narrative.update')->middleware(['auth:admin']);
+
+Route::get('/verify-certificate/{uuid}', [\App\Http\Controllers\CertificateVerificationController::class, 'verify'])->name('verify.certificate');
+
+Route::get('/student/achievements', [\App\Http\Controllers\StudentBadgeController::class, 'index'])->name('student.achievements')->middleware(['auth:student']);
+
+
+
+Route::get('/portfolio/{student_id}', [\App\Http\Controllers\StudentPortfolioController::class, 'show'])->name('public.portfolio');
+Route::get('/student/portfolio', [\App\Http\Controllers\StudentPortfolioController::class, 'myPortfolio'])->name('student.portfolio.index')->middleware(['auth:student']);
+
+
+
+Route::post('/admin/report-cards/narratives/batch-generate', [\App\Http\Controllers\ReportCardNarrativeController::class, 'batchGenerate'])->name('admin.report_cards.narratives.batch_generate');
+Route::post('/admin/report-cards/narratives/{id}/lock', [\App\Http\Controllers\ReportCardNarrativeController::class, 'lock'])->name('admin.report_cards.narratives.lock');
+Route::get('/admin/report-cards/narratives/{id}/export-pdf', [\App\Http\Controllers\ReportCardNarrativeController::class, 'exportPdf'])->name('admin.report_cards.narratives.export_pdf');
+
+
+
+Route::get('/student/portfolio/{id}/resume', [\App\Http\Controllers\StudentPortfolioController::class, 'downloadResume'])->name('student.portfolio.resume');

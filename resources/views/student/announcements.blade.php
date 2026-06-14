@@ -37,7 +37,7 @@
         </div>
 
         <div class="space-y-4">
-            @forelse($announcements as $index => $announcement)
+            @forelse($announcements as $index =>announcement)
                 @php
                     $isNew = $index < 2; // Mocking "new" status for the first 2
                     $isPinned = $index === 0; // Mocking "pinned" status for the first one

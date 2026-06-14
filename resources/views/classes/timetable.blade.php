@@ -368,8 +368,7 @@
                 if (slot.is_break) {
                     html += `
                     <tr class="border-b border-outline-variant bg-surface-container-high text-on-surface-variant text-center font-label-md text-label-md">
-                        <td class="border-r border-outline-variant p-2 text-secondary font-medium whitespace-nowrap sticky left-0 bg-surface-container-high z-10">
-                            ${slot.time}<br /><span class="text-xs">${slot.time_end}</span>
+                        <td class="border-r border-outline-variant p-2 text-secondary font-medium whitespace-nowrap sticky left-0 bg-surface-container-high z-10">${slot.time}<br /><span class="text-xs">${slot.time_end}</span>
                         </td>
                         <td class="p-2 uppercase tracking-widest text-secondary min-w-[150px] break-label-col" colspan="6">${slot.label}</td>
                     </tr>`;
@@ -402,7 +401,7 @@
                                 <span class="absolute -top-2 -right-2 bg-error text-on-error rounded-full w-5 h-5 flex items-center justify-center text-[10px]" title="Conflict"><span class="material-symbols-outlined text-[12px]">warning</span></span>
                                 <div class="font-semibold text-on-surface">${classData.subject}</div>
                                 <div class="text-error text-sm mt-1 font-medium">${classData.teacher}</div>
-                                <div class="text-on-surface-variant text-xs mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">room</span> ${classData.room}</div>
+                                <div class="text-on-surface-variant text-xs mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">room</span>${classData.room}</div>
                             </div>
                         </td>`;
                     } else {
@@ -411,7 +410,7 @@
                             <div class="bg-surface-container-low border border-outline-variant rounded p-2 h-full min-h-[80px] flex flex-col justify-center">
                                 <div class="font-semibold text-on-surface">${classData.subject}</div>
                                 <div class="text-secondary text-sm mt-1">${classData.teacher}</div>
-                                <div class="text-secondary text-xs mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">room</span> ${classData.room}</div>
+                                <div class="text-secondary text-xs mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">room</span>${classData.room}</div>
                             </div>
                         </td>`;
                     }
@@ -419,10 +418,8 @@
                 
                 html += `
                 <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors ${bgClass}">
-                    <td class="border-r border-outline-variant p-3 text-secondary font-medium whitespace-nowrap align-top sticky left-0 ${bgClass} z-10">
-                        ${slot.time}<br /><span class="text-xs text-outline">${slot.time_end}</span>
-                    </td>
-                    ${daysHtml}
+                    <td class="border-r border-outline-variant p-3 text-secondary font-medium whitespace-nowrap align-top sticky left-0 ${bgClass} z-10">${slot.time}<br /><span class="text-xs text-outline">${slot.time_end}</span>
+                    </td>${daysHtml}
                 </tr>`;
             });
             

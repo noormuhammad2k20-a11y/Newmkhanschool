@@ -63,7 +63,7 @@
                 </h3>
             </div>
             <div class="p-6 space-y-6">
-                @forelse($attempt->answers as $index => $answer)
+                @forelse($attempt->answers as $index =>answer)
                     <div class="p-6 rounded-xl border {{ $answer->is_correct ? 'border-emerald-200 bg-emerald-50/30' : 'border-red-200 bg-red-50/30' }} transition-colors">
                         <div class="flex items-start justify-between gap-4 mb-4">
                             <h4 class="text-title-md font-title-md text-on-surface flex-1">

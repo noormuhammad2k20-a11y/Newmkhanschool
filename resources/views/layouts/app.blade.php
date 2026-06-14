@@ -103,7 +103,7 @@
             }
         }
     </script>
-    <style>
+    <style type="text/tailwindcss">
         .material-symbols-outlined, .material-symbols-rounded {
             font-family: 'Material Symbols Outlined';
             font-weight: normal;
@@ -118,6 +118,18 @@
             direction: ltr;
             -webkit-font-feature-settings: 'liga';
             -webkit-font-smoothing: antialiased;
+        }
+
+        .btn-primary {
+            @apply inline-flex items-center justify-center bg-primary text-white font-semibold py-2.5 px-5 rounded-lg hover:bg-[#000444] transition-all shadow-sm;
+        }
+
+        .btn-outline {
+            @apply inline-flex items-center justify-center border border-outline-variant bg-surface text-on-surface font-semibold py-2.5 px-5 rounded-lg hover:bg-surface-container-high transition-all;
+        }
+
+        .input-field {
+            @apply w-full border border-outline-variant bg-surface-container-lowest rounded-lg px-4 py-2.5 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all;
         }
 
         .bento-grid {
@@ -153,7 +165,7 @@
         }
     </style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<body class="bg-background text-on-background font-body-md min-h-screen flex" style="zoom: 0.8;">
     <!-- Mobile Sidebar Overlay -->
     <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
@@ -171,14 +183,11 @@
                         if(auth()->check()) {
                             switch(auth()->user()->role_id) {
                                 case 1:
-                                case 2:
-                                    $portalName = 'Admin Portal'; break;
-                                case 3:
-                                    $portalName = 'Teacher Portal'; break;
-                                case 4:
-                                    $portalName = 'Student Portal'; break;
-                                case 5:
-                                    $portalName = 'Parent Portal'; break;
+                                case 2: $portalName = 'Admin Portal'; break;
+                                case 3: $portalName = 'Teacher Portal'; break;
+                                case 4: $portalName = 'Student Portal'; break;
+                                case 5: $portalName = 'Parent Portal'; break;
+                                case 6: $portalName = 'Accountant Portal'; break;
                             }
                         }
                     @endphp
@@ -366,6 +375,8 @@
                     </a>
                 </li>
 
+
+
                 <li class="px-md py-xs mt-sm">
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">System Settings</span>
                 </li>
@@ -376,6 +387,85 @@
                     </a>
                 </li>
 
+
+            @elseif(auth()->check() && auth()->user()->role_id == 6)
+                <!-- Accountant Links -->
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.dashboard*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.dashboard') }}">
+                        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                        <span class="font-label-md text-label-md">Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="px-md py-xs mt-sm">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Fee Management</span>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.fees*') || request()->routeIs('accountant.transactions*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.fees.index') }}">
+                        <span class="material-symbols-outlined" data-icon="payments">payments</span>
+                        <span class="font-label-md text-label-md">Fee Collection</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.fee-structure*') || request()->routeIs('accountant.fee-categories*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.fee-structure.index') }}">
+                        <span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                        <span class="font-label-md text-label-md">Fee Structure</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.defaulters*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.defaulters.index') }}">
+                        <span class="material-symbols-outlined" data-icon="warning">warning</span>
+                        <span class="font-label-md text-label-md">Defaulters</span>
+                    </a>
+                </li>
+
+                <li class="px-md py-xs mt-sm">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Financial Operations</span>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.payroll*') || request()->routeIs('accountant.tax-slips*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.payroll.index') }}">
+                        <span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                        <span class="font-label-md text-label-md">Payroll</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.expenses*') || request()->routeIs('accountant.expense-categories*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.expenses.index') }}">
+                        <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+                        <span class="font-label-md text-label-md">Expenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.bank-accounts*') || request()->routeIs('accountant.cash-book*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.bank-accounts.index') }}">
+                        <span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+                        <span class="font-label-md text-label-md">Banking & Cash Book</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.inventory-purchases*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.inventory-purchases.index') }}">
+                        <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                        <span class="font-label-md text-label-md">Inventory Purchases</span>
+                    </a>
+                </li>
+
+                <li class="px-md py-xs mt-sm">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Reporting</span>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.reports*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.reports.index') }}">
+                        <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                        <span class="font-label-md text-label-md">Reports</span>
+                    </a>
+                </li>
+
+                <li class="px-md py-xs mt-sm">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Settings</span>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('accountant.profile*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('accountant.profile.edit') }}">
+                        <span class="material-symbols-outlined" data-icon="manage_accounts">manage_accounts</span>
+                        <span class="font-label-md text-label-md">My Profile</span>
+                    </a>
+                </li>
 
             @elseif(auth()->check() && auth()->user()->role_id == 3)
                 @php
@@ -740,8 +830,20 @@
             <div class="px-md py-xs mt-sm">
                 <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Account</span>
             </div>
-            <form method="POST" action="{{ route('logout') }}" class="m-0">
+            <form method="POST" action="{{ route('logout') }}" class="m-0" data-no-ajax>
                 @csrf
+                @php
+                    $user = Auth::user();
+                    $currentGuard = 'web';
+                    if ($user) {
+                        if (in_array($user->role_id, [1, 2])) $currentGuard = 'admin';
+                        elseif ($user->role_id == 3) $currentGuard = 'teacher';
+                        elseif ($user->role_id == 4) $currentGuard = 'student';
+                        elseif ($user->role_id == 5) $currentGuard = 'parent';
+                        elseif ($user->role_id == 6) $currentGuard = 'accountant';
+                    }
+                @endphp
+                <input type="hidden" name="guard" value="{{ $currentGuard }}">
                 <button type="submit" class="w-full flex items-center gap-md px-md py-sm rounded-lg text-secondary hover:bg-surface-container-high transition-transform duration-200 ease-in-out">
                     <span class="material-symbols-outlined" data-icon="logout">logout</span>
                     <span class="font-label-md text-label-md">Logout</span>
@@ -1230,7 +1332,7 @@
                             window.UI.showToast('Operation completed.', 'success');
                         }
 
-                        reattachConfirmInterceptors();
+                        // reattachConfirmInterceptors(); // Removed undefined function call
                     } else {
                         // Unknown response — check if it might be a file download
                         if (response.headers.get('content-disposition')?.includes('attachment')) {

@@ -17,7 +17,11 @@ class Student extends Model
         'b_form_number','father_name','father_cnic','mobile_number',
         'current_class_id','current_section_id','status','exam_roll',
         'class_admitted','admission_date','previous_school','placeofbirth',
-        'address','religion','caste','photo','current_school',
+        'address','religion','caste','photo','current_school', 'is_tuition'
+    ];
+
+    protected $casts = [
+        'is_tuition' => 'boolean',
     ];
 
     protected static function booted(): void

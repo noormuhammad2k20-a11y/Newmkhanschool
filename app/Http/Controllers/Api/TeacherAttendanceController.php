@@ -93,4 +93,58 @@ class TeacherAttendanceController extends Controller
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+    public function roster(Request $request)
+    {
+        try {
+            $date = $request->input('date', Carbon::today()->toDateString());
+            $teachers = Teacher::all();
+            $attendances = TeacherAttendance::where('date', $date)->get()->keyBy('teacher_id');
+
+            $roster = $teachers->map(function($teacher) use ($attendances) {
+                $attendance = $attendances->get($teacher->id);
+                return [
+                    'id' => $teacher->id,
+                    'full_name' => $teacher->full_name,
+                    'employee_number' => $teacher->employee_number,
+                    'status' => $attendance ? $attendance->status : null,
+                ];
+            });
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $roster
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function markAttendance(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date',
+            'attendances' => 'required|array',
+            'attendances.*.teacher_id' => 'required|exists:teachers,id',
+            'attendances.*.status' => 'required|in:P,A,L,HD',
+        ]);
+
+        try {
+            $date = $request->date;
+            $attendances = $request->attendances;
+
+            foreach ($attendances as $record) {
+                TeacherAttendance::updateOrCreate(
+                    ['teacher_id' => $record['teacher_id'], 'date' => $date],
+                    ['status' => $record['status']]
+                );
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Attendance marked successfully.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
 }
