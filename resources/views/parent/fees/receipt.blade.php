@@ -13,6 +13,10 @@
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">Payment Receipt</h2>
             </div>
             <div class="flex items-center gap-3 print:hidden">
+                <a href="{{ route('parent.child.fees.receipt.pdf', ['student_id' => $student->id, 'fee_id' => $fee->id]) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-error text-on-error rounded-lg font-label-md hover:bg-error/90 transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                    Download PDF
+                </a>
                 <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors shadow-sm">
                     <span class="material-symbols-outlined text-[18px]">print</span>
                     Print Receipt

@@ -83,9 +83,18 @@
                                             </span>
                                         </td>
                                         <td class="py-4 px-4 text-right">
-                                            <button type="button" onclick="openManageModal({{ $class->id }}, '{{ addslashes($class->name) }}')" class="btn-outline py-1.5 px-3 text-sm h-auto inline-flex items-center gap-1 hover:text-primary hover:border-primary/50 transition-colors">
-                                                <span class="material-symbols-outlined text-[16px]">settings</span> Manage
-                                            </button>
+                                            <div class="flex items-center justify-end gap-2">
+                                                <button type="button" onclick="openManageModal({{ $class->id }}, '{{ addslashes($class->name) }}')" class="text-secondary hover:text-primary p-1.5 rounded-md hover:bg-primary-container/20 transition-colors" title="Edit Class Structure">
+                                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                                </button>
+                                                
+                                                <form action="{{ route('admin.academics.classes.destroy', $class->id) }}" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to delete this class? This will also delete all its subjects and sections. This action cannot be undone.');">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit" class="text-secondary hover:text-error p-1.5 rounded-md hover:bg-error-container transition-colors" title="Delete Class">
+                                                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -333,77 +342,60 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeManageModal()"></div>
     
     <!-- Modal Panel -->
-    <div class="fixed inset-y-0 right-0 max-w-md w-full bg-surface shadow-2xl flex flex-col transform transition-transform translate-x-full duration-300 ease-in-out" id="manageModalPanel">
-        <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between bg-surface-container-lowest">
+    <div class="fixed inset-0 m-auto max-w-4xl w-full h-fit max-h-[90vh] bg-surface shadow-2xl flex flex-col rounded-xl overflow-hidden transform transition-all scale-95 opacity-0 duration-300 ease-out" id="manageModalPanel">
+        <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between bg-surface-container-lowest shrink-0">
             <div>
                 <h3 class="text-headline-md font-headline-md text-on-surface" id="modalClassName">Class Name</h3>
-                <p class="text-body-sm font-body-sm text-secondary">Manage class subjects</p>
+                <p class="text-body-sm font-body-sm text-secondary">Manage subjects for this class</p>
             </div>
             <button type="button" onclick="closeManageModal()" class="text-secondary hover:text-on-surface p-2 rounded-full hover:bg-surface-container h-10 w-10 flex items-center justify-center transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
         
-        <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+        <div class="flex-1 flex flex-col overflow-hidden min-h-[50vh] max-h-[80vh]">
             
-            <!-- Existing Sections List -->
-            <div>
-                <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-label-lg font-label-lg font-semibold text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary text-[20px]">groups</span> Sections
+            <!-- Content: Subjects -->
+            <div class="w-full bg-surface p-6 flex flex-col overflow-y-auto">
+                
+                <!-- Add Subject Form (Horizontal) -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 mb-6 shadow-sm">
+                    <h4 class="text-label-md font-label-md font-semibold mb-3 flex items-center gap-2 text-on-surface">
+                        <span class="material-symbols-outlined text-primary text-[18px]">add_circle</span> Quick Add Subject
                     </h4>
-                    <span class="text-xs font-semibold bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full" id="modalSectionCount">0</span>
+                    <form action="{{ route('admin.academics.subjects.store') }}" method="POST" class="flex flex-col sm:flex-row gap-3 items-end">
+                        @csrf
+                        <input type="hidden" name="class_id" id="modalClassId">
+                        <div class="flex-1 w-full">
+                            <label class="block text-xs font-medium text-secondary mb-1">Subjects (Comma Separated) <span class="text-error">*</span></label>
+                            <input name="name" class="w-full bg-surface border border-outline-variant rounded-md py-1.5 px-3 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. Math, Science" type="text" required />
+                        </div>
+                        <div class="w-full sm:w-32 shrink-0">
+                            <label class="block text-xs font-medium text-secondary mb-1">Code (Optional)</label>
+                            <input name="code" class="w-full bg-surface border border-outline-variant rounded-md py-1.5 px-3 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary" placeholder="MTH-101" type="text" />
+                        </div>
+                        <button type="submit" class="w-full sm:w-auto bg-primary text-on-primary px-5 py-1.5 h-[34px] rounded-md text-label-sm hover:bg-primary-dark transition-colors font-semibold shadow-sm flex items-center justify-center shrink-0">
+                            Add Subjects
+                        </button>
+                    </form>
                 </div>
-                <div id="modalSectionsList" class="flex flex-wrap gap-2">
-                    <!-- Sections will be injected here via JS -->
-                </div>
-            </div>
 
-            <!-- Add Subject Form -->
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4">
-                <h4 class="text-label-lg font-label-lg font-semibold mb-3 flex items-center gap-2 text-on-surface">
-                    <span class="material-symbols-outlined text-primary text-[20px]">add_circle</span> Add New Subject
-                </h4>
-                <form action="{{ route('admin.academics.subjects.store') }}" method="POST" class="flex flex-col gap-3">
-                    @csrf
-                    <input type="hidden" name="class_id" id="modalClassId">
-                    <div>
-                        <label class="block text-label-sm font-label-sm text-secondary mb-1">Subjects (Comma Separated) <span class="text-error">*</span></label>
-                        <input name="name" class="w-full bg-surface border border-outline-variant rounded-md py-2 px-3 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. Math, Science" type="text" required />
+                <!-- Existing Subjects List -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-label-lg font-label-lg font-semibold text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-[20px]">menu_book</span> Assigned Subjects
+                        </h4>
+                        <span class="text-xs font-semibold bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full shadow-sm" id="modalSubjectCount">0</span>
                     </div>
-                    <div>
-                        <label class="block text-label-sm font-label-sm text-secondary mb-1">Subject Code (Optional)</label>
-                        <input name="code" class="w-full bg-surface border border-outline-variant rounded-md py-2 px-3 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. MTH-101" type="text" />
+                    
+                    <div id="modalSubjectsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Subjects will be injected here via JS -->
                     </div>
-                    <button type="submit" class="bg-primary text-on-primary py-2 rounded-md text-label-sm hover:bg-primary-dark transition-colors w-full font-semibold mt-1">
-                        Add Subject
-                    </button>
-                </form>
-            </div>
-
-            <!-- Existing Subjects List -->
-            <div>
-                <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-label-lg font-label-lg font-semibold text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary text-[20px]">menu_book</span> Existing Subjects
-                    </h4>
-                    <span class="text-xs font-semibold bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full" id="modalSubjectCount">0</span>
                 </div>
                 
-                <div id="modalSubjectsList" class="flex flex-col gap-2">
-                    <!-- Subjects will be injected here via JS -->
-                </div>
             </div>
             
-            <!-- Delete Class -->
-            <div class="mt-auto pt-4 border-t border-outline-variant">
-                <form id="deleteClassForm" method="POST" onsubmit="return confirm('WARNING: Are you sure you want to delete this class? This will also delete all its subjects. This action cannot be undone.');">
-                    @csrf @method('DELETE')
-                    <button type="submit" class="w-full border border-error text-error py-2 rounded-md hover:bg-error-container transition-colors text-label-sm font-semibold flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">delete</span> Delete Entire Class
-                    </button>
-                </form>
-            </div>
         </div>
     </div>
 </div>
@@ -422,48 +414,27 @@
     const modalClassId = document.getElementById('modalClassId');
     const modalSubjectsList = document.getElementById('modalSubjectsList');
     const modalSubjectCount = document.getElementById('modalSubjectCount');
-    const modalSectionsList = document.getElementById('modalSectionsList');
-    const modalSectionCount = document.getElementById('modalSectionCount');
-    const deleteClassForm = document.getElementById('deleteClassForm');
 
     window.openManageModal = function(classId, className) {
         modalClassName.textContent = className;
         modalClassId.value = classId;
         
-        // Update delete class form action
-        deleteClassForm.action = `/admin/academics/classes/${classId}`;
-        
-        renderSectionsList(classId);
         renderSubjectsList(classId);
         
         manageModal.classList.remove('hidden');
         setTimeout(() => {
-            manageModalPanel.classList.remove('translate-x-full');
+            manageModalPanel.classList.remove('scale-95', 'opacity-0');
+            manageModalPanel.classList.add('scale-100', 'opacity-100');
         }, 10);
     };
 
     window.closeManageModal = function() {
-        manageModalPanel.classList.add('translate-x-full');
+        manageModalPanel.classList.remove('scale-100', 'opacity-100');
+        manageModalPanel.classList.add('scale-95', 'opacity-0');
         setTimeout(() => {
             manageModal.classList.add('hidden');
         }, 300);
     };
-
-    function renderSectionsList(classId) {
-        const classSections = sectionsData.filter(s => s.class_id == classId);
-        modalSectionCount.textContent = classSections.length;
-        
-        if (classSections.length === 0) {
-            modalSectionsList.innerHTML = `<span class="text-secondary italic text-sm">No sections</span>`;
-            return;
-        }
-        
-        let html = '';
-        classSections.forEach(section => {
-            html += `<span class="inline-flex items-center bg-surface-variant text-on-surface text-xs font-medium px-2.5 py-1 rounded-md border border-outline-variant/50 shadow-sm">${section.name}</span>`;
-        });
-        modalSectionsList.innerHTML = html;
-    }
 
     function renderSubjectsList(classId) {
         const classSubjects = subjectsData.filter(s => s.class_id == classId);

@@ -8,5 +8,9 @@ class Subject extends Model
 {
     const UPDATED_AT = null;
 
-    //
+    protected $fillable = [
+        'name',
+        'code',
+        'class_id'
+    ];
 }

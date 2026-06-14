@@ -212,11 +212,11 @@
         leaves.forEach(leave => {
             html += `
                 <tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
-                    <td class="py-md px-md font-semibold">{leave.teacher_name}</td>
-                    <td class="py-md px-md">{leave.leave_type}</td>
-                    <td class="py-md px-md">{leave.duration}</td>
+                    <td class="py-md px-md font-semibold">${leave.teacher_name}</td>
+                    <td class="py-md px-md">${leave.leave_type}</td>
+                    <td class="py-md px-md">${leave.duration}</td>
                     <td class="py-md px-md">
-                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[10px] uppercase">{leave.status}</span>
+                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[10px] uppercase">${leave.status}</span>
                     </td>
                     <td class="py-md px-md text-right space-x-2">
                         <button onclick="updateLeave(${leave.id}, 'Approved')" class="px-3 py-1 bg-secondary-container text-primary font-label-md text-label-md rounded hover:bg-primary-container hover:text-on-primary transition-colors">Approve</button>
@@ -260,15 +260,15 @@
             html += `
                 <div class="flex items-center justify-between p-sm rounded transition-colors ${containerClass}">
                     <div class="flex items-center gap-sm">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-label-md text-label-md uppercase ${bgClass}">{initials}</div>
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-label-md text-label-md uppercase ${bgClass}">${initials}</div>
                         <div>
-                            <p class="font-body-md text-body-md font-semibold text-on-surface leading-tight">{log.teacher_name}</p>
-                            <p class="font-label-md text-label-md text-secondary">{log.department}</p>
+                            <p class="font-body-md text-body-md font-semibold text-on-surface leading-tight">${log.teacher_name}</p>
+                            <p class="font-label-md text-label-md text-secondary">${log.department}</p>
                         </div>
                     </div>
                     <div class="text-right">
                         <p class="font-label-md text-label-md flex items-center gap-1 justify-end ${timeColor}">
-                            <span class="material-symbols-outlined" style="font-size: 14px;">{statusIcon}</span>{log.time}
+                            <span class="material-symbols-outlined" style="font-size: 14px;">${statusIcon}</span>${log.time}
                         </p>
                     </div>
                 </div>

@@ -48,10 +48,37 @@ class TeacherPortalController extends Controller
             ->get();
 
         $aiGradedCount = \App\Models\AssignmentSubmission::where('status', 'graded')->whereHas('assignment', function($q) use($teacher) { $q->where('teacher_id', $teacher?->id); })->count();
-        $seatingPlansCount = class_exists(\App\Models\SeatingPlan::class) ? \App\Models\SeatingPlan::where('teacher_id', $teacher?->id)->count() : 0;
+        $seatingPlansCount = 0;
+        if (class_exists(\App\Models\SeatingPlan::class) && \Illuminate\Support\Facades\Schema::hasTable('seating_plans')) {
+            $seatingPlansCount = \App\Models\SeatingPlan::where('teacher_id', $teacher?->id)->count();
+        }
         $pendingSubmissionsCount = \App\Models\AssignmentSubmission::where('status', 'submitted')->whereHas('assignment', function($q) use($teacher) { $q->where('teacher_id', $teacher?->id); })->count();
 
-        return view('teacher.dashboard', compact('classesCount', 'subjectsCount', 'totalStudents', 'pendingAssignments', 'todaysTimetable', 'announcements', 'aiGradedCount', 'seatingPlansCount', 'pendingSubmissionsCount')); 
+        // S-01: Attendance Pattern — students with 3+ absences this month
+        $currentMonthAbsentees = collect();
+        if ($classIds->isNotEmpty()) {
+            $currentMonthAbsentees = DB::table('student_attendances')
+                ->join('students', 'student_attendances.student_id', '=', 'students.id')
+                ->leftJoin('classes', 'students.current_class_id', '=', 'classes.id')
+                ->whereIn('students.current_class_id', $classIds)
+                ->whereNull('students.deleted_at')
+                ->whereMonth('student_attendances.date', now()->month)
+                ->whereYear('student_attendances.date', now()->year)
+                ->where('student_attendances.status', 'A')
+                ->select(
+                    'students.id as student_id',
+                    'students.first_name',
+                    'students.last_name',
+                    'classes.name as class_name',
+                    DB::raw('COUNT(*) as absent_count')
+                )
+                ->groupBy('students.id', 'students.first_name', 'students.last_name', 'classes.name')
+                ->having('absent_count', '>=', 3)
+                ->orderByDesc('absent_count')
+                ->get();
+        }
+
+        return view('teacher.dashboard', compact('classesCount', 'subjectsCount', 'totalStudents', 'pendingAssignments', 'todaysTimetable', 'announcements', 'aiGradedCount', 'seatingPlansCount', 'pendingSubmissionsCount', 'currentMonthAbsentees')); 
     }
 
     // 2. Attendance
@@ -457,7 +484,7 @@ class TeacherPortalController extends Controller
         $teacher = $this->getTeacher();
         $leaves = [];
         if ($teacher) {
-            $leaves = DB::table('teacher_leaves')->where('teacher_id', $teacher->id)->orderBy('created_at', 'desc')->get();
+            $leaves = DB::table('teacher_leave_requests')->where('teacher_id', $teacher->id)->orderBy('created_at', 'desc')->get();
         }
         return view('teacher.leaves', compact('leaves')); 
     }
@@ -471,11 +498,14 @@ class TeacherPortalController extends Controller
         
         $teacher = $this->getTeacher();
         if($teacher) {
-            DB::table('teacher_leaves')->insert([
+            $total_days = Carbon::parse($request->start_date)->diffInDays(Carbon::parse($request->end_date)) + 1;
+            DB::table('teacher_leave_requests')->insert([
                 'teacher_id' => $teacher->id,
                 'leave_type' => $request->leave_type,
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
+                'total_days' => $total_days,
+                'reason' => $request->reason ?? null,
                 'status' => 'Pending',
                 'created_at' => now(),
             ]);

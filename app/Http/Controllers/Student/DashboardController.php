@@ -98,4 +98,47 @@ class DashboardController extends Controller
             'recentNotes', 'upcomingQuizzes'
         ));
     }
+
+    // S-02: My Progress Timeline
+    public function progress()
+    {
+        $student = auth()->user()->student;
+        abort_if(!$student, 403, 'Student record not found.');
+
+        $marks = \App\Models\Mark::where('student_id', $student->id)
+            ->with(['subject:id,name', 'examSchedule:id,exam_date,exam_type'])
+            ->orderBy('created_at')
+            ->get();
+
+        // Per-subject group for Chart.js
+        $chartData = [];
+        foreach ($marks->groupBy('subject_id') as $subjectId => $subjectMarks) {
+            $subjectName = $subjectMarks->first()->subject->name ?? 'Subject';
+            $chartData[] = [
+                'label' => $subjectName,
+                'data'  => $subjectMarks->map(fn($m) => [
+                    'x' => optional($m->examSchedule)->exam_date ?? $m->created_at->format('Y-m-d'),
+                    'y' => (float) $m->percentage,
+                ])->values()->toArray(),
+            ];
+        }
+
+        $subjects = \App\Models\Subject::whereIn('id', $marks->pluck('subject_id')->unique())->get();
+
+        return view('student.progress', compact('marks', 'chartData', 'subjects'));
+    }
+
+    // S-08: Quiz Results
+    public function quizResults()
+    {
+        $student = auth()->user()->student;
+        abort_if(!$student, 403, 'Student record not found.');
+
+        $attempts = \App\Models\QuizAttempt::where('student_id', $student->id)
+            ->with(['quiz' => fn($q) => $q->with('subject:id,name')])
+            ->orderByDesc('submitted_at')
+            ->get();
+
+        return view('student.quiz_results', compact('attempts'));
+    }
 }

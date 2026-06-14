@@ -50,4 +50,18 @@ class FeePaymentController extends BaseParentController
         
         return view('parent.fees.receipt', compact('student', 'fee'));
     }
+
+    // S-03: PDF Receipt Download
+    public function downloadReceiptPdf($student_id, $fee_id)
+    {
+        abort_unless($this->parentOwnsStudent($student_id), 403);
+        $student = Student::with(['currentClass', 'currentSection'])->findOrFail($student_id);
+        $fee = Fee::where('student_id', $student_id)->findOrFail($fee_id);
+        $school = \App\Models\School::find(1);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.fee_receipt', compact('student', 'fee', 'school'))
+                  ->setPaper('a5', 'portrait');
+
+        return $pdf->download('Receipt-' . ($fee->transaction_id ?? $fee->challan_no ?? $fee->id) . '.pdf');
+    }
 }

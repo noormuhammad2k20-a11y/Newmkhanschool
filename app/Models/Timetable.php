@@ -12,9 +12,9 @@ class Timetable extends Model
     protected $fillable = [
         'timetable_version_id',
         'class_id',
-        'section_id',
+        // 'section_id', -- S-09: removed, use section_id_ref instead
         'section_id_ref',
-        'subject',
+        // 'subject', -- S-09: removed, use subject_id_ref instead
         'subject_id_ref',
         'teacher',
         'teacher_id',

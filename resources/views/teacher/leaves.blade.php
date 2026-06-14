@@ -73,9 +73,9 @@
                 <div>
                     <label class="block text-label-md text-on-surface mb-1">Leave Type</label>
                     <select name="leave_type" required class="w-full bg-surface-bright border border-outline-variant rounded p-2 text-body-md text-on-surface">
-                        <option value="Sick Leave">Sick Leave</option>
-                        <option value="Casual Leave">Casual Leave</option>
-                        <option value="Emergency Leave">Emergency Leave</option>
+                        <option value="Sick">Sick Leave</option>
+                        <option value="Casual">Casual Leave</option>
+                        <option value="Emergency">Emergency Leave</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>

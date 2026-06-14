@@ -110,6 +110,11 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
         Route::get('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'rules'])->name('promotions.rules');
         Route::post('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'saveRule'])->name('promotions.rules.save');
 
+        // S-06: Report Card Generation
+        Route::get('/report-cards', [\App\Http\Controllers\Admin\ReportCardController::class, 'index'])->name('reportcards.index');
+        Route::post('/report-cards/generate', [\App\Http\Controllers\Admin\ReportCardController::class, 'generate'])->name('reportcards.generate');
+        Route::get('/report-cards/{id}/pdf', [\App\Http\Controllers\Admin\ReportCardController::class, 'downloadPdf'])->name('reportcards.pdf');
+
         // Document Generation
         Route::get('/documents', [\App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('documents.index');
         Route::get('/documents/create', [\App\Http\Controllers\Admin\DocumentController::class, 'create'])->name('documents.create');
@@ -387,6 +392,11 @@ Route::middleware(['auth:student', 'role:Student', 'same_school'])
         Route::get('/health-records', [App\Http\Controllers\Student\HealthController::class, 'index'])->name('health-records');
         Route::get('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'index'])->name('leave.index');
         Route::post('/leave-requests', [App\Http\Controllers\Student\LeaveController::class, 'store'])->name('leave.store');
+
+        // S-02: Progress Timeline
+        Route::get('/progress', [App\Http\Controllers\Student\DashboardController::class, 'progress'])->name('progress');
+        // S-08: Quiz Results
+        Route::get('/quiz-results', [App\Http\Controllers\Student\DashboardController::class, 'quizResults'])->name('quiz-results');
         
 
         Route::get('/messages', [App\Http\Controllers\Student\MessageController::class, 'index'])->name('messages');
@@ -415,6 +425,8 @@ Route::middleware(['auth:parent', 'role:Parent', 'same_school'])
         Route::get('/children/{student_id}/fees/{fee_id}/pay', [App\Http\Controllers\ParentPortal\FeePaymentController::class, 'showPaymentForm'])->name('child.fees.pay');
         Route::post('/children/{student_id}/fees/{fee_id}/process', [App\Http\Controllers\ParentPortal\FeePaymentController::class, 'processPayment'])->name('child.fees.process');
         Route::get('/children/{student_id}/fees/{fee_id}/receipt', [App\Http\Controllers\ParentPortal\FeePaymentController::class, 'receipt'])->name('child.fees.receipt');
+        // S-03: PDF Receipt Download
+        Route::get('/children/{student_id}/fees/{fee_id}/receipt/pdf', [App\Http\Controllers\ParentPortal\FeePaymentController::class, 'downloadReceiptPdf'])->name('child.fees.receipt.pdf');
         Route::get('/children/{student_id}/timetable', [App\Http\Controllers\ParentPortal\TimetableController::class, 'show'])->name('child.timetable');
         Route::get('/children/{student_id}/assignments', [App\Http\Controllers\ParentPortal\AssignmentController::class, 'show'])->name('child.assignments');
         Route::get('/children/{student_id}/exam-schedule', [App\Http\Controllers\ParentPortal\ExamController::class, 'show'])->name('child.exam-schedule');

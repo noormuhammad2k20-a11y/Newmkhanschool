@@ -346,6 +346,12 @@
                         <span class="font-label-md text-label-md">Promotions</span>
                     </a>
                 </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.reportcards*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.reportcards.index') }}">
+                        <span class="material-symbols-outlined" data-icon="grading">grading</span>
+                        <span class="font-label-md text-label-md">Report Cards</span>
+                    </a>
+                </li>
 
                 <li class="px-md py-xs mt-sm">
                     <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">AI Modules</span>
@@ -652,6 +658,12 @@
                     </a>
                 </li>
                 <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.progress*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.progress') }}">
+                        <span class="material-symbols-outlined" data-icon="show_chart">show_chart</span>
+                        <span class="font-label-md text-label-md">My Progress</span>
+                    </a>
+                </li>
+                <li>
                     <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.fees*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.fees') }}">
                         <span class="material-symbols-outlined" data-icon="payments">payments</span>
                         <span class="font-label-md text-label-md">Fee Status</span>
@@ -709,6 +721,12 @@
                     <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.announcements*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.announcements') }}">
                         <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
                         <span class="font-label-md text-label-md">Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('student.quiz-results*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('student.quiz-results') }}">
+                        <span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+                        <span class="font-label-md text-label-md">Quiz Results</span>
                     </a>
                 </li>
                 <li>

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\TeacherAttendance;
-use App\Models\TeacherLeave;
+use App\Models\TeacherLeaveRequest;
 use Carbon\Carbon;
 
 class TeacherAttendanceController extends Controller
@@ -19,7 +19,7 @@ class TeacherAttendanceController extends Controller
             // Stats
             $totalPresent = TeacherAttendance::where('date', $today)->where('status', 'P')->count();
             
-            $onLeave = TeacherLeave::where('status', 'Approved')
+            $onLeave = TeacherLeaveRequest::where('status', 'Approved')
                 ->where('start_date', '<=', $today)
                 ->where('end_date', '>=', $today)
                 ->count();
@@ -42,7 +42,7 @@ class TeacherAttendanceController extends Controller
                 });
 
             // Pending Leaves
-            $pendingLeaves = TeacherLeave::with('teacher')
+            $pendingLeaves = TeacherLeaveRequest::with('teacher')
                 ->where('status', 'Pending')
                 ->orderBy('created_at', 'desc')
                 ->get()
@@ -81,7 +81,7 @@ class TeacherAttendanceController extends Controller
         ]);
 
         try {
-            $leave = TeacherLeave::findOrFail($id);
+            $leave = TeacherLeaveRequest::findOrFail($id);
             $leave->status = $request->status;
             $leave->save();
 

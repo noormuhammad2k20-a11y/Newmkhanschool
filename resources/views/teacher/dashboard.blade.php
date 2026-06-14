@@ -208,6 +208,53 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- S-01: Attendance Pattern Alert Card --}}
+                @if(isset($currentMonthAbsentees) && $currentMonthAbsentees->count() > 0)
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+                    <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                                <span class="material-symbols-outlined text-[22px]">warning</span>
+                            </div>
+                            <div>
+                                <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Alert — {{ now()->format('F Y') }}</h3>
+                                <p class="text-body-md font-body-md text-secondary">Students with 3+ absences this month</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-label-md font-label-md">
+                            {{ $currentMonthAbsentees->count() }} {{ $currentMonthAbsentees->count() === 1 ? 'Student' : 'Students' }}
+                        </span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-surface-container-low text-label-md font-label-md text-secondary border-b border-outline-variant">
+                                    <th class="py-3 px-4 font-semibold">#</th>
+                                    <th class="py-3 px-4 font-semibold">Student Name</th>
+                                    <th class="py-3 px-4 font-semibold">Class</th>
+                                    <th class="py-3 px-4 font-semibold">Absences This Month</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-body-md font-body-md">
+                                @foreach($currentMonthAbsentees as $i => $row)
+                                <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+                                    <td class="py-3 px-4 text-secondary">{{ $i + 1 }}</td>
+                                    <td class="py-3 px-4 font-medium text-on-surface">{{ $row->first_name }} {{ $row->last_name }}</td>
+                                    <td class="py-3 px-4 text-secondary">{{ $row->class_name ?? '—' }}</td>
+                                    <td class="py-3 px-4">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold {{ $row->absent_count >= 5 ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700' }}">
+                                            <span class="material-symbols-outlined text-[14px]">event_busy</span>
+                                            {{ $row->absent_count }} days
+                                        </span>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @endif
             </div>
         </main>
 @endsection

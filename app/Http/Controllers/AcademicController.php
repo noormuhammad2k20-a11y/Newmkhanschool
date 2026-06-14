@@ -52,9 +52,7 @@ class AcademicController extends Controller
             foreach(array_filter($sections) as $sectionName) {
                 \App\Models\Section::create([
                     'name' => $sectionName,
-                    'class_id' => $class->id,
-                    'capacity' => 40,
-                    'status' => 'active'
+                    'class_id' => $class->id
                 ]);
             }
         }
@@ -64,6 +62,7 @@ class AcademicController extends Controller
             foreach(array_filter($subjects) as $subName) {
                 Subject::create([
                     'name' => $subName,
+                    'code' => strtoupper(substr(preg_replace('/[^A-Za-z]/', '', $subName), 0, 3)),
                     'class_id' => $class->id
                 ]);
             }
@@ -96,7 +95,9 @@ class AcademicController extends Controller
         foreach (array_filter($subjectNames) as $subName) {
             $subject = new Subject();
             $subject->name = $subName;
-            $subject->code = count($subjectNames) === 1 ? $request->code : null; // Only apply code if it's a single subject
+            $subject->code = (count($subjectNames) === 1 && !empty($request->code)) 
+                             ? $request->code 
+                             : strtoupper(substr(preg_replace('/[^A-Za-z]/', '', $subName), 0, 3));
             $subject->class_id = $request->class_id;
             $subject->save();
         }
