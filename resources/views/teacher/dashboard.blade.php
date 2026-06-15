@@ -146,9 +146,9 @@
                 </div>
 
                 <!-- Tables Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+                <div class="grid grid-cols-1 gap-md">
                     <!-- Table 1: Today's Classes -->
-                    <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                         <div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
                             <h3 class="text-headline-md font-headline-md text-on-surface">Today's Schedule</h3>
                             <a href="{{ route('teacher.timetable') }}" class="text-primary text-label-md font-label-md hover:underline">View Timetable</a>
@@ -188,25 +188,7 @@
                             </table>
                         </div>
                     </div>
-                    <!-- Table 2: Recent Announcements -->
-                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-                        <div class="p-md border-b border-outline-variant bg-surface-bright">
-                            <h3 class="text-headline-md font-headline-md text-on-surface">Announcements</h3>
-                        </div>
-                        <div class="p-md flex-1">
-                            <ul class="space-y-4">
-                                <li class="pb-3 border-b border-outline-variant border-opacity-50">
-                                    <p class="font-medium text-body-md text-on-surface">Mid-Term Exams Schedule</p>
-                                    <p class="text-xs text-secondary mt-0.5">Please submit your question papers by Friday.</p>
-                                </li>
-                                <li class="pb-3 border-b border-outline-variant border-opacity-50">
-                                    <p class="font-medium text-body-md text-on-surface">Staff Meeting</p>
-                                    <p class="text-xs text-secondary mt-0.5">Mandatory staff meeting today at 3:00 PM in the Main Hall.</p>
-                                </li>
-                            </ul>
-                            <a href="{{ route('teacher.announcements') }}" class="block text-center w-full mt-4 py-2 border border-outline-variant rounded-lg text-label-md font-label-md text-secondary hover:bg-surface-container-low transition-colors">View All Notices</a>
-                        </div>
-                    </div>
+
                 </div>
 
                 {{-- S-01: Attendance Pattern Alert Card --}}

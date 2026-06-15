@@ -256,8 +256,8 @@
             </div>
         </div>
 
-        <!-- Bottom Section: Assignments, Announcements, Exams -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+        <!-- Bottom Section: Assignments, Exams -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
             {{-- Pending Assignments List --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                 <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
@@ -285,27 +285,7 @@
                 </div>
             </div>
 
-            {{-- Announcements --}}
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-                <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
-                    <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-tertiary">campaign</span>
-                        Announcements
-                    </h3>
-                    <a href="{{ route('student.announcements') }}" class="text-primary text-label-md hover:underline">View All</a>
-                </div>
-                <div class="p-4 space-y-4">
-                    @forelse($announcements ?? [] as $ann)
-                        <div class="border-l-2 border-tertiary pl-3">
-                            <h4 class="font-medium text-on-surface text-body-md mb-1 line-clamp-1">{{ $ann->title }}</h4>
-                            <p class="text-label-md text-secondary line-clamp-2">{{ Str::limit($ann->content, 80) }}</p>
-                            <span class="text-[10px] text-outline mt-1 block">{{ $ann->created_at->diffForHumans() }}</span>
-                        </div>
-                    @empty
-                        <p class="text-body-md text-secondary text-center py-4">No recent announcements.</p>
-                    @endforelse
-                </div>
-            </div>
+
 
             {{-- Upcoming Exams --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">

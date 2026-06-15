@@ -57,4 +57,36 @@ class BankAccountController extends Controller
         $bankAccount->delete();
         return back()->with('success', 'Bank account removed successfully.');
     }
+
+    public function transaction(Request $request, BankAccount $bankAccount)
+    {
+        $request->validate([
+            'type' => 'required|in:Deposit,Withdrawal',
+            'amount' => 'required|numeric|min:0.01',
+            'description' => 'required|string',
+        ]);
+
+        if ($request->type == 'Deposit') {
+            $bankAccount->current_balance += $request->amount;
+            $ledgerType = 'Credit';
+        } else {
+            if ($bankAccount->current_balance < $request->amount) {
+                return back()->with('error', 'Insufficient balance for withdrawal.');
+            }
+            $bankAccount->current_balance -= $request->amount;
+            $ledgerType = 'Debit';
+        }
+
+        $bankAccount->save();
+
+        \App\Models\LedgerEntry::create([
+            'school_id' => $bankAccount->school_id,
+            'date' => now()->format('Y-m-d'),
+            'type' => $ledgerType,
+            'amount' => $request->amount,
+            'description' => "Bank " . $request->type . " (" . $bankAccount->bank_name . " - " . $bankAccount->account_number . "): " . $request->description,
+        ]);
+
+        return back()->with('success', "Transaction recorded and ledger updated successfully.");
+    }
 }

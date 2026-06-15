@@ -144,7 +144,7 @@ class DocumentController extends Controller
         // Get signature if needed
         $signatureBase64 = null;
         if ($template->has_signature) {
-            $school = \App\Models\School::find(auth()->user()->school_id);
+            $school = \App\Models\School::find(auth()->user()->school_id ?? 1) ?? \App\Models\School::first();
             if ($school && $school->principal_signature_path && Storage::disk('public')->exists($school->principal_signature_path)) {
                 $sigContent = Storage::disk('public')->get($school->principal_signature_path);
                 $mimeType = Storage::disk('public')->mimeType($school->principal_signature_path);
@@ -236,7 +236,7 @@ class DocumentController extends Controller
 
     public function signatures()
     {
-        $school = \App\Models\School::find(auth()->user()->school_id);
+        $school = \App\Models\School::find(auth()->user()->school_id ?? 1) ?? \App\Models\School::first();
         return view('admin.documents.signatures', compact('school'));
     }
 
@@ -246,8 +246,12 @@ class DocumentController extends Controller
             'signature' => 'required|image|mimes:png,jpg,jpeg|max:2048',
         ]);
 
-        $school = \App\Models\School::find(auth()->user()->school_id);
+        $school = \App\Models\School::find(auth()->user()->school_id ?? 1) ?? \App\Models\School::first();
         
+        if (!$school) {
+            return redirect()->back()->with('error', 'School configuration not found. Please setup the school first.');
+        }
+
         if ($school->principal_signature_path) {
             Storage::disk('public')->delete($school->principal_signature_path);
         }

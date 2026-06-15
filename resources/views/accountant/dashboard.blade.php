@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">0.00</span>
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($stats['total_collection_today'], 2) }}</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-600">
                     <span class="material-symbols-outlined text-[14px]">trending_up</span>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">0.00</span>
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($stats['pending_fees'], 2) }}</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1 text-xs font-medium text-error">
                     <span class="material-symbols-outlined text-[14px]">priority_high</span>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">0.00</span>
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($stats['expenses_this_month'], 2) }}</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
                     <span>Includes payroll & operations</span>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-headline-xl font-headline-xl text-on-surface">0.00</span>
+                    <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($stats['cash_in_hand'], 2) }}</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1 text-xs font-medium text-secondary">
                     <span>Available liquidity</span>
@@ -115,11 +115,8 @@
                     <h3 class="text-headline-md font-headline-md text-on-surface">Income vs Expenses</h3>
                     <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
                 </div>
-                <div class="relative h-64 w-full flex items-center justify-center text-secondary">
-                    <p class="flex flex-col items-center gap-2">
-                        <span class="material-symbols-outlined text-4xl text-outline">bar_chart</span>
-                        Chart Data Unavailable
-                    </p>
+                <div class="relative h-64 w-full p-4">
+                    <canvas id="financeChart"></canvas>
                 </div>
             </div>
             
@@ -165,15 +162,77 @@
                             <th class="py-4 px-6 text-right">Amount</th>
                         </tr>
                     </thead>
-                    <tbody class="text-body-md font-body-md divide-y divide-outline-variant">
-                        <tr><td colspan="4" class="py-8 text-center text-secondary">
-                            <span class="material-symbols-outlined text-3xl mb-2 text-outline">history</span>
-                            <p>No recent transactions</p>
-                        </td></tr>
-                    </tbody>
+                        @forelse($recentTransactions as $txn)
+                            <tr>
+                                <td class="py-4 px-6">{{ \Carbon\Carbon::parse($txn->date)->format('M d, Y') }}</td>
+                                <td class="py-4 px-6">{{ $txn->description }}</td>
+                                <td class="py-4 px-6">
+                                    @if($txn->type == 'Credit')
+                                        <span class="px-2 py-1 bg-emerald-50 text-emerald-700 text-xs rounded-full font-medium border border-emerald-100">Credit</span>
+                                    @else
+                                        <span class="px-2 py-1 bg-red-50 text-error text-xs rounded-full font-medium border border-red-100">Debit</span>
+                                    @endif
+                                </td>
+                                <td class="py-4 px-6 text-right font-medium {{ $txn->type == 'Credit' ? 'text-emerald-600' : 'text-error' }}">
+                                    {{ $txn->type == 'Credit' ? '+' : '-' }} {{ number_format($txn->amount, 2) }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="py-8 text-center text-secondary">
+                                    <span class="material-symbols-outlined text-3xl mb-2 text-outline">history</span>
+                                    <p>No recent transactions</p>
+                                </td>
+                            </tr>
+                        @endforelse
                 </table>
             </div>
         </div>
     </div>
 </main>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('financeChart').getContext('2d');
+        const chartData = @json($chartData);
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [
+                    {
+                        label: 'Income',
+                        data: chartData.income,
+                        backgroundColor: '#10b981',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Expenses',
+                        data: chartData.expenses,
+                        backgroundColor: '#f59e0b',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+@endpush

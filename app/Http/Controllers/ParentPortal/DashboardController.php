@@ -25,7 +25,12 @@ class DashboardController extends BaseParentController
         foreach ($children as $child) {
             $total   = StudentAttendance::where('student_id',$child->id)->where('academic_year_id',$academicYear?->id)->count();
             $present = StudentAttendance::where('student_id',$child->id)->where('academic_year_id',$academicYear?->id)->where('status','P')->count();
-            $pending = Fee::where('student_id',$child->id)->whereIn('status',['Pending','Overdue'])->sum('amount');
+            $pending = Fee::where('student_id',$child->id)
+                ->whereIn('status',['Pending','Overdue','Partial'])
+                ->get()
+                ->sum(function($fee) {
+                    return $fee->amount - $fee->paid_amount - $fee->discount + $fee->fine;
+                });
 
             $sixMonthsAgo = now()->subMonths(5)->startOfMonth();
             $attendances = StudentAttendance::where('student_id', $child->id)
@@ -55,13 +60,9 @@ class DashboardController extends BaseParentController
             ];
         }
 
-        $announcements = Announcement::where('status', 'published')
-            ->whereIn('role_visibility', ['all', 'parent'])
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
 
-        return view('parent.dashboard', compact('children','childSummaries','announcements'));
+
+        return view('parent.dashboard', compact('children','childSummaries'));
     }
 
     public function children()

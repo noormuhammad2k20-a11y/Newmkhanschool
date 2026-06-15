@@ -18,8 +18,10 @@ class FeeController extends Controller
 
         $totals = [
             'total'   => Fee::where('student_id', $student->id)->sum('amount'),
-            'paid'    => Fee::where('student_id', $student->id)->where('status','Paid')->sum('paid_amount'),
-            'pending' => Fee::where('student_id', $student->id)->whereIn('status',['Pending','Overdue'])->sum('amount'),
+            'paid'    => Fee::where('student_id', $student->id)->sum('paid_amount'),
+            'pending' => Fee::where('student_id', $student->id)->whereIn('status',['Pending','Overdue','Partial'])->get()->sum(function($fee) {
+                return $fee->amount - $fee->paid_amount - $fee->discount + $fee->fine;
+            }),
         ];
 
         return view('student.fees', compact('fees','totals','student'));

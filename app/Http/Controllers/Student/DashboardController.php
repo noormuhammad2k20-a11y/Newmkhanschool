@@ -34,10 +34,7 @@ class DashboardController extends Controller
         $pendingFees = Fee::where('student_id', $student->id)
                          ->whereIn('status', ['Pending','Overdue'])->sum('amount');
 
-        // Announcements
-        $announcements = Announcement::where('status', 'published')
-                           ->whereIn('role_visibility', ['all','student'])
-                           ->orderBy('created_at', 'desc')->take(5)->get();
+
 
         // Today's timetable
         $dayName = Carbon::today()->format('l'); // Monday, Tuesday...
@@ -94,7 +91,7 @@ class DashboardController extends Controller
 
         return view('student.dashboard', compact(
             'student','attendancePct','presentDays','totalDays',
-            'pendingFees','announcements','todayClasses','upcomingExams',
+            'pendingFees','todayClasses','upcomingExams',
             'recentNotes', 'upcomingQuizzes'
         ));
     }

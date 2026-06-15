@@ -24,11 +24,6 @@
 
     <!-- Academic Management Container -->
     <div class="bg-surface border border-outline-variant rounded-xl shadow-sm overflow-hidden mb-xl">
-        <div class="p-lg border-b border-outline-variant bg-surface-container-lowest">
-            <h3 class="text-headline-md font-headline-md text-on-surface">Core Academics</h3>
-            <p class="text-body-sm font-body-sm text-secondary">Configure your core academic structure and assignments.</p>
-        </div>
-
         <div class="p-lg grid grid-cols-1 xl:grid-cols-2 gap-xl">
             
             <!-- Unified Academics Management -->
@@ -88,9 +83,9 @@
                                                     <span class="material-symbols-outlined text-[20px]">edit</span>
                                                 </button>
                                                 
-                                                <form action="{{ route('admin.academics.classes.destroy', $class->id) }}" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to delete this class? This will also delete all its subjects and sections. This action cannot be undone.');">
+                                                <form action="{{ route('admin.academics.classes.destroy', $class->id) }}" id="delete-class-{{ $class->id }}" method="POST" class="inline-block">
                                                     @csrf @method('DELETE')
-                                                    <button type="submit" class="text-secondary hover:text-error p-1.5 rounded-md hover:bg-error-container transition-colors" title="Delete Class">
+                                                    <button type="button" onclick="showCustomConfirm('WARNING: Are you sure you want to delete this class? This will also delete all its subjects and sections. This action cannot be undone.', 'delete-class-{{ $class->id }}', 'Delete Class')" class="text-secondary hover:text-error p-1.5 rounded-md hover:bg-error-container transition-colors" title="Delete Class">
                                                         <span class="material-symbols-outlined text-[20px]">delete</span>
                                                     </button>
                                                 </form>
@@ -171,9 +166,9 @@
                                         <td class="py-3 px-4 text-on-surface">{{ $assignment->class_->name ?? 'Unknown' }}</td>
                                         <td class="py-3 px-4 text-primary font-medium">{{ $assignment->subject->name ?? 'Unknown' }}</td>
                                         <td class="py-3 px-4 text-right">
-                                            <form action="{{ route('admin.academics.assignments.destroy', $assignment->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Remove this assignment?');">
+                                            <form action="{{ route('admin.academics.assignments.destroy', $assignment->id) }}" id="delete-assignment-{{ $assignment->id }}" method="POST" class="inline-block">
                                                 @csrf @method('DELETE')
-                                                <button type="submit" class="text-error hover:text-error-dark px-2 py-1 border border-error rounded hover:bg-error-container text-xs" title="Remove">
+                                                <button type="button" onclick="showCustomConfirm('Remove this assignment?', 'delete-assignment-{{ $assignment->id }}', 'Remove Assignment')" class="text-error hover:text-error-dark px-2 py-1 border border-error rounded hover:bg-error-container text-xs" title="Remove">
                                                     Remove
                                                 </button>
                                             </form>
@@ -467,10 +462,10 @@
                         <button type="button" onclick="toggleEditSubject(${subject.id})" class="text-secondary hover:text-primary p-1.5 rounded-md hover:bg-primary-container/20 transition-colors" title="Edit">
                             <span class="material-symbols-outlined text-[18px]">edit</span>
                         </button>
-                        <form action="${deleteUrl}" method="POST" onsubmit="return confirm('Delete subject ${subject.name}?');" class="inline">
+                        <form action="${deleteUrl}" id="delete-subject-${subject.id}" method="POST" class="inline">
                             <input type="hidden" name="_token" value="${csrfToken}">
                             <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="text-secondary hover:text-error p-1.5 rounded-md hover:bg-error-container transition-colors" title="Delete">
+                            <button type="button" onclick="showCustomConfirm('Delete subject ${subject.name}?', 'delete-subject-${subject.id}', 'Delete Subject')" class="text-secondary hover:text-error p-1.5 rounded-md hover:bg-error-container transition-colors" title="Delete">
                                 <span class="material-symbols-outlined text-[18px]">delete</span>
                             </button>
                         </form>
@@ -597,5 +592,179 @@
             });
         }
     });
+
+    // Custom Confirm Alert Logic
+    let currentConfirmFormId = null;
+
+    window.showCustomConfirm = function(message, formId, title = 'Confirm Delete') {
+        document.getElementById('customConfirmMessage').textContent = message;
+        document.getElementById('customConfirmTitle').textContent = title;
+        currentConfirmFormId = formId;
+        
+        const modal = document.getElementById('customConfirmModal');
+        const panel = document.getElementById('customConfirmPanel');
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            panel.classList.remove('scale-95', 'opacity-0');
+            panel.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    };
+
+    window.closeCustomConfirm = function() {
+        const modal = document.getElementById('customConfirmModal');
+        const panel = document.getElementById('customConfirmPanel');
+        
+        panel.classList.remove('scale-100', 'opacity-100');
+        panel.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            currentConfirmFormId = null;
+        }, 300);
+    };
+
+    window.submitCustomConfirm = async function() {
+        if (currentConfirmFormId) {
+            const form = document.getElementById(currentConfirmFormId);
+            if(form) {
+                const url = form.getAttribute('action');
+                const formData = new FormData(form);
+                
+                const btn = document.getElementById('customConfirmBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]" style="animation: spin 1s linear infinite;">autorenew</span> Processing...';
+                btn.disabled = true;
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    });
+                    
+                    let result = {};
+                    try { result = await response.json(); } catch(e) {}
+                    
+                    closeCustomConfirm();
+                    
+                    if (response.ok || result.success) {
+                        showToast(result.message || 'Deleted successfully', 'success');
+                        
+                        // Remove from UI based on form ID
+                        if (currentConfirmFormId.startsWith('delete-class-') || currentConfirmFormId.startsWith('delete-assignment-')) {
+                            const row = form.closest('tr');
+                            if (row) fadeOutAndRemove(row);
+                        } else if (currentConfirmFormId.startsWith('delete-subject-')) {
+                            // subject cards are inside a generic div in the grid, but the closest identifiable is the specific loop container. 
+                            // In our case, the subject card has a generic outer div. Let's find the nearest `.bg-surface-container-lowest` wrapper.
+                            const card = form.closest('.bg-surface-container-lowest');
+                            if (card) {
+                                fadeOutAndRemove(card);
+                                const countEl = document.getElementById('modalSubjectCount');
+                                if (countEl) countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+                            }
+                        }
+                    } else {
+                        showToast(result.message || 'Failed to delete record', 'error');
+                    }
+                } catch (error) {
+                    closeCustomConfirm();
+                    showToast('Network error. Please try again.', 'error');
+                } finally {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            }
+        }
+    };
+    
+    function fadeOutAndRemove(element) {
+        element.style.transition = 'all 0.3s ease';
+        element.style.opacity = '0';
+        element.style.transform = 'scale(0.95)';
+        setTimeout(() => element.remove(), 300);
+    }
+
+    window.showToast = function(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'fixed bottom-4 right-4 z-[300] flex flex-col gap-2';
+            document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        const isSuccess = type === 'success';
+        const bgColor = isSuccess ? 'bg-primary' : 'bg-error';
+        const icon = isSuccess ? 'check_circle' : 'error';
+        
+        toast.className = `flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg text-white ${bgColor} transform translate-y-10 opacity-0 transition-all duration-300 min-w-[250px]`;
+        toast.innerHTML = `
+            <span class="material-symbols-outlined">${icon}</span>
+            <span class="text-sm font-medium">${message}</span>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Ensure animation frame fires after element is in DOM
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+        });
+        
+        setTimeout(() => {
+            toast.classList.add('translate-y-10', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    };
 </script>
+<style>
+@keyframes spin { 100% { transform: rotate(360deg); } }
+</style>
+
+<!-- Custom Confirm Modal -->
+<div id="customConfirmModal" class="fixed inset-0 z-[200] hidden">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeCustomConfirm()"></div>
+    
+    <!-- Modal Panel -->
+    <div class="fixed inset-0 m-auto max-w-md w-full h-fit bg-surface shadow-2xl flex flex-col rounded-xl overflow-hidden transform transition-all scale-95 opacity-0 duration-300 ease-out" id="customConfirmPanel">
+        
+        <!-- Header -->
+        <div class="px-6 py-4 border-b border-outline-variant flex items-center gap-3 bg-surface-container-lowest">
+            <div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined">warning</span>
+            </div>
+            <div>
+                <h3 class="text-headline-sm font-headline-sm text-on-surface" id="customConfirmTitle">Confirm Action</h3>
+            </div>
+            <button type="button" onclick="closeCustomConfirm()" class="ml-auto text-secondary hover:text-on-surface p-1.5 rounded-full hover:bg-surface-container transition-colors">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        
+        <!-- Body -->
+        <div class="p-6 bg-surface">
+            <p class="text-body-md text-secondary" id="customConfirmMessage">Are you sure you want to proceed?</p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="px-6 py-4 border-t border-outline-variant bg-surface-container-lowest flex justify-end gap-3">
+            <button type="button" onclick="closeCustomConfirm()" class="px-4 py-2 text-label-sm font-semibold text-secondary hover:text-on-surface hover:bg-surface-container rounded-md transition-colors">
+                Cancel
+            </button>
+            <button type="button" id="customConfirmBtn" onclick="submitCustomConfirm()" class="px-4 py-2 text-label-sm font-semibold bg-error text-white rounded-md hover:bg-error/90 transition-colors shadow-sm flex items-center gap-2">
+                Yes, Proceed
+            </button>
+        </div>
+        
+    </div>
+</div>
+
 @endsection

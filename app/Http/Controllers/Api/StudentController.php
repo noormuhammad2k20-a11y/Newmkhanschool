@@ -92,6 +92,14 @@ class StudentController extends Controller
                 'created_at' => now()
             ]);
 
+            $photoPath = null;
+            if ($request->hasFile('photo')) {
+                $file = $request->file('photo');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads/students'), $filename);
+                $photoPath = 'uploads/students/' . $filename;
+            }
+
             DB::table('students')->insert([
                 'user_id' => $userId,
                 'admission_no' => $request->admission_number,
@@ -115,7 +123,8 @@ class StudentController extends Controller
                 'religion' => $request->religion ?? null,
                 'caste' => $request->caste ?? null,
                 'status' => $request->status ?? 'Regular',
-                'is_tuition' => $request->is_tuition ?? 0
+                'is_tuition' => $request->is_tuition ?? 0,
+                'photo' => $photoPath
             ]);
 
             DB::commit();
@@ -156,7 +165,7 @@ class StudentController extends Controller
                 ]);
             }
 
-            DB::table('students')->where('id', $id)->update([
+            $updateData = [
                 'admission_no' => $request->admission_number,
                 'exam_roll' => $request->exam_roll ?? null,
                 'first_name' => $request->first_name,
@@ -179,7 +188,16 @@ class StudentController extends Controller
                 'caste' => $request->caste ?? null,
                 'status' => $request->status ?? 'Regular',
                 'is_tuition' => $request->is_tuition ?? 0
-            ]);
+            ];
+
+            if ($request->hasFile('photo')) {
+                $file = $request->file('photo');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads/students'), $filename);
+                $updateData['photo'] = 'uploads/students/' . $filename;
+            }
+
+            DB::table('students')->where('id', $id)->update($updateData);
 
             DB::commit();
 
@@ -196,29 +214,35 @@ class StudentController extends Controller
     public function destroy($id)
     {
         try {
-            DB::beginTransaction();
-            $student = DB::table('students')->where('id', $id)->first();
-            $userId = $student ? $student->user_id : null;
-
-            // First remove related records to prevent foreign key constraint violations
-            DB::table('marks')->where('student_id', $id)->delete();
-            DB::table('student_attendances')->where('student_id', $id)->delete();
-            DB::table('fees')->where('student_id', $id)->delete(); 
-
-            DB::table('students')->where('id', $id)->delete();
-
-            if ($userId) {
-                DB::table('users')->where('id', $userId)->delete();
+            $student = Student::find($id);
+            if (!$student) {
+                return response()->json(['status' => 'error', 'message' => 'Student not found.'], 404);
             }
-            
-            DB::commit();
+            $student->delete(); // Soft delete
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Student removed successfully.'
             ]);
         } catch (\Exception $e) {
-            DB::rollBack();
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            $student = Student::withTrashed()->find($id);
+            if (!$student) {
+                return response()->json(['status' => 'error', 'message' => 'Student not found.'], 404);
+            }
+            $student->restore();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Student restored successfully.'
+            ]);
+        } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }

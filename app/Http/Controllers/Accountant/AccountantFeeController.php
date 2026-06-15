@@ -9,18 +9,45 @@ use App\Models\FeePaymentTransaction;
 
 class AccountantFeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $schoolId = auth()->user()->school_id ?? 1;
         
-        $fees = Fee::with(['student.currentClass', 'student.currentSection', 'category'])
+        $query = Fee::with(['student.currentClass', 'student.currentSection', 'category'])
             ->whereHas('student', function($q) use ($schoolId) {
                 $q->where('school_id', $schoolId);
-            })
-            ->latest()
-            ->paginate(15);
+            });
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('class_id')) {
+            $query->whereHas('student', function($q) use ($request) {
+                $q->where('current_class_id', $request->class_id);
+            });
+        }
+
+        if ($request->filled('fee_category_id')) {
+            $query->where('fee_category_id', $request->fee_category_id);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('challan_no', 'like', "%{$search}%")
+                  ->orWhereHas('student', function($sq) use ($search) {
+                      $sq->where('full_name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $fees = $query->latest()->paginate(15);
             
-        return view('accountant.fees.index', compact('fees'));
+        $classes = \App\Models\SchoolClass::where('school_id', $schoolId)->get();
+        $categories = \App\Models\FeeCategory::all();
+
+        return view('accountant.fees.index', compact('fees', 'classes', 'categories'));
     }
 
     public function collectPayment(Request $request, Fee $fee)
@@ -36,7 +63,7 @@ class AccountantFeeController extends Controller
             'gateway' => $request->gateway,
             'transaction_ref' => 'REF-' . strtoupper(uniqid()),
             'amount' => $request->amount,
-            'status' => 'Success',
+            'status' => 'Completed',
             'paid_at' => now()
         ]);
 
@@ -47,6 +74,16 @@ class AccountantFeeController extends Controller
             $fee->status = 'Partial';
         }
         $fee->save();
+
+        \App\Models\LedgerEntry::create([
+            'school_id' => $fee->student->school_id ?? 1,
+            'date' => now()->toDateString(),
+            'description' => 'Fee Collection: ' . $fee->fee_category . ' from ' . $fee->student->full_name,
+            'type' => 'Credit',
+            'amount' => $request->amount,
+            'reference_id' => $transaction->id,
+            'reference_type' => FeePaymentTransaction::class,
+        ]);
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([

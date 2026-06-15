@@ -48,20 +48,7 @@ return new class extends Migration
             $table->unique(['assignment_id', 'student_id']);
         });
 
-        Schema::dropIfExists('report_cards');
-        Schema::create('report_cards', function (Blueprint $table) {
-            $table->id();
-            $table->integer('student_id');
-            $table->integer('academic_year_id');
-            $table->integer('exam_type_id')->nullable();
-            $table->decimal('total_obtained', 8, 2)->default(0);
-            $table->decimal('total_max', 8, 2)->default(0);
-            $table->decimal('percentage', 5, 2)->default(0);
-            $table->string('grade', 5)->nullable();
-            $table->integer('rank')->nullable();
-            $table->text('remarks')->nullable();
-            $table->timestamps();
-        });
+
     }
 
     /**
@@ -69,7 +56,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('report_cards');
+
         Schema::dropIfExists('assignment_submissions');
         Schema::dropIfExists('student_leave_requests');
         Schema::dropIfExists('parent_students');

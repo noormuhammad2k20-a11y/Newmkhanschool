@@ -130,24 +130,24 @@
                             <span>Needs Attention</span>
                         </div>
                     </div>
-                    <!-- Stat Card 8 -->
+                    <!-- Stat Card 8: Total Fees Collected -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Branches</h3>
+                            <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Fees</h3>
                             <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                                <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                                <span class="material-symbols-outlined text-[18px]">payments</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <span id="stat-total-branches" class="text-headline-xl font-headline-xl text-on-surface">...</span>
+                            <span id="stat-total-fees" class="text-headline-xl font-headline-xl text-on-surface">...</span>
                         </div>
                         <div class="mt-2 flex items-center gap-2 text-xs font-medium text-secondary">
-                            <span>Active Campuses</span>
+                            <span>Collected so far</span>
                         </div>
                     </div>
                 </div>
                 <!-- Charts Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-md">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
                     <!-- Chart 1 -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
                         <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
@@ -161,18 +161,28 @@
                     <!-- Chart 2 -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
                         <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
-                            <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Trends (30 Days)</h3>
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Trends</h3>
                             <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
                         </div>
                         <div class="relative h-64 w-full">
                             <canvas id="attendanceChart"></canvas>
                         </div>
                     </div>
+                    <!-- Chart 3 (Fee Collection) -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
+                        <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Fee Collection</h3>
+                            <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                        </div>
+                        <div class="relative h-64 w-full">
+                            <canvas id="feeCollectionChart"></canvas>
+                        </div>
+                    </div>
                 </div>
                 <!-- Tables Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-md">
                     <!-- Table 1: Recent Admissions -->
-                    <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                         <div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
                             <h3 class="text-headline-md font-headline-md text-on-surface">Recent Admissions</h3>
                             <button class="text-primary text-label-md font-label-md hover:underline">View All</button>
@@ -184,36 +194,24 @@
                                         <th class="py-3 px-4 font-semibold">Student Name</th>
                                         <th class="py-3 px-4 font-semibold">Registration ID</th>
                                         <th class="py-3 px-4 font-semibold">Date</th>
-                                        <th class="py-3 px-4 font-semibold">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="recent-admissions-tbody" class="text-body-md font-body-md">
-                                    <tr><td colspan="4" class="py-4 text-center">Loading...</td></tr>
+                                    <tr><td colspan="3" class="py-4 text-center">Loading...</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <!-- Table 2: Attendance Snapshot -->
+                    <!-- Table 2: Audit Logs -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                         <div class="p-md border-b border-outline-variant bg-surface-bright">
-                            <h3 class="text-headline-md font-headline-md text-on-surface">Today's Snapshot</h3>
-                            <p class="text-xs text-secondary mt-1">Section-wise lowest attendance</p>
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Recent Activity</h3>
+                            <p class="text-xs text-secondary mt-1">Audit log of system actions</p>
                         </div>
                         <div class="p-md flex-1">
-                            <ul class="space-y-4">
-                                <li class="flex justify-between items-center pb-3 border-b border-outline-variant border-opacity-50">
-                                    <div>
-                                        <p class="font-medium text-body-md text-on-surface">Grade 10 - Sec B</p>
-                                        <p class="text-xs text-error mt-0.5">Alert: Below 85%</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-bold text-body-lg text-on-surface">82%</p>
-                                        <p class="text-xs text-secondary">32/39 Present</p>
-                                    </div>
-                                </li>
-                                <!-- Static placeholder matching the original -->
+                            <ul id="audit-log-list" class="space-y-4">
+                                <li class="text-center py-4 text-secondary">Loading...</li>
                             </ul>
-                            <button class="w-full mt-4 py-2 border border-outline-variant rounded-lg text-label-md font-label-md text-secondary hover:bg-surface-container-low transition-colors">Generate Alert Report</button>
                         </div>
                     </div>
                 </div>
@@ -239,48 +237,54 @@
                     document.getElementById('stat-documents-generated').textContent = data.documentsGenerated.toLocaleString();
                     document.getElementById('stat-inventory-items').textContent = data.inventoryItems.toLocaleString();
                     document.getElementById('stat-low-stock').textContent = data.lowStockAlerts.toLocaleString();
-                    document.getElementById('stat-total-branches').textContent = data.totalBranches.toLocaleString();
+                    document.getElementById('stat-total-fees').textContent = 'Rs ' + (data.totalFeesCollected || 0).toLocaleString();
 
                     // Populate recent admissions
                     const tbody = document.getElementById('recent-admissions-tbody');
                     if (data.recentAdmissions.length === 0) {
-                        tbody.innerHTML = `
-                        <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
-                            <td class="py-3 px-4 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-xs">AK</div>
-                                <span class="font-medium text-on-surface">Aarav Kumar</span>
-                            </td>
-                            <td class="py-3 px-4 text-secondary">REG-2023-0891</td>
-                            <td class="py-3 px-4 text-secondary">Oct 24, 2023</td>
-                            <td class="py-3 px-4">
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Approved</span>
-                            </td>
-                        </tr>`;
+                        tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center">No recent admissions.</td></tr>`;
                     } else {
                         tbody.innerHTML = '';
                         data.recentAdmissions.forEach(student => {
-                            const initials = student.first_name[0] + (student.last_name[0] || '');
+                            const initials = student.first_name[0] + (student.last_name ? student.last_name[0] : '');
                             tbody.innerHTML += `
                             <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
                                 <td class="py-3 px-4 flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-xs uppercase">${initials}</div>
-                                    <span class="font-medium text-on-surface">${student.first_name} ${student.last_name}</span>
+                                    <span class="font-medium text-on-surface">${student.first_name} ${student.last_name || ''}</span>
                                 </td>
                                 <td class="py-3 px-4 text-secondary">${student.admission_no}</td>
                                 <td class="py-3 px-4 text-secondary">${new Date(student.created_at).toLocaleDateString()}</td>
-                                <td class="py-3 px-4">
-                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Approved</span>
-                                </td>
                             </tr>`;
                         });
                     }
 
+                    // Populate Audit Logs
+                    const auditUl = document.getElementById('audit-log-list');
+                    if (data.auditLogs && data.auditLogs.length > 0) {
+                        auditUl.innerHTML = '';
+                        data.auditLogs.forEach(log => {
+                            auditUl.innerHTML += `
+                                <li class="flex justify-between items-center pb-3 border-b border-outline-variant border-opacity-50">
+                                    <div>
+                                        <p class="font-medium text-body-md text-on-surface">${log.action}</p>
+                                        <p class="text-xs text-secondary mt-0.5">${log.description}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs text-secondary">${new Date(log.created_at).toLocaleString()}</p>
+                                    </div>
+                                </li>`;
+                        });
+                    } else {
+                        auditUl.innerHTML = '<li class="text-center py-4 text-secondary">No recent activity found.</li>';
+                    }
+
                     // Render Charts
-                    renderCharts(data.enrollmentChart);
+                    renderCharts(data.enrollmentChart, data.feeCollectionChart);
                 }
             });
 
-        function renderCharts(enrollmentData) {
+        function renderCharts(enrollmentData, feeData) {
             const primaryColor = '#000666';
             const primaryFixedColor = '#e0e0ff';
             const secondaryColor = '#526069';
@@ -341,6 +345,39 @@
                     }
                 }
             });
+
+            // Fee Collection Bar Chart
+            if(feeData) {
+                const ctxFee = document.getElementById('feeCollectionChart').getContext('2d');
+                new Chart(ctxFee, {
+                    type: 'line',
+                    data: {
+                        labels: feeData.labels,
+                        datasets: [{
+                            label: 'Fees Collected (Rs)',
+                            data: feeData.data,
+                            borderColor: '#059669', // emerald
+                            backgroundColor: '#d1fae5',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#ffffff',
+                            pointBorderColor: '#059669',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: outlineVariantColor, borderDash: [5, 5] }, ticks: { font: { family: 'Inter', size: 12 }, color: secondaryColor } },
+                            x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 12 }, color: secondaryColor } }
+                        }
+                    }
+                });
+            }
         }
     });
 </script>

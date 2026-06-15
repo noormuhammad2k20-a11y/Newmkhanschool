@@ -74,7 +74,20 @@ class DashboardController extends Controller
                     'presentCount' => $presentCount,
                     'absentCount' => $absentCount,
                     'recentAdmissions' => $recentAdmissions,
-                    'enrollmentChart' => $enrollmentChart
+                    'enrollmentChart' => $enrollmentChart,
+                    'totalFeesCollected' => DB::table('fees')->where('status', 'Paid')->sum('paid_amount'),
+                    'auditLogs' => class_exists(\App\Models\AuditLog::class) ? \App\Models\AuditLog::orderBy('created_at', 'desc')->limit(5)->get() : [],
+                    'feeCollectionChart' => [
+                        'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        'data' => [
+                            DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 1)->sum('paid_amount'),
+                            DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 2)->sum('paid_amount'),
+                            DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 3)->sum('paid_amount'),
+                            DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 4)->sum('paid_amount'),
+                            DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 5)->sum('paid_amount'),
+                            DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 6)->sum('paid_amount')
+                        ]
+                    ]
                 ]
             ]);
 

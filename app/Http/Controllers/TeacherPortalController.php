@@ -41,11 +41,7 @@ class TeacherPortalController extends Controller
             ->where('day_of_week', $today)
             ->get();
             
-        $announcements = Announcement::where('status', 'published')
-            ->whereIn('role_visibility', ['all', 'teacher'])
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
+
 
         $aiGradedCount = \App\Models\AssignmentSubmission::where('status', 'graded')->whereHas('assignment', function($q) use($teacher) { $q->where('teacher_id', $teacher?->id); })->count();
         $seatingPlansCount = 0;
@@ -78,7 +74,7 @@ class TeacherPortalController extends Controller
                 ->get();
         }
 
-        return view('teacher.dashboard', compact('classesCount', 'subjectsCount', 'totalStudents', 'pendingAssignments', 'todaysTimetable', 'announcements', 'aiGradedCount', 'seatingPlansCount', 'pendingSubmissionsCount', 'currentMonthAbsentees')); 
+        return view('teacher.dashboard', compact('classesCount', 'subjectsCount', 'totalStudents', 'pendingAssignments', 'todaysTimetable', 'aiGradedCount', 'seatingPlansCount', 'pendingSubmissionsCount', 'currentMonthAbsentees')); 
     }
 
     // 2. Attendance
@@ -514,14 +510,7 @@ class TeacherPortalController extends Controller
         return $this->ajaxError($request, 'Teacher profile not found.');
     }
 
-    // 12. Announcements
-    public function announcements() { 
-        $announcements = Announcement::where('status', 'published')
-            ->whereIn('role_visibility', ['all', 'teacher'])
-            ->orderBy('created_at', 'desc')
-            ->get();
-        return view('teacher.announcements', compact('announcements')); 
-    }
+
 
     // 13. Performance
     public function performance() { 
@@ -578,13 +567,7 @@ class TeacherPortalController extends Controller
         return $this->ajaxSuccess($request, 'Message sent.');
     }
 
-    // 16. Reports
-    public function reports() { 
-        $teacher = $this->getTeacher();
-        $classIds = $this->getAssignedClassIds($teacher);
-        $classes = DB::table('classes')->whereIn('id', $classIds)->orderBy('name')->get();
-        return view('teacher.reports', compact('classes')); 
-    }
+
 
     // 17. Exam Schedule
     public function examSchedule(Request $request) {
@@ -621,8 +604,26 @@ class TeacherPortalController extends Controller
     }
 
     public function approveStudentLeave(Request $request, $id) {
-        DB::table('student_leave_requests')->where('id', $id)->update(['status' => 'Approved', 'updated_at' => now()]);
-        return $this->ajaxSuccess($request, 'Student leave approved.');
+        $leave = DB::table('student_leave_requests')->where('id', $id)->first();
+        if ($leave) {
+            DB::table('student_leave_requests')->where('id', $id)->update(['status' => 'Approved', 'updated_at' => now()]);
+            
+            // Auto-mark attendance
+            $start = Carbon::parse($leave->start_date);
+            $end = Carbon::parse($leave->end_date);
+            
+            while ($start->lte($end)) {
+                // Only mark weekdays if needed, or just all days
+                if ($start->isWeekday()) {
+                    DB::table('student_attendances')->updateOrInsert(
+                        ['student_id' => $leave->student_id, 'date' => $start->toDateString()],
+                        ['status' => 'L', 'marked_by' => auth()->id(), 'academic_year_id' => 1]
+                    );
+                }
+                $start->addDay();
+            }
+        }
+        return $this->ajaxSuccess($request, 'Student leave approved and attendance marked as Leave.');
     }
 
     public function rejectStudentLeave(Request $request, $id) {

@@ -1,80 +1,114 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="px-md py-lg">
-    <div class="mb-lg">
-        <h2 class="text-headline-lg font-headline-lg text-primary">Digital Signatures</h2>
-        <p class="text-body-md text-secondary">Manage official digital signatures for your documents.</p>
-    </div>
+@section('title', 'Digital Signatures')
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-        <!-- Principal's Signature Card -->
-        <div class="bg-surface border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
-            <div class="bg-surface-container-low px-md py-sm border-b border-outline-variant flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">draw</span>
-                <h3 class="font-headline-md text-on-surface">Principal's Signature</h3>
+@section('content')
+<main class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+    <div class="max-w-[1440px] mx-auto space-y-xl">
+        <!-- Page Header -->
+        <div class="flex items-center gap-4 mb-lg">
+            <a href="{{ route('admin.dashboard') }}" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary hover:bg-surface-container-high transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            </a>
+            <div>
+                <h2 class="text-headline-xl font-headline-xl text-on-surface">Digital Signatures</h2>
+                <p class="text-body-lg font-body-lg text-secondary mt-1">Manage official digital signatures for your documents.</p>
             </div>
-            
-            <div class="p-lg flex-1 flex flex-col">
-                <div class="mb-lg flex-1 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant rounded-lg bg-surface-container-lowest p-xl">
-                    @if($school && $school->principal_signature_path)
-                        <img src="{{ Storage::url($school->principal_signature_path) }}" alt="Signature" class="max-h-[150px] object-contain">
-                        <span class="mt-md text-label-sm text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full inline-flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[14px]">verified</span> Active Signature
-                        </span>
-                    @else
-                        <div class="text-center text-secondary">
-                            <span class="material-symbols-outlined text-[48px] opacity-50 mb-2">signature</span>
-                            <p class="font-body-md">No digital signature uploaded yet.</p>
-                        </div>
-                    @endif
+        </div>
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+            <!-- Header -->
+            <div class="px-xl py-md border-b border-outline-variant bg-surface-bright flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 shadow-inner">
+                        <span class="material-symbols-outlined text-[20px]">draw</span>
+                    </div>
+                    <div>
+                        <h3 class="text-headline-sm font-bold text-on-surface">Principal's Signature</h3>
+                        <p class="text-body-md text-secondary mt-0.5">Authorized signature for certificates and reports.</p>
+                    </div>
+                </div>
+                @if($school && $school->principal_signature_path)
+                <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold shadow-sm">
+                    <span class="material-symbols-outlined text-[16px]">verified</span> Active
+                </span>
+                @endif
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-outline-variant flex-1">
+                <!-- Left: Current Signature Display -->
+                <div class="lg:col-span-5 p-xl bg-surface flex flex-col justify-center border-r border-outline-variant">
+                    <h4 class="text-headline-sm font-semibold text-on-surface mb-4">Current Signature</h4>
+                    <div class="w-full aspect-[16/9] lg:aspect-[4/3] bg-surface-container-lowest border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center p-lg relative group hover:border-primary/50 transition-colors shadow-sm">
+                        @if($school && $school->principal_signature_path)
+                            <img src="{{ Storage::url($school->principal_signature_path) }}" alt="Signature" class="max-w-full max-h-full object-contain p-4 drop-shadow-sm">
+                        @else
+                            <div class="text-center">
+                                <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mx-auto mb-4 text-secondary">
+                                    <span class="material-symbols-outlined text-[32px]">signature</span>
+                                </div>
+                                <p class="text-label-lg font-semibold text-secondary">No Signature Found</p>
+                                <p class="text-body-md text-outline mt-1.5">Upload a signature to activate.</p>
+                            </div>
+                        @endif
+                    </div>
                 </div>
 
-                <form method="POST" action="{{ route('admin.documents.signatures.update') }}" enctype="multipart/form-data" class="mt-auto">
-                    @csrf
-                    <div class="space-y-2">
-                        <label class="block text-label-md font-label-md text-secondary">Upload New Signature</label>
-                        <p class="text-label-sm text-secondary mb-3">Please upload a clear PNG/JPG with a transparent or white background.</p>
+                <!-- Right: Upload Form & Guidelines -->
+                <div class="lg:col-span-7 p-xl flex flex-col justify-center bg-surface-container-lowest">
+                    <form method="POST" action="{{ route('admin.documents.signatures.update') }}" enctype="multipart/form-data" class="max-w-3xl">
+                        @csrf
                         
-                        <div class="flex items-center gap-3">
-                            <div class="flex-1">
-                                <input type="file" name="signature" required accept="image/png, image/jpeg, image/jpg"
-                                       class="block w-full text-sm text-secondary
-                                              file:mr-4 file:py-2 file:px-4
-                                              file:rounded-lg file:border-0
-                                              file:text-label-md file:font-semibold
-                                              file:bg-primary-container file:text-on-primary-container
-                                              hover:file:bg-primary hover:file:text-on-primary file:transition-colors cursor-pointer">
-                            </div>
-                            <button type="submit" class="px-md py-2 bg-primary text-on-primary hover:bg-primary-hover rounded-lg font-label-md transition-colors shadow-sm flex items-center gap-1 shrink-0">
-                                <span class="material-symbols-outlined text-[18px]">upload</span> Upload
+                        <div class="mb-6">
+                            <label class="block text-headline-sm font-semibold text-on-surface mb-2">Upload New Signature</label>
+                            <p class="text-body-md text-secondary">Ensure the file is clear and meets the requirements below.</p>
+                        </div>
+
+                        <div class="relative border-2 border-outline-variant bg-surface rounded-xl p-2 flex items-center focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition-all shadow-sm mb-8">
+                            <input type="file" name="signature" required accept="image/png, image/jpeg, image/jpg"
+                                   class="block w-full text-base text-secondary
+                                          file:mr-4 file:py-2.5 file:px-5
+                                          file:rounded-lg file:border-0
+                                          file:text-label-md file:font-semibold
+                                          file:bg-primary-container file:text-on-primary-container
+                                          hover:file:bg-primary hover:file:text-on-primary file:transition-colors cursor-pointer outline-none">
+                            <button type="submit" class="btn-primary py-2.5 px-6 text-label-md shrink-0 whitespace-nowrap absolute right-2 shadow-sm">
+                                <span class="material-symbols-outlined text-[18px] mr-1.5">cloud_upload</span> Upload
                             </button>
                         </div>
                         @error('signature') 
-                            <p class="text-sm text-error mt-1 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">error</span> {{ $message }}
+                            <p class="text-sm font-medium text-error mt-2 mb-6 flex items-center gap-1.5 bg-error/10 p-3 rounded-lg">
+                                <span class="material-symbols-outlined text-[18px]">error</span> {{ $message }}
                             </p> 
                         @enderror
-                    </div>
-                </form>
+
+                        <div class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm">
+                            <h4 class="text-label-lg font-semibold text-on-surface flex items-center gap-2.5 mb-4 border-b border-outline-variant pb-3">
+                                <span class="material-symbols-outlined text-[22px] text-primary">info</span> Upload Guidelines
+                            </h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-[20px] text-emerald-600 shrink-0 mt-0.5">task_alt</span> 
+                                    <span class="text-body-md text-secondary">Use a <strong>PNG image</strong> with a transparent background for perfect overlays.</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-[20px] text-emerald-600 shrink-0 mt-0.5">task_alt</span> 
+                                    <span class="text-body-md text-secondary"><strong>Crop tightly</strong> around the signature to remove whitespace margins.</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-[20px] text-emerald-600 shrink-0 mt-0.5">task_alt</span> 
+                                    <span class="text-body-md text-secondary">Use <strong>dark ink</strong> (black or navy blue) for sharp visibility on prints.</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-[20px] text-emerald-600 shrink-0 mt-0.5">task_alt</span> 
+                                    <span class="text-body-md text-secondary">File size must not exceed <strong>2MB</strong>.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-
-        <!-- Info Card -->
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col justify-center text-center">
-             <div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mx-auto mb-md text-primary">
-                 <span class="material-symbols-outlined text-[32px]">verified_user</span>
-             </div>
-             <h3 class="font-headline-md text-on-surface mb-sm">Secure Authentication</h3>
-             <p class="text-body-md text-secondary mb-md">
-                 Digital signatures uploaded here are securely attached to certificates and documents generated by your branch. Combined with QR verification, this prevents tampering and guarantees authenticity.
-             </p>
-             <ul class="text-sm text-secondary text-left inline-block mx-auto space-y-2 bg-surface-container-low p-md rounded-lg">
-                 <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Use transparent PNGs for the best look on any template.</li>
-                 <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Ensure the signature is well-lit and cropped tightly.</li>
-                 <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Maximum allowed file size is 2MB.</li>
-             </ul>
-        </div>
     </div>
-</div>
+</main>
 @endsection

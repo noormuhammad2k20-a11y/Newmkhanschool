@@ -85,6 +85,18 @@ class TeacherAttendanceController extends Controller
             $leave->status = $request->status;
             $leave->save();
 
+            if ($request->status === 'Approved') {
+                $startDate = Carbon::parse($leave->start_date);
+                $endDate = Carbon::parse($leave->end_date);
+                
+                for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+                    TeacherAttendance::updateOrCreate(
+                        ['teacher_id' => $leave->teacher_id, 'date' => $date->toDateString()],
+                        ['status' => 'L'] // L for Leave
+                    );
+                }
+            }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Leave status updated to ' . $request->status

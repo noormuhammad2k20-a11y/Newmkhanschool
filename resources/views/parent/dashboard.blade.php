@@ -188,35 +188,7 @@
         @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
-            {{-- Announcements --}}
-            <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-                <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
-                    <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-orange-500">campaign</span>
-                        Recent Announcements
-                    </h3>
-                    <a href="{{ route('parent.announcements') }}" class="text-primary text-label-md font-label-md hover:underline">View All</a>
-                </div>
-                <div class="p-0 flex-1">
-                    @forelse($announcements ?? [] as $ann)
-                        <div class="p-md border-b border-outline-variant last:border-b-0 hover:bg-surface-container-lowest transition-colors flex gap-4">
-                            <div class="flex flex-col items-center justify-center bg-surface-container-low rounded-lg p-2 min-w-[60px] h-[60px]">
-                                <span class="text-title-md font-title-md text-on-surface">{{ $ann->created_at->format('d') }}</span>
-                                <span class="text-label-sm font-label-sm text-secondary uppercase">{{ $ann->created_at->format('M') }}</span>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="text-title-md font-title-md text-on-surface mb-1">{{ $ann->title }}</h4>
-                                <p class="text-body-md font-body-md text-secondary line-clamp-2">{{ Str::limit($ann->content, 120) }}</p>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="p-xl text-center">
-                            <span class="material-symbols-outlined text-4xl text-secondary mb-2">notifications_off</span>
-                            <p class="text-body-md font-body-md text-secondary">No recent announcements.</p>
-                        </div>
-                    @endforelse
-                </div>
-            </div>
+
             
             {{-- Contact School --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden h-fit">

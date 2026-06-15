@@ -81,11 +81,6 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
     Route::get('/inventory/{id}/stock-out', [\App\Http\Controllers\Admin\InventoryController::class, 'stockOutForm'])->name('admin.inventory.stock-out.form');
     Route::post('/inventory/{id}/stock-out', [\App\Http\Controllers\Admin\InventoryController::class, 'stockOut'])->name('admin.inventory.stock-out');
     Route::get('/calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('admin.calendar');
-    Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('admin.reports');
-    Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('admin.events');
-    Route::get('/announcements', [\App\Http\Controllers\AnnouncementController::class, 'index'])->name('admin.announcements');
-    Route::post('/announcements', [\App\Http\Controllers\AnnouncementController::class, 'store'])->name('admin.announcements.store');
-    Route::delete('/announcements/{id}', [\App\Http\Controllers\AnnouncementController::class, 'destroy'])->name('admin.announcements.destroy');
     Route::get('/payroll', [\App\Http\Controllers\PayrollController::class, 'index'])->name('admin.payroll');
     Route::post('/payroll', [\App\Http\Controllers\PayrollController::class, 'store'])->name('admin.payroll.store');
     
@@ -110,10 +105,7 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
         Route::get('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'rules'])->name('promotions.rules');
         Route::post('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'saveRule'])->name('promotions.rules.save');
 
-        // S-06: Report Card Generation
-        Route::get('/report-cards', [\App\Http\Controllers\Admin\ReportCardController::class, 'index'])->name('reportcards.index');
-        Route::post('/report-cards/generate', [\App\Http\Controllers\Admin\ReportCardController::class, 'generate'])->name('reportcards.generate');
-        Route::get('/report-cards/{id}/pdf', [\App\Http\Controllers\Admin\ReportCardController::class, 'downloadPdf'])->name('reportcards.pdf');
+
 
         // Document Generation
         Route::get('/documents', [\App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('documents.index');
@@ -159,8 +151,7 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
         Route::post('/timetable/slot/{id}', [\App\Http\Controllers\Admin\AiTimetableController::class, 'updateSlot'])->name('timetable.update');
         Route::get('/timetable/history', [\App\Http\Controllers\Admin\AiTimetableController::class, 'history'])->name('timetable.history');
         
-        Route::get('/reports', [\App\Http\Controllers\Admin\AiReportController::class, 'index'])->name('reports');
-        Route::post('/reports/generate', [\App\Http\Controllers\Admin\AiReportController::class, 'generate'])->name('reports.generate');
+
     });
     
     // Roles and Permissions (Super Admin Only)
@@ -232,12 +223,7 @@ Route::middleware(['auth:accountant', 'same_school', 'role:Accountant'])->prefix
     Route::get('inventory-purchases', [\App\Http\Controllers\Accountant\InventoryPurchaseController::class, 'index'])->name('inventory-purchases.index');
     Route::post('inventory-purchases', [\App\Http\Controllers\Accountant\InventoryPurchaseController::class, 'store'])->name('inventory-purchases.store');
 
-    Route::get('reports', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'index'])->name('reports.index');
-    Route::get('reports/fee-collection', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'feeCollection'])->name('reports.fee-collection');
-    Route::get('reports/income-statement', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'incomeStatement'])->name('reports.income-statement');
-    Route::get('reports/expenses', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'expenses'])->name('reports.expenses');
-    Route::get('reports/payroll-summary', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'payrollSummary'])->name('reports.payroll-summary');
-    Route::get('reports/bank-statement', [\App\Http\Controllers\Accountant\FinancialReportController::class, 'bankStatement'])->name('reports.bank-statement');
+
 
     Route::get('profile', [\App\Http\Controllers\Accountant\AccountantProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile', [\App\Http\Controllers\Accountant\AccountantProfileController::class, 'update'])->name('profile.update');
@@ -300,7 +286,7 @@ Route::middleware(['auth:teacher', 'same_school', 'role:Teacher'])->prefix('teac
         Route::post('/leaves', [\App\Http\Controllers\TeacherPortalController::class, 'storeLeave'])->name('teacher.leaves.store');
     });
     
-    Route::middleware('teacher_module:announcements')->get('/announcements', [\App\Http\Controllers\TeacherPortalController::class, 'announcements'])->name('teacher.announcements');
+
     Route::middleware('teacher_module:performance')->get('/performance', [\App\Http\Controllers\TeacherPortalController::class, 'performance'])->name('teacher.performance');
     
     Route::middleware('teacher_module:profile')->group(function() {
@@ -346,7 +332,7 @@ Route::middleware(['auth:teacher', 'same_school', 'role:Teacher'])->prefix('teac
         Route::delete('/{id}', [\App\Http\Controllers\Teacher\SeatingPlanController::class, 'destroy'])->name('destroy');
     });
     
-    Route::middleware('teacher_module:reports')->get('/reports', [\App\Http\Controllers\TeacherPortalController::class, 'reports'])->name('teacher.reports');
+
 
     // Advanced Online Exams
     Route::get('/online-exams', [\App\Http\Controllers\Teacher\OnlineExamController::class, 'index'])->name('teacher.online-exams.index');
@@ -382,9 +368,7 @@ Route::middleware(['auth:student', 'role:Student', 'same_school'])
             Route::get('/quizzes/{id}/take', [\App\Http\Controllers\Student\DigitalLearningController::class, 'takeQuiz'])->name('quizzes.take');
             Route::post('/quizzes/{id}/submit', [\App\Http\Controllers\Student\DigitalLearningController::class, 'submitQuiz'])->name('quizzes.submit');
         });
-        Route::get('/announcements', [App\Http\Controllers\Student\AnnouncementController::class, 'index'])->name('announcements');
-        Route::get('/report-card', [App\Http\Controllers\Student\ReportCardController::class, 'index'])->name('report-card');
-        Route::get('/report-card/download', [App\Http\Controllers\Student\ReportCardController::class, 'download'])->name('report-card.download');
+
         Route::get('/exam-schedule', [\App\Http\Controllers\Student\ExamController::class, 'index'])->name('exam-schedule');
         Route::get('/api/exam-statuses', [\App\Http\Controllers\Student\ExamController::class, 'getExamStatuses'])->name('api.exam-statuses');
         Route::get('/library', [\App\Http\Controllers\Student\LibraryController::class, 'index'])->name('library');
@@ -401,6 +385,14 @@ Route::middleware(['auth:student', 'role:Student', 'same_school'])
 
         Route::get('/messages', [App\Http\Controllers\Student\MessageController::class, 'index'])->name('messages');
         Route::post('/messages', [App\Http\Controllers\Student\MessageController::class, 'send'])->name('messages.send');
+        
+        Route::get('/notifications', [\App\Http\Controllers\Student\NotificationController::class, 'index'])->name('notifications.index');
+        Route::post('/notifications/{id}/read', [\App\Http\Controllers\Student\NotificationController::class, 'markRead'])->name('notifications.read');
+        Route::post('/notifications/read-all', [\App\Http\Controllers\Student\NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+        Route::get('/notifications/unread-count', [\App\Http\Controllers\Student\NotificationController::class, 'unreadCount'])->name('notifications.count');
+        
+        Route::get('/id-card/download', [\App\Http\Controllers\Student\IDCardController::class, 'download'])->name('id-card.download');
+
         Route::get('/profile', [App\Http\Controllers\Student\ProfileController::class, 'show'])->name('profile');
         Route::put('/profile', [App\Http\Controllers\Student\ProfileController::class, 'update'])->name('profile.update');
 
@@ -430,11 +422,10 @@ Route::middleware(['auth:parent', 'role:Parent', 'same_school'])
         Route::get('/children/{student_id}/timetable', [App\Http\Controllers\ParentPortal\TimetableController::class, 'show'])->name('child.timetable');
         Route::get('/children/{student_id}/assignments', [App\Http\Controllers\ParentPortal\AssignmentController::class, 'show'])->name('child.assignments');
         Route::get('/children/{student_id}/exam-schedule', [App\Http\Controllers\ParentPortal\ExamController::class, 'show'])->name('child.exam-schedule');
-        Route::get('/children/{student_id}/report-card', [App\Http\Controllers\ParentPortal\ReportCardController::class, 'show'])->name('child.report-card');
-        Route::get('/children/{student_id}/report-card/download', [App\Http\Controllers\ParentPortal\ReportCardController::class, 'download'])->name('child.report-card.download');
+
         Route::get('/children/{student_id}/leave', [App\Http\Controllers\ParentPortal\LeaveController::class, 'show'])->name('child.leave');
         Route::post('/children/{student_id}/leave', [App\Http\Controllers\ParentPortal\LeaveController::class, 'store'])->name('child.leave.store');
-        Route::get('/announcements', [App\Http\Controllers\ParentPortal\AnnouncementController::class, 'index'])->name('announcements');
+
         Route::get('/messages', [App\Http\Controllers\ParentPortal\MessageController::class, 'index'])->name('messages');
         Route::post('/messages', [App\Http\Controllers\ParentPortal\MessageController::class, 'send'])->name('messages.send');
         Route::get('/profile', [App\Http\Controllers\ParentPortal\ProfileController::class, 'show'])->name('profile');
@@ -457,6 +448,7 @@ Route::middleware(['auth:admin,teacher,student,parent,accountant', 'same_school'
     Route::post('/students', [\App\Http\Controllers\Api\StudentController::class, 'store'])->name('api.students.store');
     Route::put('/students/{id}', [\App\Http\Controllers\Api\StudentController::class, 'update'])->name('api.students.update');
     Route::delete('/students/{id}', [\App\Http\Controllers\Api\StudentController::class, 'destroy'])->name('api.students.destroy');
+    Route::post('/students/{id}/restore', [\App\Http\Controllers\Api\StudentController::class, 'restore'])->name('api.students.restore');
     Route::get('/teachers', [\App\Http\Controllers\Api\TeacherController::class, 'index'])->name('api.teachers.index');
     Route::post('/teachers', [\App\Http\Controllers\Api\TeacherController::class, 'store'])->name('api.teachers.store');
     Route::put('/teachers/{id}', [\App\Http\Controllers\Api\TeacherController::class, 'update'])->name('api.teachers.update');
@@ -473,8 +465,7 @@ Route::middleware(['auth:admin,teacher,student,parent,accountant', 'same_school'
     Route::get('/exams/marks', [\App\Http\Controllers\Api\ExamController::class, 'getMarks'])->name('api.exams.marks');
     Route::post('/exams/marks', [\App\Http\Controllers\Api\ExamController::class, 'storeMarks'])->name('api.exams.marks.store');
     Route::get('/fees', [\App\Http\Controllers\Api\FeeController::class, 'index'])->name('api.fees');
-    Route::get('/events', [\App\Http\Controllers\Api\EventController::class, 'index'])->name('api.events');
-    Route::post('/events', [\App\Http\Controllers\Api\EventController::class, 'store'])->name('api.events.store');
+
 });
 
 // EasyPaisa Callback (Exclude CSRF)
@@ -491,8 +482,7 @@ Route::middleware(['auth:admin,teacher,student,parent,accountant', 'same_school'
     Route::get('/fees/receipt/{id}', [\App\Http\Controllers\FeeReceiptController::class, 'download'])->name('fees.receipt.download');
 });
 
-Route::post('/admin/report-card/narrative/{reportCardId}', [\App\Http\Controllers\ReportCardNarrativeController::class, 'generate'])->name('admin.report_card.narrative.generate')->middleware(['auth:admin']);
-Route::put('/admin/report-card/narrative/{id}', [\App\Http\Controllers\ReportCardNarrativeController::class, 'update'])->name('admin.report_card.narrative.update')->middleware(['auth:admin']);
+
 
 Route::get('/verify-certificate/{uuid}', [\App\Http\Controllers\CertificateVerificationController::class, 'verify'])->name('verify.certificate');
 
@@ -505,9 +495,7 @@ Route::get('/student/portfolio', [\App\Http\Controllers\StudentPortfolioControll
 
 
 
-Route::post('/admin/report-cards/narratives/batch-generate', [\App\Http\Controllers\ReportCardNarrativeController::class, 'batchGenerate'])->name('admin.report_cards.narratives.batch_generate');
-Route::post('/admin/report-cards/narratives/{id}/lock', [\App\Http\Controllers\ReportCardNarrativeController::class, 'lock'])->name('admin.report_cards.narratives.lock');
-Route::get('/admin/report-cards/narratives/{id}/export-pdf', [\App\Http\Controllers\ReportCardNarrativeController::class, 'exportPdf'])->name('admin.report_cards.narratives.export_pdf');
+
 
 
 
