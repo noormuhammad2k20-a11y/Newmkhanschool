@@ -1,14 +1,16 @@
 {{-- Character Certificate - Dynamic Blade Template --}}
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    .a4-page {
-        width: 210mm; height: 297mm;
-        max-height: 297mm;
+    html, body {
+        margin: 0; padding: 0;
+        width: 100%;
+        font-size: 13px;
         background-color: #fdfbf7;
-        position: relative; overflow: hidden;
+    }
+    .certificate-wrapper {
+        width: 100%;
+        position: relative;
         page-break-inside: avoid;
-        page-break-after: avoid;
-        page-break-before: avoid;
     }
     .frame-outer {
         position: absolute; top: 15mm; left: 15mm; right: 15mm; bottom: 15mm;
@@ -31,9 +33,9 @@
         opacity: 0.05; z-index: 0; pointer-events: none;
     }
     .content-container {
-        position: relative; padding: 25mm 25mm;
-        z-index: 5; height: 297mm; max-height: 297mm; overflow: hidden;
-        display: block; /* Removed flexbox for strict PDF compatibility */
+        position: relative; padding: 30mm 25mm 20mm 25mm;
+        z-index: 5;
+        display: block; 
         font-family: 'Times New Roman', Times, serif; color: #1e293b;
     }
     .header-table {
@@ -67,11 +69,11 @@
         letter-spacing: 2px; border-bottom: 3px solid #c9a73d;
         padding-bottom: 6px; display: inline-block;
     }
-    .cert-body { text-align: justify; font-size: 15px; line-height: 1.7; margin-bottom: 20px; }
-    .cert-body p { margin: 0 0 12px 0; }
+    .cert-body { text-align: justify; font-size: 13px; line-height: 1.5; margin-bottom: 20px; }
+    .cert-body p { margin: 0 0 10px 0; }
     .fill-val {
         font-family: 'Georgia', serif; font-weight: bold;
-        color: #1a365d; font-size: 17px;
+        color: #1a365d; font-size: 14px;
         border-bottom: 1px dashed #64748b; padding: 0 8px;
     }
     .lbl {
@@ -80,17 +82,13 @@
     }
     .grade-val {
         font-family: 'Georgia', serif; font-weight: bold;
-        color: #c9a73d; font-size: 17px; text-transform: uppercase;
+        color: #c9a73d; font-size: 14px; text-transform: uppercase;
         letter-spacing: 1.5px; border-bottom: 2px solid #1a365d; padding: 0 8px;
     }
     .signatures-area { 
-        position: absolute; 
-        bottom: 28mm; 
-        left: 25mm; 
-        right: 25mm; 
-        height: 35mm;
+        margin-top: 40px; 
     }
-    .sig-table { width: 100%; border-collapse: collapse; height: 100%; }
+    .sig-table { width: 100%; border-collapse: collapse; }
     .sig-table td { vertical-align: bottom; text-align: center; width: 33.33%; padding-bottom: 0; }
     .sign-line { border-top: 1px solid #1a365d; margin: 0 auto 8px auto; width: 70%; }
     .sign-label {
@@ -114,7 +112,7 @@
     }
 </style>
 
-<div class="a4-page">
+<div class="certificate-wrapper">
     <div class="frame-outer">
         <div class="corner top-left"></div>
         <div class="corner top-right"></div>
