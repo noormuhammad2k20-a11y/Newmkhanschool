@@ -14,6 +14,7 @@ class Teacher extends Model
     protected $fillable = [
         'user_id', 'employee_number', 'full_name', 'gender', 'dob', 'mobile_number',
         'joining_date', 'qualification', 'experience', 'address', 'status', 'photo',
+        'basic_salary', 'branch_id', 'specialization', 'email', 'cnic'
     ];
 
     protected static function booted(): void

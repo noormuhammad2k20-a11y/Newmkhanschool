@@ -215,6 +215,41 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- AI Modules Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-md">
+                    <!-- AI Widget 1: Attendance Prediction -->
+                    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden relative">
+                        <div class="p-md border-b border-outline-variant bg-primary-fixed flex justify-between items-center">
+                            <div>
+                                <h3 class="text-headline-md font-headline-md text-primary flex items-center gap-2">
+                                    <span class="material-symbols-outlined">auto_awesome</span>
+                                    AI Attendance Prediction
+                                </h3>
+                                <p class="text-xs text-on-primary-fixed mt-1">Students at high risk of absence tomorrow</p>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-surface-container-low text-label-md font-label-md text-secondary border-b border-outline-variant">
+                                        <th class="py-3 px-4 font-semibold">Student Name</th>
+                                        <th class="py-3 px-4 font-semibold">Risk %</th>
+                                        <th class="py-3 px-4 font-semibold">AI Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendance-predictions-tbody" class="text-body-md font-body-md">
+                                    <tr><td colspan="3" class="py-4 text-center">Loading AI Insights...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-md text-center border-t border-outline-variant bg-surface-bright">
+                            <a href="{{ route('admin.ai.risk-analysis') }}" class="text-primary text-label-md font-label-md hover:underline flex items-center justify-center gap-1">
+                                View Full Risk Analysis <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -277,6 +312,34 @@
                         });
                     } else {
                         auditUl.innerHTML = '<li class="text-center py-4 text-secondary">No recent activity found.</li>';
+                    }
+
+                    // Populate AI Attendance Predictions
+                    const predictionsTbody = document.getElementById('attendance-predictions-tbody');
+                    if (data.attendancePredictions && data.attendancePredictions.length > 0) {
+                        predictionsTbody.innerHTML = '';
+                        data.attendancePredictions.forEach(pred => {
+                            let riskColor = pred.risk_percentage > 80 ? 'text-error font-bold' : (pred.risk_percentage > 60 ? 'text-[#f59e0b]' : 'text-emerald-600');
+                            let riskBadgeBg = pred.risk_percentage > 80 ? 'bg-error-container text-on-error-container' : (pred.risk_percentage > 60 ? 'bg-[#fef3c7] text-[#92400e]' : 'bg-emerald-100 text-emerald-800');
+                            predictionsTbody.innerHTML += `
+                            <tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+                                <td class="py-3 px-4">
+                                    <span class="font-medium text-on-surface">${pred.student_name}</span>
+                                    <span class="text-xs text-secondary ml-1">(${pred.class})</span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${riskBadgeBg}">
+                                        ${pred.risk_percentage}%
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4 text-secondary text-sm flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    ${pred.reason}
+                                </td>
+                            </tr>`;
+                        });
+                    } else {
+                        predictionsTbody.innerHTML = '<tr><td colspan="3" class="py-4 text-center text-secondary">No current predictions.</td></tr>';
                     }
 
                     // Render Charts

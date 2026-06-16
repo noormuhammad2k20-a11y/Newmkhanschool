@@ -134,6 +134,34 @@
                                             <label class="text-label-md font-label-md text-on-surface">CNIC / National ID</label>
                                             <input name="cnic" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" placeholder="00000-0000000-0" type="text" />
                                         </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Gender</label>
+                                            <select name="gender" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full">
+                                                <option value="">Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Date of Birth</label>
+                                            <input name="dob" type="date" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" />
+                                        </div>
+                                        <div class="flex flex-col gap-xs md:col-span-2">
+                                            <label class="text-label-md font-label-md text-on-surface">Address</label>
+                                            <input name="address" type="text" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" placeholder="Full residential address" />
+                                        </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Branch</label>
+                                            <select name="branch_id" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full">
+                                                <option value="">Select Branch</option>
+                                                <!-- Add branch options if applicable. Assuming a default branch is used if not selected for now. -->
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Profile Photo</label>
+                                            <input name="photo" type="file" accept="image/*" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" />
+                                        </div>
                                         
                                         <div class="md:col-span-2 mt-xl flex justify-end gap-md border-t border-outline-variant pt-lg">
                                             <button type="button" onclick="nextStep(2)" class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
@@ -161,6 +189,27 @@
                                         <div class="flex flex-col gap-xs md:col-span-2">
                                             <label class="text-label-md font-label-md text-on-surface">Years of Experience</label>
                                             <input name="experience" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" placeholder="e.g. 5" type="number" min="0" step="1" />
+                                        </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Joining Date</label>
+                                            <input name="joining_date" type="date" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" />
+                                        </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Basic Salary</label>
+                                            <input name="basic_salary" type="number" step="0.01" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" placeholder="e.g. 50000.00" />
+                                        </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Employment Status</label>
+                                            <select name="status" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full">
+                                                <option value="Active">Active</option>
+                                                <option value="On Leave">On Leave</option>
+                                                <option value="Terminated">Terminated</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col gap-xs">
+                                            <label class="text-label-md font-label-md text-on-surface">Assigned Classes/Subjects</label>
+                                            <input name="assigned_classes" type="text" class="border border-outline-variant rounded-DEFAULT p-sm text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary transition-colors bg-surface-lowest w-full" placeholder="e.g. Grade 10 Math" />
+                                            <p class="text-body-sm text-on-surface-variant mt-1">Separate with commas or enter a description.</p>
                                         </div>
                                         
                                         <div class="md:col-span-2 mt-xl flex justify-between gap-md border-t border-outline-variant pt-lg">
@@ -288,18 +337,15 @@
         e.preventDefault();
         
         const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-        // Combine first and last name if needed, or backend handles it
-        data.full_name = data.first_name + ' ' + (data.last_name || '');
+        formData.append('full_name', formData.get('first_name') + ' ' + (formData.get('last_name') || ''));
 
         fetch('/api/teachers', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
-            body: JSON.stringify(data)
+            body: formData
         })
         .then(res => res.json())
         .then(response => {

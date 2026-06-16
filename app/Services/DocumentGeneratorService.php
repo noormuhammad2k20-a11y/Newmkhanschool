@@ -22,10 +22,10 @@ class DocumentGeneratorService
             '{{father_name}}' => $student->father_name ?? 'N/A',
             '{{class_name}}' => $student->currentClass?->name ?? 'N/A',
             '{{admission_no}}' => $student->admission_no,
-            '{{admission_date}}' => $student->admission_date ? \Carbon\Carbon::parse($student->admission_date)->format('d-m-Y') : 'N/A',
+            '{{admission_date}}' => $student->admission_date ? \Carbon\Carbon::parse($student->admission_date)->format('d-m-Y') : (\App\Models\AcademicYear::where('is_active', 1)->value('start_date') ? \Carbon\Carbon::parse(\App\Models\AcademicYear::where('is_active', 1)->value('start_date'))->format('d-m-Y') : '[Admission Date]'),
             '{{leaving_date}}' => now()->format('d-m-Y'),
             '{{academic_year}}' => $extra['academic_year'] ?? 'Current',
-            '{{address}}' => $student->address ?? 'N/A',
+            '{{address}}' => (!empty($student->address) && strtoupper($student->address) !== 'N/A') ? $student->address : '',
             '{{purpose}}' => $extra['purpose'] ?? 'General purpose',
             '{{issue_date}}' => date('d-m-Y'),
             '{{dob}}' => $student->dob ? \Carbon\Carbon::parse($student->dob)->format('d-m-Y') : 'N/A',
@@ -51,7 +51,8 @@ class DocumentGeneratorService
             ->setPaper('a4', 'portrait')
             ->setOption('isHtml5ParserEnabled', true)
             ->setOption('isRemoteEnabled', true)
-            ->setOption('isPhpEnabled', false);
+            ->setOption('isPhpEnabled', false)
+            ->setOption('isFontSubsettingEnabled', true);
 
         $path = "documents/{$filename}.pdf";
         

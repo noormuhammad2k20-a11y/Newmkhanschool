@@ -36,10 +36,33 @@
                 <h1 class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-on-surface">Bulk Marks Entry</h1>
             </div>
             <div class="flex gap-sm">
-                <button class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
+                <button type="button" class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
                     <span class="material-symbols-outlined text-[18px]">download</span>
                     Export Template
                 </button>
+                <button type="button" onclick="document.getElementById('bulkUploadModal').classList.remove('hidden')" class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-primary text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-[18px]">upload</span>
+                    Bulk Upload
+                </button>
+            </div>
+        </div>
+
+        <!-- Bulk Upload Modal -->
+        <div id="bulkUploadModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-surface rounded-xl max-w-md w-full p-lg shadow-lg">
+                <h2 class="text-headline-sm font-headline-sm text-on-surface mb-md">Bulk Upload Marks</h2>
+                <form action="{{ route('api.exams.marks.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="action" value="bulk_upload">
+                    <div class="mb-4">
+                        <label class="block text-label-md font-label-md text-on-surface mb-2">CSV File</label>
+                        <input type="file" name="file" accept=".csv" class="w-full bg-surface-bright border border-outline-variant rounded-lg p-2 text-body-md text-on-surface" required>
+                    </div>
+                    <div class="flex justify-end gap-sm mt-lg">
+                        <button type="button" onclick="document.getElementById('bulkUploadModal').classList.add('hidden')" class="px-4 py-2 border border-outline-variant rounded-lg text-secondary hover:bg-surface-container-low">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-primary text-on-primary rounded-lg hover:bg-primary-dark">Upload</button>
+                    </div>
+                </form>
             </div>
         </div>
         <!-- Context Banner -->

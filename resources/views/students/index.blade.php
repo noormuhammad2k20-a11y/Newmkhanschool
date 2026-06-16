@@ -11,10 +11,16 @@
                         <h2 class="text-headline-lg font-headline-lg text-on-background">Student Directory</h2>
                         <p class="text-body-md font-body-md text-on-surface-variant mt-xs">Manage and view all enrolled student records across the district.</p>
                     </div>
-                    <a href="{{ route('admin.students.create') }}" class="bg-primary text-on-primary text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center justify-center gap-sm hover:bg-primary-container transition-colors shadow-sm whitespace-nowrap self-start sm:self-auto">
-                        <span class="material-symbols-outlined">person_add</span>
-                        Add New Student
-                    </a>
+                    <div class="flex gap-sm self-start sm:self-auto flex-wrap sm:flex-nowrap">
+                        <a href="{{ route('admin.students.import') }}" class="bg-surface border border-outline-variant text-on-surface text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center justify-center gap-sm hover:bg-surface-container-low transition-colors shadow-sm whitespace-nowrap">
+                            <span class="material-symbols-outlined">upload_file</span>
+                            Bulk Import
+                        </a>
+                        <a href="{{ route('admin.students.create') }}" class="bg-primary text-on-primary text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center justify-center gap-sm hover:bg-primary-container transition-colors shadow-sm whitespace-nowrap">
+                            <span class="material-symbols-outlined">person_add</span>
+                            Add New Student
+                        </a>
+                    </div>
                 </div>
                 <!-- Filters & Search Bar -->
                 <div class="bg-surface border border-outline-variant rounded-lg p-md mb-lg">

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Transcript of Marks - GBHSS Dhilyar</title>
+    <style>
+        /* Essential reset for professional documents */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Set base document properties */
+        html {
+            font-size: 10pt;
+            /* Standard for professional printing */
+            background: #eee;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            /* Classic, authoritative serif for formal documents */
+            line-height: 1.3;
+            color: #1a1a1a;
+            padding: 2cm 0;
+            /* Margin around the paper when viewing on screen */
+        }
+
+        /* Container designed to A4 specifications */
+        .transcript-container {
+            width: 21cm;
+            min-height: 29.7cm;
+            margin: 0 auto;
+            background: #fff;
+            padding: 1.5cm;
+            /* Standard internal margins */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d4af37;
+            /* Subtle gold trim */
+        }
+
+        /* Refined Watermark (Centered over the content) */
+        .watermark-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8cm;
+            /* Size relative to the paper */
+            opacity: 0.05;
+            /* Barely perceptible, highly professional */
+            z-index: 0;
+            pointer-events: none;
+            filter: grayscale(100%);
+        }
+
+        /* Define text structure for sections */
+        .section {
+            z-index: 1;
+            position: relative;
+            margin-bottom: 0.8cm;
+        }
+
+        /* Header Layout: Centered & Formal */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #1a365d;
+            /* Dark Blue formal line */
+            padding-bottom: 0.5cm;
+            margin-bottom: 1cm;
+        }
+
+        .header img.logo-top {
+            width: 2cm;
+            display: block;
+            margin: 0 auto 0.3cm;
+        }
+
+        .header h1 {
+            color: #1a365d;
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5pt;
+            margin-bottom: 2pt;
+        }
+
+        .header p.address {
+            font-family: Arial, sans-serif;
+            /* Clean sans-serif for tertiary info */
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 8pt;
+        }
+
+        .document-title {
+            display: inline-block;
+            border-top: 1px solid #d4af37;
+            border-bottom: 1px solid #d4af37;
+            padding: 4pt 20pt;
+            color: #1a365d;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2pt;
+            font-size: 1.1rem;
+            margin-top: 5pt;
+        }
+
+        /* Student Info: Two-column grid with aligned key/values */
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10pt 20pt;
+            font-family: Arial, sans-serif;
+            /* Cleaner for data grids */
+            background: #fdfdfd;
+            padding: 15pt;
+            border: 1px solid #eee;
+        }
+
+        .student-info-grid .field {
+            display: flex;
+            align-items: center;
+        }
+
+        .student-info-grid .key {
+            font-weight: bold;
+            color: #1a365d;
+            width: 3.5cm;
+            text-align: right;
+            margin-right: 10pt;
+            font-size: 0.9rem;
+        }
+
+        .student-info-grid .value {
+            flex-grow: 1;
+            font-weight: 600;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 1pt;
+            color: #000;
+            font-size: 1rem;
+        }
+
+        /* Tables: Minimalist and highly legible */
+        table.transcript-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin-bottom: 1.2cm;
+        }
+
+        table.transcript-table th,
+        table.transcript-table td {
+            border: 1px solid #eee;
+            padding: 10pt 8pt;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        table.transcript-table th {
+            background-color: #1a365d;
+            /* Professional dark blue */
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 0.5pt;
+        }
+
+        table.transcript-table tr td:first-child,
+        table.transcript-table tr th:first-child {
+            text-align: left;
+            /* Left-align the main subject name */
+            padding-left: 15pt;
+        }
+
+        /* Subtle stripe for readability */
+        table.transcript-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Hover effect, only relevant for screen viewing */
+        @media screen {
+            table.transcript-table tbody tr:hover {
+                background-color: #f5faff;
+            }
+        }
+
+        /* Highlight the final row */
+        table.transcript-table tfoot tr.total-row td {
+            background-color: #f1f4f8;
+            color: #1a365d;
+            font-weight: bold;
+            border-top: 2px solid #1a365d;
+            font-size: 1.1rem;
+        }
+
+        table.transcript-table tfoot tr.total-row td:first-child {
+            text-transform: uppercase;
+            letter-spacing: 1pt;
+            font-size: 1rem;
+        }
+
+        /* Refined Result Summary */
+        .result-summary {
+            font-family: 'Times New Roman', serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1.5cm;
+            color: #000;
+            font-size: 1.2rem;
+            padding: 10pt;
+            background: #fdfbef;
+            border: 1px solid #f2e9c1;
+            /* Subtle cream and gold */
+        }
+
+        .result-summary span {
+            color: #1a365d;
+            font-weight: 800;
+            margin: 0 5pt;
+        }
+
+        /* Marks Grading Legend */
+        .marks-legend {
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: -0.5cm;
+            margin-bottom: 1.2cm;
+            border: 1px solid #eee;
+            padding: 8pt;
+            background: #fafafa;
+            border-radius: 4pt;
+        }
+
+        .marks-legend strong {
+            color: #333;
+        }
+
+        /* Footer and Remarks Layout */
+        .footer-content-block {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 20pt;
+        }
+
+        .remarks-container {
+            flex: 1;
+            font-family: Arial, sans-serif;
+        }
+
+        .remarks-label {
+            font-weight: bold;
+            color: #1a365d;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-bottom: 5pt;
+        }
+
+        .remarks-text-box {
+            font-style: italic;
+            color: #444;
+            padding: 10pt;
+            min-height: 2.5cm;
+            border: 1px solid #eee;
+            background: #fdfdfd;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .stamp-placeholder {
+            width: 3.5cm;
+            height: 3.5cm;
+            border: 2px dashed #bbb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            text-transform: uppercase;
+            background: rgba(250, 250, 250, 0.8);
+            font-family: Arial, sans-serif;
+            flex-shrink: 0;
+        }
+
+        /* Signature Lines Section */
+        .signature-grid {
+            margin-top: 1.5cm;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1cm;
+            font-family: Arial, sans-serif;
+        }
+
+        .signature-block {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #1a365d;
+            width: 100%;
+            margin-bottom: 5pt;
+        }
+
+        .signature-block label {
+            display: block;
+            font-size: 0.9rem;
+            color: #1a365d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5pt;
+        }
+
+        /* Final Print optimization rules */
+        @media print {
+            html {
+                font-size: 10pt;
+                /* Absolute baseline for print */
+                background: #fff;
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            .transcript-container {
+                box-shadow: none;
+                margin: 0;
+                width: auto;
+                min-height: auto;
+                border: none;
+                padding: 1cm;
+                /* Standard small print margin */
+                page-break-inside: avoid;
+            }
+
+            /* Ensure watermark prints subtly but clearly */
+            .watermark-img {
+                opacity: 0.05 !important;
+                filter: grayscale(100%);
+            }
+
+            /* Formal grey stripes must print clearly */
+            table.transcript-table tbody tr:nth-child(even) {
+                background-color: #fafafa !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            /* Highlight row prints clearly */
+            table.transcript-table tfoot tr.total-row td {
+                background-color: #f1f4f8 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="transcript-container">
+        <!-- Formal, very subtle grey scale watermark -->
+        <img src="assets/images/2logo (1).png" alt="Transcript Watermark" class="watermark-img">
+
+        <div class="header section">
+            <img src="assets/images/2logo (1).png" alt="School crest logo" class="logo-top">
+            <h1>Government Boys Higher Secondary School Dhilyar</h1>
+            <p class="address">Taluka Khipro, District Sanghar</p>
+            <div class="document-title">Official Transcript of Marks</div>
+        </div>
+
+        <div class="student-info section">
+            <div class="student-info-grid">
+                <div class="field">
+                    <span class="key">Student Name:</span>
+                    <span class="value">John Doe</span>
+                </div>
+                <div class="field">
+                    <span class="key">Roll No:</span>
+                    <span class="value">12345</span>
+                </div>
+                <div class="field">
+                    <span class="key">Father Name:</span>
+                    <span class="value">Richard Doe</span>
+                </div>
+                <div class="field">
+                    <span class="key">Examination:</span>
+                    <span class="value">Final Exam 2024</span>
+                </div>
+                <div class="field">
+                    <span class="key">Class/Grade:</span>
+                    <span class="value">10th Grade</span>
+                </div>
+                <div class="field">
+                    <span class="key">Academic Year:</span>
+                    <span class="value">2024</span>
+                </div>
+            </div>
+        </div>
+
+        <table class="transcript-table section">
+            <thead>
+                <tr>
+                    <th>Subject Description</th>
+                    <th>Maximum Marks</th>
+                    <th>Marks Obtained</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mathematics</td>
+                    <td>100</td>
+                    <td>85</td>
+                    <td>Good</td>
+                </tr>
+                <tr>
+                    <td>Science</td>
+                    <td>100</td>
+                    <td>90</td>
+                    <td>Excellent</td>
+                </tr>
+                <tr>
+                    <td>English</td>
+                    <td>100</td>
+                    <td>78</td>
+                    <td>Satisfactory</td>
+                </tr>
+                <tr>
+                    <td>History</td>
+                    <td>100</td>
+                    <td>88</td>
+                    <td>Good</td>
+                </tr>
+                <tr>
+                    <td>Computer Science</td>
+                    <td>100</td>
+                    <td>95</td>
+                    <td>Excellent</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td style="text-align: right;">Total Marks</td>
+                    <td>500</td>
+                    <td>436</td>
+                    <td>-</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="marks-legend section">
+            <strong>Grading Legend:</strong> 80%+ (A1/Excellent), 70%+ (A/Good), 60%+ (B/Satisfactory), < strong>Pass
+                Mark: 33% </strong>
+        </div>
+
+        <div class="result-summary section">
+            Percentage: <span>87.20%</span> | Final Grade: <span>A-1</span> | Status: <span>PASS</span>
+        </div>
+
+        <div class="footer-content-block">
+            <div class="remarks-container">
+                <div class="remarks-label">Principal/Teacher Remarks</div>
+                <div class="remarks-text-box">
+                    Excellent performance in academics and extra-curricular activities. Shows great interest in learning
+                    and asks insightful questions. Consistently completes assignments on time with accuracy.
+                </div>
+            </div>
+            <div class="stamp-placeholder">
+                Affix<br>Official Stamp
+            </div>
+        </div>
+
+        <div class="signature-grid section">
+            <div class="signature-block">
+                <div class="signature-line"></div>
+                <label>Class Teacher</label>
+            </div>
+            <div class="signature-block">
+                <div class="signature-line"></div>
+                <label>Headmaster</label>
+            </div>
+            <div class="signature-block">
+                <div class="signature-line"></div>
+                <label>Issue Date</label>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -41,6 +41,12 @@
             </div>
         </div>
 
+        <!-- Navigation Tabs -->
+        <div class="flex border-b border-outline-variant gap-8">
+            <a href="{{ route('accountant.bank-accounts.index') }}" class="px-2 py-4 border-b-2 font-label-lg transition-colors border-primary text-primary font-medium">Bank Accounts</a>
+            <a href="{{ route('accountant.cash-book.index') }}" class="px-2 py-4 border-b-2 border-transparent font-label-lg text-secondary hover:text-on-surface transition-colors font-medium">Cash Book</a>
+        </div>
+
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
             <span class="material-symbols-outlined text-emerald-600">check_circle</span>

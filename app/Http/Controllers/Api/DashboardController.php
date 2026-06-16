@@ -87,6 +87,12 @@ class DashboardController extends Controller
                             DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 5)->sum('paid_amount'),
                             DB::table('fees')->where('status', 'Paid')->whereMonth('created_at', 6)->sum('paid_amount')
                         ]
+                    ],
+                    'attendancePredictions' => [
+                        ['student_name' => 'Ali Khan', 'class' => '10-A', 'risk_percentage' => 85, 'reason' => 'Frequent recent absences'],
+                        ['student_name' => 'Sara Ahmed', 'class' => '9-B', 'risk_percentage' => 72, 'reason' => 'Missed last 2 Mondays'],
+                        ['student_name' => 'Usman Tariq', 'class' => '8-C', 'risk_percentage' => 65, 'reason' => 'Health history pattern'],
+                        ['student_name' => 'Ayesha Malik', 'class' => '10-A', 'risk_percentage' => 55, 'reason' => 'Late arrivals trend'],
                     ]
                 ]
             ]);

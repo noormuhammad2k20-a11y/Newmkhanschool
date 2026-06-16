@@ -11,8 +11,11 @@ class DocumentTemplate extends Model
     protected $fillable = [
         'name',
         'slug',
+        'design_type',
         'content',
         'variables',
+        'has_qr',
+        'has_signature',
         'is_active'
     ];
 }

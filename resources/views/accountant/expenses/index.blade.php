@@ -133,7 +133,7 @@
         </h3>
         <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
     </div>
-    <form method="POST" action="{{ route('accountant.expenses.store') }}">
+    <form method="POST" action="{{ route('accountant.expenses.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="p-6 space-y-5">
             <div class="grid grid-cols-2 gap-5">
@@ -164,6 +164,35 @@
                     <input type="text" name="voucher_no" class="input-field pl-10 bg-surface">
                 </div>
             </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Payment Mode</label>
+                    <select name="payment_mode" class="input-field bg-surface" required>
+                        <option value="Cash">Cash</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="Card">Card</option>
+                        <option value="Online">Online</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Paid To</label>
+                    <input type="text" name="paid_to" class="input-field bg-surface" placeholder="Vendor/Person Name" required>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Status</label>
+                    <select name="status" class="input-field bg-surface" required>
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Attach Receipt (Optional)</label>
+                    <input type="file" name="receipt" class="input-field bg-surface" accept=".pdf,.jpeg,.jpg,.png">
+                </div>
+            </div>
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Description</label>
                 <textarea name="description" class="input-field bg-surface" rows="3" required></textarea>
@@ -187,7 +216,7 @@
         </h3>
         <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
     </div>
-    <form id="editForm" method="POST" action="">
+    <form id="editForm" method="POST" action="" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="p-6 space-y-5">
@@ -219,6 +248,35 @@
                     <input type="text" name="voucher_no" id="edit_voucher" class="input-field pl-10 bg-surface">
                 </div>
             </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Payment Mode</label>
+                    <select name="payment_mode" id="edit_payment_mode" class="input-field bg-surface" required>
+                        <option value="Cash">Cash</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="Card">Card</option>
+                        <option value="Online">Online</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Paid To</label>
+                    <input type="text" name="paid_to" id="edit_paid_to" class="input-field bg-surface" required>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Status</label>
+                    <select name="status" id="edit_status" class="input-field bg-surface" required>
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-label-md font-label-md text-on-surface mb-2">Attach Receipt (Optional)</label>
+                    <input type="file" name="receipt" class="input-field bg-surface" accept=".pdf,.jpeg,.jpg,.png">
+                </div>
+            </div>
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Description</label>
                 <textarea name="description" id="edit_desc" class="input-field bg-surface" rows="3" required></textarea>
@@ -238,7 +296,10 @@
         document.getElementById('edit_category').value = expense.expense_category_id;
         document.getElementById('edit_amount').value = expense.amount;
         document.getElementById('edit_voucher').value = expense.voucher_no || '';
-        document.getElementById('edit_desc').value = expense.description;
+        document.getElementById('edit_payment_mode').value = expense.payment_mode || 'Cash';
+        document.getElementById('edit_paid_to').value = expense.paid_to || '';
+        document.getElementById('edit_status').value = expense.status || 'Pending';
+        document.getElementById('edit_desc').value = expense.description || '';
         document.getElementById('editExpenseModal').showModal();
     }
 </script>

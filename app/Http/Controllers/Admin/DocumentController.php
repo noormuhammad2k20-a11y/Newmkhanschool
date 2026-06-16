@@ -14,6 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
 {
@@ -24,12 +25,100 @@ class DocumentController extends Controller
         $this->documentService = $documentService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $documents = IssuedDocument::with(['student', 'template', 'issuedBy'])
+        // Statistics
+        $totalDocuments = IssuedDocument::count();
+        $thisMonthDocuments = IssuedDocument::whereMonth('issued_at', now()->month)
+            ->whereYear('issued_at', now()->year)
+            ->count();
+
+        // Per-template stats
+        $templateStats = DB::table('issued_documents')
+            ->join('document_templates', 'issued_documents.template_id', '=', 'document_templates.id')
+            ->select('document_templates.name', DB::raw('count(*) as total'))
+            ->groupBy('document_templates.name')
+            ->pluck('total', 'name')
+            ->toArray();
+
+        // Templates for the generator form
+        $templates = DocumentTemplate::where('is_active', 1)->get();
+        $academicYear = AcademicYear::where('is_active', 1)->first();
+
+        // Classes for the student search
+        $classes = \App\Models\SchoolClass::all();
+        $sections = \App\Models\Section::all();
+
+        // Recent documents
+        $documents = IssuedDocument::with(['student.currentClass', 'template', 'issuedBy'])
             ->orderBy('id', 'desc')
-            ->paginate(20);
-        return view('admin.documents.index', compact('documents'));
+            ->paginate(15);
+
+        // Recent activity — last 8 documents
+        $recentActivity = IssuedDocument::with(['student.currentClass', 'template', 'issuedBy'])
+            ->orderBy('id', 'desc')
+            ->take(8)
+            ->get();
+
+        // Student search (AJAX or page-based)
+        $searchStudents = collect();
+        $studentSearch = $request->input('student_search');
+        $searchClassId = $request->input('search_class_id');
+        if ($studentSearch || $searchClassId) {
+            $sq = Student::with(['currentClass', 'currentSection']);
+            if ($studentSearch) {
+                $sq->where(function($q) use ($studentSearch) {
+                    $q->where('first_name', 'like', "%{$studentSearch}%")
+                      ->orWhere('last_name', 'like', "%{$studentSearch}%")
+                      ->orWhere('admission_no', 'like', "%{$studentSearch}%");
+                });
+            }
+            if ($searchClassId) {
+                $sq->where('current_class_id', $searchClassId);
+            }
+            $searchStudents = $sq->take(20)->get();
+        }
+
+        return view('admin.documents.index', compact(
+            'totalDocuments',
+            'thisMonthDocuments',
+            'templateStats',
+            'templates',
+            'academicYear',
+            'classes',
+            'sections',
+            'documents',
+            'recentActivity',
+            'searchStudents',
+            'studentSearch',
+            'searchClassId'
+        ));
+    }
+
+    public function ajaxSearch(Request $request)
+    {
+        $query = $request->get('query');
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $students = Student::with(['currentClass', 'currentSection'])
+            ->where('first_name', 'like', "%$query%")
+            ->orWhere('last_name', 'like', "%$query%")
+            ->orWhere('admission_no', 'like', "%$query%")
+            ->take(10)
+            ->get()
+            ->map(function($student) {
+                return [
+                    'id' => $student->id,
+                    'first_name' => $student->first_name,
+                    'last_name' => $student->last_name,
+                    'admission_no' => $student->admission_no,
+                    'class_name' => $student->currentClass ? $student->currentClass->name : 'N/A'
+                ];
+            });
+
+        return response()->json($students);
     }
 
     public function create(Request $request)
@@ -109,6 +198,24 @@ class DocumentController extends Controller
             }
         }
 
+        // If AJAX request, return JSON for inline preview
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'content' => $content,
+                'student' => [
+                    'id' => $student->id,
+                    'name' => $student->first_name . ' ' . $student->last_name,
+                    'admission_no' => $student->admission_no,
+                    'class' => $student->currentClass?->name ?? 'N/A'
+                ],
+                'template' => [
+                    'id' => $template->id,
+                    'name' => $template->name
+                ]
+            ]);
+        }
+
         return view('admin.documents.preview', compact('content', 'student', 'template', 'extra'));
     }
 
@@ -118,13 +225,24 @@ class DocumentController extends Controller
         $template = DocumentTemplate::findOrFail($request->template_id);
         
         $content = $request->manual_content; // content passed from the preview step
-        
-        if (!$content) {
-             return redirect()->route('admin.documents.create')->with('error', 'Content missing for generation.');
-        }
 
         // Generate document number
         $docNo = strtoupper(substr($template->slug, 0, 2)) . '-' . now()->format('Ymd') . '-' . str_pad(IssuedDocument::count() + 1, 5, '0', STR_PAD_LEFT);
+        
+        if (!$content) {
+            $extra = [
+                'purpose' => $request->purpose,
+                'academic_year' => $request->academic_year,
+                'certificate_no' => $docNo,
+            ];
+            
+            $content = $this->documentService->fillTemplate($template, $student, $extra);
+            
+            // If AI Enhancement is requested
+            if ($request->ai_enhance) {
+                $content = $this->documentService->aiEnhance($content, $template->name);
+            }
+        }
 
         $uuid = Str::uuid()->toString();
         $qrCodePath = null;
@@ -161,8 +279,6 @@ class DocumentController extends Controller
             'signature' => $signatureBase64 ? '<img src="'.$signatureBase64.'" style="max-width: 180px; max-height: 90px;" alt="Signature"><br><div style="border-top: 2px solid #333; margin-top: 10px; padding-top: 5px; font-weight: bold; font-family: \'Times New Roman\', serif;">Principal\'s Signature & Stamp</div>' : '<br><br><br><br><div style="border-top: 2px solid #333; margin-top: 10px; padding-top: 5px; font-weight: bold; font-family: \'Times New Roman\', serif;">Principal\'s Signature & Stamp</div>'
         ];
         
-        // Re-fill the template with final values (since manual_content might still contain placeholders if the user didn't overwrite them)
-        // If the user manually edited `{{qr_code}}` out, it won't be replaced, which is fine.
         foreach ($extraParams as $key => $value) {
             $content = str_replace('{{'.$key.'}}', $value, $content);
         }
@@ -188,6 +304,18 @@ class DocumentController extends Controller
             'qr_code_path' => $qrCodePath
         ]);
 
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Document generated successfully.',
+                'document' => [
+                    'id' => $issued->id,
+                    'document_no' => $docNo,
+                    'download_url' => route('admin.documents.download', $issued->id)
+                ]
+            ]);
+        }
+
         return redirect()->route('admin.documents.index')->with('success', 'Document generated successfully.');
     }
 
@@ -198,6 +326,106 @@ class DocumentController extends Controller
             return Storage::disk('public')->download($document->pdf_path);
         }
         return back()->with('error', 'Document file not found.');
+    }
+
+    public function destroy($id)
+    {
+        $document = IssuedDocument::findOrFail($id);
+        if ($document->pdf_path && Storage::disk('public')->exists($document->pdf_path)) {
+            Storage::disk('public')->delete($document->pdf_path);
+        }
+        if ($document->qr_code_path && Storage::disk('public')->exists($document->qr_code_path)) {
+            Storage::disk('public')->delete($document->qr_code_path);
+        }
+        $document->delete();
+
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Document deleted successfully.']);
+        }
+
+        return back()->with('success', 'Document deleted successfully.');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'exists:issued_documents,id'
+        ]);
+
+        $documents = IssuedDocument::whereIn('id', $request->ids)->get();
+        $count = 0;
+
+        foreach ($documents as $document) {
+            if ($document->pdf_path && Storage::disk('public')->exists($document->pdf_path)) {
+                Storage::disk('public')->delete($document->pdf_path);
+            }
+            if ($document->qr_code_path && Storage::disk('public')->exists($document->qr_code_path)) {
+                Storage::disk('public')->delete($document->qr_code_path);
+            }
+            $document->delete();
+            $count++;
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => "$count documents deleted successfully."]);
+        }
+
+        return back()->with('success', "$count documents deleted successfully.");
+    }
+
+    public function destroyAll(Request $request)
+    {
+        $documents = IssuedDocument::all();
+        $count = 0;
+
+        foreach ($documents as $document) {
+            if ($document->pdf_path && Storage::disk('public')->exists($document->pdf_path)) {
+                Storage::disk('public')->delete($document->pdf_path);
+            }
+            if ($document->qr_code_path && Storage::disk('public')->exists($document->qr_code_path)) {
+                Storage::disk('public')->delete($document->qr_code_path);
+            }
+            $document->delete();
+            $count++;
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => "All ($count) documents deleted successfully."]);
+        }
+
+        return back()->with('success', "All ($count) documents deleted successfully.");
+    }
+
+    public function studentHistory($studentId)
+    {
+        $student = Student::with(['currentClass', 'currentSection'])->findOrFail($studentId);
+        $documents = IssuedDocument::with(['template', 'issuedBy'])
+            ->where('student_id', $studentId)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'student' => [
+                'id' => $student->id,
+                'name' => $student->first_name . ' ' . $student->last_name,
+                'admission_no' => $student->admission_no,
+                'class' => $student->currentClass?->name ?? 'N/A',
+                'section' => $student->currentSection?->name ?? ''
+            ],
+            'documents' => $documents->map(function($doc) {
+                return [
+                    'id' => $doc->id,
+                    'document_no' => $doc->document_no,
+                    'template_name' => $doc->template->name ?? 'Unknown',
+                    'purpose' => $doc->purpose,
+                    'issued_at' => $doc->issued_at ? $doc->issued_at->format('d M Y, h:i A') : 'N/A',
+                    'issued_by' => $doc->issuedBy->name ?? 'System',
+                    'download_url' => route('admin.documents.download', $doc->id)
+                ];
+            })
+        ]);
     }
 
     public function templates()

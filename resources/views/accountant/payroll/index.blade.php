@@ -34,7 +34,7 @@
                     <h2 class="text-headline-xl font-headline-xl text-on-surface">Payroll Management</h2>
                     <p class="text-body-lg font-body-lg text-secondary mt-1">Manage staff salaries and payments</p>
                 </div>
-                <button class="btn-primary shadow-sm flex items-center gap-2" onclick="alert('Feature coming soon')">
+                <button class="btn-primary shadow-sm flex items-center gap-2" onclick="openModal('generate-payroll-modal')">
                     <span class="material-symbols-outlined text-[20px]">add</span>
                     Generate Payroll
                 </button>
@@ -131,4 +131,47 @@
         </div>
     </div>
 </main>
+
+<!-- Generate Payroll Modal -->
+<div id="generate-payroll-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+    <div class="bg-surface border border-outline-variant rounded-xl shadow-lg w-full max-w-md flex flex-col">
+        <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low rounded-t-xl">
+            <h2 class="font-headline-md text-headline-md text-on-surface">Generate Payroll</h2>
+            <button onclick="closeModal('generate-payroll-modal')" class="text-on-surface-variant hover:text-error transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form action="{{ route('accountant.payroll.generate') }}" method="POST">
+            @csrf
+            <div class="p-6 space-y-4">
+                <p class="text-body-md text-secondary mb-2">This will generate pending payroll records for all active teachers who haven't been processed yet for the selected month.</p>
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface mb-2">Month & Year</label>
+                    <input type="month" name="month_year" value="{{ date('Y-m') }}" required class="w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary bg-surface-bright text-on-surface transition-shadow">
+                </div>
+            </div>
+            <div class="p-6 border-t border-outline-variant flex justify-end gap-3 bg-surface-container-low rounded-b-xl">
+                <button type="button" onclick="closeModal('generate-payroll-modal')" class="px-4 py-2 border border-outline-variant text-on-surface rounded-lg hover:bg-surface-container-highest transition-colors font-label-md">Cancel</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-on-primary rounded-lg hover:opacity-90 transition-opacity font-label-md">Generate Payroll</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+    }
+    function closeModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+</script>
 @endsection

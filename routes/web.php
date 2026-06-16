@@ -33,8 +33,17 @@ Route::get('/', function () {
 // ADMIN ROUTES
 Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/ai/risk-analysis', function() {
+        return view('admin.ai.risk-analysis');
+    })->name('admin.ai.risk-analysis');
+    Route::get('/timetables/generate', function() {
+        return view('admin.timetables.generate');
+    })->name('admin.timetables.generate');
     Route::get('/students', [\App\Http\Controllers\StudentController::class, 'index'])->name('admin.students');
     Route::get('/students/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('admin.students.create');
+    Route::get('/students/import', function() {
+        return view('students.import');
+    })->name('admin.students.import');
     Route::get('/students/{id}', [\App\Http\Controllers\StudentController::class, 'show'])->name('admin.students.show');
     Route::get('/students/{id}/edit', [\App\Http\Controllers\StudentController::class, 'edit'])->name('admin.students.edit');
     Route::get('/teachers', [\App\Http\Controllers\TeacherController::class, 'index'])->name('admin.teachers');
@@ -111,9 +120,14 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
         Route::get('/documents', [\App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('documents.index');
         Route::get('/documents/create', [\App\Http\Controllers\Admin\DocumentController::class, 'create'])->name('documents.create');
         Route::get('/documents/select-template/{student}', [\App\Http\Controllers\Admin\DocumentController::class, 'selectTemplate'])->name('documents.select-template');
+        Route::get('/documents/ajax-search', [\App\Http\Controllers\Admin\DocumentController::class, 'ajaxSearch'])->name('documents.ajax-search');
         Route::post('/documents/preview', [\App\Http\Controllers\Admin\DocumentController::class, 'preview'])->name('documents.preview');
         Route::post('/documents/generate', [\App\Http\Controllers\Admin\DocumentController::class, 'generate'])->name('documents.generate');
         Route::get('/documents/download/{id}', [\App\Http\Controllers\Admin\DocumentController::class, 'download'])->name('documents.download');
+        Route::post('/documents/bulk-destroy', [\App\Http\Controllers\Admin\DocumentController::class, 'bulkDestroy'])->name('documents.bulk-destroy');
+        Route::delete('/documents/destroy-all', [\App\Http\Controllers\Admin\DocumentController::class, 'destroyAll'])->name('documents.destroy-all');
+        Route::delete('/documents/{id}', [\App\Http\Controllers\Admin\DocumentController::class, 'destroy'])->name('documents.destroy');
+        Route::get('/documents/student-history/{student}', [\App\Http\Controllers\Admin\DocumentController::class, 'studentHistory'])->name('documents.student-history');
         Route::get('/documents/templates', [\App\Http\Controllers\Admin\DocumentController::class, 'templates'])->name('documents.templates');
         Route::get('/documents/templates/{id}/edit', [\App\Http\Controllers\Admin\DocumentController::class, 'editTemplate'])->name('documents.templates.edit');
         Route::put('/documents/templates/{id}', [\App\Http\Controllers\Admin\DocumentController::class, 'updateTemplate'])->name('documents.templates.update');
@@ -494,9 +508,15 @@ Route::get('/portfolio/{student_id}', [\App\Http\Controllers\StudentPortfolioCon
 Route::get('/student/portfolio', [\App\Http\Controllers\StudentPortfolioController::class, 'myPortfolio'])->name('student.portfolio.index')->middleware(['auth:student']);
 
 
+Route::get('/student/portfolio', [\App\Http\Controllers\StudentPortfolioController::class, 'myPortfolio'])->name('student.portfolio.index')->middleware(['auth:student']);
+
+
 
 
 
 
 
 Route::get('/student/portfolio/{id}/resume', [\App\Http\Controllers\StudentPortfolioController::class, 'downloadResume'])->name('student.portfolio.resume');
+
+// AI Auto Grader API Endpoint
+Route::post('/api/assignments/auto-grade', [\App\Http\Controllers\Api\AssignmentController::class, 'autoGrade']);

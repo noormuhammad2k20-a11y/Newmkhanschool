@@ -71,6 +71,20 @@ class TeacherController extends Controller
             $teacher->qualification = $request->qualification ?? null;
             $teacher->specialization = $request->subject_specialization ?? null;
             $teacher->experience = $request->filled('experience') ? (int) $request->experience : null;
+            $teacher->gender = $request->gender ?? null;
+            $teacher->dob = $request->dob ?? null;
+            $teacher->address = $request->address ?? null;
+            $teacher->branch_id = $request->branch_id ?? null;
+            $teacher->joining_date = $request->joining_date ?? null;
+            $teacher->basic_salary = $request->filled('basic_salary') ? (float) $request->basic_salary : null;
+            $teacher->status = $request->status ?? 'Active';
+
+            if ($request->hasFile('photo')) {
+                $teacher->photo = $request->file('photo')->store('teachers/photos', 'public');
+            }
+            if ($request->hasFile('resume')) {
+                // Assuming we have a resume column or handle it elsewhere, let's ignore it if no column exists, or save to some generic place if it did. We don't have a resume column in teachers table. We'll skip resume save for now or add it later if required.
+            }
             
             $teacher->save();
 
@@ -116,6 +130,17 @@ class TeacherController extends Controller
             if ($request->filled('qualification')) $teacher->qualification = $request->qualification;
             if ($request->filled('subject_specialization')) $teacher->specialization = $request->subject_specialization;
             if ($request->filled('experience')) $teacher->experience = (int) $request->experience;
+            if ($request->filled('gender')) $teacher->gender = $request->gender;
+            if ($request->filled('dob')) $teacher->dob = $request->dob;
+            if ($request->filled('address')) $teacher->address = $request->address;
+            if ($request->filled('branch_id')) $teacher->branch_id = $request->branch_id;
+            if ($request->filled('joining_date')) $teacher->joining_date = $request->joining_date;
+            if ($request->filled('basic_salary')) $teacher->basic_salary = (float) $request->basic_salary;
+            if ($request->filled('status')) $teacher->status = $request->status;
+
+            if ($request->hasFile('photo')) {
+                $teacher->photo = $request->file('photo')->store('teachers/photos', 'public');
+            }
             
             $teacher->save();
             if ($user) $user->save();

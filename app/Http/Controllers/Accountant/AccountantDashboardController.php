@@ -15,7 +15,7 @@ class AccountantDashboardController extends Controller
 
         $totalCollectionToday = DB::table('fee_payment_transactions')
             ->whereDate('paid_at', $today)
-            ->where('status', 'Completed')
+            ->where('status', 'Success')
             ->sum('amount');
 
         $pendingFees = \App\Models\Fee::whereIn('status', ['Pending', 'Partial'])
@@ -47,7 +47,7 @@ class AccountantDashboardController extends Controller
             $months[] = $monthDate->format('M');
             
             $income = DB::table('fee_payment_transactions')
-                ->where('status', 'Completed')
+                ->where('status', 'Success')
                 ->where('paid_at', 'like', $monthStr . '%')
                 ->sum('amount');
                 

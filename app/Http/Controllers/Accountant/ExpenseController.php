@@ -29,9 +29,18 @@ class ExpenseController extends Controller
             'expense_category_id' => 'required|exists:expense_categories,id',
             'amount' => 'required|numeric|min:1',
             'date' => 'required|date',
-            'description' => 'nullable|string|max:255',
+            'description' => 'required|string|max:255',
             'status' => 'required|in:Pending,Paid',
+            'payment_mode' => 'required|string|in:Cash,Bank Transfer,Cheque,Card,Online',
+            'paid_to' => 'required|string|max:255',
+            'voucher_no' => 'nullable|string|max:50',
+            'receipt' => 'nullable|file|mimes:jpeg,png,pdf|max:2048',
         ]);
+
+        $receiptPath = null;
+        if ($request->hasFile('receipt')) {
+            $receiptPath = $request->file('receipt')->store('expenses/receipts', 'public');
+        }
 
         $expense = Expense::create([
             'school_id' => auth()->user()->school_id ?? 1,
@@ -40,6 +49,10 @@ class ExpenseController extends Controller
             'date' => $request->date,
             'description' => $request->description,
             'status' => $request->status,
+            'payment_mode' => $request->payment_mode,
+            'paid_to' => $request->paid_to,
+            'voucher_no' => $request->voucher_no,
+            'receipt_path' => $receiptPath,
             'recorded_by' => auth()->id() ?? 1,
         ]);
 
@@ -56,6 +69,52 @@ class ExpenseController extends Controller
         }
 
         return back()->with('success', 'Expense recorded successfully.');
+    }
+
+    public function update(Request $request, Expense $expense)
+    {
+        $request->validate([
+            'expense_category_id' => 'required|exists:expense_categories,id',
+            'amount' => 'required|numeric|min:1',
+            'date' => 'required|date',
+            'description' => 'required|string|max:255',
+            'status' => 'required|in:Pending,Paid',
+            'payment_mode' => 'required|string|in:Cash,Bank Transfer,Cheque,Card,Online',
+            'paid_to' => 'required|string|max:255',
+            'voucher_no' => 'nullable|string|max:50',
+            'receipt' => 'nullable|file|mimes:jpeg,png,pdf|max:2048',
+        ]);
+
+        if ($request->hasFile('receipt')) {
+            $expense->receipt_path = $request->file('receipt')->store('expenses/receipts', 'public');
+        }
+
+        $oldStatus = $expense->status;
+
+        $expense->update([
+            'expense_category_id' => $request->expense_category_id,
+            'amount' => $request->amount,
+            'date' => $request->date,
+            'description' => $request->description,
+            'status' => $request->status,
+            'payment_mode' => $request->payment_mode,
+            'paid_to' => $request->paid_to,
+            'voucher_no' => $request->voucher_no,
+        ]);
+
+        if ($oldStatus !== 'Paid' && $expense->status === 'Paid') {
+            \App\Models\LedgerEntry::create([
+                'school_id' => $expense->school_id,
+                'date' => $expense->date,
+                'description' => 'Expense Paid: ' . ($expense->category->name ?? 'General') . ($expense->description ? ' - ' . $expense->description : ''),
+                'type' => 'Debit',
+                'amount' => $expense->amount,
+                'reference_id' => $expense->id,
+                'reference_type' => Expense::class,
+            ]);
+        }
+
+        return back()->with('success', 'Expense updated successfully.');
     }
 
     public function updateStatus(Request $request, Expense $expense)

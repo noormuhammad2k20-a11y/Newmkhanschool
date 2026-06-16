@@ -63,7 +63,7 @@ class AccountantFeeController extends Controller
             'gateway' => $request->gateway,
             'transaction_ref' => 'REF-' . strtoupper(uniqid()),
             'amount' => $request->amount,
-            'status' => 'Completed',
+            'status' => 'Success',
             'paid_at' => now()
         ]);
 
@@ -79,7 +79,7 @@ class AccountantFeeController extends Controller
             'school_id' => $fee->student->school_id ?? 1,
             'date' => now()->toDateString(),
             'description' => 'Fee Collection: ' . $fee->fee_category . ' from ' . $fee->student->full_name,
-            'type' => 'Credit',
+            'type' => 'Income',
             'amount' => $request->amount,
             'reference_id' => $transaction->id,
             'reference_type' => FeePaymentTransaction::class,

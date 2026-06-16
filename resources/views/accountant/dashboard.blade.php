@@ -138,7 +138,7 @@
                         <span class="material-symbols-outlined text-3xl text-secondary group-hover:text-blue-600 mb-2 transition-colors">account_balance_wallet</span>
                         <span class="text-label-md font-semibold text-on-surface group-hover:text-blue-800">Process Payroll</span>
                     </a>
-                    <a href="{{ route('accountant.reports.index') }}" class="group flex flex-col items-center justify-center p-6 rounded-xl border border-outline-variant bg-surface hover:bg-primary/10 hover:border-primary/30 transition-all">
+                    <a href="#" class="group flex flex-col items-center justify-center p-6 rounded-xl border border-outline-variant bg-surface hover:bg-primary/10 hover:border-primary/30 transition-all">
                         <span class="material-symbols-outlined text-3xl text-secondary group-hover:text-primary mb-2 transition-colors">analytics</span>
                         <span class="text-label-md font-semibold text-on-surface group-hover:text-primary-container">Financial Reports</span>
                     </a>

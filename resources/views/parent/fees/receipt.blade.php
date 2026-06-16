@@ -85,6 +85,18 @@
                         </tfoot>
                     </table>
                 </div>
+                
+                <!-- Print Signatory Boxes -->
+                <div class="hidden print:flex justify-between items-end mt-32 w-full pt-8 px-4 border-t border-outline-variant">
+                    <div class="text-center w-48">
+                        <div class="border-b-2 border-black mb-2 h-16"></div>
+                        <span class="text-label-md font-label-md text-on-surface font-bold uppercase">Accountant</span>
+                    </div>
+                    <div class="text-center w-48">
+                        <div class="border-b-2 border-black mb-2 h-16"></div>
+                        <span class="text-label-md font-label-md text-on-surface font-bold uppercase">Parent / Guardian</span>
+                    </div>
+                </div>
             </div>
             
             <!-- Watermark -->

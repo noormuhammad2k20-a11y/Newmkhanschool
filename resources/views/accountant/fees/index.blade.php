@@ -205,7 +205,7 @@
             <span class="material-symbols-outlined text-[20px]">close</span>
         </button>
     </div>
-    <form id="collectPaymentForm" method="POST" action="">
+    <form id="collectPaymentForm" data-no-ajax="true" method="POST" action="">
         @csrf
         <div class="p-6 space-y-6">
             <div>
@@ -300,7 +300,9 @@ document.getElementById('collectPaymentForm').addEventListener('submit', functio
             // Refresh table via AJAX
             refreshTable();
             
-            // The global interceptor in layouts.app handles the top toast notification automatically.
+            if (window.UI && window.UI.showToast) {
+                window.UI.showToast(data.message || 'Payment collected successfully!', 'success');
+            }
         } else {
             alert(data.message || 'An error occurred');
         }

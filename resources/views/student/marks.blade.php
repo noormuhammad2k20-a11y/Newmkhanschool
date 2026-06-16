@@ -161,6 +161,22 @@
                 </div>
             @endif
         </div>
+        
+        <!-- Print Signatory Boxes -->
+        <div class="hidden print:flex justify-between items-end mt-24 pt-8 px-8 w-full border-t border-outline-variant">
+            <div class="text-center w-48">
+                <div class="border-b-2 border-black mb-2 h-16"></div>
+                <span class="text-label-md font-label-md text-on-surface font-bold uppercase">Class Teacher</span>
+            </div>
+            <div class="text-center w-48">
+                <div class="border-b-2 border-black mb-2 h-16"></div>
+                <span class="text-label-md font-label-md text-on-surface font-bold uppercase">Parent / Guardian</span>
+            </div>
+            <div class="text-center w-48">
+                <div class="border-b-2 border-black mb-2 h-16"></div>
+                <span class="text-label-md font-label-md text-on-surface font-bold uppercase">Headmaster</span>
+            </div>
+        </div>
     </div>
 </main>
 @endsection

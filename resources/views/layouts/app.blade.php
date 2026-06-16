@@ -1212,9 +1212,11 @@
                                 setTimeout(() => { window.location.href = data.redirect; }, 600);
                             } else {
                                 // Close any open modals
-                                document.querySelectorAll('[id*="modal"]').forEach(modal => {
+                                document.querySelectorAll('[id*="modal"], dialog').forEach(modal => {
                                     if (modal.id !== 'global-confirm-modal' && modal.id !== 'global-toast') {
-                                        if (!modal.classList.contains('hidden')) {
+                                        if (modal.tagName === 'DIALOG' && typeof modal.close === 'function') {
+                                            modal.close();
+                                        } else if (!modal.classList.contains('hidden')) {
                                             modal.classList.add('hidden');
                                             modal.classList.remove('flex');
                                         }

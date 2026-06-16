@@ -11,12 +11,14 @@ class IssuedDocument extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'uuid',
         'student_id',
         'template_id',
         'document_no',
         'issued_by',
         'purpose',
         'pdf_path',
+        'qr_code_path',
         'issued_at'
     ];
 
