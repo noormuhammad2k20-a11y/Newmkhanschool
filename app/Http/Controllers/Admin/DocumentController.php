@@ -229,11 +229,41 @@ class DocumentController extends Controller
         // Generate document number
         $docNo = strtoupper(substr($template->slug, 0, 2)) . '-' . now()->format('Ymd') . '-' . str_pad(IssuedDocument::count() + 1, 5, '0', STR_PAD_LEFT);
         
+        // Generate UUID for QR verification
+        $uuid = Str::uuid()->toString();
+        $qrCodePath = null;
+        $qrCodeBase64 = null;
+        $qrCodeHtml = '';
+
+        if ($template->has_qr) {
+            $qrCodeData = route('verify.qr', ['uuid' => $uuid]);
+            $qrCodeImage = QrCode::format('svg')->size(150)->generate($qrCodeData);
+            $qrCodePath = 'documents/qr/' . $uuid . '.svg';
+            Storage::disk('public')->put($qrCodePath, $qrCodeImage);
+            $qrCodeBase64 = base64_encode($qrCodeImage);
+            $qrCodeHtml = '<img src="data:image/svg+xml;base64,'.$qrCodeBase64.'" style="width: 110px; height: 110px;" alt="QR Code">';
+        }
+
+        // Get signature if needed
+        $signatureBase64 = null;
+        $signatureHtml = '';
+        if ($template->has_signature) {
+            $school = \App\Models\School::find(auth()->user()->school_id ?? 1) ?? \App\Models\School::first();
+            if ($school && $school->principal_signature_path && Storage::disk('public')->exists($school->principal_signature_path)) {
+                $sigContent = Storage::disk('public')->get($school->principal_signature_path);
+                $mimeType = Storage::disk('public')->mimeType($school->principal_signature_path);
+                $signatureBase64 = 'data:' . $mimeType . ';base64,' . base64_encode($sigContent);
+                $signatureHtml = '<img src="'.$signatureBase64.'" style="max-width: 180px; max-height: 90px;" alt="Signature"><br><div style="border-top: 2px solid #333; margin-top: 10px; padding-top: 5px; font-weight: bold; font-family: \'Times New Roman\', serif;">Principal\'s Signature & Stamp</div>';
+            }
+        }
+
         if (!$content) {
             $extra = [
                 'purpose' => $request->purpose,
                 'academic_year' => $request->academic_year,
                 'certificate_no' => $docNo,
+                'qr_code' => $qrCodeHtml,
+                'signature' => $signatureHtml,
             ];
             
             $content = $this->documentService->fillTemplate($template, $student, $extra);
@@ -244,39 +274,13 @@ class DocumentController extends Controller
             }
         }
 
-        $uuid = Str::uuid()->toString();
-        $qrCodePath = null;
-        $qrCodeBase64 = null;
-
-        if ($template->has_qr) {
-            // Generate QR code and save to storage
-            $qrCodeData = route('verify.qr', ['uuid' => $uuid]);
-            $qrCodeImage = QrCode::format('svg')->size(150)->generate($qrCodeData);
-            $qrCodePath = 'documents/qr/' . $uuid . '.svg';
-            Storage::disk('public')->put($qrCodePath, $qrCodeImage);
-            
-            // To embed in PDF directly, we can pass base64
-            $qrCodeBase64 = base64_encode($qrCodeImage);
-        }
-
-        // Get signature if needed
-        $signatureBase64 = null;
-        if ($template->has_signature) {
-            $school = \App\Models\School::find(auth()->user()->school_id ?? 1) ?? \App\Models\School::first();
-            if ($school && $school->principal_signature_path && Storage::disk('public')->exists($school->principal_signature_path)) {
-                $sigContent = Storage::disk('public')->get($school->principal_signature_path);
-                $mimeType = Storage::disk('public')->mimeType($school->principal_signature_path);
-                $signatureBase64 = 'data:' . $mimeType . ';base64,' . base64_encode($sigContent);
-            }
-        }
-
-        // Pass extra variables for final content replacement
+        // Legacy fallback: replace any remaining {{variable}} placeholders in DB-content templates
         $extraParams = [
+            'certificate_no' => $docNo,
+            'qr_code' => $qrCodeHtml,
+            'signature' => $signatureHtml,
             'purpose' => $request->purpose,
             'academic_year' => $request->academic_year,
-            'certificate_no' => $docNo,
-            'qr_code' => $qrCodeBase64 ? '<img src="data:image/svg+xml;base64,'.$qrCodeBase64.'" style="width: 110px; height: 110px;" alt="QR Code">' : '',
-            'signature' => $signatureBase64 ? '<img src="'.$signatureBase64.'" style="max-width: 180px; max-height: 90px;" alt="Signature"><br><div style="border-top: 2px solid #333; margin-top: 10px; padding-top: 5px; font-weight: bold; font-family: \'Times New Roman\', serif;">Principal\'s Signature & Stamp</div>' : '<br><br><br><br><div style="border-top: 2px solid #333; margin-top: 10px; padding-top: 5px; font-weight: bold; font-family: \'Times New Roman\', serif;">Principal\'s Signature & Stamp</div>'
         ];
         
         foreach ($extraParams as $key => $value) {
