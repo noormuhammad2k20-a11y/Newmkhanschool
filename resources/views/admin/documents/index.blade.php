@@ -32,7 +32,7 @@
         {{-- ═══════════════════════════════════════════════════════════════════ --}}
         {{-- SECTION 1: QUICK STATISTICS --}}
         {{-- ═══════════════════════════════════════════════════════════════════ --}}
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-md">
+        <div id="ajaxQuickStats" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-md">
             {{-- Total Documents --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col relative overflow-hidden group hover:border-primary transition-colors cursor-default">
                 <div class="flex justify-between items-start mb-3">
@@ -145,21 +145,28 @@
         </div>
 
         {{-- ═══════════════════════════════════════════════════════════════════ --}}
-        {{-- SECTION 3 & 4: CERTIFICATE GENERATOR + LIVE PREVIEW --}}
+        {{-- SECTION 3: CERTIFICATE GENERATOR (Full Width) --}}
         {{-- ═══════════════════════════════════════════════════════════════════ --}}
-        <div class="grid grid-cols-1 xl:grid-cols-5 gap-lg">
+        <div class="w-full">
 
-            {{-- LEFT: Certificate Generator Form --}}
-            <div class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+            {{-- Certificate Generator Form --}}
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
                 <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-sm">
                     <span class="material-symbols-outlined text-primary text-[20px]">edit_document</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface">Certificate Generator</h3>
                 </div>
+                {{-- Mode Toggle --}}
+                <div class="p-sm border-b border-outline-variant bg-surface-container-lowest">
+                    <div class="bg-surface-container-high p-1 rounded-lg flex gap-1">
+                        <button type="button" onclick="setGenerationMode('single')" id="modeSingleBtn" class="flex-1 py-2 text-label-md font-label-md bg-surface text-on-surface shadow-sm rounded-md transition-all">Single Student</button>
+                        <button type="button" onclick="setGenerationMode('bulk')" id="modeBulkBtn" class="flex-1 py-2 text-label-md font-label-md text-on-surface-variant hover:text-on-surface rounded-md transition-all">Bulk Generation</button>
+                    </div>
+                </div>
                 <div class="p-md flex-1 flex flex-col">
-                    <form id="generatorForm" class="flex flex-col gap-md flex-1">
+                    <form id="generatorForm" class="grid grid-cols-1 md:grid-cols-2 gap-md flex-1">
                         @csrf
                         {{-- Document Type --}}
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="block text-label-md font-label-md text-on-surface-variant mb-xs">Document Type <span class="text-error">*</span></label>
                             <select name="template_id" id="templateSelect" required class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary text-body-md">
                                 <option value="">— Select Document Type —</option>
@@ -169,34 +176,73 @@
                             </select>
                         </div>
 
-                        {{-- Student Search --}}
-                        <div>
-                            <label class="block text-label-md font-label-md text-on-surface-variant mb-xs">Search Student <span class="text-error">*</span></label>
-                            <div class="relative">
-                                <input type="text" id="studentSearchInput" placeholder="Type name, admission no, or roll no..." autocomplete="off" class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary text-body-md pr-10">
-                                <span class="material-symbols-outlined text-[20px] text-secondary absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">search</span>
+                        <div id="singleModeContainer" class="md:col-span-2 flex flex-col gap-md">
+                            {{-- Student Search --}}
+                            <div>
+                                <label class="block text-label-md font-label-md text-on-surface-variant mb-xs">Search Student <span class="text-error">*</span></label>
+                                <div class="relative">
+                                    <input type="text" id="studentSearchInput" placeholder="Type name, admission no, or roll no..." autocomplete="off" class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary text-body-md pr-10">
+                                    <span class="material-symbols-outlined text-[20px] text-secondary absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">search</span>
+                                </div>
+                                <input type="hidden" name="student_id" id="selectedStudentId">
+                                {{-- Search results dropdown --}}
+                                <div id="studentSearchResults" class="hidden mt-1 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 relative"></div>
                             </div>
-                            <input type="hidden" name="student_id" id="selectedStudentId">
-                            {{-- Search results dropdown --}}
-                            <div id="studentSearchResults" class="hidden mt-1 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 relative"></div>
+
+                            {{-- Selected Student Card --}}
+                            <div id="selectedStudentCard" class="hidden border border-primary/30 bg-primary-fixed/20 rounded-lg p-sm">
+                                <div class="flex items-center gap-sm">
+                                    <div id="studentAvatar" class="w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center font-bold text-sm shrink-0"></div>
+                                    <div class="flex-1 min-w-0">
+                                        <div id="studentNameDisplay" class="font-headline-md text-on-surface truncate"></div>
+                                        <div class="flex items-center gap-2 flex-wrap mt-0.5">
+                                            <span id="studentAdmNoDisplay" class="text-xs px-1.5 py-0.5 bg-surface-container-high rounded text-secondary"></span>
+                                            <span id="studentClassDisplay" class="text-xs px-1.5 py-0.5 bg-secondary-container text-on-secondary-container rounded"></span>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="clearStudent()" class="text-secondary hover:text-error p-1 rounded-full hover:bg-error-container transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">close</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
-                        {{-- Selected Student Card --}}
-                        <div id="selectedStudentCard" class="hidden border border-primary/30 bg-primary-fixed/20 rounded-lg p-sm">
-                            <div class="flex items-center gap-sm">
-                                <div id="studentAvatar" class="w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center font-bold text-sm shrink-0"></div>
-                                <div class="flex-1 min-w-0">
-                                    <div id="studentNameDisplay" class="font-headline-md text-on-surface truncate"></div>
-                                    <div class="flex items-center gap-2 flex-wrap mt-0.5">
-                                        <span id="studentAdmNoDisplay" class="text-xs px-1.5 py-0.5 bg-surface-container-high rounded text-secondary"></span>
-                                        <span id="studentClassDisplay" class="text-xs px-1.5 py-0.5 bg-secondary-container text-on-secondary-container rounded"></span>
-                                    </div>
+                        <div id="bulkModeContainer" class="hidden md:col-span-2 flex-col gap-md">
+                            <div class="grid grid-cols-2 gap-sm">
+                                <div>
+                                    <label class="block text-label-md font-label-md text-on-surface-variant mb-xs">Class</label>
+                                    <select id="bulkClassSelect" class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary text-body-md" onchange="loadBulkStudents()">
+                                        <option value="">— Select Class —</option>
+                                        @foreach($classes as $c)
+                                            <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <button type="button" onclick="clearStudent()" class="text-secondary hover:text-error p-1 rounded-full hover:bg-error-container transition-colors">
-                                    <span class="material-symbols-outlined text-[18px]">close</span>
-                                </button>
+                                <div>
+                                    <label class="block text-label-md font-label-md text-on-surface-variant mb-xs">Section</label>
+                                    <select id="bulkSectionSelect" class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary text-body-md" onchange="loadBulkStudents()">
+                                        <option value="">— All Sections —</option>
+                                        @foreach($sections as $s)
+                                            <option value="{{ $s->id }}">{{ $s->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="border border-outline-variant rounded-lg overflow-hidden flex flex-col h-64">
+                                <div class="bg-surface-container-low border-b border-outline-variant px-sm py-2 flex items-center justify-between">
+                                    <label class="flex items-center gap-2 text-label-md cursor-pointer">
+                                        <input type="checkbox" id="bulkSelectAll" class="rounded border-outline-variant text-primary focus:ring-primary" onchange="toggleBulkSelectAll(this)">
+                                        <span>Select All</span>
+                                    </label>
+                                    <span class="text-xs text-secondary"><span id="bulkSelectedCount">0</span> selected</span>
+                                </div>
+                                <div id="bulkStudentList" class="flex-1 overflow-y-auto p-sm flex flex-col gap-1">
+                                    <div class="text-center py-4 text-secondary text-sm">Select a class to load students</div>
+                                </div>
                             </div>
                         </div>
+
 
                         {{-- Purpose --}}
                         <div>
@@ -211,7 +257,7 @@
                         </div>
 
                         {{-- AI Enhance --}}
-                        <label class="flex items-center gap-sm cursor-pointer p-sm border border-primary-fixed-dim bg-primary-fixed/40 rounded-lg">
+                        <label class="md:col-span-2 flex items-center gap-sm cursor-pointer p-sm border border-primary-fixed-dim bg-primary-fixed/40 rounded-lg">
                             <input type="checkbox" name="ai_enhance" value="1" class="text-primary focus:ring-primary rounded">
                             <div>
                                 <span class="font-label-md text-primary font-bold flex items-center gap-xs">
@@ -222,63 +268,12 @@
                         </label>
 
                         {{-- Actions --}}
-                        <div class="mt-auto pt-md border-t border-outline-variant flex gap-sm">
-                            <button type="button" onclick="previewDocument()" id="previewBtn" class="flex-1 px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-md hover:bg-surface-variant transition-colors flex items-center justify-center gap-xs disabled:opacity-50" disabled>
-                                <span class="material-symbols-outlined text-[18px]">visibility</span> Preview
-                            </button>
-                            <button type="button" onclick="generateDocument()" id="generateBtn" class="flex-1 px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-xs disabled:opacity-50" disabled>
-                                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> Generate PDF
+                        <div class="md:col-span-2 mt-auto pt-md border-t border-outline-variant flex justify-end">
+                            <button type="button" onclick="processGeneration()" id="generateBtn" class="px-xl py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-xs disabled:opacity-50" disabled>
+                                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> <span id="generateBtnText">Generate PDF</span>
                             </button>
                         </div>
                     </form>
-                </div>
-            </div>
-
-            {{-- RIGHT: Live Document Preview --}}
-            <div class="xl:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
-                <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center justify-between">
-                    <div class="flex items-center gap-sm">
-                        <span class="material-symbols-outlined text-primary text-[20px]">preview</span>
-                        <h3 class="text-headline-md font-headline-md text-on-surface">Live Document Preview</h3>
-                    </div>
-                    <div id="previewActions" class="hidden flex items-center gap-xs">
-                        <button onclick="printPreview()" class="p-1.5 rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors" title="Print">
-                            <span class="material-symbols-outlined text-[18px] text-secondary">print</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="p-md flex-1 min-h-[400px] flex flex-col">
-                    {{-- Empty State --}}
-                    <div id="previewEmpty" class="flex-1 flex flex-col items-center justify-center text-center py-xl">
-                        <div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center mb-md">
-                            <span class="material-symbols-outlined text-[40px] text-outline">article</span>
-                        </div>
-                        <p class="text-body-lg font-body-lg text-secondary mb-1">No document to preview</p>
-                        <p class="text-body-md text-outline max-w-[300px]">Select a document type and student, then click Preview to see the generated document here.</p>
-                    </div>
-                    {{-- Preview Content --}}
-                    <div id="previewContent" class="hidden flex-1 flex flex-col">
-                        <div class="border border-outline-variant rounded-lg bg-white shadow-inner flex-1 overflow-auto">
-                            <div id="previewFrame" class="p-lg text-on-surface" style="min-height: 500px;"></div>
-                        </div>
-                        {{-- Preview footer --}}
-                        <div id="previewFooter" class="hidden mt-md flex items-center justify-between border-t border-outline-variant pt-md">
-                            <div class="flex items-center gap-sm text-body-md text-secondary">
-                                <span class="material-symbols-outlined text-[18px]">info</span>
-                                <span>Preview ready — review and generate the PDF when satisfied.</span>
-                            </div>
-                            <button type="button" onclick="generateDocument()" class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-xs">
-                                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> Generate PDF
-                            </button>
-                        </div>
-                    </div>
-                    {{-- Loading State --}}
-                    <div id="previewLoading" class="hidden flex-1 flex items-center justify-center">
-                        <div class="flex flex-col items-center gap-md">
-                            <div class="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin"></div>
-                            <p class="text-body-md text-secondary">Generating preview...</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -286,7 +281,7 @@
         {{-- ═══════════════════════════════════════════════════════════════════ --}}
         {{-- SECTION 5: RECENT DOCUMENTS TABLE --}}
         {{-- ═══════════════════════════════════════════════════════════════════ --}}
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+        <div id="ajaxRecentDocuments" class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden relative transition-opacity duration-300">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center justify-between">
                 <div class="flex items-center gap-sm">
                     <span class="material-symbols-outlined text-primary text-[20px]">history</span>
@@ -448,7 +443,7 @@
             </div>
 
             {{-- Recent Activity --}}
-            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+            <div id="ajaxRecentActivity" class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col relative transition-opacity duration-300">
                 <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-sm">
                     <span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface">Recent Activity</h3>
@@ -512,6 +507,25 @@
 </div>
 
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
+{{-- BULK GENERATION PROGRESS MODAL --}}
+{{-- ═══════════════════════════════════════════════════════════════════ --}}
+<div id="bulkProgressModal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm transition-opacity opacity-0" style="display: none;">
+    <div class="bg-surface-container-lowest w-full max-w-sm rounded-2xl shadow-lg border border-outline-variant overflow-hidden transform scale-95 transition-transform duration-300 p-xl text-center flex flex-col items-center">
+        <h3 class="text-headline-md font-headline-md text-on-surface mb-sm">Generating Documents</h3>
+        <p class="text-body-md text-secondary mb-xl">Please wait while the batch is processing...</p>
+        
+        <div class="w-full bg-surface-container-high rounded-full h-3 overflow-hidden mb-3">
+            <div id="bulkProgressBar" class="bg-primary h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+        
+        <div class="w-full flex justify-between items-center text-label-md font-label-md text-secondary">
+            <span id="bulkProgressText">0 / 0</span>
+            <span id="bulkProgressPercent">0%</span>
+        </div>
+    </div>
+</div>
+
+{{-- ═══════════════════════════════════════════════════════════════════ --}}
 {{-- JAVASCRIPT --}}
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
 <script>
@@ -541,8 +555,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Validate form state
     document.getElementById('templateSelect').addEventListener('change', validateForm);
 });
-
-let currentPreviewContent = null;
 
 function searchStudents(query) {
     const results = document.getElementById('studentSearchResults');
@@ -608,7 +620,6 @@ function validateForm() {
     const hasTemplate = document.getElementById('templateSelect').value !== '';
     const hasStudent = document.getElementById('selectedStudentId').value !== '';
     const valid = hasTemplate && hasStudent;
-    document.getElementById('previewBtn').disabled = !valid;
     document.getElementById('generateBtn').disabled = !valid;
 }
 
@@ -620,52 +631,60 @@ function quickGenerate(templateId, templateName) {
     document.getElementById('generatorForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function previewDocument() {
-    const form = document.getElementById('generatorForm');
-    const formData = new FormData(form);
+// previewDocument removed
 
-    // Show loading
-    document.getElementById('previewEmpty').classList.add('hidden');
-    document.getElementById('previewContent').classList.add('hidden');
-    document.getElementById('previewLoading').classList.remove('hidden');
+function refreshDashboardData(url = window.location.href) {
+    const containers = ['ajaxQuickStats', 'ajaxRecentDocuments', 'ajaxRecentActivity'];
+    
+    // Add loading state
+    containers.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.opacity = '0.5';
+    });
 
-    fetch('{{ route("admin.documents.preview") }}', {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('previewLoading').classList.add('hidden');
-        if (data.success) {
-            currentPreviewContent = data.content;
-            document.getElementById('previewFrame').innerHTML = data.content;
-            document.getElementById('previewContent').classList.remove('hidden');
-            document.getElementById('previewFooter').classList.remove('hidden');
-            document.getElementById('previewActions').classList.remove('hidden');
-        } else {
-            UI.showToast(data.message || 'Failed to generate preview.', 'error');
-            document.getElementById('previewEmpty').classList.remove('hidden');
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+    .then(res => res.text())
+    .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        containers.forEach(id => {
+            const newEl = doc.getElementById(id);
+            const oldEl = document.getElementById(id);
+            if (newEl && oldEl) {
+                oldEl.innerHTML = newEl.innerHTML;
+                oldEl.style.opacity = '1';
+            }
+        });
+
+        // Update URL history if pagination was clicked
+        if (url !== window.location.href) {
+            window.history.pushState(null, '', url);
         }
     })
     .catch(err => {
-        document.getElementById('previewLoading').classList.add('hidden');
-        document.getElementById('previewEmpty').classList.remove('hidden');
-        UI.showToast('Error generating preview. Please try again.', 'error');
+        console.error('Error refreshing dashboard:', err);
+        containers.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.opacity = '1';
+        });
     });
 }
+
+// Intercept pagination links to use AJAX
+document.addEventListener('click', function(e) {
+    const paginationLink = e.target.closest('#ajaxRecentDocuments nav a');
+    if (paginationLink && paginationLink.href) {
+        e.preventDefault();
+        refreshDashboardData(paginationLink.href);
+    }
+});
 
 function generateDocument() {
     const form = document.getElementById('generatorForm');
     const formData = new FormData(form);
-    if (currentPreviewContent) {
-        formData.append('manual_content', currentPreviewContent);
-    }
 
+    // The loading spinner on button
     const generateBtn = document.getElementById('generateBtn');
     const origHTML = generateBtn.innerHTML;
     generateBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Generating...';
@@ -686,12 +705,33 @@ function generateDocument() {
         generateBtn.disabled = false;
         if (data.success) {
             UI.showToast('Document generated successfully!', 'success');
-            // Auto-download
-            if (data.document && data.document.download_url) {
-                window.open(data.document.download_url, '_blank');
+            // Auto-print instead of download using a hidden iframe
+            if (data.document && data.document.print_html) {
+                const decodedHtml = decodeURIComponent(escape(window.atob(data.document.print_html)));
+                
+                const iframe = document.createElement('iframe');
+                iframe.style.position = 'absolute';
+                iframe.style.width = '0';
+                iframe.style.height = '0';
+                iframe.style.border = 'none';
+                document.body.appendChild(iframe);
+
+                const iframeDoc = iframe.contentWindow.document;
+                iframeDoc.open();
+                iframeDoc.write(decodedHtml);
+                iframeDoc.close();
+
+                setTimeout(() => {
+                    iframe.contentWindow.focus();
+                    iframe.contentWindow.print();
+                    setTimeout(() => {
+                        document.body.removeChild(iframe);
+                        refreshDashboardData();
+                    }, 1000);
+                }, 500);
+            } else {
+                refreshDashboardData();
             }
-            // Reload the page to refresh tables/stats
-            setTimeout(() => location.reload(), 1500);
         } else {
             UI.showToast(data.message || 'Error generating document. Please try again.', 'error');
         }
@@ -699,17 +739,12 @@ function generateDocument() {
     .catch(err => {
         generateBtn.innerHTML = origHTML;
         generateBtn.disabled = false;
-        UI.showToast('Error generating document. Please try again.', 'error');
+        UI.showToast('Error: ' + (err.message || 'Error generating document. Please try again.'), 'error');
+        console.error("Generate error: ", err);
     });
 }
 
-function printPreview() {
-    const content = document.getElementById('previewFrame').innerHTML;
-    const win = window.open('', '_blank');
-    win.document.write(`<!DOCTYPE html><html><head><title>Print Preview</title><style>body{font-family: 'Times New Roman', serif; margin: 20mm;}</style></head><body>${content}</body></html>`);
-    win.document.close();
-    win.print();
-}
+// printPreview removed
 
 function deleteDocument(id, docNo) {
     UI.confirm('Delete Document', `Are you sure you want to permanently delete document ${docNo}?`, 'Delete', 'error')
@@ -727,7 +762,7 @@ function deleteDocument(id, docNo) {
         .then(data => {
             if (data.success) {
                 UI.showToast('Document deleted successfully.', 'success');
-                setTimeout(() => location.reload(), 800);
+                refreshDashboardData();
             } else {
                 UI.showToast(data.message || 'Failed to delete.', 'error');
             }
@@ -777,7 +812,7 @@ function deleteSelectedDocuments() {
         .then(data => {
             if (data.success) {
                 UI.showToast(data.message || 'Documents deleted successfully.', 'success');
-                setTimeout(() => location.reload(), 800);
+                refreshDashboardData();
             } else {
                 UI.showToast(data.message || 'Failed to delete documents.', 'error');
             }
@@ -802,7 +837,7 @@ function deleteAllDocuments() {
         .then(data => {
             if (data.success) {
                 UI.showToast(data.message || 'All documents deleted successfully.', 'success');
-                setTimeout(() => location.reload(), 800);
+                refreshDashboardData();
             } else {
                 UI.showToast(data.message || 'Failed to delete all documents.', 'error');
             }
@@ -885,5 +920,257 @@ function closeHistoryModal() {
         modal.style.display = 'none';
     }, 200);
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// BULK GENERATION LOGIC
+// ═══════════════════════════════════════════════════════════════════
+let generationMode = 'single';
+
+function setGenerationMode(mode) {
+    generationMode = mode;
+    const singleBtn = document.getElementById('modeSingleBtn');
+    const bulkBtn = document.getElementById('modeBulkBtn');
+    
+    if (mode === 'single') {
+        singleBtn.className = "flex-1 py-2 text-label-md font-label-md bg-surface text-on-surface shadow-sm rounded-md transition-all";
+        bulkBtn.className = "flex-1 py-2 text-label-md font-label-md text-on-surface-variant hover:text-on-surface rounded-md transition-all";
+        
+        document.getElementById('singleModeContainer').classList.remove('hidden');
+        document.getElementById('singleModeContainer').classList.add('flex', 'flex-col', 'gap-md');
+        document.getElementById('bulkModeContainer').classList.add('hidden');
+        document.getElementById('bulkModeContainer').classList.remove('flex', 'flex-col', 'gap-md');
+    } else {
+        bulkBtn.className = "flex-1 py-2 text-label-md font-label-md bg-surface text-on-surface shadow-sm rounded-md transition-all";
+        singleBtn.className = "flex-1 py-2 text-label-md font-label-md text-on-surface-variant hover:text-on-surface rounded-md transition-all";
+        
+        document.getElementById('bulkModeContainer').classList.remove('hidden');
+        document.getElementById('bulkModeContainer').classList.add('flex', 'flex-col', 'gap-md');
+        document.getElementById('singleModeContainer').classList.add('hidden');
+        document.getElementById('singleModeContainer').classList.remove('flex', 'flex-col', 'gap-md');
+        
+        if (document.getElementById('bulkStudentList').children.length <= 1) {
+            // First time load, leave as is (prompt user to select class)
+        }
+    }
+    validateForm();
+}
+
+function loadBulkStudents() {
+    const classId = document.getElementById('bulkClassSelect').value;
+    const sectionId = document.getElementById('bulkSectionSelect').value;
+    const list = document.getElementById('bulkStudentList');
+    
+    if (!classId) {
+        list.innerHTML = '<div class="text-center py-4 text-secondary text-sm">Select a class to load students</div>';
+        updateBulkCount();
+        return;
+    }
+    
+    list.innerHTML = '<div class="text-center py-4"><div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div></div>';
+    
+    fetch(`{{ route('admin.documents.ajax-search') }}?class_id=${classId}&section_id=${sectionId}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(students => {
+        if (students.length === 0) {
+            list.innerHTML = '<div class="text-center py-4 text-secondary text-sm">No students found</div>';
+            updateBulkCount();
+            return;
+        }
+        
+        list.innerHTML = students.map(s => `
+            <label class="flex items-center gap-3 p-2 hover:bg-surface-container-lowest rounded cursor-pointer border border-transparent hover:border-outline-variant transition-colors">
+                <input type="checkbox" value="${s.id}" class="bulk-student-cb rounded border-outline-variant text-primary focus:ring-primary" onchange="updateBulkCount()">
+                <div class="flex-1 min-w-0">
+                    <div class="font-medium text-sm text-on-surface">${s.first_name} ${s.last_name || ''}</div>
+                    <div class="text-xs text-secondary">${s.admission_no} • ${s.class_name} ${s.section_name}</div>
+                </div>
+            </label>
+        `).join('');
+        document.getElementById('bulkSelectAll').checked = false;
+        updateBulkCount();
+    })
+    .catch(() => {
+        list.innerHTML = '<div class="text-center py-4 text-error text-sm">Error loading students</div>';
+    });
+}
+
+function toggleBulkSelectAll(cb) {
+    document.querySelectorAll('.bulk-student-cb').forEach(box => box.checked = cb.checked);
+    updateBulkCount();
+}
+
+function updateBulkCount() {
+    const count = document.querySelectorAll('.bulk-student-cb:checked').length;
+    document.getElementById('bulkSelectedCount').textContent = count;
+    validateForm();
+}
+
+// Override validateForm to support both modes
+const originalValidateForm = validateForm;
+validateForm = function() {
+    const templateId = document.getElementById('templateSelect').value;
+    const generateBtn = document.getElementById('generateBtn');
+    
+    let hasStudent = false;
+    if (generationMode === 'single') {
+        hasStudent = document.getElementById('selectedStudentId').value !== '';
+        if (hasStudent && templateId) {
+            generateBtn.disabled = false;
+        } else {
+            generateBtn.disabled = true;
+        }
+        document.getElementById('generateBtnText').textContent = 'Generate PDF';
+    } else {
+        const count = document.querySelectorAll('.bulk-student-cb:checked').length;
+        hasStudent = count > 0;
+        if (hasStudent && templateId) {
+            generateBtn.disabled = false;
+        } else {
+            generateBtn.disabled = true;
+        }
+        document.getElementById('generateBtnText').textContent = count > 0 ? `Generate PDF (${count})` : 'Generate PDF';
+    }
+};
+
+function processGeneration() {
+    if (generationMode === 'single') {
+        generateDocument();
+    } else {
+        generateBulkDocuments();
+    }
+}
+
+async function generateBulkDocuments() {
+    const templateId = document.getElementById('templateSelect').value;
+    const purpose = document.getElementById('purposeInput').value;
+    const academicYear = document.getElementById('academicYearInput').value;
+    const aiEnhance = document.querySelector('input[name="ai_enhance"]').checked ? '1' : '0';
+    
+    const checkboxes = document.querySelectorAll('.bulk-student-cb:checked');
+    const studentIds = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (studentIds.length === 0 || !templateId) return;
+
+    // Show Progress Modal
+    const modal = document.getElementById('bulkProgressModal');
+    modal.style.display = 'flex';
+    modal.classList.remove('hidden');
+    requestAnimationFrame(() => {
+        modal.style.opacity = '1';
+        modal.querySelector('div').style.transform = 'scale(1)';
+    });
+
+    const progressBar = document.getElementById('bulkProgressBar');
+    const progressText = document.getElementById('bulkProgressText');
+    const progressPercent = document.getElementById('bulkProgressPercent');
+    
+    let combinedHtmlPrefix = '';
+    let combinedHtmlBodies = '';
+    let combinedHtmlSuffix = '';
+    let errorCount = 0;
+
+    for (let i = 0; i < studentIds.length; i++) {
+        // Update UI
+        const percent = Math.round((i / studentIds.length) * 100);
+        progressBar.style.width = percent + '%';
+        progressText.textContent = `${i + 1} / ${studentIds.length}`;
+        progressPercent.textContent = percent + '%';
+
+        // Prepare FormData
+        const formData = new FormData();
+        formData.append('template_id', templateId);
+        formData.append('student_id', studentIds[i]);
+        formData.append('purpose', purpose);
+        formData.append('academic_year', academicYear);
+        if (aiEnhance === '1') formData.append('ai_enhance', '1');
+
+        try {
+            const res = await fetch('{{ route("admin.documents.generate") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            });
+            const data = await res.json();
+            
+            if (data.success && data.document && data.document.print_html) {
+                const decodedHtml = decodeURIComponent(escape(window.atob(data.document.print_html)));
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(decodedHtml, 'text/html');
+                
+                if (i === 0) {
+                    // Extract head and wrapper
+                    const bodyMatch = decodedHtml.match(/<body[^>]*>/i);
+                    const bodyTag = bodyMatch ? bodyMatch[0] : '<body>';
+                    combinedHtmlPrefix = decodedHtml.substring(0, decodedHtml.indexOf(bodyTag) + bodyTag.length);
+                    combinedHtmlSuffix = '</body></html>';
+                    combinedHtmlBodies += doc.body.innerHTML;
+                } else {
+                    combinedHtmlBodies += '<div style="page-break-after: always; clear: both;"></div>';
+                    combinedHtmlBodies += doc.body.innerHTML;
+                }
+            } else {
+                errorCount++;
+            }
+        } catch (err) {
+            errorCount++;
+            console.error(err);
+        }
+    }
+
+    // Finish 100%
+    progressBar.style.width = '100%';
+    progressPercent.textContent = '100%';
+    
+    if (errorCount > 0) {
+        UI.showToast(`Batch completed with ${errorCount} errors.`, 'error');
+    } else {
+        UI.showToast('Batch generation successful!', 'success');
+    }
+
+    // Print Combined PDF
+    if (combinedHtmlBodies) {
+        const finalHtml = combinedHtmlPrefix + combinedHtmlBodies + combinedHtmlSuffix;
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = 'none';
+        document.body.appendChild(iframe);
+
+        const iframeDoc = iframe.contentWindow.document;
+        iframeDoc.open();
+        iframeDoc.write(finalHtml);
+        iframeDoc.close();
+
+        setTimeout(() => {
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                refreshDashboardData();
+            }, 1000);
+        }, 500);
+    } else {
+        refreshDashboardData();
+    }
+
+    // Close Modal
+    setTimeout(() => {
+        modal.style.opacity = '0';
+        modal.querySelector('div').style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+        }, 300);
+    }, 500);
+}
+
 </script>
 @endsection

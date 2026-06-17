@@ -1,4 +1,17 @@
 {{-- Official Transcript of Marks - Dynamic Blade Template --}}
+@php
+    $logoBase64 = '';
+    $logoPath = public_path('images/certificate-logo.png');
+    if (file_exists($logoPath)) {
+        $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+    }
+    
+    // Format academic session dynamically
+    $academic_session = $academic_year ?? '';
+    if (preg_match('/(\d{4})-\d{2}-\d{2}\s*to\s*(\d{4})-\d{2}-\d{2}/', $academic_session, $matches)) {
+        $academic_session = $matches[1] . ' - ' . $matches[2];
+    }
+@endphp
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 
 <style>
@@ -28,60 +41,77 @@
     .top-right    { top: -2px; right: -2px; border-top: 5px solid var(--rich-gold); border-right: 5px solid var(--rich-gold); }
     .bottom-left  { bottom: -2px; left: -2px; border-bottom: 5px solid var(--rich-gold); border-left: 5px solid var(--rich-gold); }
     .bottom-right { bottom: -2px; right: -2px; border-bottom: 5px solid var(--rich-gold); border-right: 5px solid var(--rich-gold); }
+
+    /* Center logo watermark — unchanged */
     .watermark {
         position: absolute; top: 50%; left: 50%;
-        width: 450px; height: 450px;
+        width: 450px; height: auto; max-height: 450px; object-fit: contain;
         transform: translate(-50%, -50%);
-        opacity: 0.04; z-index: 0; pointer-events: none; filter: grayscale(100%);
+        opacity: 0.12; z-index: 0; pointer-events: none;
     }
+
+    /* ── Canvas Watermark Container ── */
+    .text-watermark-pattern {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+    .text-watermark-pattern canvas {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+    }
+
     .content-container {
-        position: relative; padding: 23mm 22mm;
+        position: relative; padding: 23mm 22mm 45mm 22mm;
         z-index: 5; height: 100%;
         display: flex; flex-direction: column;
         font-family: 'Montserrat', sans-serif; color: var(--text-main);
     }
     .header-section {
         text-align: center; position: relative; margin-bottom: 15px;
-        border-bottom: 2px solid var(--royal-blue); padding-bottom: 10px;
+        border-bottom: 2px solid var(--royal-blue); padding-bottom: 15px;
     }
-    .header-logo { width: 70px; margin-bottom: 5px; }
+    .header-logo { width: 100px; height: auto; max-height: 100px; object-fit: contain; margin-bottom: 8px; }
     .school-title {
-        font-family: 'Cinzel', serif; font-size: 22px; font-weight: 800;
-        color: var(--royal-blue); margin: 0 0 5px 0; line-height: 1.2; text-transform: uppercase;
+        font-family: 'Cinzel', serif; font-size: 24px; font-weight: 800;
+        color: var(--royal-blue); margin: 0 0 5px 0; line-height: 1.3; text-transform: uppercase;
+        padding: 0 10px; word-wrap: break-word;
     }
     .school-address {
         font-size: 11px; font-weight: 600; color: #555;
         letter-spacing: 2px; text-transform: uppercase; margin: 0 0 10px 0;
     }
     .document-title {
-        display: inline-block; border-top: 1px solid var(--rich-gold);
-        border-bottom: 1px solid var(--rich-gold); padding: 5px 25px;
+        display: inline-block; border-top: 2px solid var(--rich-gold);
+        border-bottom: 2px solid var(--rich-gold); padding: 8px 40px;
         color: var(--royal-blue); font-family: 'Cinzel', serif; font-weight: 800;
-        text-transform: uppercase; letter-spacing: 3px; font-size: 15px;
+        text-transform: uppercase; letter-spacing: 4px; font-size: 18px; margin-top: 5px;
     }
     .student-info-grid {
         display: grid; grid-template-columns: 1fr 1fr;
-        gap: 8px 30px; background: #fdfdfd; padding: 12px;
-        border: 1px solid #e2e8f0; margin-bottom: 15px;
-        border-left: 4px solid var(--rich-gold);
+        gap: 12px 40px; padding: 0 0 20px 0; margin-bottom: 20px;
+        border-bottom: 2px solid var(--royal-blue);
     }
-    .field { display: flex; align-items: flex-end; }
+    .field { display: flex; align-items: baseline; }
     .key {
-        font-weight: 700; color: var(--royal-blue); width: 120px;
-        font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+        font-weight: 700; color: #475569; width: 130px;
+        font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
     }
     .value {
-        flex-grow: 1; font-weight: 600; color: #111; font-size: 13px;
-        border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px; padding-left: 5px;
+        flex-grow: 1; font-weight: 700; color: var(--royal-blue); font-size: 13px;
+        border-bottom: 1px solid #e2e8f0; padding-bottom: 2px;
     }
-    .transcript-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 12px; }
+    .transcript-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; border: 1px solid var(--royal-blue); }
     .transcript-table th, .transcript-table td {
-        border: 1px solid #cbd5e1; padding: 6px 10px; text-align: center;
+        border: 1px solid #cbd5e1; padding: 8px 10px; text-align: center;
     }
     .transcript-table th {
         background-color: var(--royal-blue); color: #ffffff;
-        text-transform: uppercase; font-weight: 700; letter-spacing: 1px;
-        font-size: 10px; padding: 8px 10px;
+        text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px;
+        font-size: 10px; padding: 10px; border: 1px solid var(--royal-blue);
     }
     .transcript-table tr td:first-child, .transcript-table tr th:first-child {
         text-align: left; padding-left: 15px; font-weight: 600;
@@ -90,24 +120,26 @@
     .total-row td {
         background-color: #f1f5f9; color: var(--royal-blue);
         font-weight: 800; border-top: 2px solid var(--royal-blue);
-        font-size: 13px; padding: 8px 10px;
+        border-bottom: 2px solid var(--royal-blue);
+        font-size: 13px; padding: 10px;
     }
     .total-row td:first-child {
         text-transform: uppercase; letter-spacing: 1px;
         text-align: right; padding-right: 15px;
     }
     .marks-legend {
-        font-size: 10px; color: #64748b; margin-bottom: 15px;
-        padding: 6px 12px; background: #f8fafc; border: 1px solid #e2e8f0;
-        border-radius: 4px; text-align: center;
+        font-size: 10px; color: #64748b; margin-bottom: 20px;
+        padding: 8px 12px; background: #fdfdfd; border: 1px dashed #cbd5e1;
+        border-radius: 4px; text-align: center; letter-spacing: 0.5px;
     }
     .marks-legend strong { color: var(--royal-blue); }
     .result-summary {
-        font-family: 'Cinzel', serif; font-weight: 800; text-align: center;
-        margin-bottom: 20px; color: #111; font-size: 16px; padding: 10px;
-        background: #fdfbef; border: 1px solid var(--rich-gold); letter-spacing: 1px;
+        font-family: 'Montserrat', sans-serif; font-weight: 700; text-align: center;
+        margin-bottom: 25px; color: #111; font-size: 14px; padding: 12px;
+        background: #f8fafc; border-top: 2px solid var(--royal-blue); border-bottom: 2px solid var(--royal-blue);
+        letter-spacing: 1px; text-transform: uppercase;
     }
-    .result-summary span { color: var(--royal-blue); margin: 0 10px; font-size: 18px; }
+    .result-summary span { color: var(--royal-blue); margin: 0 12px; font-size: 16px; font-weight: 800; }
     .footer-content-block {
         display: flex; justify-content: space-between;
         align-items: flex-start; gap: 20px; margin-bottom: auto;
@@ -122,40 +154,79 @@
         border: 1px solid #e2e8f0; background: #f8fafc; font-size: 12px;
         line-height: 1.5; border-left: 3px solid var(--royal-blue);
     }
-    .stamp-container {
-        width: 90px; height: 90px; border: 2px solid var(--royal-blue);
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        text-align: center; font-size: 9px; color: var(--royal-blue);
-        font-weight: 800; text-transform: uppercase;
-        background: rgba(10, 25, 49, 0.03); flex-shrink: 0;
-        transform: rotate(-15deg); position: relative;
-        box-shadow: inset 0 0 0 2px var(--rich-gold);
+    /* Physical Stamp Placeholder CSS */
+    .seal-placeholder {
+        padding: 4px;
+        border: 2px solid var(--royal-blue);
+        border-radius: 8px;
+        background: rgba(197, 160, 89, 0.03);
+        display: inline-block;
+        box-shadow: 0 0 0 1px var(--rich-gold);
+        width: 180px; 
+        font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+        user-select: none;
+        margin: 0 auto;
+        transform: rotate(-2deg);
     }
-    .stamp-container::after {
-        content: "OFFICIAL SEAL"; position: absolute; top: 50%; left: 50%;
-        transform: translate(-50%, -50%); width: 100%;
-        border-top: 1px dashed var(--royal-blue); border-bottom: 1px dashed var(--royal-blue);
-        padding: 2px 0;
+
+    .seal-placeholder .inner-wrapper {
+        border: 1.5px dashed var(--royal-blue);
+        border-radius: 4px;
+        padding: 8px;
+        text-align: center;
+        min-height: 85px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Light Placeholder Text for Stamp Area */
+    .seal-placeholder .stamp-indicator {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: rgba(10, 25, 49, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .seal-placeholder .school-name {
+        font-size: 0.7rem; 
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        color: var(--royal-blue); 
+        text-transform: uppercase;
+        border-top: 1px solid rgba(197, 160, 89, 0.3);
+        padding-top: 6px;
+        margin-top: 6px;
+        line-height: 1.2; 
     }
     .signature-grid {
-        margin-top: auto; display: grid; grid-template-columns: repeat(3, 1fr);
-        gap: 30px; position: relative;
+        position: absolute; bottom: 15mm; left: 22mm; right: 22mm;
+        display: flex; justify-content: space-around;
+        align-items: flex-end;
     }
-    .signature-block { text-align: center; position: relative; }
+    .signature-block {
+        text-align: center; width: 35%; position: relative;
+        display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+    }
     .signature-line {
         border-top: 1px solid var(--royal-blue); margin-bottom: 6px;
-        width: 80%; margin-left: auto; margin-right: auto;
+        width: 100%;
     }
     .signature-block label {
         display: block; font-size: 10px; color: var(--royal-blue);
         font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
     }
-    .issue-date-val {
-        position: absolute; bottom: 15px; width: 100%; text-align: center;
-        font-family: 'Courier New', Courier, monospace; font-weight: bold;
-        font-size: 14px; color: #333;
+    .script-signature {
+        height: 40px; display: flex; align-items: flex-end; justify-content: center;
+        margin-bottom: 5px; width: 100%;
     }
 </style>
+
 
 @php
     // Retrieve student marks from the marks table
@@ -193,6 +264,12 @@
 @endphp
 
 <div class="a4-page">
+
+    {{-- ── Canvas-based diagonal tiled watermark ── --}}
+    <div class="text-watermark-pattern">
+        <canvas id="wm-canvas"></canvas>
+    </div>
+
     <div class="frame-outer">
         <div class="corner top-left"></div>
         <div class="corner top-right"></div>
@@ -201,11 +278,12 @@
     </div>
     <div class="frame-inner"></div>
 
-    <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 L20 25 L20 65 C20 90 50 110 60 110 C70 110 100 90 100 65 L100 25 Z' fill='%23ffffff' stroke='%230A1931' stroke-width='4'/%3E%3Cpath d='M60 16 L26 29 L26 63 C26 84 52 102 60 102 C68 102 94 84 94 63 L94 29 Z' fill='%230A1931'/%3E%3Cpolygon points='60,25 65,35 75,35 67,42 70,52 60,46 50,52 53,42 45,35 55,35' fill='%23C5A059'/%3E%3Cpath d='M45 75 L45 60 L60 65 L75 60 L75 75 L60 80 Z' fill='%23C5A059'/%3E%3Cpath d='M60 65 L60 80' stroke='%230A1931' stroke-width='2'/%3E%3C/svg%3E" class="watermark" alt="">
+    {{-- Center logo watermark — unchanged --}}
+    <img src="{{ $logoBase64 }}" class="watermark" alt="">
 
     <div class="content-container">
         <div class="header-section">
-            <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 L20 25 L20 65 C20 90 50 110 60 110 C70 110 100 90 100 65 L100 25 Z' fill='%23ffffff' stroke='%230A1931' stroke-width='4'/%3E%3Cpath d='M60 16 L26 29 L26 63 C26 84 52 102 60 102 C68 102 94 84 94 63 L94 29 Z' fill='%230A1931'/%3E%3Cpolygon points='60,25 65,35 75,35 67,42 70,52 60,46 50,52 53,42 45,35 55,35' fill='%23C5A059'/%3E%3Cpath d='M45 75 L45 60 L60 65 L75 60 L75 75 L60 80 Z' fill='%23C5A059'/%3E%3Cpath d='M60 65 L60 80' stroke='%230A1931' stroke-width='2'/%3E%3C/svg%3E" alt="" class="header-logo">
+            <img src="{{ $logoBase64 }}" alt="" class="header-logo">
             <h1 class="school-title">{{ $school_name }}</h1>
             <p class="school-address">{{ $school_address }}</p>
             <div class="document-title">Official Transcript of Marks</div>
@@ -225,16 +303,16 @@
                 <span class="value">{{ $father_name }}</span>
             </div>
             <div class="field">
-                <span class="key">Examination:</span>
-                <span class="value">Final Exam {{ $academic_year }}</span>
-            </div>
-            <div class="field">
                 <span class="key">Class/Grade:</span>
                 <span class="value">{{ $class_name }}</span>
             </div>
             <div class="field">
-                <span class="key">Academic Year:</span>
-                <span class="value">{{ $academic_year }}</span>
+                <span class="key">Academic Session:</span>
+                <span class="value">{{ $academic_session }}</span>
+            </div>
+            <div class="field">
+                <span class="key">Issue Date:</span>
+                <span class="value">{{ $issue_date }}</span>
             </div>
         </div>
 
@@ -283,9 +361,7 @@
             </tfoot>
         </table>
 
-        <div class="marks-legend">
-            <strong>Grading Legend:</strong> 80%+ (A1/Excellent), 70%+ (A/Good), 60%+ (B/Satisfactory) | <strong>Pass Mark: 33%</strong>
-        </div>
+
 
         <div class="result-summary">
             Percentage: <span>{{ $percentage }}%</span> | Final Grade: <span>{{ $grade }}</span> | Status: <span>{{ $status }}</span>
@@ -306,28 +382,255 @@
                     @endif
                 </div>
             </div>
-
-            <div class="stamp-container">
-                <span style="margin-top: -20px; display: block;">GBHSS<br>DHILYAR</span>
-                <span style="margin-top: 25px; display: block; font-size: 7px;">SINDH BD. OF ED.</span>
-            </div>
         </div>
 
         <div class="signature-grid">
-            <div class="signature-block">
-                <div class="signature-line"></div>
-                <label>Class Teacher</label>
+
+            <div class="signature-block" style="justify-content: center;">
+                <div class="seal-placeholder">
+                    <div class="inner-wrapper">
+                        <div class="stamp-indicator">Place Official Stamp Here</div>
+                        <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                    </div>
+                </div>
             </div>
             <div class="signature-block">
-                {!! $signature !!}
+                <div class="script-signature">
+                    {!! $signature !!}
+                </div>
                 <div class="signature-line"></div>
-                <label>Headmaster</label>
-            </div>
-            <div class="signature-block">
-                <div class="issue-date-val">{{ $issue_date }}</div>
-                <div class="signature-line"></div>
-                <label>Issue Date</label>
+                <label>Principal / Headmaster</label>
             </div>
         </div>
-    </div>
-</div>
+    </div>{{-- end .content-container --}}
+
+    {{-- ══════════════════════════════════════════════════════════════
+         ULTRA-PROFESSIONAL SECURITY WATERMARK — Canvas Multi-Layer
+         Layers:
+           1. Warm paper base wash
+           2. PRIMARY diagonal text rows  (blue + gold alternating, brick-offset)
+           3. COUNTER-DIAGONAL text rows  (+22° — cross-hatch effect)
+           4. Micro dot security grid
+           5. Edge vignette
+         ══════════════════════════════════════════════════════════════ --}}
+    <script>
+    (function () {
+        'use strict';
+
+        /* ══ MASTER CONFIG ══════════════════════════════════════════════ */
+        var TEXT_A   = 'GALAXY PUBLIC SCHOOL';           /* primary track   */
+        var TEXT_B   = 'COLLEGE UMERKOT';                /* secondary track */
+        var SEP_STAR = '  \u2736  ';                     /* ✶ star          */
+        var SEP_DIAM = '  \u25C6  ';                     /* ◆ diamond       */
+
+        var BLUE  = { r:10,  g:25,  b:49  };
+        var GOLD  = { r:165, g:120, b:55  };
+
+        var DPR = Math.min(window.devicePixelRatio || 1, 3); /* cap at 3× */
+
+        /* ── rgba builder ── */
+        function rgba(c, a) {
+            return 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
+        }
+
+        /* ── letter-spaced text draw, returns total width drawn ── */
+        function drawSpaced(ctx, text, x, y, lsp) {
+            var cx = x;
+            for (var i = 0; i < text.length; i++) {
+                var ch = text[i];
+                ctx.fillText(ch, cx, y);
+                cx += ctx.measureText(ch).width + lsp;
+            }
+            return cx - x;
+        }
+
+        /* ── tile a row of text across full diagonal length ── */
+        function tileRow(ctx, unit, unitW, startX, y, nCols, lsp) {
+            for (var c = 0; c < nCols + 3; c++) {
+                drawSpaced(ctx, unit, startX + c * unitW, y, lsp);
+            }
+        }
+
+        /* ══ MAIN RENDER ════════════════════════════════════════════════ */
+        function render() {
+            var wrap   = document.querySelector('.text-watermark-pattern');
+            var canvas = document.getElementById('wm-canvas');
+            if (!wrap || !canvas) return;
+
+            var cssW = wrap.offsetWidth;
+            var cssH = wrap.offsetHeight;
+            if (cssW < 20 || cssH < 20) { setTimeout(render, 90); return; }
+
+            /* ── HiDPI sizing ── */
+            canvas.width        = cssW * DPR;
+            canvas.height       = cssH * DPR;
+            canvas.style.width  = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+
+            var ctx = canvas.getContext('2d');
+            ctx.scale(DPR, DPR);
+
+            var diagLen = Math.sqrt(cssW * cssW + cssH * cssH) + 40;
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 1 — Warm ivory paper wash
+               ════════════════════════════════════════════════════════════ */
+            ctx.fillStyle = 'rgba(250,248,244,0.60)';
+            ctx.fillRect(0, 0, cssW, cssH);
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 2 — PRIMARY diagonal text  (angle −22°)
+               Blue rows: "GALAXY PUBLIC SCHOOL ✶  GALAXY PUBLIC SCHOOL ✶ …"
+               Gold rows: "COLLEGE UMERKOT ◆  COLLEGE UMERKOT ◆ …"
+               Brick-offset on alternating rows for dense interlocking
+               ════════════════════════════════════════════════════════════ */
+            (function primaryLayer() {
+                var FS      = 10;                   /* font size px          */
+                var LSP     = 0.9;                  /* letter spacing px     */
+                var ROW_H   = FS + 17;              /* row pitch             */
+                var ANG     = -22 * Math.PI / 180;
+
+                ctx.save();
+                ctx.translate(cssW / 2, cssH / 2);
+                ctx.rotate(ANG);
+
+                /* measure with blue font (heavier weight) */
+                ctx.font = '700 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                var unitA  = TEXT_A + SEP_STAR;
+                var unitAW = ctx.measureText(unitA).width + unitA.length * LSP;
+
+                ctx.font = '600 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                var unitB  = TEXT_B + SEP_DIAM;
+                var unitBW = ctx.measureText(unitB).width + unitB.length * LSP;
+
+                var nRows = Math.ceil(diagLen / ROW_H) + 10;
+                var startY = -Math.floor(nRows / 2) * ROW_H;
+
+                for (var r = 0; r < nRows; r++) {
+                    var y      = startY + r * ROW_H;
+                    var isBlue = (r % 2 === 0);
+
+                    if (isBlue) {
+                        ctx.fillStyle = rgba(BLUE, 0.11);
+                        ctx.font      = '700 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                        var colsA  = Math.ceil(diagLen / unitAW) + 4;
+                        var xShiftA = 0;
+                        var startXA = -Math.ceil(colsA / 2) * unitAW - xShiftA;
+                        tileRow(ctx, unitA, unitAW, startXA, y, colsA, LSP);
+                    } else {
+                        ctx.fillStyle = rgba(GOLD, 0.09);
+                        ctx.font      = '600 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                        var colsB  = Math.ceil(diagLen / unitBW) + 4;
+                        /* brick shift = half of blue unit width */
+                        var xShiftB = unitAW / 2;
+                        var startXB = -Math.ceil(colsB / 2) * unitBW - xShiftB;
+                        tileRow(ctx, unitB, unitBW, startXB, y, colsB, LSP);
+                    }
+                }
+                ctx.restore();
+            })();
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 3 — COUNTER-DIAGONAL text  (angle +18°)
+               Creates the classic cross-hatch seen on banknotes / degrees
+               Uses both texts but at lower opacity and smaller font
+               ════════════════════════════════════════════════════════════ */
+            (function counterLayer() {
+                var FS    = 8.5;
+                var LSP   = 0.6;
+                var ROW_H = FS + 22;
+                var ANG   = 18 * Math.PI / 180;
+
+                ctx.save();
+                ctx.translate(cssW / 2, cssH / 2);
+                ctx.rotate(ANG);
+
+                ctx.font = '600 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                var unitC  = TEXT_A + SEP_DIAM + TEXT_B + SEP_STAR;
+                var unitCW = ctx.measureText(unitC).width + unitC.length * LSP;
+
+                var nRows  = Math.ceil(diagLen / ROW_H) + 10;
+                var startY = -Math.floor(nRows / 2) * ROW_H;
+                var nCols  = Math.ceil(diagLen / unitCW) + 4;
+
+                for (var r = 0; r < nRows; r++) {
+                    var y = startY + r * ROW_H;
+                    /* alternate micro-opacity between blue and gold */
+                    ctx.fillStyle = (r % 2 === 0)
+                        ? rgba(BLUE, 0.055)
+                        : rgba(GOLD, 0.045);
+                    var xShift = (r % 2 === 0) ? 0 : unitCW / 2;
+                    var startX = -Math.ceil(nCols / 2) * unitCW - xShift;
+                    tileRow(ctx, unitC, unitCW, startX, y, nCols, LSP);
+                }
+                ctx.restore();
+            })();
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 4 — Micro security dot grid
+               Tiny dots at every 14px in a rotated grid — classic
+               government-document guilloche substitute
+               ════════════════════════════════════════════════════════════ */
+            (function dotGrid() {
+                var STEP = 14;
+                var ANG  = -22 * Math.PI / 180;
+
+                ctx.save();
+                ctx.translate(cssW / 2, cssH / 2);
+                ctx.rotate(ANG);
+
+                var half = diagLen / 2 + STEP * 2;
+                var cols = Math.ceil(half * 2 / STEP);
+                var rows = Math.ceil(half * 2 / STEP);
+
+                for (var r = 0; r < rows; r++) {
+                    for (var c = 0; c < cols; c++) {
+                        var dx = -half + c * STEP;
+                        var dy = -half + r * STEP;
+                        /* alternate dot color by checker pattern */
+                        var checker = (r + c) % 2 === 0;
+                        ctx.fillStyle = checker
+                            ? rgba(BLUE, 0.06)
+                            : rgba(GOLD, 0.05);
+                        ctx.beginPath();
+                        ctx.arc(dx, dy, 0.7, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                ctx.restore();
+            })();
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 5 — Radial edge vignette (depth + frame feel)
+               ════════════════════════════════════════════════════════════ */
+            (function vignette() {
+                var gr = ctx.createRadialGradient(
+                    cssW / 2, cssH / 2, cssH * 0.22,
+                    cssW / 2, cssH / 2, cssH * 0.85
+                );
+                gr.addColorStop(0,    'rgba(0,0,0,0)');
+                gr.addColorStop(0.65, 'rgba(0,0,0,0)');
+                gr.addColorStop(1,    rgba(BLUE, 0.055));
+                ctx.fillStyle = gr;
+                ctx.fillRect(0, 0, cssW, cssH);
+            })();
+        }
+
+        /* ══ BOOT ════════════════════════════════════════════════════════ */
+        function boot() {
+            render();
+            /* re-render once web fonts are fully loaded for crisp text */
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(render);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', boot);
+        } else {
+            boot();
+        }
+
+    })();
+    </script>
+</div>{{-- end .a4-page --}}

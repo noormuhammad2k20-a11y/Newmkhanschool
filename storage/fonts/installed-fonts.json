@@ -1,0 +1,17 @@
+{
+    "cinzel": {
+        "600": "D:\\Xamp\\htdocs\\school\\storage\\fonts\/cinzel_600_ad3dbcc53a5ddb2ef0f1b9ede4270e5d",
+        "bold": "D:\\Xamp\\htdocs\\school\\storage\\fonts\/cinzel_bold_c9c3879c158e0dafc0f2487c789a9af5",
+        "800": "cinzel_800_00a0a46fed25951c8f2f0665da676e68"
+    },
+    "montserrat": {
+        "500_italic": "D:\\Xamp\\htdocs\\school\\storage\\fonts\/montserrat_500_italic_c02f27d7f581d9ee5e567efb78c166b9",
+        "500": "D:\\Xamp\\htdocs\\school\\storage\\fonts\/montserrat_500_2da570d656c67ef7297f2b0b288ce8bc",
+        "600": "D:\\Xamp\\htdocs\\school\\storage\\fonts\/montserrat_600_da2f80af0e6d548904b08d3547b44b1c",
+        "bold": "D:\\Xamp\\htdocs\\school\\storage\\fonts\/montserrat_bold_251805f22f376c685d401bff71e8e1d4",
+        "normal": "montserrat_normal_95c77d2830d640f06faa8261ded6db33"
+    },
+    "dancing script": {
+        "bold": "dancing_script_bold_473c916ba1dadd24a2c92fc1a1461a97"
+    }
+}

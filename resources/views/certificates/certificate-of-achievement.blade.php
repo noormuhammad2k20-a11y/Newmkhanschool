@@ -1,7 +1,19 @@
 {{-- Certificate of Achievement - Dynamic Blade Template --}}
+@php
+    $logoBase64 = '';
+    $logoPath = public_path('images/certificate-logo.png');
+    if (file_exists($logoPath)) {
+        $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+    }
+    
+    // Format academic session dynamically
+    $academic_session = $academic_year ?? '';
+    if (preg_match('/(\d{4})-\d{2}-\d{2}\s*to\s*(\d{4})-\d{2}-\d{2}/', $academic_session, $matches)) {
+        $academic_session = $matches[1] . ' - ' . $matches[2];
+    }
+@endphp
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -31,9 +43,9 @@
     .bottom-right { bottom: -2px; right: -2px; border-bottom: 5px solid var(--rich-gold); border-right: 5px solid var(--rich-gold); }
     .watermark {
         position: absolute; top: 50%; left: 50%;
-        width: 450px; height: 450px;
+        width: 450px; height: auto; max-height: 450px; object-fit: contain;
         transform: translate(-50%, -50%);
-        opacity: 0.03; z-index: 0; pointer-events: none; filter: grayscale(100%);
+        opacity: 0.12; z-index: 0; pointer-events: none;
     }
     .content-container {
         position: relative; padding: 25mm 22mm;
@@ -42,7 +54,7 @@
         font-family: 'Montserrat', sans-serif; color: var(--text-main);
     }
     .header-section { text-align: center; position: relative; margin-bottom: 25px; }
-    .header-logo { width: 80px; margin-bottom: 10px; }
+    .header-logo { width: 110px; height: auto; max-height: 110px; object-fit: contain; margin-bottom: 10px; }
     .school-title {
         font-family: 'Cinzel', serif; font-size: 20px; font-weight: 800;
         color: var(--royal-blue); margin: 0 0 5px 0; line-height: 1.3; text-transform: uppercase;
@@ -83,33 +95,90 @@
         display: inline-block; max-width: 90%; line-height: 1.5;
     }
     .final-text { font-size: 14px; color: #475569; line-height: 1.8; font-style: italic; }
-    .stamp-container {
-        width: 110px; height: 110px; border: 2px solid var(--royal-blue);
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        text-align: center; font-size: 10px; color: var(--royal-blue);
-        font-weight: 800; text-transform: uppercase;
-        background: rgba(10, 25, 49, 0.02); transform: rotate(-15deg);
-        position: relative; box-shadow: inset 0 0 0 3px var(--rich-gold); margin: 0 auto;
+    /* Physical Stamp Placeholder CSS */
+    .seal-placeholder {
+        padding: 4px;
+        border: 2px solid var(--royal-blue);
+        border-radius: 8px;
+        background: rgba(197, 160, 89, 0.03);
+        display: inline-block;
+        box-shadow: 0 0 0 1px var(--rich-gold);
+        width: 180px; 
+        font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+        user-select: none;
+        margin: 0 auto;
+        transform: rotate(-2deg);
     }
-    .stamp-container::after {
-        content: "OFFICIAL SEAL"; position: absolute; top: 50%; left: 50%;
-        transform: translate(-50%, -50%); width: 100%;
-        border-top: 1px dashed var(--royal-blue); border-bottom: 1px dashed var(--royal-blue);
-        padding: 3px 0; background: rgba(255,255,255,0.8);
+
+    .seal-placeholder .inner-wrapper {
+        border: 1.5px dashed var(--royal-blue);
+        border-radius: 4px;
+        padding: 8px;
+        text-align: center;
+        min-height: 85px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Light Placeholder Text for Stamp Area */
+    .seal-placeholder .stamp-indicator {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: rgba(10, 25, 49, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .seal-placeholder .school-name {
+        font-size: 0.7rem; 
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        color: var(--royal-blue); 
+        text-transform: uppercase;
+        border-top: 1px solid rgba(197, 160, 89, 0.3);
+        padding-top: 6px;
+        margin-top: 6px;
+        line-height: 1.2; 
     }
     .signature-grid {
-        margin-top: auto; display: flex; justify-content: space-between;
+        margin-top: auto; display: flex; justify-content: space-around;
         align-items: flex-end; position: relative; padding-bottom: 10mm;
     }
-    .signature-block { text-align: center; position: relative; width: 180px; }
+    .signature-block { text-align: center; position: relative; width: 35%; }
     .signature-line { border-top: 1px solid var(--royal-blue); margin-bottom: 8px; width: 100%; }
     .signature-block label {
         display: block; font-size: 11px; color: var(--royal-blue);
         font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
     }
+
+    /* ── Canvas Watermark Container ── */
+    .text-watermark-pattern {
+        position: absolute;
+        top: 12mm; left: 12mm; right: 12mm; bottom: 12mm;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+    .text-watermark-pattern canvas {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+    }
+
 </style>
 
 <div class="a4-page">
+    
+    {{-- ── Canvas-based diagonal tiled watermark ── --}}
+    <div class="text-watermark-pattern">
+        <canvas id="wm-canvas"></canvas>
+    </div>
+
     <div class="frame-outer">
         <div class="corner top-left"></div>
         <div class="corner top-right"></div>
@@ -118,11 +187,11 @@
     </div>
     <div class="frame-inner"></div>
 
-    <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 L20 25 L20 65 C20 90 50 110 60 110 C70 110 100 90 100 65 L100 25 Z' fill='%23ffffff' stroke='%230A1931' stroke-width='4'/%3E%3Cpath d='M60 16 L26 29 L26 63 C26 84 52 102 60 102 C68 102 94 84 94 63 L94 29 Z' fill='%230A1931'/%3E%3Cpolygon points='60,25 65,35 75,35 67,42 70,52 60,46 50,52 53,42 45,35 55,35' fill='%23C5A059'/%3E%3Cpath d='M45 75 L45 60 L60 65 L75 60 L75 75 L60 80 Z' fill='%23C5A059'/%3E%3Cpath d='M60 65 L60 80' stroke='%230A1931' stroke-width='2'/%3E%3C/svg%3E" class="watermark" alt="">
+    <img src="{{ $logoBase64 }}" class="watermark" alt="">
 
     <div class="content-container">
         <div class="header-section">
-            <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 L20 25 L20 65 C20 90 50 110 60 110 C70 110 100 90 100 65 L100 25 Z' fill='%23ffffff' stroke='%230A1931' stroke-width='4'/%3E%3Cpath d='M60 16 L26 29 L26 63 C26 84 52 102 60 102 C68 102 94 84 94 63 L94 29 Z' fill='%230A1931'/%3E%3Cpolygon points='60,25 65,35 75,35 67,42 70,52 60,46 50,52 53,42 45,35 55,35' fill='%23C5A059'/%3E%3Cpath d='M45 75 L45 60 L60 65 L75 60 L75 75 L60 80 Z' fill='%23C5A059'/%3E%3Cpath d='M60 65 L60 80' stroke='%230A1931' stroke-width='2'/%3E%3C/svg%3E" alt="" class="header-logo">
+            <img src="{{ $logoBase64 }}" alt="" class="header-logo">
             <h1 class="school-title">{{ $school_name }}</h1>
             <p class="school-address">{{ $school_address }}</p>
         </div>
@@ -146,20 +215,18 @@
             </div>
 
             <div class="final-text">
-                During the academic year {{ $academic_year }}. We commend their hard work, innovative<br>
+                During the academic session {{ $academic_session }}. We commend their hard work, innovative<br>
                 thinking, and wish them continued success in all future academic endeavors.
             </div>
         </div>
 
         <div class="signature-grid">
-            <div class="signature-block">
-                <div class="signature-line"></div>
-                <label>Class Teacher</label>
-            </div>
 
-            <div class="stamp-container">
-                <span style="margin-top: -25px; display: block;">GBHSS<br>DHILYAR</span>
-                <span style="margin-top: 30px; display: block; font-size: 8px;">SINDH BD. OF ED.</span>
+            <div class="seal-placeholder">
+                <div class="inner-wrapper">
+                    <div class="stamp-indicator">Place Official Stamp Here</div>
+                    <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                </div>
             </div>
 
             <div class="signature-block">
@@ -169,4 +236,235 @@
             </div>
         </div>
     </div>
+
+    {{-- ══════════════════════════════════════════════════════════════
+         ULTRA-PROFESSIONAL SECURITY WATERMARK — Canvas Multi-Layer
+         Layers:
+           1. Warm paper base wash
+           2. PRIMARY diagonal text rows  (blue + gold alternating, brick-offset)
+           3. COUNTER-DIAGONAL text rows  (+22° — cross-hatch effect)
+           4. Micro dot security grid
+           5. Edge vignette
+         ══════════════════════════════════════════════════════════════ --}}
+    <script>
+    (function () {
+        'use strict';
+
+        /* ══ MASTER CONFIG ══════════════════════════════════════════════ */
+        var TEXT_A   = 'GALAXY PUBLIC SCHOOL';           /* primary track   */
+        var TEXT_B   = 'COLLEGE UMERKOT';                /* secondary track */
+        var SEP_STAR = '  \u2736  ';                     /* ✶ star          */
+        var SEP_DIAM = '  \u25C6  ';                     /* ◆ diamond       */
+
+        var BLUE  = { r:10,  g:25,  b:49  };
+        var GOLD  = { r:165, g:120, b:55  };
+
+        var DPR = Math.min(window.devicePixelRatio || 1, 3); /* cap at 3× */
+
+        /* ── rgba builder ── */
+        function rgba(c, a) {
+            return 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
+        }
+
+        /* ── letter-spaced text draw, returns total width drawn ── */
+        function drawSpaced(ctx, text, x, y, lsp) {
+            var cx = x;
+            for (var i = 0; i < text.length; i++) {
+                var ch = text[i];
+                ctx.fillText(ch, cx, y);
+                cx += ctx.measureText(ch).width + lsp;
+            }
+            return cx - x;
+        }
+
+        /* ── tile a row of text across full diagonal length ── */
+        function tileRow(ctx, unit, unitW, startX, y, nCols, lsp) {
+            for (var c = 0; c < nCols + 3; c++) {
+                drawSpaced(ctx, unit, startX + c * unitW, y, lsp);
+            }
+        }
+
+        /* ══ MAIN RENDER ════════════════════════════════════════════════ */
+        function render() {
+            var wrap   = document.querySelector('.text-watermark-pattern');
+            var canvas = document.getElementById('wm-canvas');
+            if (!wrap || !canvas) return;
+
+            var cssW = wrap.offsetWidth;
+            var cssH = wrap.offsetHeight;
+            if (cssW < 20 || cssH < 20) { setTimeout(render, 90); return; }
+
+            /* ── HiDPI sizing ── */
+            canvas.width        = cssW * DPR;
+            canvas.height       = cssH * DPR;
+            canvas.style.width  = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+
+            var ctx = canvas.getContext('2d');
+            ctx.scale(DPR, DPR);
+
+            var diagLen = Math.sqrt(cssW * cssW + cssH * cssH) + 40;
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 1 — Warm ivory paper wash
+               ════════════════════════════════════════════════════════════ */
+            ctx.fillStyle = 'rgba(250,248,244,0.60)';
+            ctx.fillRect(0, 0, cssW, cssH);
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 2 — PRIMARY diagonal text  (angle −22°)
+               Blue rows: "GALAXY PUBLIC SCHOOL ✶  GALAXY PUBLIC SCHOOL ✶ …"
+               Gold rows: "COLLEGE UMERKOT ◆  COLLEGE UMERKOT ◆ …"
+               Brick-offset on alternating rows for dense interlocking
+               ════════════════════════════════════════════════════════════ */
+            (function primaryLayer() {
+                var FS      = 10;                   /* font size px          */
+                var LSP     = 0.9;                  /* letter spacing px     */
+                var ROW_H   = FS + 17;              /* row pitch             */
+                var ANG     = -22 * Math.PI / 180;
+
+                ctx.save();
+                ctx.translate(cssW / 2, cssH / 2);
+                ctx.rotate(ANG);
+
+                /* measure with blue font (heavier weight) */
+                ctx.font = '700 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                var unitA  = TEXT_A + SEP_STAR;
+                var unitAW = ctx.measureText(unitA).width + unitA.length * LSP;
+
+                ctx.font = '600 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                var unitB  = TEXT_B + SEP_DIAM;
+                var unitBW = ctx.measureText(unitB).width + unitB.length * LSP;
+
+                var nRows = Math.ceil(diagLen / ROW_H) + 10;
+                var startY = -Math.floor(nRows / 2) * ROW_H;
+
+                for (var r = 0; r < nRows; r++) {
+                    var y      = startY + r * ROW_H;
+                    var isBlue = (r % 2 === 0);
+
+                    if (isBlue) {
+                        ctx.fillStyle = rgba(BLUE, 0.11);
+                        ctx.font      = '700 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                        var colsA  = Math.ceil(diagLen / unitAW) + 4;
+                        var xShiftA = 0;
+                        var startXA = -Math.ceil(colsA / 2) * unitAW - xShiftA;
+                        tileRow(ctx, unitA, unitAW, startXA, y, colsA, LSP);
+                    } else {
+                        ctx.fillStyle = rgba(GOLD, 0.09);
+                        ctx.font      = '600 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                        var colsB  = Math.ceil(diagLen / unitBW) + 4;
+                        /* brick shift = half of blue unit width */
+                        var xShiftB = unitAW / 2;
+                        var startXB = -Math.ceil(colsB / 2) * unitBW - xShiftB;
+                        tileRow(ctx, unitB, unitBW, startXB, y, colsB, LSP);
+                    }
+                }
+                ctx.restore();
+            })();
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 3 — COUNTER-DIAGONAL text  (angle +18°)
+               Creates the classic cross-hatch seen on banknotes / degrees
+               Uses both texts but at lower opacity and smaller font
+               ════════════════════════════════════════════════════════════ */
+            (function counterLayer() {
+                var FS    = 8.5;
+                var LSP   = 0.6;
+                var ROW_H = FS + 22;
+                var ANG   = 18 * Math.PI / 180;
+
+                ctx.save();
+                ctx.translate(cssW / 2, cssH / 2);
+                ctx.rotate(ANG);
+
+                ctx.font = '600 ' + FS + 'px "Cinzel","Times New Roman",serif';
+                var unitC  = TEXT_A + SEP_DIAM + TEXT_B + SEP_STAR;
+                var unitCW = ctx.measureText(unitC).width + unitC.length * LSP;
+
+                var nRows  = Math.ceil(diagLen / ROW_H) + 10;
+                var startY = -Math.floor(nRows / 2) * ROW_H;
+                var nCols  = Math.ceil(diagLen / unitCW) + 4;
+
+                for (var r = 0; r < nRows; r++) {
+                    var y = startY + r * ROW_H;
+                    /* alternate micro-opacity between blue and gold */
+                    ctx.fillStyle = (r % 2 === 0)
+                        ? rgba(BLUE, 0.055)
+                        : rgba(GOLD, 0.045);
+                    var xShift = (r % 2 === 0) ? 0 : unitCW / 2;
+                    var startX = -Math.ceil(nCols / 2) * unitCW - xShift;
+                    tileRow(ctx, unitC, unitCW, startX, y, nCols, LSP);
+                }
+                ctx.restore();
+            })();
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 4 — Micro security dot grid
+               Tiny dots at every 14px in a rotated grid — classic
+               government-document guilloche substitute
+               ════════════════════════════════════════════════════════════ */
+            (function dotGrid() {
+                var STEP = 14;
+                var ANG  = -22 * Math.PI / 180;
+
+                ctx.save();
+                ctx.translate(cssW / 2, cssH / 2);
+                ctx.rotate(ANG);
+
+                var half = diagLen / 2 + STEP * 2;
+                var cols = Math.ceil(half * 2 / STEP);
+                var rows = Math.ceil(half * 2 / STEP);
+
+                for (var r = 0; r < rows; r++) {
+                    for (var c = 0; c < cols; c++) {
+                        var dx = -half + c * STEP;
+                        var dy = -half + r * STEP;
+                        /* alternate dot color by checker pattern */
+                        var checker = (r + c) % 2 === 0;
+                        ctx.fillStyle = checker
+                            ? rgba(BLUE, 0.06)
+                            : rgba(GOLD, 0.05);
+                        ctx.beginPath();
+                        ctx.arc(dx, dy, 0.7, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                ctx.restore();
+            })();
+
+            /* ════════════════════════════════════════════════════════════
+               LAYER 5 — Radial edge vignette (depth + frame feel)
+               ════════════════════════════════════════════════════════════ */
+            (function vignette() {
+                var gr = ctx.createRadialGradient(
+                    cssW / 2, cssH / 2, cssH * 0.22,
+                    cssW / 2, cssH / 2, cssH * 0.85
+                );
+                gr.addColorStop(0,    'rgba(0,0,0,0)');
+                gr.addColorStop(0.65, 'rgba(0,0,0,0)');
+                gr.addColorStop(1,    rgba(BLUE, 0.055));
+                ctx.fillStyle = gr;
+                ctx.fillRect(0, 0, cssW, cssH);
+            })();
+        }
+
+        /* ══ BOOT ════════════════════════════════════════════════════════ */
+        function boot() {
+            render();
+            /* re-render once web fonts are fully loaded for crisp text */
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(render);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', boot);
+        } else {
+            boot();
+        }
+
+    })();
+    </script>
+
 </div>

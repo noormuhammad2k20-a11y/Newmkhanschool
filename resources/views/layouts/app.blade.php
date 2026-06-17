@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html class="light" lang="en">
 <head>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        }
+    </script>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>EduGov Management</title>
+    <title>School Management System</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -170,28 +176,30 @@
     <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
     <!-- SideNavBar -->
-    <nav id="sidebar" class="hidden md:flex flex-col bg-surface-container w-64 h-full fixed left-0 top-0 z-50 py-md transition-transform transform md:translate-x-0 -translate-x-full">
+    <nav id="sidebar" class="flex flex-col bg-surface-container w-64 h-full fixed left-0 top-0 z-50 py-md transition-transform duration-300 transform md:translate-x-0 -translate-x-full">
         <div class="px-md mb-lg">
-            <div class="flex items-center gap-sm mb-sm">
-                <div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md font-bold">
-                    SE
-                </div>
-                <div>
-                    <h1 class="font-headline-lg text-headline-lg text-primary">State Education</h1>
-                    @php
-                        $portalName = 'Portal';
-                        if(auth()->check()) {
-                            switch(auth()->user()->role_id) {
-                                case 1:
-                                case 2: $portalName = 'Admin Portal'; break;
-                                case 3: $portalName = 'Teacher Portal'; break;
-                                case 4: $portalName = 'Student Portal'; break;
-                                case 5: $portalName = 'Parent Portal'; break;
-                                case 6: $portalName = 'Accountant Portal'; break;
+            <div class="flex items-center justify-between mb-sm mt-2">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-[#000444] text-white flex items-center justify-center font-bold text-[18px] shadow-sm shadow-primary/30">
+                        SE
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="font-bold text-[15px] text-on-surface leading-tight tracking-tight">State Education</h1>
+                        @php
+                            $portalName = 'Portal';
+                            if(auth()->check()) {
+                                switch(auth()->user()->role_id) {
+                                    case 1:
+                                    case 2: $portalName = 'Admin Portal'; break;
+                                    case 3: $portalName = 'Teacher Portal'; break;
+                                    case 4: $portalName = 'Student Portal'; break;
+                                    case 5: $portalName = 'Parent Portal'; break;
+                                    case 6: $portalName = 'Accountant Portal'; break;
+                                }
                             }
-                        }
-                    @endphp
-                    <p class="font-label-md text-label-md text-secondary">{{ $portalName }}</p>
+                        @endphp
+                        <p class="text-[11px] font-semibold text-primary uppercase tracking-wider">{{ $portalName }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -797,17 +805,30 @@
         </div>
     </nav>
     <!-- Main Content Area -->
-    <div class="flex flex-col md:ml-64 w-full md:w-[calc(100%-16rem)] min-h-screen min-w-0">
+    <div id="main-content" class="flex flex-col md:ml-64 w-full md:w-[calc(100%-16rem)] min-h-screen min-w-0 transition-all duration-300 ease-in-out">
         <!-- TopNavBar -->
         <header class="bg-surface-container-lowest w-full h-16 border-b border-outline-variant flex justify-between items-center px-lg sticky top-0 z-30">
             <div class="flex items-center gap-md">
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-on-surface-variant hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
-                    <span class="material-symbols-outlined">menu</span>
+                <!-- Sidebar Toggle Button -->
+                <button id="sidebar-toggle-btn" class="text-on-surface-variant hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined" id="sidebar-toggle-icon">menu_open</span>
                 </button>
-                <h1 class="font-headline-md text-headline-md font-bold text-primary">EduGov Management</h1>
+                <!-- Global Search Bar -->
+                <div class="hidden md:flex relative group ml-2">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-on-surface-variant group-focus-within:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">search</span>
+                    </div>
+                    <input type="text" class="block w-[260px] lg:w-[380px] py-2.5 pl-11 pr-12 text-sm font-medium text-on-surface bg-surface-container hover:bg-surface-container-high focus:bg-surface-container-lowest rounded-full border border-transparent focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-300 shadow-sm placeholder-on-surface-variant/70" placeholder="Search students, staff, classes...">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <span class="text-[10px] font-bold text-on-surface-variant border border-outline-variant/60 rounded flex items-center justify-center px-1.5 py-0.5 bg-surface-container-lowest shadow-sm opacity-80">⌘K</span>
+                    </div>
+                </div>
             </div>
             <div class="flex items-center gap-sm">
+                <!-- Mobile Search Button -->
+                <button class="md:hidden text-on-surface-variant hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
+                    <span class="material-symbols-outlined" data-icon="search">search</span>
+                </button>
                 @if(auth()->check() && auth()->user()->role_id == 5)
                     <a href="{{ route('parent.notifications.index') }}" class="relative text-secondary hover:bg-surface-container p-sm rounded-full transition-colors cursor-pointer active:opacity-80">
                         <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
@@ -1369,16 +1390,44 @@
             }, true);
         })();
 
-        // Mobile Sidebar Toggle
+        // Unified Sidebar Toggle
         document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('mobile-menu-btn');
+            const btn = document.getElementById('sidebar-toggle-btn');
+            const icon = document.getElementById('sidebar-toggle-icon');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobile-sidebar-overlay');
-            if (btn && sidebar && overlay) {
+            const mainContent = document.getElementById('main-content');
+
+            if (btn && sidebar && overlay && mainContent) {
                 const toggleSidebar = () => {
-                    sidebar.classList.toggle('-translate-x-full');
-                    overlay.classList.toggle('hidden');
+                    const isMobile = window.innerWidth < 768;
+                    if (isMobile) {
+                        sidebar.classList.toggle('-translate-x-full');
+                        overlay.classList.toggle('hidden');
+                        icon.textContent = sidebar.classList.contains('-translate-x-full') ? 'menu' : 'menu_open';
+                    } else {
+                        // Desktop Toggle Logic
+                        sidebar.classList.toggle('md:translate-x-0');
+                        sidebar.classList.toggle('md:-translate-x-full');
+                        
+                        mainContent.classList.toggle('md:ml-64');
+                        mainContent.classList.toggle('md:w-[calc(100%-16rem)]');
+                        mainContent.classList.toggle('md:ml-0');
+                        mainContent.classList.toggle('md:w-full');
+                        
+                        if (sidebar.classList.contains('md:-translate-x-full')) {
+                            icon.textContent = 'menu';
+                        } else {
+                            icon.textContent = 'menu_open';
+                        }
+                    }
                 };
+                
+                // Initialize icon state
+                if (window.innerWidth < 768) {
+                    icon.textContent = 'menu';
+                }
+                
                 btn.addEventListener('click', toggleSidebar);
                 overlay.addEventListener('click', toggleSidebar);
             }

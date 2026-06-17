@@ -98,27 +98,41 @@ class DocumentController extends Controller
     public function ajaxSearch(Request $request)
     {
         $query = $request->get('query');
-        if (strlen($query) < 2) {
+        $class_id = $request->get('class_id');
+        $section_id = $request->get('section_id');
+
+        if (empty($query) && empty($class_id)) {
             return response()->json([]);
         }
 
-        $students = Student::with(['currentClass', 'currentSection'])
-            ->where('first_name', 'like', "%$query%")
-            ->orWhere('last_name', 'like', "%$query%")
-            ->orWhere('admission_no', 'like', "%$query%")
-            ->take(10)
-            ->get()
-            ->map(function($student) {
-                return [
-                    'id' => $student->id,
-                    'first_name' => $student->first_name,
-                    'last_name' => $student->last_name,
-                    'admission_no' => $student->admission_no,
-                    'class_name' => $student->currentClass ? $student->currentClass->name : 'N/A'
-                ];
+        $students = Student::with(['currentClass', 'currentSection']);
+        
+        if (!empty($query)) {
+            $students->where(function($q) use ($query) {
+                $q->where('first_name', 'like', "%$query%")
+                  ->orWhere('last_name', 'like', "%$query%")
+                  ->orWhere('admission_no', 'like', "%$query%");
             });
+        }
+        
+        if (!empty($class_id)) {
+            $students->where('current_class_id', $class_id);
+        }
+        
+        if (!empty($section_id)) {
+            $students->where('current_section_id', $section_id);
+        }
 
-        return response()->json($students);
+        return response()->json($students->take(200)->get()->map(function($student) {
+            return [
+                'id' => $student->id,
+                'first_name' => $student->first_name,
+                'last_name' => $student->last_name,
+                'admission_no' => $student->admission_no,
+                'class_name' => $student->currentClass ? $student->currentClass->name : 'N/A',
+                'section_name' => $student->currentSection ? $student->currentSection->name : ''
+            ];
+        }));
     }
 
     public function create(Request $request)
@@ -182,7 +196,7 @@ class DocumentController extends Controller
             'academic_year' => $request->academic_year,
             'certificate_no' => 'PREVIEW-001',
             'qr_code' => '<div style="border: 2px solid #eee; padding: 5px; display: inline-block; background: #fff; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; color: #999;">QR Code</div>',
-            'signature' => '<div style="border-top: 2px solid #333; margin-top: 50px; padding-top: 5px; font-weight: bold; font-family: \'Times New Roman\', serif;">Principal\'s Signature & Stamp</div>'
+            'signature' => '<div style="color: #999; font-style: italic; margin-bottom: 5px;">[Signature Area]</div>'
         ];
 
         // If manual content is provided (user edited inline), use it
@@ -253,7 +267,7 @@ class DocumentController extends Controller
                 $sigContent = Storage::disk('public')->get($school->principal_signature_path);
                 $mimeType = Storage::disk('public')->mimeType($school->principal_signature_path);
                 $signatureBase64 = 'data:' . $mimeType . ';base64,' . base64_encode($sigContent);
-                $signatureHtml = '<img src="'.$signatureBase64.'" style="max-width: 180px; max-height: 90px;" alt="Signature"><br><div style="border-top: 2px solid #333; margin-top: 10px; padding-top: 5px; font-weight: bold; font-family: \'Times New Roman\', serif;">Principal\'s Signature & Stamp</div>';
+                $signatureHtml = '<img src="'.$signatureBase64.'" style="max-width: 180px; max-height: 90px; margin-bottom: 5px;" alt="Signature">';
             }
         }
 
@@ -315,7 +329,8 @@ class DocumentController extends Controller
                 'document' => [
                     'id' => $issued->id,
                     'document_no' => $docNo,
-                    'download_url' => route('admin.documents.download', $issued->id)
+                    'download_url' => route('admin.documents.download', $issued->id),
+                    'print_html' => base64_encode($pdfHtml)
                 ]
             ]);
         }
