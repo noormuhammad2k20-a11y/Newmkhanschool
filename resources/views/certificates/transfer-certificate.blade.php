@@ -5,6 +5,12 @@
     if (file_exists($logoPath)) {
         $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
     }
+    
+    $stampBase64 = '';
+    $stampPath = public_path('images/authentic_document_seal_transparent_background.png');
+    if (file_exists($stampPath)) {
+        $stampBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($stampPath));
+    }
 @endphp
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
@@ -109,11 +115,11 @@
         font-weight: 700;
         color: var(--royal-blue);
         letter-spacing: 1px;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
     }
 
     .header-logo {
-        width: 110px; height: auto; max-height: 110px; object-fit: contain;
+        width: 120px; height: auto; max-height: 120px; object-fit: contain;
         margin-bottom: 10px;
     }
 
@@ -138,10 +144,7 @@
         margin: 4px 0 10px 0;
     }
 
-    .certificate-title-wrapper {
-        text-align: center;
-        margin-bottom: 15px;
-    }
+    .certificate-title-wrapper { text-align: center; margin-bottom: 4px; }
 
     .certificate-title {
         display: inline-block;
@@ -168,7 +171,7 @@
     }
 
     .label-cell {
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 700;
         color: var(--royal-blue);
         white-space: nowrap;
@@ -182,11 +185,11 @@
     }
 
     .value-cell {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 600;
         color: #111;
         border-bottom: 1px dotted #888;
-        padding-bottom: 2px;
+        padding-bottom: 1px;
         padding-left: 5px;
         width: auto;
     }
@@ -210,7 +213,7 @@
 
     .sign-line {
         border-top: 1px solid var(--royal-blue);
-        margin-bottom: 8px;
+        margin-bottom: 4px;
         width: 100%;
     }
 
@@ -416,12 +419,16 @@
         <div class="footer-area">
             
             <div class="signature-block" style="padding-bottom: 10px;">
-                <div class="seal-placeholder">
-                    <div class="inner-wrapper">
-                        <div class="stamp-indicator">Place Official Stamp Here</div>
-                        <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                @if($stampBase64)
+                    <img src="{{ $stampBase64 }}" alt="Official Stamp" style="max-width: 110px; height: auto; object-fit: contain; transform: translateY(0px) rotate(-2deg); opacity: 0.95; margin-bottom: 0px;">
+                @else
+                    <div class="seal-placeholder">
+                        <div class="inner-wrapper">
+                            <div class="stamp-indicator">Place Official Stamp Here</div>
+                            <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
             
             <div class="signature-block">

@@ -6,6 +6,12 @@
         $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
     }
     
+    $stampBase64 = '';
+    $stampPath = public_path('images/authentic_document_seal_transparent_background.png');
+    if (file_exists($stampPath)) {
+        $stampBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($stampPath));
+    }
+    
     // Format academic session dynamically
     $academic_session = $academic_year ?? '';
     if (preg_match('/(\d{4})-\d{2}-\d{2}\s*to\s*(\d{4})-\d{2}-\d{2}/', $academic_session, $matches)) {
@@ -54,7 +60,7 @@
         font-family: 'Montserrat', sans-serif; color: var(--text-main);
     }
     .header-section { text-align: center; position: relative; margin-bottom: 30px; }
-    .header-logo { width: 110px; height: auto; max-height: 110px; object-fit: contain; margin-bottom: 10px; }
+    .header-logo { width: 120px; height: auto; max-height: 120px; object-fit: contain; margin-bottom: 10px; }
     .school-title {
         font-family: 'Cinzel', serif; font-size: 22px; font-weight: 800;
         color: var(--royal-blue); margin: 0 0 5px 0; line-height: 1.3; text-transform: uppercase;
@@ -222,12 +228,16 @@
 
         <div class="signature-grid">
 
-            <div class="seal-placeholder">
-                <div class="inner-wrapper">
-                    <div class="stamp-indicator">Place Official Stamp Here</div>
-                    <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+            @if($stampBase64)
+                <img src="{{ $stampBase64 }}" alt="Official Stamp" style="max-width: 110px; height: auto; object-fit: contain; transform: translateY(0px) rotate(-2deg); opacity: 0.95; margin-bottom: 0px;">
+            @else
+                <div class="seal-placeholder">
+                    <div class="inner-wrapper">
+                        <div class="stamp-indicator">Place Official Stamp Here</div>
+                        <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="signature-block">
                 {!! $signature !!}

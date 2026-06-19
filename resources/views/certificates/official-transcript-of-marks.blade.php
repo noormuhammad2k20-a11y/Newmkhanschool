@@ -6,6 +6,12 @@
         $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
     }
     
+    $stampBase64 = '';
+    $stampPath = public_path('images/authentic_document_seal_transparent_background.png');
+    if (file_exists($stampPath)) {
+        $stampBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($stampPath));
+    }
+    
     // Format academic session dynamically
     $academic_session = $academic_year ?? '';
     if (preg_match('/(\d{4})-\d{2}-\d{2}\s*to\s*(\d{4})-\d{2}-\d{2}/', $academic_session, $matches)) {
@@ -65,7 +71,7 @@
     }
 
     .content-container {
-        position: relative; padding: 23mm 22mm 45mm 22mm;
+        position: relative; padding: 18mm 22mm 22mm 22mm;
         z-index: 5; height: 100%;
         display: flex; flex-direction: column;
         font-family: 'Montserrat', sans-serif; color: var(--text-main);
@@ -74,7 +80,7 @@
         text-align: center; position: relative; margin-bottom: 15px;
         border-bottom: 2px solid var(--royal-blue); padding-bottom: 15px;
     }
-    .header-logo { width: 100px; height: auto; max-height: 100px; object-fit: contain; margin-bottom: 8px; }
+    .header-logo { width: 120px; height: auto; max-height: 120px; object-fit: contain; margin-bottom: 2px; }
     .school-title {
         font-family: 'Cinzel', serif; font-size: 24px; font-weight: 800;
         color: var(--royal-blue); margin: 0 0 5px 0; line-height: 1.3; text-transform: uppercase;
@@ -88,7 +94,7 @@
         display: inline-block; border-top: 2px solid var(--rich-gold);
         border-bottom: 2px solid var(--rich-gold); padding: 8px 40px;
         color: var(--royal-blue); font-family: 'Cinzel', serif; font-weight: 800;
-        text-transform: uppercase; letter-spacing: 4px; font-size: 18px; margin-top: 5px;
+        text-transform: uppercase; letter-spacing: 4px; font-size: 18px; margin-top: 2px;
     }
     .student-info-grid {
         display: grid; grid-template-columns: 1fr 1fr;
@@ -104,7 +110,7 @@
         flex-grow: 1; font-weight: 700; color: var(--royal-blue); font-size: 13px;
         border-bottom: 1px solid #e2e8f0; padding-bottom: 2px;
     }
-    .transcript-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; border: 1px solid var(--royal-blue); }
+    .transcript-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 12px; border: 1px solid var(--royal-blue); }
     .transcript-table th, .transcript-table td {
         border: 1px solid #cbd5e1; padding: 8px 10px; text-align: center;
     }
@@ -135,7 +141,7 @@
     .marks-legend strong { color: var(--royal-blue); }
     .result-summary {
         font-family: 'Montserrat', sans-serif; font-weight: 700; text-align: center;
-        margin-bottom: 25px; color: #111; font-size: 14px; padding: 12px;
+        margin-bottom: 10px; color: #111; font-size: 14px; padding: 12px;
         background: #f8fafc; border-top: 2px solid var(--royal-blue); border-bottom: 2px solid var(--royal-blue);
         letter-spacing: 1px; text-transform: uppercase;
     }
@@ -387,12 +393,16 @@
         <div class="signature-grid">
 
             <div class="signature-block" style="justify-content: center;">
-                <div class="seal-placeholder">
-                    <div class="inner-wrapper">
-                        <div class="stamp-indicator">Place Official Stamp Here</div>
-                        <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                @if($stampBase64)
+                    <img src="{{ $stampBase64 }}" alt="Official Stamp" style="max-width: 110px; height: auto; object-fit: contain; transform: translateY(0px) rotate(-2deg); opacity: 0.95; margin-bottom: 0px;">
+                @else
+                    <div class="seal-placeholder">
+                        <div class="inner-wrapper">
+                            <div class="stamp-indicator">Place Official Stamp Here</div>
+                            <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
             <div class="signature-block">
                 <div class="script-signature">

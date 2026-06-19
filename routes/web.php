@@ -176,14 +176,32 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
 
     // Settings Management (Super Admin Only)
     Route::middleware('role:Super Admin')->prefix('settings')->name('admin.settings.')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('index');
-        Route::post('/update', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('update');
-        Route::post('/group/{slug}', [\App\Http\Controllers\Admin\SettingController::class, 'updateGroup'])->name('update-group');
-        Route::post('/upload', [\App\Http\Controllers\Admin\SettingController::class, 'uploadFile'])->name('upload');
-        Route::post('/clear-cache', [\App\Http\Controllers\Admin\SettingController::class, 'clearCache'])->name('clear-cache');
-        Route::get('/export', [\App\Http\Controllers\Admin\SettingController::class, 'export'])->name('export');
-        Route::post('/import', [\App\Http\Controllers\Admin\SettingController::class, 'import'])->name('import');
+        Route::get('/',                         [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('index');
+        Route::post('/field',                   [\App\Http\Controllers\Admin\SettingController::class, 'updateField'])->name('updateField');
+        Route::post('/group/{slug}',            [\App\Http\Controllers\Admin\SettingController::class, 'updateGroup'])->name('updateGroup');
+        Route::post('/upload-image',            [\App\Http\Controllers\Admin\SettingController::class, 'uploadImage'])->name('uploadImage');
+        Route::delete('/image/{key}',           [\App\Http\Controllers\Admin\SettingController::class, 'removeImage'])->name('removeImage');
+        Route::post('/test/smtp',               [\App\Http\Controllers\Admin\SettingController::class, 'testSmtp'])->name('test.smtp');
+        Route::post('/test/sms',                [\App\Http\Controllers\Admin\SettingController::class, 'testSms'])->name('test.sms');
+        Route::post('/test/whatsapp',           [\App\Http\Controllers\Admin\SettingController::class, 'testWhatsapp'])->name('test.whatsapp');
+        Route::post('/test/jazzcash',           [\App\Http\Controllers\Admin\SettingController::class, 'testJazzCash'])->name('test.jazzcash');
+        Route::post('/test/easypaisa',          [\App\Http\Controllers\Admin\SettingController::class, 'testEasyPaisa'])->name('test.easypaisa');
+        Route::post('/test/gemini',             [\App\Http\Controllers\Admin\SettingController::class, 'testGemini'])->name('test.gemini');
+        Route::post('/test/openai',             [\App\Http\Controllers\Admin\SettingController::class, 'testOpenAi'])->name('test.openai');
+        Route::post('/backup/run',              [\App\Http\Controllers\Admin\SettingController::class, 'runBackupNow'])->name('backup.run');
+        Route::get('/backup/list',              [\App\Http\Controllers\Admin\SettingController::class, 'listBackups'])->name('backup.list');
+        Route::get('/backup/{id}/download',     [\App\Http\Controllers\Admin\SettingController::class, 'downloadBackup'])->name('backup.download');
+        Route::delete('/backup/{id}',           [\App\Http\Controllers\Admin\SettingController::class, 'deleteBackup'])->name('backup.delete');
+        Route::post('/cache/clear',             [\App\Http\Controllers\Admin\SettingController::class, 'clearCache'])->name('cache.clear');
+        Route::get('/health',                   [\App\Http\Controllers\Admin\SettingController::class, 'healthCheck'])->name('health');
+        Route::get('/export',                   [\App\Http\Controllers\Admin\SettingController::class, 'export'])->name('export');
+        Route::post('/import',                  [\App\Http\Controllers\Admin\SettingController::class, 'import'])->name('import');
+        Route::post('/reset/{key}',             [\App\Http\Controllers\Admin\SettingController::class, 'resetToDefault'])->name('reset');
+        Route::get('/audit-log',                [\App\Http\Controllers\Admin\SettingController::class, 'auditLog'])->name('auditLog');
+        Route::post('/maintenance/toggle',      [\App\Http\Controllers\Admin\SettingController::class, 'toggleMaintenance'])->name('maintenance.toggle');
+        Route::get('/my-ip',                    [\App\Http\Controllers\Admin\SettingController::class, 'getMyIp'])->name('myIp');
     });
+
 
     // Digital Learning Routes
     Route::prefix('digital-learning')->name('admin.digital_learning.')->group(function() {

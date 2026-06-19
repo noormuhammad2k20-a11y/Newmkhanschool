@@ -11,7 +11,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>{{ setting('general.app_name', 'School Management System') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
@@ -381,7 +381,7 @@
                 </li>
                 <li>
                     <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.settings*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.settings.index') }}">
-                        <i class="ri-settings-3-line  text-[20px]" ></i>
+                        <span class="material-symbols-outlined" data-icon="settings">settings</span>
                         <span class="font-label-md text-label-md">Settings</span>
                     </a>
                 </li>

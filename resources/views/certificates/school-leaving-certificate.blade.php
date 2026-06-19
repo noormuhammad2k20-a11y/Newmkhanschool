@@ -6,6 +6,12 @@
         $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
     }
     
+    $stampBase64 = '';
+    $stampPath = public_path('images/authentic_document_seal_transparent_background.png');
+    if (file_exists($stampPath)) {
+        $stampBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($stampPath));
+    }
+    
     // Format academic session dynamically
     $academic_session = $academic_year ?? '';
     if (preg_match('/(\d{4})-\d{2}-\d{2}\s*to\s*(\d{4})-\d{2}-\d{2}/', $academic_session, $matches)) {
@@ -49,56 +55,56 @@
         opacity: 0.12; z-index: 0; pointer-events: none;
     }
     .content-container {
-        position: relative; padding: 18mm 22mm;
+        position: relative; padding: 16mm 22mm 18mm 22mm;
         z-index: 5; height: 100%;
         display: flex; flex-direction: column;
         font-family: 'Montserrat', sans-serif; color: var(--text-main);
     }
-    .header-section { text-align: center; position: relative; margin-bottom: 10px; }
+    .header-section { text-align: center; position: relative; margin-bottom: 2px; }
     .meta-tags {
         display: flex; justify-content: space-between;
         font-size: 11px; font-weight: 700; color: var(--royal-blue);
-        letter-spacing: 1px; margin-bottom: 5px;
+        letter-spacing: 1px; margin-bottom: 2px;
     }
-    .header-logo { width: 95px; height: auto; max-height: 95px; object-fit: contain; margin-bottom: 8px; }
+    .header-logo { width: 120px; height: auto; max-height: 120px; object-fit: contain; margin-bottom: 2px; }
     .school-title {
         font-family: 'Cinzel', serif; font-size: 23px; font-weight: 800;
         color: var(--royal-blue); margin: 0; line-height: 1.2; text-transform: uppercase;
     }
     .school-address {
         font-size: 11px; font-weight: 700; color: #555;
-        letter-spacing: 3px; text-transform: uppercase; margin: 6px 0 10px 0;
+        letter-spacing: 3px; text-transform: uppercase; margin: 4px 0 6px 0;
     }
-    .certificate-title-wrapper { text-align: center; margin-bottom: 15px; }
+    .certificate-title-wrapper { text-align: center; margin-bottom: 4px; }
     .certificate-title {
         display: inline-block; background-color: var(--royal-blue); color: #fff;
         font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700;
-        padding: 6px 30px; border: 2px solid var(--rich-gold);
+        padding: 4px 30px; border: 2px solid var(--rich-gold);
         letter-spacing: 3px; text-transform: uppercase;
     }
-    .form-section { margin-bottom: 15px; }
+    .form-section { margin-bottom: 4px; }
     .section-heading {
         font-family: 'Cinzel', serif; font-size: 14px; font-weight: 800;
         color: var(--royal-blue); border-left: 4px solid var(--rich-gold);
-        background: rgba(10, 25, 49, 0.05); padding: 5px 10px;
-        margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;
+        background: rgba(10, 25, 49, 0.05); padding: 3px 10px;
+        margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;
     }
-    .form-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+    .form-table { width: 100%; border-collapse: separate; border-spacing: 0 1px; }
     .form-table td { vertical-align: bottom; }
     .label-cell {
-        font-size: 12px; font-weight: 700; color: var(--royal-blue);
+        font-size: 11px; font-weight: 700; color: var(--royal-blue);
         white-space: nowrap; width: 1%; padding-right: 10px;
     }
     .value-cell {
-        font-size: 14px; font-weight: 600; color: #111;
-        border-bottom: 2px dotted #888; padding-bottom: 2px; padding-left: 5px;
+        font-size: 13px; font-weight: 600; color: #111;
+        border-bottom: 2px dotted #888; padding-bottom: 1px; padding-left: 5px;
     }
     .footer-area {
         display: flex; justify-content: space-around; align-items: flex-end;
-        margin-top: auto; padding-bottom: 5mm;
+        margin-top: 40px; padding-bottom: 0mm;
     }
     .signature-block { text-align: center; width: 35%; }
-    .sign-line { border-top: 1px solid var(--royal-blue); margin-bottom: 8px; }
+    .sign-line { border-top: 1px solid var(--royal-blue); margin-bottom: 4px; }
     .sign-text {
         font-family: 'Cinzel', serif; font-weight: 700; font-size: 12px;
         color: var(--royal-blue); letter-spacing: 1px;
@@ -283,12 +289,16 @@
         </div>
 
         <div class="footer-area">
-            <div class="seal-placeholder">
-                <div class="inner-wrapper">
-                    <div class="stamp-indicator">Place Official Stamp Here</div>
-                    <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+            @if($stampBase64)
+                <img src="{{ $stampBase64 }}" alt="Official Stamp" style="max-width: 110px; height: auto; object-fit: contain; transform: translateY(0px) rotate(-2deg); opacity: 0.95; margin-bottom: 0px;">
+            @else
+                <div class="seal-placeholder">
+                    <div class="inner-wrapper">
+                        <div class="stamp-indicator">Place Official Stamp Here</div>
+                        <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="signature-block">
                 {!! $signature !!}
                 <div class="sign-line"></div>

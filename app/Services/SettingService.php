@@ -28,10 +28,16 @@ class SettingService
     {
         $setting = Setting::byKey($key)->first();
 
+        // Encrypt if it's a secret key
+        if (in_array($key, Setting::SECRET_KEYS) && filled($value)) {
+            $value = \Illuminate\Support\Facades\Crypt::encryptString($value);
+        }
+
         if ($setting) {
             $setting->update(['value' => $value]);
         } else {
             Setting::create([
+                'setting_group_id' => 1, // Fallback, assuming group 1 exists
                 'key'   => $key,
                 'value' => $value,
                 'type'  => 'text',
@@ -55,7 +61,7 @@ class SettingService
 
         $result = [];
         foreach ($group->settings as $setting) {
-            $result[$setting->key] = $setting->value;
+            $result[$setting->key] = $setting->getDecryptedValueAttribute();
         }
 
         return $result;
@@ -71,11 +77,15 @@ class SettingService
 
     /**
      * Get all settings as a flat key => value array (cached).
+     * IMPORTANT: This returns DECRYPTED values so the setting() helper works server-side.
      */
     public function getAllCached(): array
     {
         return Cache::remember(self::CACHE_KEY, self::CACHE_TTL, function () {
-            return Setting::all()->pluck('value', 'key')->toArray();
+            // We need decrypted values for the app to function
+            return Setting::all()->mapWithKeys(function ($setting) {
+                return [$setting->key => $setting->getDecryptedValueAttribute()];
+            })->toArray();
         });
     }
 
@@ -96,6 +106,16 @@ class SettingService
                 // For json type, encode arrays
                 if ($setting->type === 'json' && is_array($value)) {
                     $value = json_encode($value);
+                }
+
+                // Encrypt if secret
+                if (in_array($key, Setting::SECRET_KEYS) && filled($value) && !str_contains($value, '•')) {
+                    $value = \Illuminate\Support\Facades\Crypt::encryptString($value);
+                }
+
+                // Skip overwrite if it's the masked placeholder
+                if (str_contains((string)$value, '•')) {
+                    continue;
                 }
 
                 $setting->update(['value' => $value]);
@@ -141,7 +161,7 @@ class SettingService
     }
 
     /**
-     * Export all settings as JSON.
+     * Export all settings as JSON (excluding secrets).
      */
     public function export(): array
     {
@@ -151,6 +171,9 @@ class SettingService
         foreach ($groups as $group) {
             $export[$group->slug] = [];
             foreach ($group->settings as $setting) {
+                if (in_array($setting->key, Setting::SECRET_KEYS)) {
+                    continue; // Skip secrets
+                }
                 $export[$group->slug][$setting->key] = [
                     'value' => $setting->value,
                     'type'  => $setting->type,
@@ -171,6 +194,10 @@ class SettingService
 
         foreach ($data as $groupSlug => $settings) {
             foreach ($settings as $key => $settingData) {
+                if (in_array($key, Setting::SECRET_KEYS)) {
+                    continue; // Skip secrets
+                }
+
                 $value = is_array($settingData) ? ($settingData['value'] ?? null) : $settingData;
                 $setting = Setting::byKey($key)->first();
 
