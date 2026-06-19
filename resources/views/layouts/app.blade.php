@@ -9,7 +9,7 @@
     </script>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>School Management System</title>
+    <title>{{ setting('general.app_name', 'School Management System') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -180,11 +180,15 @@
         <div class="px-md mb-lg">
             <div class="flex items-center justify-between mb-sm mt-2">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-[#000444] text-white flex items-center justify-center font-bold text-[18px] shadow-sm shadow-primary/30">
-                        SE
-                    </div>
+                    @if(setting('general.system_logo'))
+                        <img src="{{ asset('storage/' . setting('general.system_logo')) }}" alt="Logo" class="w-10 h-10 rounded-xl object-contain shadow-sm" />
+                    @else
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-[#000444] text-white flex items-center justify-center font-bold text-[18px] shadow-sm shadow-primary/30">
+                            {{ strtoupper(substr(setting('general.organization_name', 'SE'), 0, 2)) }}
+                        </div>
+                    @endif
                     <div class="flex flex-col">
-                        <h1 class="font-bold text-[15px] text-on-surface leading-tight tracking-tight">State Education</h1>
+                        <h1 class="font-bold text-[15px] text-on-surface leading-tight tracking-tight">{{ setting('general.organization_name', 'State Education') }}</h1>
                         @php
                             $portalName = 'Portal';
                             if(auth()->check()) {
@@ -373,6 +377,12 @@
                     <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.roles*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.roles') }}">
                         <span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
                         <span class="font-label-md text-label-md">Roles & Permissions</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-md px-md py-sm rounded-lg transition-transform duration-200 ease-in-out {{ request()->routeIs('admin.settings*') ? 'bg-primary text-on-primary font-semibold' : 'text-secondary hover:bg-surface-container-high' }}" href="{{ route('admin.settings.index') }}">
+                        <i class="ri-settings-3-line  text-[20px]" ></i>
+                        <span class="font-label-md text-label-md">Settings</span>
                     </a>
                 </li>
 

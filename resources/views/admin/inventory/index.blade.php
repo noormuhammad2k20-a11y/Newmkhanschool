@@ -9,7 +9,7 @@
         </div>
         <div>
             <a href="{{ route('admin.inventory.create') }}" class="inline-flex items-center gap-xs px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors">
-                <span class="material-symbols-outlined" data-icon="add">add</span>
+                <span class="material-symbols-rounded" data-icon="add">add</span>
                 Add Item
             </a>
         </div>
@@ -38,7 +38,7 @@
             @if($lowStockCount > 0 && !request()->routeIs('admin.inventory.low-stock'))
             <div class="ml-auto">
                 <a href="{{ route('admin.inventory.low-stock') }}" class="px-md py-sm bg-error-container text-on-error-container rounded-lg font-label-md inline-flex items-center gap-xs hover:opacity-90">
-                    <span class="material-symbols-outlined text-[18px]">warning</span>
+                    <span class="material-symbols-rounded text-[18px]">warning</span>
                     Low Stock Alerts ({{ $lowStockCount }})
                 </a>
             </div>
@@ -85,8 +85,8 @@
                             <span class="px-2 py-1 rounded-full text-xs {{ $color }}">{{ $item->condition_status }}</span>
                         </td>
                         <td class="p-md flex items-center gap-sm">
-                            <a href="{{ route('admin.inventory.show', $item->id) }}" class="text-primary hover:text-on-primary-fixed-variant" title="View"><span class="material-symbols-outlined text-[20px]">visibility</span></a>
-                            <a href="{{ route('admin.inventory.edit', $item->id) }}" class="text-secondary hover:text-on-surface" title="Edit"><span class="material-symbols-outlined text-[20px]">edit</span></a>
+                            <a href="{{ route('admin.inventory.show', $item->id) }}" class="text-primary hover:text-on-primary-fixed-variant" title="View"><span class="material-symbols-rounded text-[20px]">visibility</span></a>
+                            <a href="{{ route('admin.inventory.edit', $item->id) }}" class="text-secondary hover:text-on-surface" title="Edit"><span class="material-symbols-rounded text-[20px]">edit</span></a>
                         </td>
                     </tr>
                     @empty

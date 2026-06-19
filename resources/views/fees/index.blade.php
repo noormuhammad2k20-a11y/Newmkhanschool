@@ -31,12 +31,12 @@
                         <div class="absolute right-0 top-0 w-24 h-24 bg-secondary-container rounded-bl-full opacity-20 -z-0 pointer-events-none transition-transform group-hover:scale-110"></div>
                         <div class="relative z-10 flex justify-between items-start">
                             <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total Collected (YTD)</span>
-                            <span class="material-symbols-outlined text-primary bg-primary-fixed p-1.5 rounded-md text-[20px]">account_balance_wallet</span>
+                            <span class="material-symbols-rounded text-primary bg-primary-fixed p-1.5 rounded-md text-[20px]">account_balance_wallet</span>
                         </div>
                         <div class="relative z-10 flex items-baseline gap-sm mt-auto">
                             <span id="metric-collected" class="font-headline-xl text-headline-xl text-on-surface">₨0</span>
                             <span class="font-label-md text-label-md text-[#137333] bg-[#e6f4ea] px-1.5 py-0.5 rounded flex items-center">
-                                <span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%
+                                <span class="material-symbols-rounded text-[14px]">arrow_upward</span> 12%
                             </span>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <div class="absolute right-0 top-0 w-24 h-24 bg-error-container rounded-bl-full opacity-20 -z-0 pointer-events-none transition-transform group-hover:scale-110"></div>
                         <div class="relative z-10 flex justify-between items-start">
                             <span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Pending Dues</span>
-                            <span class="material-symbols-outlined text-error bg-error-container p-1.5 rounded-md text-[20px]">warning</span>
+                            <span class="material-symbols-rounded text-error bg-error-container p-1.5 rounded-md text-[20px]">warning</span>
                         </div>
                         <div class="relative z-10 flex items-baseline gap-sm mt-auto">
                             <span id="metric-pending" class="font-headline-xl text-headline-xl text-on-surface">₨0</span>
@@ -79,10 +79,10 @@
                         <h3 class="font-headline-md text-headline-md text-on-surface">Recent Transactions</h3>
                         <div class="flex gap-sm">
                             <button class="p-1.5 text-secondary hover:bg-surface-container rounded transition-colors">
-                                <span class="material-symbols-outlined text-[20px]">filter_list</span>
+                                <span class="material-symbols-rounded text-[20px]">filter_list</span>
                             </button>
                             <button class="p-1.5 text-secondary hover:bg-surface-container rounded transition-colors">
-                                <span class="material-symbols-outlined text-[20px]">download</span>
+                                <span class="material-symbols-rounded text-[20px]">download</span>
                             </button>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                                     <td class="px-md py-3 text-right">
                                         <form action="{{ route('admin.fees.categories.destroy', $cat->id) }}" method="POST" class="inline">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="text-error hover:opacity-80" data-confirm-click="Are you sure?"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                            <button type="submit" class="text-error hover:opacity-80" data-confirm-click="Are you sure?"><span class="material-symbols-rounded text-[20px]">delete</span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -165,20 +165,20 @@
                             <div class="px-md py-md border-b border-outline-variant flex flex-col md:flex-row justify-between items-start md:items-center bg-surface gap-md">
                                 <div>
                                     <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-primary bg-primary-container p-1.5 rounded-md text-[20px]">table_chart</span>
+                                        <span class="material-symbols-rounded text-primary bg-primary-container p-1.5 rounded-md text-[20px]">table_chart</span>
                                         Fee Matrix
                                     </h3>
                                     <p class="text-body-sm text-secondary mt-1">Manage all class fee structures centrally. Empty fields are treated as zero.</p>
                                 </div>
                                 <div class="flex flex-wrap gap-sm">
                                     <button type="button" class="flex items-center gap-1.5 px-4 py-2 text-primary border border-primary rounded-lg font-label-md hover:bg-primary-container transition-colors bg-transparent" onclick="document.querySelector('[data-target=\'tab-categories\']').click()">
-                                        <span class="material-symbols-outlined text-[18px]">add_circle</span> Add Category
+                                        <span class="material-symbols-rounded text-[18px]">add_circle</span> Add Category
                                     </button>
                                     <button type="button" class="flex items-center gap-1.5 px-4 py-2 text-secondary border border-outline-variant rounded-lg font-label-md hover:bg-surface-container hover:text-on-surface transition-colors bg-transparent">
-                                        <span class="material-symbols-outlined text-[18px]">content_copy</span> Apply Template
+                                        <span class="material-symbols-rounded text-[18px]">content_copy</span> Apply Template
                                     </button>
                                     <button type="submit" class="flex items-center gap-1.5 bg-primary text-on-primary px-5 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors shadow-sm">
-                                        <span class="material-symbols-outlined text-[18px]">save</span> Bulk Update
+                                        <span class="material-symbols-rounded text-[18px]">save</span> Bulk Update
                                     </button>
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
                                             <tr>
                                                 <td colspan="{{ count($categories) + 2 }}" class="px-md py-12 text-center">
                                                     <div class="flex flex-col items-center justify-center text-secondary">
-                                                        <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">meeting_room</span>
+                                                        <span class="material-symbols-rounded text-[48px] mb-2 opacity-50">meeting_room</span>
                                                         <p class="text-body-lg">No classes available.</p>
                                                         <p class="text-body-sm mt-1">Please add classes in the Academic section first.</p>
                                                     </div>
@@ -259,7 +259,7 @@
                         
                         <div class="px-xl py-lg border-b border-outline-variant bg-surface flex items-start md:items-center gap-md">
                             <div class="w-12 h-12 bg-primary-fixed text-primary rounded-xl flex items-center justify-center shrink-0">
-                                <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+                                <span class="material-symbols-rounded text-[24px]">receipt_long</span>
                             </div>
                             <div>
                                 <h3 class="font-headline-sm text-headline-sm text-on-surface">Bulk Invoice Generation</h3>
@@ -277,7 +277,7 @@
                                         <label class="block font-label-md text-on-surface-variant mb-xs">Select Class <span class="text-error">*</span></label>
                                         <div class="relative group">
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">meeting_room</span>
+                                                <span class="material-symbols-rounded text-secondary text-[20px] group-focus-within:text-primary transition-colors">meeting_room</span>
                                             </div>
                                             <select name="class_id" required class="form-input w-full bg-surface border border-outline-variant rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer text-body-md">
                                                 <option value="" disabled selected>-- Choose Class --</option>
@@ -286,7 +286,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                <span class="material-symbols-outlined text-secondary text-[20px]">expand_more</span>
+                                                <span class="material-symbols-rounded text-secondary text-[20px]">expand_more</span>
                                             </div>
                                         </div>
                                     </div>
@@ -296,7 +296,7 @@
                                         <label class="block font-label-md text-on-surface-variant mb-xs">Select Fee Category <span class="text-error">*</span></label>
                                         <div class="relative group">
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">category</span>
+                                                <span class="material-symbols-rounded text-secondary text-[20px] group-focus-within:text-primary transition-colors">category</span>
                                             </div>
                                             <select name="fee_category_id" required class="form-input w-full bg-surface border border-outline-variant rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer text-body-md">
                                                 <option value="" disabled selected>-- Choose Category --</option>
@@ -305,7 +305,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                <span class="material-symbols-outlined text-secondary text-[20px]">expand_more</span>
+                                                <span class="material-symbols-rounded text-secondary text-[20px]">expand_more</span>
                                             </div>
                                         </div>
                                     </div>
@@ -315,12 +315,12 @@
                                         <label class="block font-label-md text-on-surface-variant mb-xs">Due Date <span class="text-error">*</span></label>
                                         <div class="relative group">
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <span class="material-symbols-outlined text-secondary text-[20px] group-focus-within:text-primary transition-colors">calendar_today</span>
+                                                <span class="material-symbols-rounded text-secondary text-[20px] group-focus-within:text-primary transition-colors">calendar_today</span>
                                             </div>
                                             <input type="date" name="due_date" required min="{{ date('Y-m-d') }}" class="form-input w-full bg-surface border border-outline-variant rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer text-body-md">
                                         </div>
                                         <p class="text-[12px] text-secondary mt-1.5 flex items-center gap-1 font-body-sm">
-                                            <span class="material-symbols-outlined text-[14px]">info</span>
+                                            <span class="material-symbols-rounded text-[14px]">info</span>
                                             Due date cannot be in the past.
                                         </p>
                                     </div>
@@ -332,7 +332,7 @@
                                 <!-- Actions -->
                                 <div class="flex justify-end pt-sm">
                                     <button type="submit" id="btn-generate" disabled class="relative flex justify-center items-center gap-2 bg-primary text-on-primary px-xl py-2.5 rounded-lg font-label-md shadow-sm hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 disabled:cursor-not-allowed transition-all">
-                                        <span class="material-symbols-outlined text-[20px] btn-icon">flash_on</span>
+                                        <span class="material-symbols-rounded text-[20px] btn-icon">flash_on</span>
                                         <span class="btn-text">Generate Invoices</span>
                                         <!-- Spinner -->
                                         <svg class="animate-spin hidden w-5 h-5 text-current btn-spinner absolute" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -411,7 +411,7 @@
                     <td class="px-md py-3 text-center">${statusBadge}</td>
                     <td class="px-md py-3 text-right">
                         <button class="text-secondary hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                            <span class="material-symbols-rounded text-[20px]">more_vert</span>
                         </button>
                     </td>
                 </tr>`;
@@ -608,7 +608,7 @@
                 if (btn) {
                     setTimeout(() => {
                         btn.disabled = true;
-                        btn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Updating...`;
+                        btn.innerHTML = `<span class="material-symbols-rounded text-[18px] animate-spin">refresh</span> Updating...`;
                     }, 10);
                 }
             });

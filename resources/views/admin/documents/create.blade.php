@@ -65,10 +65,10 @@
                             <option value="Graduated" {{ $status == 'Graduated' ? 'selected' : '' }}>Graduated</option>
                         </select>
                         <button type="submit" class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-md flex items-center justify-center hover:bg-primary-hover transition-colors" title="Apply Filters">
-                            <span class="material-symbols-outlined text-[20px]">filter_alt</span>
+                            <span class="material-symbols-rounded text-[20px]">filter_alt</span>
                         </button>
                         <a href="{{ route('admin.documents.create') }}" class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-md flex items-center justify-center hover:bg-surface-variant transition-colors" title="Clear Filters">
-                            <span class="material-symbols-outlined text-[20px]">clear</span>
+                            <span class="material-symbols-rounded text-[20px]">clear</span>
                         </a>
                     </div>
                 </div>
@@ -96,11 +96,11 @@
                             </h3>
                             <div class="flex flex-wrap gap-2 mt-1">
                                 <span class="inline-flex items-center gap-1 text-xs px-2 py-0.5 bg-surface-container-high rounded text-secondary">
-                                    <span class="material-symbols-outlined text-[14px]">badge</span> {{ $student->admission_no }}
+                                    <span class="material-symbols-rounded text-[14px]">badge</span> {{ $student->admission_no }}
                                 </span>
                                 @if($student->currentClass)
                                 <span class="inline-flex items-center gap-1 text-xs px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded">
-                                    <span class="material-symbols-outlined text-[14px]">class</span> {{ $student->currentClass->name }} 
+                                    <span class="material-symbols-rounded text-[14px]">class</span> {{ $student->currentClass->name }} 
                                     @if($student->currentSection)
                                         ({{ $student->currentSection->name }})
                                     @endif
@@ -111,7 +111,7 @@
                     </div>
                     <div class="mt-auto pt-sm border-t border-outline-variant flex justify-end">
                         <a href="{{ route('admin.documents.select-template', $student->id) }}" class="inline-flex items-center gap-xs px-md py-sm bg-primary-container text-on-primary-container rounded-lg font-label-md hover:bg-primary hover:text-on-primary transition-colors w-full justify-center">
-                            Select for Document <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            Select for Document <span class="material-symbols-rounded text-[18px]">arrow_forward</span>
                         </a>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
             </div>
         @else
             <div class="text-center py-xl text-secondary flex flex-col items-center">
-                <span class="material-symbols-outlined text-[48px] mb-sm opacity-50">group_off</span>
+                <span class="material-symbols-rounded text-[48px] mb-sm opacity-50">group_off</span>
                 <p class="font-body-lg">No students found matching your filters.</p>
                 <p class="text-body-md mt-1">Try adjusting your search criteria.</p>
             </div>

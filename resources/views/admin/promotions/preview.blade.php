@@ -18,7 +18,7 @@
             
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.promotions.index') }}" class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                     Back to Promotions
                 </a>
             </div>
@@ -46,7 +46,7 @@
                     </p>
                 @else
                     <p class="text-body-md text-orange-600 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">warning</span>
+                        <span class="material-symbols-rounded text-[18px]">warning</span>
                         No active rule configured for this class. Defaulting to 40% Marks and 75% Attendance.
                     </p>
                 @endif
@@ -152,12 +152,12 @@
                                     <td class="py-3 px-4 text-center">
                                         @if($res->is_eligible)
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-                                                <span class="material-symbols-outlined text-[14px] mr-1">check_circle</span>
+                                                <span class="material-symbols-rounded text-[14px] mr-1">check_circle</span>
                                                 Eligible
                                             </span>
                                         @else
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
-                                                <span class="material-symbols-outlined text-[14px] mr-1">cancel</span>
+                                                <span class="material-symbols-rounded text-[14px] mr-1">cancel</span>
                                                 Ineligible
                                             </span>
                                         @endif
@@ -167,7 +167,7 @@
                                 <tr>
                                     <td colspan="7" class="py-12 text-center text-secondary">
                                         <div class="flex flex-col items-center justify-center">
-                                            <span class="material-symbols-outlined text-4xl mb-3 opacity-50">group_off</span>
+                                            <span class="material-symbols-rounded text-4xl mb-3 opacity-50">group_off</span>
                                             <p class="text-lg font-medium text-on-surface mb-1">No active students found in this class</p>
                                         </div>
                                     </td>

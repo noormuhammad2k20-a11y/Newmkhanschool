@@ -14,10 +14,10 @@
             </div>
             <div class="flex flex-wrap gap-2">
                 <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high border border-outline-variant text-on-surface rounded-xl font-bold hover:bg-surface-container-highest transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">print</span> Print Schedule
+                    <span class="material-symbols-rounded text-[18px]">print</span> Print Schedule
                 </button>
                 <button onclick="alert('Export PDF coming soon!')" class="inline-flex items-center gap-2 px-4 py-2 bg-primary-fixed text-primary rounded-xl font-bold hover:bg-primary-fixed-dim transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">download</span> Export PDF
+                    <span class="material-symbols-rounded text-[18px]">download</span> Export PDF
                 </button>
             </div>
         </div>
@@ -67,7 +67,7 @@
                                                 @endif
                                                 <div class="flex items-center justify-between mb-3">
                                                     <div class="flex items-center gap-1.5 bg-surface-bright px-2 py-1 rounded-md border {{ $isCurrentClass ? 'border-primary/30 text-primary' : 'border-outline-variant text-on-surface-variant' }}">
-                                                        <span class="material-symbols-outlined text-[14px] {{ $isCurrentClass ? 'text-primary' : '' }}">schedule</span>
+                                                        <span class="material-symbols-rounded text-[14px] {{ $isCurrentClass ? 'text-primary' : '' }}">schedule</span>
                                                         <span class="text-[11px] font-bold">
                                                             {{ \Carbon\Carbon::parse($routine->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($routine->end_time)->format('h:i A') }}
                                                         </span>
@@ -77,11 +77,11 @@
                                                 
                                                 <div class="flex flex-col gap-1.5 text-label-md font-label-md {{ $isCurrentClass ? 'text-on-surface' : 'text-secondary' }} border-t border-outline-variant pt-3 mt-auto">
                                                     <div class="flex items-center gap-2 truncate">
-                                                        <span class="material-symbols-outlined text-[16px] {{ $isCurrentClass ? 'text-primary' : '' }}">person</span>
+                                                        <span class="material-symbols-rounded text-[16px] {{ $isCurrentClass ? 'text-primary' : '' }}">person</span>
                                                         <span class="truncate font-medium">{{ $routine->teacher->first_name ?? '' }} {{ $routine->teacher->last_name ?? '' }}</span>
                                                     </div>
                                                     <div class="flex items-center gap-2 truncate">
-                                                        <span class="material-symbols-outlined text-[16px] {{ $isCurrentClass ? 'text-primary' : '' }}">room</span>
+                                                        <span class="material-symbols-rounded text-[16px] {{ $isCurrentClass ? 'text-primary' : '' }}">room</span>
                                                         <span class="font-medium">Room {{ $routine->room ?? 'N/A' }}</span>
                                                     </div>
                                                 </div>
@@ -102,7 +102,7 @@
                 </div>
             @else
                 <div class="p-12 text-center text-secondary border border-outline-variant border-dashed rounded-xl m-4">
-                    <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">calendar_month</span>
+                    <span class="material-symbols-rounded text-[48px] mb-2 opacity-50">calendar_month</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface mb-1">No Timetable Set</h3>
                     <p class="text-body-lg font-body-lg">Your class timetable has not been published yet.</p>
                 </div>

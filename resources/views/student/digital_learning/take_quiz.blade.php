@@ -6,7 +6,7 @@
 <div class="bg-surface-container-low border-b border-outline-variant pt-8 pb-12 px-6">
     <div class="max-w-[1440px] mx-auto flex items-center gap-4">
         <a href="{{ route('student.digital_learning.quizzes') }}" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-highest hover:bg-outline-variant transition-colors text-on-surface" title="Leave Quiz">
-            <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+            <span class="material-symbols-rounded text-[24px]">arrow_back</span>
         </a>
         <div class="flex-1">
             <div class="flex items-center gap-2 mb-1">
@@ -23,7 +23,7 @@
         @if($quiz->description)
             <div class="bg-secondary-container border border-outline-variant rounded-xl p-4 text-on-secondary-container mb-6 shadow-sm">
                 <div class="flex gap-2">
-                    <span class="material-symbols-outlined shrink-0">info</span>
+                    <span class="material-symbols-rounded shrink-0">info</span>
                     <div>
                         <strong class="font-label-lg block mb-1">Instructions:</strong>
                         <p class="font-body-md">{{ $quiz->description }}</p>
@@ -61,7 +61,7 @@
                                     <div class="relative flex items-center justify-center">
                                         <input type="{{ $inputType }}" name="{{ $inputName }}" value="a" class="peer w-5 h-5 opacity-0 absolute answer-input" onchange="updateProgress()">
                                         <div class="w-6 h-6 rounded-{{ $inputType === 'checkbox' ? 'md' : 'full' }} border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                            <span class="material-symbols-rounded text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
                                         </div>
                                     </div>
                                     <div class="flex-1 flex gap-3 items-center">
@@ -74,7 +74,7 @@
                                     <div class="relative flex items-center justify-center">
                                         <input type="{{ $inputType }}" name="{{ $inputName }}" value="b" class="peer w-5 h-5 opacity-0 absolute answer-input" onchange="updateProgress()">
                                         <div class="w-6 h-6 rounded-{{ $inputType === 'checkbox' ? 'md' : 'full' }} border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                            <span class="material-symbols-rounded text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
                                         </div>
                                     </div>
                                     <div class="flex-1 flex gap-3 items-center">
@@ -88,7 +88,7 @@
                                     <div class="relative flex items-center justify-center">
                                         <input type="{{ $inputType }}" name="{{ $inputName }}" value="c" class="peer w-5 h-5 opacity-0 absolute answer-input" onchange="updateProgress()">
                                         <div class="w-6 h-6 rounded-{{ $inputType === 'checkbox' ? 'md' : 'full' }} border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                            <span class="material-symbols-rounded text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
                                         </div>
                                     </div>
                                     <div class="flex-1 flex gap-3 items-center">
@@ -101,7 +101,7 @@
                                     <div class="relative flex items-center justify-center">
                                         <input type="{{ $inputType }}" name="{{ $inputName }}" value="d" class="peer w-5 h-5 opacity-0 absolute answer-input" onchange="updateProgress()">
                                         <div class="w-6 h-6 rounded-{{ $inputType === 'checkbox' ? 'md' : 'full' }} border-2 border-outline-variant flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                            <span class="material-symbols-rounded text-[16px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
                                         </div>
                                     </div>
                                     <div class="flex-1 flex gap-3 items-center">
@@ -114,7 +114,7 @@
                         </div>
                     @empty
                         <div class="text-center py-16 bg-surface-container-lowest rounded-2xl border border-outline-variant border-dashed">
-                            <span class="material-symbols-outlined text-[64px] text-outline mb-4">quiz</span>
+                            <span class="material-symbols-rounded text-[64px] text-outline mb-4">quiz</span>
                             <p class="font-headline-md text-on-surface">No questions found for this quiz.</p>
                             <p class="font-body-md text-secondary mt-2">Please contact your teacher.</p>
                         </div>
@@ -142,7 +142,7 @@
                     <!-- Progress Card -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-6 shadow-sm">
                         <h3 class="font-headline-sm text-on-surface mb-4 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">analytics</span> Progress
+                            <span class="material-symbols-rounded text-primary">analytics</span> Progress
                         </h3>
                         
                         <div class="flex justify-between items-end mb-2">
@@ -179,7 +179,7 @@
 
                     <!-- Submit Button -->
                     <button type="button" onclick="confirmSubmission()" class="w-full py-4 bg-primary text-on-primary rounded-2xl font-title-md font-bold hover:bg-primary/90 hover:-translate-y-0.5 transition-all shadow-md flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined">send</span> Submit Quiz
+                        <span class="material-symbols-rounded">send</span> Submit Quiz
                     </button>
                     <p class="text-center text-xs text-secondary px-4 mt-2">You cannot change your answers after submission.</p>
 

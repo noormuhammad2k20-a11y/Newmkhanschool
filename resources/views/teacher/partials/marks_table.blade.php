@@ -58,10 +58,10 @@
                                 <div class="flex items-center justify-center gap-2">
                                     <div class="relative flex items-center">
                                         <input type="number" step="0.01" name="marks[{{ $student->id }}]" id="mark_input_{{ $student->id }}" value="{{ $obtained }}" oninput="calculateGrade(this, {{ $student->id }}, {{ $maxMarks }}, {{ $passingMarks }})" class="w-24 bg-surface-container border border-outline-variant rounded p-2 text-center text-on-surface font-bold opacity-70 pointer-events-none pr-6" placeholder="0" readonly>
-                                        <span class="material-symbols-outlined text-green-600 text-[14px] absolute right-1 pointer-events-none" id="saved_check_{{ $student->id }}">check_circle</span>
+                                        <span class="material-symbols-rounded text-green-600 text-[14px] absolute right-1 pointer-events-none" id="saved_check_{{ $student->id }}">check_circle</span>
                                     </div>
                                     <button type="button" onclick="enableEdit({{ $student->id }})" class="flex items-center justify-center w-8 h-8 rounded-lg border border-primary text-primary bg-surface-bright hover:bg-primary hover:text-on-primary transition-all shadow-sm" title="Edit Mark">
-                                        <span class="material-symbols-outlined text-[16px]">edit</span>
+                                        <span class="material-symbols-rounded text-[16px]">edit</span>
                                     </button>
                                 </div>
                             @else
@@ -89,7 +89,7 @@
 </div>
 @else
 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md text-center py-12 mt-md">
-    <span class="material-symbols-outlined text-4xl text-secondary mb-2">info</span>
+    <span class="material-symbols-rounded text-4xl text-secondary mb-2">info</span>
     <p class="text-body-lg text-secondary">No students found for this combination.</p>
 </div>
 @endif
@@ -97,7 +97,7 @@
 @if(isset($pendingStudents) && $pendingStudents->count() > 0)
 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md mt-md">
     <h4 class="text-label-lg font-label-lg text-secondary flex items-center gap-2">
-        <span class="material-symbols-outlined text-xl">pending_actions</span>
+        <span class="material-symbols-rounded text-xl">pending_actions</span>
         Pending Attendance
     </h4>
     <p class="text-body-md text-secondary mt-1 mb-3">The following students have not had their attendance marked for this exam date ({{ \Carbon\Carbon::parse($currentExam->exam_date)->format('d M Y') }}). They are hidden from the marks entry until their attendance is confirmed.</p>

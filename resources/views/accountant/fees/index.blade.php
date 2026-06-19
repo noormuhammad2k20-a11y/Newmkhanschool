@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Fee Management</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Fee Collection</span>
                         </div>
                     </li>
@@ -35,7 +35,7 @@
                     <p class="text-body-lg font-body-lg text-secondary mt-1">Manage and collect student fees</p>
                 </div>
                 <button onclick="document.getElementById('generateChallansModal').showModal()" class="btn-primary shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">receipt</span>
+                    <span class="material-symbols-rounded text-[20px]">receipt</span>
                     Generate Challans
                 </button>
             </div>
@@ -43,7 +43,7 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
@@ -54,7 +54,7 @@
                 <div class="flex-1 min-w-[240px]">
                     <label class="block text-label-md font-label-md text-on-surface mb-2">Search Student / Challan</label>
                     <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">search</span>
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">search</span>
                         <input type="text" name="search" value="{{ request('search') }}" class="input-field pl-10 bg-surface focus:bg-surface-container-lowest transition-colors w-full" placeholder="Search by name, ID, or challan number...">
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex items-center gap-1.5 text-secondary {{ \Carbon\Carbon::parse($fee->due_date)->isPast() && $fee->status != 'Paid' ? 'text-error font-medium' : '' }}">
-                                    <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                    <span class="material-symbols-rounded text-[16px]">calendar_today</span>
                                     {{ \Carbon\Carbon::parse($fee->due_date)->format('d M, Y') }}
                                 </div>
                             </td>
@@ -157,16 +157,16 @@
                             <td class="py-4 px-6 text-right">
                                 <div class="flex justify-end items-center gap-2">
                                     <a href="{{ route('accountant.fees.receipt', $fee->id) }}" target="_blank" class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors" title="Print Receipt">
-                                        <span class="material-symbols-outlined text-[18px]">print</span>
+                                        <span class="material-symbols-rounded text-[18px]">print</span>
                                     </a>
                                     @if($fee->status != 'Paid')
                                         <button onclick="openCollectModal({{ $fee->id }}, {{ $fee->amount - $fee->paid_amount }})" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-md transition-colors">
-                                            <span class="material-symbols-outlined text-[16px]">payments</span>
+                                            <span class="material-symbols-rounded text-[16px]">payments</span>
                                             Collect
                                         </button>
                                     @else
                                         <span class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 rounded-md">
-                                            <span class="material-symbols-outlined text-[16px]">check</span>
+                                            <span class="material-symbols-rounded text-[16px]">check</span>
                                             Cleared
                                         </span>
                                     @endif
@@ -176,7 +176,7 @@
                         @empty
                         <tr>
                             <td colspan="7" class="py-16 text-center text-secondary">
-                                <span class="material-symbols-outlined text-5xl mb-3 text-outline">receipt_long</span>
+                                <span class="material-symbols-rounded text-5xl mb-3 text-outline">receipt_long</span>
                                 <p class="text-body-lg font-medium text-on-surface">No fee records found</p>
                                 <p class="text-body-md mt-1">Try adjusting your filters or search query.</p>
                             </td>
@@ -198,11 +198,11 @@
 <dialog id="collectPaymentModal" class="bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant p-0 w-full max-w-md backdrop:bg-on-surface/50 backdrop:backdrop-blur-sm transition-all m-auto">
     <div class="p-6 border-b border-outline-variant flex justify-between items-center">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-            <span class="material-symbols-outlined text-[24px] text-emerald-600">payments</span>
+            <span class="material-symbols-rounded text-[24px] text-emerald-600">payments</span>
             Collect Fee Payment
         </h3>
         <button type="button" onclick="document.getElementById('collectPaymentModal').close()" class="text-secondary hover:bg-surface-container-high p-2 rounded-full transition-colors flex items-center justify-center">
-            <span class="material-symbols-outlined text-[20px]">close</span>
+            <span class="material-symbols-rounded text-[20px]">close</span>
         </button>
     </div>
     <form id="collectPaymentForm" data-no-ajax="true" method="POST" action="">
@@ -218,14 +218,14 @@
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Payment Method</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px] pointer-events-none">account_balance_wallet</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px] pointer-events-none">account_balance_wallet</span>
                     <select name="gateway" class="input-field !pl-10 !pr-10 bg-surface appearance-none" required>
                         <option value="Cash">Cash</option>
                         <option value="Bank Transfer">Bank Transfer</option>
                         <option value="Cheque">Cheque</option>
                         <option value="Online">Online Gateway</option>
                     </select>
-                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px] pointer-events-none">expand_more</span>
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px] pointer-events-none">expand_more</span>
                 </div>
             </div>
         </div>
@@ -240,11 +240,11 @@
 <dialog id="generateChallansModal" class="bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant p-0 w-full max-w-md backdrop:bg-on-surface/50 backdrop:backdrop-blur-sm transition-all m-auto">
     <div class="p-6 border-b border-outline-variant flex justify-between items-center">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-            <span class="material-symbols-outlined text-[24px] text-primary">receipt</span>
+            <span class="material-symbols-rounded text-[24px] text-primary">receipt</span>
             Generate Challans
         </h3>
         <button type="button" onclick="document.getElementById('generateChallansModal').close()" class="text-secondary hover:bg-surface-container-high p-2 rounded-full transition-colors flex items-center justify-center">
-            <span class="material-symbols-outlined text-[20px]">close</span>
+            <span class="material-symbols-rounded text-[20px]">close</span>
         </button>
     </div>
     <form method="POST" action="{{ route('accountant.fees.generate-challans') }}">

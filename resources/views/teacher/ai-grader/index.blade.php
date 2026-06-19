@@ -38,7 +38,7 @@
                             </td>
                             <td class="py-4 px-4 text-right">
                                 <a href="{{ route('teacher.assignments.submissions', $assignment->id) }}" class="bg-primary text-on-primary hover:bg-primary-container px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2 shadow-sm">
-                                    <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                                    <span class="material-symbols-rounded text-[18px]">auto_awesome</span>
                                     Grade Submissions
                                 </a>
                             </td>
@@ -47,7 +47,7 @@
                         <tr>
                             <td colspan="3" class="py-8 px-4 text-center text-secondary">
                                 <div class="flex flex-col items-center justify-center">
-                                    <span class="material-symbols-outlined text-4xl mb-2 opacity-50">check_circle</span>
+                                    <span class="material-symbols-rounded text-4xl mb-2 opacity-50">check_circle</span>
                                     <p class="text-body-lg font-medium">All caught up!</p>
                                     <p class="text-body-md mt-1">There are no pending submissions requiring AI grading.</p>
                                 </div>

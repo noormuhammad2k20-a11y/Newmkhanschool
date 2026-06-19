@@ -12,13 +12,13 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Dashboard</span>
                         </div>
                     </li>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="flex gap-3">
                     <a href="{{ route('accountant.fees.index') }}" class="btn-primary flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[20px]">add</span>
+                        <span class="material-symbols-rounded text-[20px]">add</span>
                         Collect Fee
                     </a>
                 </div>
@@ -45,14 +45,14 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Today's Collection</h3>
                     <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[20px]">payments</span>
+                        <span class="material-symbols-rounded text-[20px]">payments</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
                     <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($stats['total_collection_today'], 2) }}</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-600">
-                    <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                    <span class="material-symbols-rounded text-[14px]">trending_up</span>
                     <span>Collected via fees today</span>
                 </div>
             </div>
@@ -62,14 +62,14 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending Dues</h3>
                     <div class="w-10 h-10 rounded-lg bg-red-50 text-error border border-red-100 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[20px]">warning</span>
+                        <span class="material-symbols-rounded text-[20px]">warning</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
                     <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($stats['pending_fees'], 2) }}</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1 text-xs font-medium text-error">
-                    <span class="material-symbols-outlined text-[14px]">priority_high</span>
+                    <span class="material-symbols-rounded text-[14px]">priority_high</span>
                     <span>Unpaid student fees</span>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Expenses (This Month)</h3>
                     <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+                        <span class="material-symbols-rounded text-[20px]">receipt_long</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -95,7 +95,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Cash in Hand</h3>
                     <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+                        <span class="material-symbols-rounded text-[20px]">account_balance_wallet</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -113,7 +113,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col shadow-sm">
                 <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
                     <h3 class="text-headline-md font-headline-md text-on-surface">Income vs Expenses</h3>
-                    <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                    <button class="text-secondary hover:text-primary"><span class="material-symbols-rounded">more_horiz</span></button>
                 </div>
                 <div class="relative h-64 w-full p-4">
                     <canvas id="financeChart"></canvas>
@@ -127,19 +127,19 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <a href="{{ route('accountant.fees.index') }}" class="group flex flex-col items-center justify-center p-6 rounded-xl border border-outline-variant bg-surface hover:bg-emerald-50 hover:border-emerald-200 transition-all">
-                        <span class="material-symbols-outlined text-3xl text-secondary group-hover:text-emerald-600 mb-2 transition-colors">payments</span>
+                        <span class="material-symbols-rounded text-3xl text-secondary group-hover:text-emerald-600 mb-2 transition-colors">payments</span>
                         <span class="text-label-md font-semibold text-on-surface group-hover:text-emerald-800">Collect Fee</span>
                     </a>
                     <a href="{{ route('accountant.expenses.index') }}" class="group flex flex-col items-center justify-center p-6 rounded-xl border border-outline-variant bg-surface hover:bg-amber-50 hover:border-amber-200 transition-all">
-                        <span class="material-symbols-outlined text-3xl text-secondary group-hover:text-amber-600 mb-2 transition-colors">receipt_long</span>
+                        <span class="material-symbols-rounded text-3xl text-secondary group-hover:text-amber-600 mb-2 transition-colors">receipt_long</span>
                         <span class="text-label-md font-semibold text-on-surface group-hover:text-amber-800">Record Expense</span>
                     </a>
                     <a href="{{ route('accountant.payroll.index') }}" class="group flex flex-col items-center justify-center p-6 rounded-xl border border-outline-variant bg-surface hover:bg-blue-50 hover:border-blue-200 transition-all">
-                        <span class="material-symbols-outlined text-3xl text-secondary group-hover:text-blue-600 mb-2 transition-colors">account_balance_wallet</span>
+                        <span class="material-symbols-rounded text-3xl text-secondary group-hover:text-blue-600 mb-2 transition-colors">account_balance_wallet</span>
                         <span class="text-label-md font-semibold text-on-surface group-hover:text-blue-800">Process Payroll</span>
                     </a>
                     <a href="#" class="group flex flex-col items-center justify-center p-6 rounded-xl border border-outline-variant bg-surface hover:bg-primary/10 hover:border-primary/30 transition-all">
-                        <span class="material-symbols-outlined text-3xl text-secondary group-hover:text-primary mb-2 transition-colors">analytics</span>
+                        <span class="material-symbols-rounded text-3xl text-secondary group-hover:text-primary mb-2 transition-colors">analytics</span>
                         <span class="text-label-md font-semibold text-on-surface group-hover:text-primary-container">Financial Reports</span>
                     </a>
                 </div>
@@ -180,7 +180,7 @@
                         @empty
                             <tr>
                                 <td colspan="4" class="py-8 text-center text-secondary">
-                                    <span class="material-symbols-outlined text-3xl mb-2 text-outline">history</span>
+                                    <span class="material-symbols-rounded text-3xl mb-2 text-outline">history</span>
                                     <p>No recent transactions</p>
                                 </td>
                             </tr>

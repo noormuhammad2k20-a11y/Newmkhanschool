@@ -12,7 +12,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <div class="relative">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
+                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
                     <input type="text" placeholder="Search exams..." class="pl-10 pr-4 py-2 border border-outline-variant rounded-xl bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all w-64">
                 </div>
             </div>
@@ -20,7 +20,7 @@
 
 @if(session('info'))
             <div class="p-4 bg-blue-100 text-blue-800 rounded-xl flex items-center gap-2">
-                <span class="material-symbols-outlined">info</span>
+                <span class="material-symbols-rounded">info</span>
                 {{ session('info') }}
             </div>
         @endif
@@ -32,7 +32,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Upcoming</h3>
                     <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
-                        <span class="material-symbols-outlined text-[18px]">event_upcoming</span>
+                        <span class="material-symbols-rounded text-[18px]">event_upcoming</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -46,7 +46,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Active</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                        <span class="material-symbols-rounded text-[18px]">play_circle</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -60,7 +60,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Completed</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+                        <span class="material-symbols-rounded text-[18px]">assignment_turned_in</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -74,7 +74,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Avg Performance</h3>
                     <div class="w-8 h-8 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
-                        <span class="material-symbols-outlined text-[18px]">monitoring</span>
+                        <span class="material-symbols-rounded text-[18px]">monitoring</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -97,8 +97,8 @@
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-headline-md font-headline-md text-on-surface">Scheduled Exams</h3>
                 <div class="flex items-center gap-2">
-                    <button class="w-8 h-8 flex items-center justify-center rounded bg-primary-fixed text-primary"><span class="material-symbols-outlined text-[20px]">grid_view</span></button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">view_list</span></button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-primary-fixed text-primary"><span class="material-symbols-rounded text-[20px]">grid_view</span></button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-rounded text-[20px]">view_list</span></button>
                 </div>
             </div>
 
@@ -131,14 +131,14 @@
                             
                             <div class="bg-surface-container p-3 rounded-lg border border-outline-variant mb-4">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <span class="material-symbols-outlined text-[16px] text-secondary">calendar_today</span>
+                                    <span class="material-symbols-rounded text-[16px] text-secondary">calendar_today</span>
                                     <span class="font-bold text-label-md text-on-surface">{{ \Carbon\Carbon::parse($exam->exam_date)->format('M d, Y') }} at {{ $exam->start_time }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 text-label-md text-secondary">
-                                    <span class="material-symbols-outlined text-[16px]">timer</span>
+                                    <span class="material-symbols-rounded text-[16px]">timer</span>
                                     <span>{{ $exam->duration_minutes }} mins</span>
                                     <span class="mx-1">•</span>
-                                    <span class="material-symbols-outlined text-[16px]">task</span>
+                                    <span class="material-symbols-rounded text-[16px]">task</span>
                                     <span>{{ $exam->total_marks }} Marks</span>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                             @elseif($exam->status === 'Active' && !$isAttempted)
                                 <div class="mt-auto bg-blue-50 border border-blue-200 text-blue-800 p-3 rounded-lg text-center">
                                     <p class="text-label-md font-bold flex items-center justify-center gap-1">
-                                        <span class="material-symbols-outlined text-[16px]">play_circle</span> Exam is currently active
+                                        <span class="material-symbols-rounded text-[16px]">play_circle</span> Exam is currently active
                                     </p>
                                 </div>
                             @else
@@ -165,15 +165,15 @@
                         <div class="bg-surface-bright border-t border-outline-variant p-3 flex gap-2">
                             @if($isAttempted)
                                 <a href="{{ route('student.online-exams.result', $exam->id) }}" class="flex-1 py-2 bg-surface-container border border-outline-variant text-on-surface rounded-lg font-bold text-label-md hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px]">assessment</span> View Result
+                                    <span class="material-symbols-rounded text-[18px]">assessment</span> View Result
                                 </a>
                             @elseif($exam->status === 'Active')
                                 <a href="{{ route('student.online-exams.take', $exam->id) }}" class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px]">play_arrow</span> Start Exam
+                                    <span class="material-symbols-rounded text-[18px]">play_arrow</span> Start Exam
                                 </a>
                             @else
                                 <button class="flex-1 py-2 bg-surface-container border border-outline-variant text-on-surface-variant rounded-lg font-bold text-label-md cursor-not-allowed flex items-center justify-center gap-2" disabled>
-                                    <span class="material-symbols-outlined text-[18px]">lock</span> Start Exam
+                                    <span class="material-symbols-rounded text-[18px]">lock</span> Start Exam
                                 </button>
                             @endif
                         </div>
@@ -181,7 +181,7 @@
                 @empty
                     <div class="col-span-full py-16 flex flex-col items-center justify-center bg-surface-container-lowest border border-outline-variant border-dashed rounded-xl">
                         <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center text-secondary mb-4">
-                            <span class="material-symbols-outlined text-[32px]">desktop_windows</span>
+                            <span class="material-symbols-rounded text-[32px]">desktop_windows</span>
                         </div>
                         <h4 class="text-headline-md font-headline-md text-on-surface mb-1">No Exams Scheduled</h4>
                         <p class="text-body-md text-secondary text-center max-w-md">There are currently no online exams scheduled for your class.</p>

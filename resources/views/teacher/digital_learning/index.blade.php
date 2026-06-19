@@ -11,11 +11,11 @@
             </div>
             <div class="flex gap-sm">
                 <button onclick="document.getElementById('upload-note-modal').classList.remove('hidden')" class="bg-primary hover:bg-primary-container text-on-primary font-label-md py-2 px-4 rounded-full shadow transition-colors flex items-center gap-2">
-                    <span class="material-symbols-outlined">upload_file</span>
+                    <span class="material-symbols-rounded">upload_file</span>
                     Upload Note
                 </button>
                 <button onclick="document.getElementById('create-quiz-modal').classList.remove('hidden')" class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md py-2 px-4 rounded-full shadow transition-colors flex items-center gap-2 border border-outline">
-                    <span class="material-symbols-outlined">quiz</span>
+                    <span class="material-symbols-rounded">quiz</span>
                     Create Quiz
                 </button>
             </div>
@@ -36,7 +36,7 @@
             <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex flex-col">
                 <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
                     <h3 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">menu_book</span>
+                        <span class="material-symbols-rounded text-primary">menu_book</span>
                         Recent Notes
                     </h3>
                 </div>
@@ -55,14 +55,14 @@
                         <p class="text-on-surface-variant font-body-md mb-sm line-clamp-2">{{ $note->description }}</p>
                         <div class="flex justify-between items-center text-label-md">
                             <span class="text-secondary flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">download</span> {{ $note->download_count }} downloads
+                                <span class="material-symbols-rounded text-[16px]">download</span> {{ $note->download_count }} downloads
                             </span>
                             <span class="text-secondary">{{ $note->created_at->format('M d, Y') }}</span>
                         </div>
                     </div>
                     @empty
                     <div class="text-center py-xl text-secondary">
-                        <span class="material-symbols-outlined text-[48px] mb-sm opacity-50">note_stack</span>
+                        <span class="material-symbols-rounded text-[48px] mb-sm opacity-50">note_stack</span>
                         <p class="font-body-lg">No digital notes uploaded yet.</p>
                         <button onclick="document.getElementById('upload-note-modal').classList.remove('hidden')" class="text-primary font-semibold mt-sm hover:underline">Upload your first note</button>
                     </div>
@@ -74,7 +74,7 @@
             <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex flex-col">
                 <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
                     <h3 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[#b26b00]">quiz</span>
+                        <span class="material-symbols-rounded text-[#b26b00]">quiz</span>
                         Active Quizzes
                     </h3>
                 </div>
@@ -99,16 +99,16 @@
                         <p class="text-on-surface-variant font-body-md mb-sm line-clamp-2">{{ $quiz->description }}</p>
                         <div class="flex justify-between items-center text-label-md">
                             <span class="text-secondary flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">timer</span> {{ $quiz->duration_minutes }} mins
+                                <span class="material-symbols-rounded text-[16px]">timer</span> {{ $quiz->duration_minutes }} mins
                             </span>
                             <span class="text-secondary flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">grade</span> {{ $quiz->total_marks }} marks
+                                <span class="material-symbols-rounded text-[16px]">grade</span> {{ $quiz->total_marks }} marks
                             </span>
                         </div>
                     </div>
                     @empty
                     <div class="text-center py-xl text-secondary">
-                        <span class="material-symbols-outlined text-[48px] mb-sm opacity-50">help_center</span>
+                        <span class="material-symbols-rounded text-[48px] mb-sm opacity-50">help_center</span>
                         <p class="font-body-lg">No quizzes created yet.</p>
                         <button onclick="document.getElementById('create-quiz-modal').classList.remove('hidden')" class="text-primary font-semibold mt-sm hover:underline">Create your first quiz</button>
                     </div>
@@ -126,7 +126,7 @@
         <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-sm font-bold text-on-surface">Upload Digital Note</h3>
             <button onclick="document.getElementById('upload-note-modal').classList.add('hidden')" class="text-secondary hover:text-on-surface cursor-pointer">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <form action="{{ route('teacher.digital_learning.notes.store') }}" method="POST" enctype="multipart/form-data" class="p-lg overflow-y-auto">
@@ -184,7 +184,7 @@
         <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-sm font-bold text-on-surface">Create New Quiz</h3>
             <button onclick="document.getElementById('create-quiz-modal').classList.add('hidden')" class="text-secondary hover:text-on-surface cursor-pointer">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <form action="{{ route('teacher.digital_learning.quizzes.store') }}" method="POST" class="p-lg overflow-y-auto">

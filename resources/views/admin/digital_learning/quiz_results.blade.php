@@ -5,19 +5,19 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center gap-4">
         <a href="{{ route('admin.digital_learning.quizzes') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface">
-            <span class="material-symbols-outlined">arrow_back</span>
+            <span class="material-symbols-rounded">arrow_back</span>
         </a>
         <div>
             <div class="flex items-center gap-3 mb-1">
                 <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold tracking-wide uppercase">Quiz Results</span>
                 <span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded-full text-xs font-medium">
-                    <span class="material-symbols-outlined text-[14px] align-middle mr-1">class</span>
+                    <span class="material-symbols-rounded text-[14px] align-middle mr-1">class</span>
                     {{ $quiz->class->name ?? 'N/A' }}
                 </span>
             </div>
             <h1 class="font-headline-lg text-headline-lg text-on-surface mb-1">{{ $quiz->title }}</h1>
             <p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
-                <span class="material-symbols-outlined text-[18px]">verified</span>
+                <span class="material-symbols-rounded text-[18px]">verified</span>
                 Passing Marks: <strong class="text-on-surface">{{ $quiz->passing_marks }}</strong> out of {{ $quiz->total_marks }}
             </p>
         </div>
@@ -36,7 +36,7 @@
         <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col hover:shadow-sm transition-all">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[24px]">groups</span>
+                    <span class="material-symbols-rounded text-[24px]">groups</span>
                 </div>
             </div>
             <span class="font-headline-xl text-3xl font-bold text-on-surface">{{ $total }}</span>
@@ -47,7 +47,7 @@
         <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col hover:shadow-sm transition-all">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[24px]">monitoring</span>
+                    <span class="material-symbols-rounded text-[24px]">monitoring</span>
                 </div>
             </div>
             <div class="flex items-baseline gap-1">
@@ -61,7 +61,7 @@
         <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col hover:shadow-sm transition-all">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 rounded-xl bg-green-100 text-green-700 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[24px]">workspace_premium</span>
+                    <span class="material-symbols-rounded text-[24px]">workspace_premium</span>
                 </div>
             </div>
             <span class="font-headline-xl text-3xl font-bold text-green-700">{{ $passed }}</span>
@@ -72,7 +72,7 @@
         <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col hover:shadow-sm transition-all">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 rounded-xl bg-red-100 text-red-700 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[24px]">warning</span>
+                    <span class="material-symbols-rounded text-[24px]">warning</span>
                 </div>
             </div>
             <span class="font-headline-xl text-3xl font-bold text-red-700">{{ $failed }}</span>
@@ -84,7 +84,7 @@
     <div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
         <div class="p-6 border-b border-outline-variant flex items-center justify-between bg-surface-container-lowest">
             <h2 class="text-xl font-bold text-on-surface flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">format_list_bulleted</span>
+                <span class="material-symbols-rounded text-primary">format_list_bulleted</span>
                 Detailed Submissions
             </h2>
         </div>
@@ -148,12 +148,12 @@
                             <td class="py-4 px-6">
                                 @if($isPass)
                                     <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 border border-green-200 rounded-full shadow-sm">
-                                        <span class="material-symbols-outlined text-[16px]">verified</span>
+                                        <span class="material-symbols-rounded text-[16px]">verified</span>
                                         <span class="text-xs font-bold uppercase tracking-wide">Passed</span>
                                     </div>
                                 @else
                                     <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-700 border border-red-200 rounded-full shadow-sm">
-                                        <span class="material-symbols-outlined text-[16px]">cancel</span>
+                                        <span class="material-symbols-rounded text-[16px]">cancel</span>
                                         <span class="text-xs font-bold uppercase tracking-wide">Failed</span>
                                     </div>
                                 @endif
@@ -164,7 +164,7 @@
                             <td colspan="4" class="py-16 px-6 text-center">
                                 <div class="flex flex-col items-center justify-center">
                                     <div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant mb-4">
-                                        <span class="material-symbols-outlined text-[40px]">inbox</span>
+                                        <span class="material-symbols-rounded text-[40px]">inbox</span>
                                     </div>
                                     <h3 class="text-lg font-bold text-on-surface mb-1">No Submissions Yet</h3>
                                     <p class="text-sm text-on-surface-variant max-w-sm">When students complete this quiz, their results and performance metrics will appear here.</p>

@@ -18,8 +18,8 @@ class DocumentGeneratorService
      */
     public function buildVariables(Student $student, array $extra = []): array
     {
-        $schoolName = config('app.school_name', 'Government Boys Higher Secondary School Dhilyar');
-        $schoolAddress = config('app.school_address', 'Taluka Khipro, District Sanghar');
+        $schoolName = setting('school.name', config('app.school_name', 'Government Boys Higher Secondary School Dhilyar'));
+        $schoolAddress = setting('general.address', config('app.school_address', 'Taluka Khipro, District Sanghar'));
 
         $studentName = trim($student->first_name . ' ' . $student->last_name);
         $fatherName = $student->father_name ?? 'N/A';

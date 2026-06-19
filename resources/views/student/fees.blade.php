@@ -14,7 +14,7 @@
             </div>
             <div>
                 <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high border border-outline-variant text-on-surface rounded-xl font-bold hover:bg-surface-container-highest transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">print</span> Print Statement
+                    <span class="material-symbols-rounded text-[18px]">print</span> Print Statement
                 </button>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex items-center gap-4 hover:border-primary transition-colors">
                 <div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+                    <span class="material-symbols-rounded text-[24px]">receipt_long</span>
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Total Billed</p>
@@ -31,7 +31,7 @@
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex items-center gap-4 hover:border-[#10b981] transition-colors">
                 <div class="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center text-[#10b981]">
-                    <span class="material-symbols-outlined text-[24px]">payments</span>
+                    <span class="material-symbols-rounded text-[24px]">payments</span>
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Total Paid</p>
@@ -40,7 +40,7 @@
             </div>
             <div class="bg-surface-container-lowest border-2 border-error-container rounded-xl p-6 flex items-center gap-4 relative overflow-hidden group">
                 <div class="w-12 h-12 rounded-xl bg-error-container flex items-center justify-center text-error relative z-10">
-                    <span class="material-symbols-outlined text-[24px]">money_off</span>
+                    <span class="material-symbols-rounded text-[24px]">money_off</span>
                 </div>
                 <div class="relative z-10">
                     <p class="text-label-sm font-label-sm text-error uppercase tracking-wider font-bold">Outstanding Balance</p>
@@ -106,7 +106,7 @@
                                 <td class="px-6 py-4 text-right">
                                     @if($fee->status === 'Paid')
                                         <a href="{{ route('fees.receipt.download', $fee->id) }}" target="_blank" class="inline-flex items-center gap-1.5 text-primary hover:bg-primary-fixed p-2 rounded-lg transition-colors text-sm font-bold">
-                                            <span class="material-symbols-outlined text-[18px]">download</span> Receipt
+                                            <span class="material-symbols-rounded text-[18px]">download</span> Receipt
                                         </a>
                                     @else
                                         <a href="{{ route('student.fees.pay', $fee->id) }}" class="inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-1.5 rounded-lg transition-colors text-sm font-bold shadow-sm hover:shadow">
@@ -121,7 +121,7 @@
                 </div>
             @else
                 <div class="p-12 text-center text-secondary border border-outline-variant border-dashed rounded-xl m-4">
-                    <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">receipt_long</span>
+                    <span class="material-symbols-rounded text-[48px] mb-2 opacity-50">receipt_long</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface mb-1">No Fee Records</h3>
                     <p class="text-body-lg font-body-lg">There are no fee records available for your account.</p>
                 </div>

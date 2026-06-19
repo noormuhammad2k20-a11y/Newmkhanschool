@@ -10,9 +10,9 @@
             <div>
                 <nav class="flex items-center gap-2 text-label-md font-label-md text-secondary mb-2">
                     <a href="{{ route('parent.dashboard') }}" class="hover:text-primary transition-colors">Dashboard</a>
-                    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                    <span class="material-symbols-rounded text-[16px]">chevron_right</span>
                     <a href="{{ route('parent.children') }}" class="hover:text-primary transition-colors">My Children</a>
-                    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                    <span class="material-symbols-rounded text-[16px]">chevron_right</span>
                     <span class="text-on-surface">Leave Application</span>
                 </nav>
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">Leave Application</h2>
@@ -20,7 +20,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('parent.children') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                     Back to Children
                 </a>
             </div>
@@ -32,7 +32,7 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
                     <div class="p-md border-b border-outline-variant bg-surface-bright">
                         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">edit_document</span>
+                            <span class="material-symbols-rounded text-primary">edit_document</span>
                             New Application
                         </h3>
                     </div>
@@ -70,7 +70,7 @@
                         </div>
                         
                         <button type="submit" class="w-full bg-primary text-on-primary py-2.5 rounded-lg font-label-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-[20px]">send</span>
+                            <span class="material-symbols-rounded text-[20px]">send</span>
                             Submit Application
                         </button>
                     </form>
@@ -82,7 +82,7 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col h-full">
                     <div class="p-md border-b border-outline-variant bg-surface-bright">
                         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">history</span>
+                            <span class="material-symbols-rounded text-primary">history</span>
                             Leave History
                         </h3>
                     </div>
@@ -126,7 +126,7 @@
                                         <td colspan="4" class="py-16 text-center">
                                             <div class="flex flex-col items-center justify-center text-secondary">
                                                 <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-3">
-                                                    <span class="material-symbols-outlined text-[32px] opacity-50">event_available</span>
+                                                    <span class="material-symbols-rounded text-[32px] opacity-50">event_available</span>
                                                 </div>
                                                 <p class="text-body-lg font-body-lg text-on-surface mb-1">No Leave History</p>
                                                 <p class="text-body-md font-body-md">You haven't submitted any leave applications for this student yet.</p>

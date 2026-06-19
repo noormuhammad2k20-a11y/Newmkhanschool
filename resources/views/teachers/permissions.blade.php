@@ -22,7 +22,7 @@
             </div>
             <div class="flex gap-sm shrink-0">
                 <a href="{{ route('admin.teachers') }}" class="text-secondary font-label-md text-label-md px-md py-sm hover:bg-surface-container-low hover:text-primary rounded-DEFAULT border border-outline-variant transition-colors flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                     Back to Directory
                 </a>
             </div>
@@ -39,7 +39,7 @@
                     <div class="bg-surface-container-lowest p-md border-b border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-sm">
                         <div>
                             <h3 class="text-title-lg font-bold text-on-surface flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary">apps</span>
+                                <span class="material-symbols-rounded text-primary">apps</span>
                                 System Access
                             </h3>
                             <p class="text-body-sm text-secondary mt-1">Select which modules and pages this teacher can access.</p>
@@ -72,7 +72,7 @@
                         <div class="bg-surface-container-lowest p-md border-b border-outline-variant shrink-0">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm mb-3">
                                 <h3 class="text-title-lg font-bold text-on-surface flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-primary">meeting_room</span>
+                                    <span class="material-symbols-rounded text-primary">meeting_room</span>
                                     Assigned Classes
                                 </h3>
                                 <button type="button" class="select-all-btn text-primary text-label-md font-label-md hover:bg-primary-container hover:text-on-primary-container px-3 py-1.5 rounded-md transition-colors border border-transparent hover:border-primary/20 shrink-0" data-target="classes[]">
@@ -80,7 +80,7 @@
                                 </button>
                             </div>
                             <div class="relative group">
-                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] group-focus-within:text-primary transition-colors">search</span>
+                                <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] group-focus-within:text-primary transition-colors">search</span>
                                 <input type="text" class="search-input w-full bg-surface border border-outline-variant rounded-lg py-2 pl-10 pr-4 text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Search classes..." data-list="classes-list">
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                             </div>
                             @if($classes->isEmpty())
                                 <div class="p-lg flex flex-col items-center justify-center h-full text-secondary opacity-70">
-                                    <span class="material-symbols-outlined text-display-sm mb-2">meeting_room</span>
+                                    <span class="material-symbols-rounded text-display-sm mb-2">meeting_room</span>
                                     <span class="text-body-md">No classes available.</span>
                                 </div>
                             @endif
@@ -108,7 +108,7 @@
                         <div class="bg-surface-container-lowest p-md border-b border-outline-variant shrink-0">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm mb-3">
                                 <h3 class="text-title-lg font-bold text-on-surface flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-primary">book</span>
+                                    <span class="material-symbols-rounded text-primary">book</span>
                                     Assigned Subjects
                                 </h3>
                                 <button type="button" class="select-all-btn text-primary text-label-md font-label-md hover:bg-primary-container hover:text-on-primary-container px-3 py-1.5 rounded-md transition-colors border border-transparent hover:border-primary/20 shrink-0" data-target="subjects[]">
@@ -116,7 +116,7 @@
                                 </button>
                             </div>
                             <div class="relative group">
-                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] group-focus-within:text-primary transition-colors">search</span>
+                                <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] group-focus-within:text-primary transition-colors">search</span>
                                 <input type="text" class="search-input w-full bg-surface border border-outline-variant rounded-lg py-2 pl-10 pr-4 text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Search subjects..." data-list="subjects-list">
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                             </div>
                             @if($subjects->isEmpty())
                                 <div class="p-lg flex flex-col items-center justify-center h-full text-secondary opacity-70">
-                                    <span class="material-symbols-outlined text-display-sm mb-2">book</span>
+                                    <span class="material-symbols-rounded text-display-sm mb-2">book</span>
                                     <span class="text-body-md">No subjects available.</span>
                                 </div>
                             @endif
@@ -149,7 +149,7 @@
             <div class="sticky bottom-6 bg-surface/95 backdrop-blur-md p-4 rounded-xl border border-outline-variant shadow-lg z-20 flex justify-end gap-md mt-6">
                 <a href="{{ route('admin.teachers') }}" class="text-secondary font-label-md text-label-md px-lg py-2 hover:bg-surface-container-low rounded-lg border border-transparent hover:border-outline-variant transition-all">Cancel</a>
                 <button type="submit" class="bg-primary text-on-primary font-label-md text-label-md px-xl py-2 rounded-lg hover:bg-primary-container hover:text-on-primary-container hover:shadow-md transition-all flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">save</span>
+                    <span class="material-symbols-rounded text-[20px]">save</span>
                     Save Permissions
                 </button>
             </div>

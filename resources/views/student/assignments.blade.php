@@ -77,7 +77,7 @@
                                     {{ $assignment->subject->name ?? 'N/A' }}
                                 </span>
                                 <span class="text-[12px] font-bold flex items-center gap-1 {{ $isOverdue && !$isSubmitted ? 'text-error' : 'text-secondary' }}">
-                                    <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                    <span class="material-symbols-rounded text-[14px]">calendar_today</span>
                                     Due {{ $dueDate->format('M d, Y') }}
                                 </span>
                             </div>
@@ -90,7 +90,7 @@
                                 <div class="flex flex-col gap-3">
                                     <div class="flex items-center justify-between bg-[#ecfdf5] border border-[#a7f3d0] rounded-lg p-3">
                                         <div class="flex items-center gap-2 text-[#059669]">
-                                            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                                            <span class="material-symbols-rounded text-[20px]">check_circle</span>
                                             <div>
                                                 <span class="block text-sm font-bold">Submitted</span>
                                                 <span class="block text-[10px] opacity-80">{{ \Carbon\Carbon::parse($submission->created_at)->format('M d, g:i A') }}</span>
@@ -109,7 +109,7 @@
                             @elseif(\Carbon\Carbon::now()->gt($dueDate))
                                 <div class="flex items-center justify-between bg-error/10 border border-error/20 rounded-lg p-3">
                                     <div class="flex items-center gap-2 text-error">
-                                        <span class="material-symbols-outlined text-[20px]">cancel</span>
+                                        <span class="material-symbols-rounded text-[20px]">cancel</span>
                                         <div>
                                             <span class="block text-sm font-bold">Past Due</span>
                                             <span class="block text-[10px] opacity-80">Submissions are no longer accepted</span>
@@ -123,7 +123,7 @@
                                         <input type="file" name="file" class="block w-full text-sm text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-surface-container file:text-on-surface hover:file:bg-surface-container-high transition-colors cursor-pointer border border-outline-variant border-dashed rounded-lg p-2 bg-surface-container-lowest" required>
                                     </div>
                                     <button type="submit" class="w-full bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container font-label-md text-label-md py-2 px-4 rounded-lg transition-colors flex justify-center items-center gap-2 shadow-sm">
-                                        <span class="material-symbols-outlined text-[18px]">upload</span>
+                                        <span class="material-symbols-rounded text-[18px]">upload</span>
                                         Upload & Submit
                                     </button>
                                 </form>
@@ -132,7 +132,7 @@
                     </div>
                 @empty
                     <div class="col-span-full bg-surface-container-lowest rounded-xl p-12 text-center border border-outline-variant border-dashed m-4">
-                        <span class="material-symbols-outlined text-[48px] mb-2 text-secondary opacity-50">task</span>
+                        <span class="material-symbols-rounded text-[48px] mb-2 text-secondary opacity-50">task</span>
                         <h3 class="text-headline-md font-headline-md text-on-surface mb-1">No Assignments</h3>
                         <p class="text-body-lg font-body-lg text-secondary">You don't have any assignments due at the moment.</p>
                     </div>

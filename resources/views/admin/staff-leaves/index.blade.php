@@ -15,11 +15,11 @@
             
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.staff-leaves.balances') }}" class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                    <span class="material-symbols-rounded text-[18px]">account_balance_wallet</span>
                     Leave Balances
                 </a>
                 <a href="{{ route('admin.staff-leaves.substitutes') }}" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:bg-primary-hover shadow-sm transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">event_available</span>
+                    <span class="material-symbols-rounded text-[18px]">event_available</span>
                     Substitute Schedule
                 </a>
             </div>
@@ -32,7 +32,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Requests</h3>
                     <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700">
-                        <span class="material-symbols-outlined text-[18px]">all_inbox</span>
+                        <span class="material-symbols-rounded text-[18px]">all_inbox</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -49,7 +49,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending</h3>
                     <div class="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center text-orange-700">
-                        <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                        <span class="material-symbols-rounded text-[18px]">pending_actions</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -66,7 +66,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Approved</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                        <span class="material-symbols-rounded text-[18px]">check_circle</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -83,7 +83,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Rejected</h3>
                     <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-700">
-                        <span class="material-symbols-outlined text-[18px]">cancel</span>
+                        <span class="material-symbols-rounded text-[18px]">cancel</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -102,10 +102,10 @@
                 <h3 class="text-headline-md font-headline-md text-on-surface">Recent Leave Requests</h3>
                 <div class="flex gap-2">
                     <button class="px-3 py-1.5 bg-surface-container border border-outline-variant rounded-lg text-label-sm font-label-sm hover:bg-surface-variant transition-colors flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[16px]">filter_list</span> Filter
+                        <span class="material-symbols-rounded text-[16px]">filter_list</span> Filter
                     </button>
                     <button class="px-3 py-1.5 bg-surface-container border border-outline-variant rounded-lg text-label-sm font-label-sm hover:bg-surface-variant transition-colors flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[16px]">download</span> Export
+                        <span class="material-symbols-rounded text-[16px]">download</span> Export
                     </button>
                 </div>
             </div>
@@ -138,13 +138,13 @@
                                 <td class="py-3 px-4">
                                     <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-surface-variant text-on-surface-variant">
                                         @if(str_contains(strtolower($leave->leave_type), 'sick'))
-                                            <span class="material-symbols-outlined text-[14px]">local_hospital</span>
+                                            <span class="material-symbols-rounded text-[14px]">local_hospital</span>
                                         @elseif(str_contains(strtolower($leave->leave_type), 'casual'))
-                                            <span class="material-symbols-outlined text-[14px]">beach_access</span>
+                                            <span class="material-symbols-rounded text-[14px]">beach_access</span>
                                         @elseif(str_contains(strtolower($leave->leave_type), 'emergency'))
-                                            <span class="material-symbols-outlined text-[14px]">warning</span>
+                                            <span class="material-symbols-rounded text-[14px]">warning</span>
                                         @else
-                                            <span class="material-symbols-outlined text-[14px]">event</span>
+                                            <span class="material-symbols-rounded text-[14px]">event</span>
                                         @endif
                                         {{ $leave->leave_type }}
                                     </span>
@@ -176,7 +176,7 @@
                                             <form action="{{ route('admin.staff-leaves.approve', $leave->id) }}" method="POST" class="inline">
                                                 @csrf
                                                 <button type="submit" class="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Approve">
-                                                    <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                                    <span class="material-symbols-rounded text-[18px]">check_circle</span>
                                                 </button>
                                             </form>
                                             <!-- Reject Button (Triggers Modal in real app, here direct action for UI) -->
@@ -184,12 +184,12 @@
                                                 @csrf
                                                 <input type="hidden" name="rejection_reason" value="Declined by administrator">
                                                 <button type="submit" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Reject">
-                                                    <span class="material-symbols-outlined text-[18px]">cancel</span>
+                                                    <span class="material-symbols-rounded text-[18px]">cancel</span>
                                                 </button>
                                             </form>
                                         @endif
                                         <button class="p-1.5 text-secondary hover:text-primary hover:bg-primary-fixed rounded-lg transition-colors" title="View Details">
-                                            <span class="material-symbols-outlined text-[18px]">visibility</span>
+                                            <span class="material-symbols-rounded text-[18px]">visibility</span>
                                         </button>
                                     </div>
                                 </td>
@@ -198,7 +198,7 @@
                             <tr>
                                 <td colspan="6" class="py-12 text-center text-secondary">
                                     <div class="flex flex-col items-center justify-center">
-                                        <span class="material-symbols-outlined text-4xl mb-3 opacity-50">event_busy</span>
+                                        <span class="material-symbols-rounded text-4xl mb-3 opacity-50">event_busy</span>
                                         <p class="text-lg font-medium text-on-surface mb-1">No leave requests found</p>
                                         <p class="text-sm">You're all caught up!</p>
                                     </div>

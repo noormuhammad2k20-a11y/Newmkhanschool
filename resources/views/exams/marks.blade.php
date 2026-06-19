@@ -30,18 +30,18 @@
             <div>
                 <div class="flex items-center gap-sm text-secondary mb-xs">
                     <a class="text-label-md font-label-md hover:underline" href="{{ route('admin.exams') }}">Examination</a>
-                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <span class="material-symbols-rounded text-sm">chevron_right</span>
                     <span class="text-label-md font-label-md text-on-surface">Bulk Marks Entry</span>
                 </div>
                 <h1 class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-on-surface">Bulk Marks Entry</h1>
             </div>
             <div class="flex gap-sm">
                 <button type="button" class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
-                    <span class="material-symbols-outlined text-[18px]">download</span>
+                    <span class="material-symbols-rounded text-[18px]">download</span>
                     Export Template
                 </button>
                 <button type="button" onclick="document.getElementById('bulkUploadModal').classList.remove('hidden')" class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-primary text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
-                    <span class="material-symbols-outlined text-[18px]">upload</span>
+                    <span class="material-symbols-rounded text-[18px]">upload</span>
                     Bulk Upload
                 </button>
             </div>
@@ -97,7 +97,7 @@
             <!-- Table Header Actions -->
             <div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low rounded-t-lg">
                 <div class="flex items-center gap-sm">
-                    <span class="material-symbols-outlined text-secondary">info</span>
+                    <span class="material-symbols-rounded text-secondary">info</span>
                     <span class="text-body-md font-body-md text-secondary">Press 'Tab' or 'Enter' to move to the next row. Maximum marks: 100.</span>
                 </div>
                 <div class="flex items-center gap-xs">
@@ -135,7 +135,7 @@
                         Save Draft
                     </button>
                     <button id="save-marks" class="flex-1 sm:flex-none px-lg py-sm rounded bg-primary text-on-primary text-label-md font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                        <span class="material-symbols-rounded text-[18px]">check_circle</span>
                         Save &amp; Submit
                     </button>
                 </div>

@@ -11,7 +11,7 @@
             <div>
                 <div class="flex items-center gap-sm mb-1">
                     <div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[22px]">description</span>
+                        <span class="material-symbols-rounded text-[22px]">description</span>
                     </div>
                     <h2 class="text-headline-xl font-headline-xl text-on-surface">Document & Certificate Management Center</h2>
                 </div>
@@ -19,11 +19,11 @@
             </div>
             <div class="flex items-center gap-sm flex-wrap">
                 <a href="{{ route('admin.documents.templates') }}" class="inline-flex items-center gap-xs px-md py-sm border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">design_services</span>
+                    <span class="material-symbols-rounded text-[18px]">design_services</span>
                     Manage Templates
                 </a>
                 <a href="{{ route('admin.documents.signatures') }}" class="inline-flex items-center gap-xs px-md py-sm border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">draw</span>
+                    <span class="material-symbols-rounded text-[18px]">draw</span>
                     Signatures
                 </a>
             </div>
@@ -38,7 +38,7 @@
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider leading-tight">Total Documents</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">folder</span>
+                        <span class="material-symbols-rounded text-[18px]">folder</span>
                     </div>
                 </div>
                 <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($totalDocuments) }}</span>
@@ -51,7 +51,7 @@
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider leading-tight">Character Certs</h3>
                     <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                        <span class="material-symbols-rounded text-[18px]">verified</span>
                     </div>
                 </div>
                 <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($templateStats['Character Certificate'] ?? 0) }}</span>
@@ -64,7 +64,7 @@
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider leading-tight">Transfer Certs</h3>
                     <div class="w-8 h-8 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+                        <span class="material-symbols-rounded text-[18px]">swap_horiz</span>
                     </div>
                 </div>
                 <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($templateStats['Transfer Certificate'] ?? 0) }}</span>
@@ -77,7 +77,7 @@
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider leading-tight">Marksheets</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">grading</span>
+                        <span class="material-symbols-rounded text-[18px]">grading</span>
                     </div>
                 </div>
                 <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($templateStats['Marksheet'] ?? 0) }}</span>
@@ -90,7 +90,7 @@
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider leading-tight">This Month</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                        <span class="material-symbols-rounded text-[18px]">calendar_month</span>
                     </div>
                 </div>
                 <span class="text-headline-xl font-headline-xl text-on-surface">{{ number_format($thisMonthDocuments) }}</span>
@@ -103,7 +103,7 @@
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider leading-tight">Templates</h3>
                     <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
-                        <span class="material-symbols-outlined text-[18px]">layers</span>
+                        <span class="material-symbols-rounded text-[18px]">layers</span>
                     </div>
                 </div>
                 <span class="text-headline-xl font-headline-xl text-on-surface">{{ $templates->count() }}</span>
@@ -117,7 +117,7 @@
         {{-- ═══════════════════════════════════════════════════════════════════ --}}
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-sm">
-                <span class="material-symbols-outlined text-primary text-[20px]">bolt</span>
+                <span class="material-symbols-rounded text-primary text-[20px]">bolt</span>
                 <h3 class="text-headline-md font-headline-md text-on-surface">Quick Actions</h3>
             </div>
             <div class="p-md">
@@ -125,7 +125,7 @@
                     @foreach($templates as $tpl)
                     <button type="button" onclick="quickGenerate({{ $tpl->id }}, '{{ addslashes($tpl->name) }}')" class="flex flex-col items-center gap-2 p-md border border-outline-variant rounded-xl hover:border-primary hover:bg-primary-fixed/30 transition-all group cursor-pointer">
                         <div class="w-11 h-11 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined text-[22px]">
+                            <span class="material-symbols-rounded text-[22px]">
                                 @switch($tpl->slug)
                                     @case('character-certificate') verified @break
                                     @case('transfer-certificate') swap_horiz @break
@@ -152,7 +152,7 @@
             {{-- Certificate Generator Form --}}
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
                 <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-sm">
-                    <span class="material-symbols-outlined text-primary text-[20px]">edit_document</span>
+                    <span class="material-symbols-rounded text-primary text-[20px]">edit_document</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface">Certificate Generator</h3>
                 </div>
                 {{-- Mode Toggle --}}
@@ -182,7 +182,7 @@
                                 <label class="block text-label-md font-label-md text-on-surface-variant mb-xs">Search Student <span class="text-error">*</span></label>
                                 <div class="relative">
                                     <input type="text" id="studentSearchInput" placeholder="Type name, admission no, or roll no..." autocomplete="off" class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary text-body-md pr-10">
-                                    <span class="material-symbols-outlined text-[20px] text-secondary absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">search</span>
+                                    <span class="material-symbols-rounded text-[20px] text-secondary absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">search</span>
                                 </div>
                                 <input type="hidden" name="student_id" id="selectedStudentId">
                                 {{-- Search results dropdown --}}
@@ -201,7 +201,7 @@
                                         </div>
                                     </div>
                                     <button type="button" onclick="clearStudent()" class="text-secondary hover:text-error p-1 rounded-full hover:bg-error-container transition-colors">
-                                        <span class="material-symbols-outlined text-[18px]">close</span>
+                                        <span class="material-symbols-rounded text-[18px]">close</span>
                                     </button>
                                 </div>
                             </div>
@@ -261,7 +261,7 @@
                             <input type="checkbox" name="ai_enhance" value="1" class="text-primary focus:ring-primary rounded">
                             <div>
                                 <span class="font-label-md text-primary font-bold flex items-center gap-xs">
-                                    <span class="material-symbols-outlined text-[16px]">auto_awesome</span> AI Enhance
+                                    <span class="material-symbols-rounded text-[16px]">auto_awesome</span> AI Enhance
                                 </span>
                                 <span class="text-[11px] text-secondary block">Improve tone & professionalism</span>
                             </div>
@@ -270,7 +270,7 @@
                         {{-- Actions --}}
                         <div class="md:col-span-2 mt-auto pt-md border-t border-outline-variant flex justify-end">
                             <button type="button" onclick="processGeneration()" id="generateBtn" class="px-xl py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-xs disabled:opacity-50" disabled>
-                                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> <span id="generateBtnText">Generate PDF</span>
+                                <span class="material-symbols-rounded text-[18px]">picture_as_pdf</span> <span id="generateBtnText">Generate PDF</span>
                             </button>
                         </div>
                     </form>
@@ -284,7 +284,7 @@
         <div id="ajaxRecentDocuments" class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden relative transition-opacity duration-300">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center justify-between">
                 <div class="flex items-center gap-sm">
-                    <span class="material-symbols-outlined text-primary text-[20px]">history</span>
+                    <span class="material-symbols-rounded text-primary text-[20px]">history</span>
                     <div>
                         <h3 class="text-headline-md font-headline-md text-on-surface">Recent Documents</h3>
                         <p class="text-xs text-secondary">All generated documents and certificates</p>
@@ -292,13 +292,13 @@
                 </div>
                 <div class="flex items-center gap-xs">
                     <button onclick="deleteSelectedDocuments()" id="btnDeleteSelected" class="hidden items-center gap-xs px-md py-sm bg-error-container text-error rounded-lg font-label-md hover:bg-error hover:text-white transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">delete</span> Delete Selected
+                        <span class="material-symbols-rounded text-[18px]">delete</span> Delete Selected
                     </button>
                     <button onclick="deleteAllDocuments()" class="inline-flex items-center gap-xs px-md py-sm border border-error text-error rounded-lg font-label-md hover:bg-error hover:text-white transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">delete_forever</span> Delete All
+                        <span class="material-symbols-rounded text-[18px]">delete_forever</span> Delete All
                     </button>
                     <a href="{{ route('admin.documents.create') }}" class="inline-flex items-center gap-xs px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">add</span> New Document
+                        <span class="material-symbols-rounded text-[18px]">add</span> New Document
                     </a>
                 </div>
             </div>
@@ -349,13 +349,13 @@
                             <td class="p-md">
                                 <div class="flex items-center justify-center gap-1">
                                     <a href="{{ route('admin.documents.download', $doc->id) }}" class="p-1.5 rounded-lg hover:bg-primary-fixed text-secondary hover:text-primary transition-colors" title="Download">
-                                        <span class="material-symbols-outlined text-[18px]">download</span>
+                                        <span class="material-symbols-rounded text-[18px]">download</span>
                                     </a>
                                     <button onclick="viewStudentHistory({{ $doc->student->id ?? 0 }})" class="p-1.5 rounded-lg hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="Student History">
-                                        <span class="material-symbols-outlined text-[18px]">person_search</span>
+                                        <span class="material-symbols-rounded text-[18px]">person_search</span>
                                     </button>
                                     <button onclick="deleteDocument({{ $doc->id }}, '{{ $doc->document_no }}')" class="p-1.5 rounded-lg hover:bg-error-container text-secondary hover:text-error transition-colors" title="Delete">
-                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                        <span class="material-symbols-rounded text-[18px]">delete</span>
                                     </button>
                                 </div>
                             </td>
@@ -364,7 +364,7 @@
                         <tr>
                             <td colspan="8" class="p-xl text-center">
                                 <div class="flex flex-col items-center py-md">
-                                    <span class="material-symbols-outlined text-[48px] text-outline mb-sm">inbox</span>
+                                    <span class="material-symbols-rounded text-[48px] text-outline mb-sm">inbox</span>
                                     <p class="text-body-lg text-secondary">No documents generated yet.</p>
                                     <p class="text-body-md text-outline mt-1">Use the Certificate Generator above to create your first document.</p>
                                 </div>
@@ -390,7 +390,7 @@
             <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
                 <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center justify-between">
                     <div class="flex items-center gap-sm">
-                        <span class="material-symbols-outlined text-primary text-[20px]">layers</span>
+                        <span class="material-symbols-rounded text-primary text-[20px]">layers</span>
                         <h3 class="text-headline-md font-headline-md text-on-surface">Available Templates</h3>
                     </div>
                     <a href="{{ route('admin.documents.templates') }}" class="text-primary text-label-md font-label-md hover:underline">Manage All</a>
@@ -401,7 +401,7 @@
                         <div class="border border-outline-variant rounded-xl p-md hover:border-primary transition-colors group">
                             <div class="flex items-start gap-sm mb-sm">
                                 <div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center shrink-0">
-                                    <span class="material-symbols-outlined text-[20px]">
+                                    <span class="material-symbols-rounded text-[20px]">
                                         @switch($tpl->slug)
                                             @case('character-certificate') verified @break
                                             @case('transfer-certificate') swap_horiz @break
@@ -422,12 +422,12 @@
                                 <div class="flex items-center gap-1.5">
                                     @if($tpl->has_qr)
                                     <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-100 text-emerald-800">
-                                        <span class="material-symbols-outlined text-[12px]">qr_code_2</span>QR
+                                        <span class="material-symbols-rounded text-[12px]">qr_code_2</span>QR
                                     </span>
                                     @endif
                                     @if($tpl->has_signature)
                                     <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-100 text-emerald-800">
-                                        <span class="material-symbols-outlined text-[12px]">draw</span>Sig
+                                        <span class="material-symbols-rounded text-[12px]">draw</span>Sig
                                     </span>
                                     @endif
                                     <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium {{ $tpl->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-surface-container-high text-secondary' }}">
@@ -445,14 +445,14 @@
             {{-- Recent Activity --}}
             <div id="ajaxRecentActivity" class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col relative transition-opacity duration-300">
                 <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-sm">
-                    <span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+                    <span class="material-symbols-rounded text-primary text-[20px]">schedule</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface">Recent Activity</h3>
                 </div>
                 <div class="p-0 flex-1 overflow-y-auto" style="max-height: 400px;">
                     @forelse($recentActivity as $activity)
                     <div class="px-md py-sm border-b border-outline-variant last:border-b-0 hover:bg-surface-container-lowest transition-colors flex gap-sm">
                         <div class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center shrink-0 mt-0.5">
-                            <span class="material-symbols-outlined text-[16px]">description</span>
+                            <span class="material-symbols-rounded text-[16px]">description</span>
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-body-md text-on-surface font-medium truncate">{{ $activity->template->name ?? 'Document' }}</p>
@@ -465,12 +465,12 @@
                             </p>
                         </div>
                         <a href="{{ route('admin.documents.download', $activity->id) }}" class="text-secondary hover:text-primary self-center shrink-0 p-1" title="Download">
-                            <span class="material-symbols-outlined text-[16px]">download</span>
+                            <span class="material-symbols-rounded text-[16px]">download</span>
                         </a>
                     </div>
                     @empty
                     <div class="p-xl text-center text-secondary flex flex-col items-center">
-                        <span class="material-symbols-outlined text-[32px] opacity-40 mb-sm">event_busy</span>
+                        <span class="material-symbols-rounded text-[32px] opacity-40 mb-sm">event_busy</span>
                         <p class="text-body-md">No recent activity.</p>
                     </div>
                     @endforelse
@@ -495,7 +495,7 @@
                 </div>
             </div>
             <button onclick="closeHistoryModal()" class="p-1.5 rounded-full hover:bg-surface-container-high transition-colors text-secondary">
-                <span class="material-symbols-outlined text-[20px]">close</span>
+                <span class="material-symbols-rounded text-[20px]">close</span>
             </button>
         </div>
         <div id="historyContent" class="p-md overflow-y-auto flex-1">
@@ -875,7 +875,7 @@ function viewStudentHistory(studentId) {
             if (data.documents.length === 0) {
                 content.innerHTML = `
                     <div class="text-center py-xl">
-                        <span class="material-symbols-outlined text-[40px] text-outline mb-sm">folder_open</span>
+                        <span class="material-symbols-rounded text-[40px] text-outline mb-sm">folder_open</span>
                         <p class="text-body-lg text-secondary">No documents generated for this student.</p>
                     </div>`;
                 return;
@@ -886,7 +886,7 @@ function viewStudentHistory(studentId) {
                     ${data.documents.map(doc => `
                         <div class="py-sm flex items-center gap-sm hover:bg-surface-container-lowest px-sm rounded-lg transition-colors">
                             <div class="w-9 h-9 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
-                                <span class="material-symbols-outlined text-[18px]">description</span>
+                                <span class="material-symbols-rounded text-[18px]">description</span>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="font-medium text-on-surface text-sm">${doc.template_name}</div>
@@ -894,7 +894,7 @@ function viewStudentHistory(studentId) {
                                 ${doc.purpose ? `<div class="text-[11px] text-outline mt-0.5">Purpose: ${doc.purpose}</div>` : ''}
                             </div>
                             <a href="${doc.download_url}" class="p-1.5 rounded-lg hover:bg-primary-fixed text-secondary hover:text-primary transition-colors shrink-0" title="Download">
-                                <span class="material-symbols-outlined text-[18px]">download</span>
+                                <span class="material-symbols-rounded text-[18px]">download</span>
                             </a>
                         </div>
                     `).join('')}

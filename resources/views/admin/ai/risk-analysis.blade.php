@@ -8,18 +8,18 @@
     <div class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
         <div>
             <h1 class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-on-surface flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-[32px] md:text-[40px]">psychology</span>
+                <span class="material-symbols-rounded text-primary text-[32px] md:text-[40px]">psychology</span>
                 AI Risk Analysis
             </h1>
             <p class="text-body-md font-body-md text-secondary mt-1">Predictive insights on student dropouts, academic struggles, and attendance risks.</p>
         </div>
         <div class="flex gap-sm">
             <button class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
-                <span class="material-symbols-outlined text-[18px]">download</span>
+                <span class="material-symbols-rounded text-[18px]">download</span>
                 Export Report
             </button>
             <button class="px-md py-sm bg-primary text-on-primary rounded font-label-md hover:bg-primary-dark transition-colors flex items-center gap-xs shadow-sm" onclick="runAnalysis()">
-                <span class="material-symbols-outlined text-[18px]">refresh</span>
+                <span class="material-symbols-rounded text-[18px]">refresh</span>
                 Run Analysis Now
             </button>
         </div>
@@ -83,7 +83,7 @@
                             <td class="py-3 px-4 text-secondary">10-A</td>
                             <td class="py-3 px-4">
                                 <span class="inline-flex items-center gap-1 text-error text-sm font-bold">
-                                    <span class="material-symbols-outlined text-[16px]">trending_down</span>
+                                    <span class="material-symbols-rounded text-[16px]">trending_down</span>
                                     Dropout Risk
                                 </span>
                             </td>
@@ -102,7 +102,7 @@
                             <td class="py-3 px-4 text-secondary">9-B</td>
                             <td class="py-3 px-4">
                                 <span class="inline-flex items-center gap-1 text-[#f59e0b] text-sm font-bold">
-                                    <span class="material-symbols-outlined text-[16px]">warning</span>
+                                    <span class="material-symbols-rounded text-[16px]">warning</span>
                                     Academic Risk
                                 </span>
                             </td>
@@ -121,7 +121,7 @@
                             <td class="py-3 px-4 text-secondary">8-C</td>
                             <td class="py-3 px-4">
                                 <span class="inline-flex items-center gap-1 text-[#f59e0b] text-sm font-bold">
-                                    <span class="material-symbols-outlined text-[16px]">schedule</span>
+                                    <span class="material-symbols-rounded text-[16px]">schedule</span>
                                     Attendance Risk
                                 </span>
                             </td>
@@ -144,7 +144,7 @@
         <div class="flex flex-col gap-lg">
             <div class="bg-surface border border-outline-variant rounded-xl shadow-sm p-md">
                 <h3 class="text-title-lg font-title-lg text-on-surface mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">data_usage</span>
+                    <span class="material-symbols-rounded text-primary">data_usage</span>
                     Risk Distribution
                 </h3>
                 <div class="h-48 relative flex items-center justify-center">
@@ -166,7 +166,7 @@
 
             <div class="bg-primary-container text-on-primary-container rounded-xl shadow-sm p-md">
                 <h3 class="text-title-md font-title-md mb-2 flex items-center gap-2">
-                    <span class="material-symbols-outlined">lightbulb</span>
+                    <span class="material-symbols-rounded">lightbulb</span>
                     AI Recommendation
                 </h3>
                 <p class="text-body-md font-body-md">
@@ -183,15 +183,15 @@
 <script>
     function runAnalysis() {
         const btn = document.querySelector('button[onclick="runAnalysis()"]');
-        const icon = btn.querySelector('.material-symbols-outlined');
+        const icon = btn.querySelector('.material-symbols-rounded');
         
         icon.classList.add('animate-spin');
-        btn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Analyzing...`;
+        btn.innerHTML = `<span class="material-symbols-rounded text-[18px] animate-spin">refresh</span> Analyzing...`;
         btn.disabled = true;
 
         setTimeout(() => {
             icon.classList.remove('animate-spin');
-            btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">refresh</span> Run Analysis Now`;
+            btn.innerHTML = `<span class="material-symbols-rounded text-[18px]">refresh</span> Run Analysis Now`;
             btn.disabled = false;
             alert('AI Risk Analysis completed successfully. Predictions are up to date.');
         }, 2000);

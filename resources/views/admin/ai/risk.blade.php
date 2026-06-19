@@ -18,7 +18,7 @@
                         @endforeach
                     </select>
                     <button type="submit" class="px-lg py-sm rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]">filter_alt</span>
+                        <span class="material-symbols-rounded text-[18px]">filter_alt</span>
                         Filter
                     </button>
                 </form>
@@ -29,7 +29,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
             <div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md">
                 <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[28px]">warning</span>
+                    <span class="material-symbols-rounded text-[28px]">warning</span>
                 </div>
                 <div>
                     <h3 class="font-body-md text-on-surface-variant">High Risk Students</h3>
@@ -38,7 +38,7 @@
             </div>
             <div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md">
                 <div class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[28px]">info</span>
+                    <span class="material-symbols-rounded text-[28px]">info</span>
                 </div>
                 <div>
                     <h3 class="font-body-md text-on-surface-variant">Medium Risk Students</h3>
@@ -47,7 +47,7 @@
             </div>
             <div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex items-center gap-md">
                 <div class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[28px]">check_circle</span>
+                    <span class="material-symbols-rounded text-[28px]">check_circle</span>
                 </div>
                 <div>
                     <h3 class="font-body-md text-on-surface-variant">Low Risk Students</h3>
@@ -101,7 +101,7 @@
                                     <ul class="list-none text-sm text-on-surface space-y-1.5">
                                         @foreach($profile['interventions'] as $intervention)
                                             <li class="flex items-start gap-xs">
-                                                <span class="material-symbols-outlined text-[16px] text-primary flex-shrink-0 mt-[2px]">lightbulb</span>
+                                                <span class="material-symbols-rounded text-[16px] text-primary flex-shrink-0 mt-[2px]">lightbulb</span>
                                                 <span class="leading-snug">{{ $intervention }}</span>
                                             </li>
                                         @endforeach

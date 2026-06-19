@@ -9,7 +9,7 @@
                 <!-- Page Header -->
                 <div>
                     <h2 class="text-headline-xl font-headline-xl text-on-surface">Overview</h2>
-                    <p class="text-body-lg font-body-lg text-secondary mt-1">State Education Department Activity Summary
+                    <p class="text-body-lg font-body-lg text-secondary mt-1">{{ setting('general.organization_name', 'State Education Department') }} Activity Summary
                     </p>
                 </div>
                 <!-- Stats Grid -->
@@ -19,14 +19,14 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Students</h3>
                             <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined text-[18px]">group</span>
+                                <span class="material-symbols-rounded text-[18px]">group</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
                             <span id="stat-total-students" class="text-headline-xl font-headline-xl text-on-surface">...</span>
                         </div>
                         <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-700">
-                            <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            <span class="material-symbols-rounded text-[14px]">trending_up</span>
                             <span>+2.4% from last month</span>
                         </div>
                         <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-primary-fixed rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -36,14 +36,14 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Teachers</h3>
                             <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                                <span class="material-symbols-outlined text-[18px]">school</span>
+                                <span class="material-symbols-rounded text-[18px]">school</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
                             <span id="stat-total-teachers" class="text-headline-xl font-headline-xl text-on-surface">...</span>
                         </div>
                         <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-700">
-                            <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            <span class="material-symbols-rounded text-[14px]">trending_up</span>
                             <span>+4 new hires</span>
                         </div>
                         <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-secondary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -53,7 +53,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Classes</h3>
                             <div class="w-8 h-8 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
-                                <span class="material-symbols-outlined text-[18px]">meeting_room</span>
+                                <span class="material-symbols-rounded text-[18px]">meeting_room</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -69,7 +69,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Today's Attendance</h3>
                             <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                                <span class="material-symbols-outlined text-[18px]">rule</span>
+                                <span class="material-symbols-rounded text-[18px]">rule</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -90,7 +90,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Docs Generated</h3>
                             <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined text-[18px]">description</span>
+                                <span class="material-symbols-rounded text-[18px]">description</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -105,7 +105,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Inventory Items</h3>
                             <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                                <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+                                <span class="material-symbols-rounded text-[18px]">inventory_2</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -120,7 +120,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Low Stock Alerts</h3>
                             <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
-                                <span class="material-symbols-outlined text-[18px]">warning</span>
+                                <span class="material-symbols-rounded text-[18px]">warning</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -135,7 +135,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Fees</h3>
                             <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                                <span class="material-symbols-outlined text-[18px]">payments</span>
+                                <span class="material-symbols-rounded text-[18px]">payments</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -152,7 +152,7 @@
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
                         <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
                             <h3 class="text-headline-md font-headline-md text-on-surface">Enrollment by Class</h3>
-                            <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                            <button class="text-secondary hover:text-primary"><span class="material-symbols-rounded">more_horiz</span></button>
                         </div>
                         <div class="relative h-64 w-full">
                             <canvas id="enrollmentChart"></canvas>
@@ -162,7 +162,7 @@
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
                         <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
                             <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Trends</h3>
-                            <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                            <button class="text-secondary hover:text-primary"><span class="material-symbols-rounded">more_horiz</span></button>
                         </div>
                         <div class="relative h-64 w-full">
                             <canvas id="attendanceChart"></canvas>
@@ -172,7 +172,7 @@
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
                         <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
                             <h3 class="text-headline-md font-headline-md text-on-surface">Fee Collection</h3>
-                            <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                            <button class="text-secondary hover:text-primary"><span class="material-symbols-rounded">more_horiz</span></button>
                         </div>
                         <div class="relative h-64 w-full">
                             <canvas id="feeCollectionChart"></canvas>
@@ -223,7 +223,7 @@
                         <div class="p-md border-b border-outline-variant bg-primary-fixed flex justify-between items-center">
                             <div>
                                 <h3 class="text-headline-md font-headline-md text-primary flex items-center gap-2">
-                                    <span class="material-symbols-outlined">auto_awesome</span>
+                                    <span class="material-symbols-rounded">auto_awesome</span>
                                     AI Attendance Prediction
                                 </h3>
                                 <p class="text-xs text-on-primary-fixed mt-1">Students at high risk of absence tomorrow</p>
@@ -245,7 +245,7 @@
                         </div>
                         <div class="p-md text-center border-t border-outline-variant bg-surface-bright">
                             <a href="{{ route('admin.ai.risk-analysis') }}" class="text-primary text-label-md font-label-md hover:underline flex items-center justify-center gap-1">
-                                View Full Risk Analysis <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                                View Full Risk Analysis <span class="material-symbols-rounded text-[16px]">arrow_forward</span>
                             </a>
                         </div>
                     </div>
@@ -333,7 +333,7 @@
                                     </span>
                                 </td>
                                 <td class="py-3 px-4 text-secondary text-sm flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    <span class="material-symbols-rounded text-[14px]">psychology</span>
                                     ${pred.reason}
                                 </td>
                             </tr>`;

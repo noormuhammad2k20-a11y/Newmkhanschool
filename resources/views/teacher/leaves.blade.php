@@ -11,7 +11,7 @@
                 <p class="text-body-lg font-body-lg text-secondary mt-1">Apply for leave and track your previous requests.</p>
             </div>
             <button onclick="document.getElementById('createModal').classList.remove('hidden'); document.body.style.overflow = 'hidden';" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-primary-dark flex items-center gap-2">
-                <span class="material-symbols-outlined">add</span> Apply Leave
+                <span class="material-symbols-rounded">add</span> Apply Leave
             </button>
         </div>
 
@@ -65,7 +65,7 @@
             <div class="p-6 border-b border-outline-variant flex justify-between items-center">
                 <h3 class="text-headline-sm font-headline-sm text-on-surface">Apply for Leave</h3>
                 <button onclick="document.getElementById('createModal').classList.add('hidden'); document.body.style.overflow = '';" class="text-secondary hover:text-on-surface">
-                    <span class="material-symbols-outlined">close</span>
+                    <span class="material-symbols-rounded">close</span>
                 </button>
             </div>
             <form action="{{ route('teacher.leaves.store') }}" method="POST" class="p-6 space-y-4">

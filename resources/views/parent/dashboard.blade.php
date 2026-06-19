@@ -13,7 +13,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('parent.messages') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">chat</span>
+                    <span class="material-symbols-rounded text-[18px]">chat</span>
                     Contact School
                 </a>
             </div>
@@ -27,7 +27,7 @@
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Children</h3>
                         <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                            <span class="material-symbols-outlined text-[18px]">family_restroom</span>
+                            <span class="material-symbols-rounded text-[18px]">family_restroom</span>
                         </div>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -50,7 +50,7 @@
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending Fees</h3>
                         <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-600">
-                            <span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                            <span class="material-symbols-rounded text-[18px]">account_balance_wallet</span>
                         </div>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -77,7 +77,7 @@
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Avg Attendance</h3>
                         <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                            <span class="material-symbols-outlined text-[18px]">rule</span>
+                            <span class="material-symbols-rounded text-[18px]">rule</span>
                         </div>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -94,7 +94,7 @@
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Messages</h3>
                         <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                            <span class="material-symbols-outlined text-[18px]">mail</span>
+                            <span class="material-symbols-rounded text-[18px]">mail</span>
                         </div>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -152,19 +152,19 @@
                             <!-- Actions -->
                             <div class="p-md grid grid-cols-2 gap-3">
                                 <a href="{{ route('parent.child.attendance', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
-                                    <span class="material-symbols-outlined text-primary">co_present</span>
+                                    <span class="material-symbols-rounded text-primary">co_present</span>
                                     <span class="text-label-sm font-label-sm text-on-surface">Attendance</span>
                                 </a>
                                 <a href="{{ route('parent.child.marks', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
-                                    <span class="material-symbols-outlined text-emerald-600">grade</span>
+                                    <span class="material-symbols-rounded text-emerald-600">grade</span>
                                     <span class="text-label-sm font-label-sm text-on-surface">Marks</span>
                                 </a>
                                 <a href="{{ route('parent.child.fees', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
-                                    <span class="material-symbols-outlined text-red-600">account_balance_wallet</span>
+                                    <span class="material-symbols-rounded text-red-600">account_balance_wallet</span>
                                     <span class="text-label-sm font-label-sm text-on-surface">Fees</span>
                                 </a>
                                 <a href="{{ route('parent.child.assignments', $student->id) }}" class="flex flex-col items-center justify-center gap-1 p-3 rounded-lg border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-colors">
-                                    <span class="material-symbols-outlined text-orange-600">assignment</span>
+                                    <span class="material-symbols-rounded text-orange-600">assignment</span>
                                     <span class="text-label-sm font-label-sm text-on-surface">Assignments</span>
                                 </a>
                             </div>
@@ -175,13 +175,13 @@
         @else
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center text-center py-20">
                 <div class="w-20 h-20 rounded-full bg-surface-container-low flex items-center justify-center text-secondary mb-4">
-                    <span class="material-symbols-outlined text-[40px]">family_restroom</span>
+                    <span class="material-symbols-rounded text-[40px]">family_restroom</span>
                 </div>
                 <h3 class="text-headline-md font-headline-md text-on-surface mb-2">No Children Linked</h3>
                 <p class="text-body-lg font-body-lg text-secondary max-w-md">You don't have any students linked to your parent account at the moment.</p>
                 <p class="text-body-md font-body-md text-secondary max-w-md mt-2">Please contact the school administration to link your children to your profile.</p>
                 <a href="{{ route('parent.messages') }}" class="mt-6 inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-full font-label-lg hover:bg-primary/90 transition-colors">
-                    <span class="material-symbols-outlined">support_agent</span>
+                    <span class="material-symbols-rounded">support_agent</span>
                     Contact Administration
                 </a>
             </div>
@@ -194,7 +194,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden h-fit">
                 <div class="p-md border-b border-outline-variant bg-surface-bright">
                     <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">contact_support</span>
+                        <span class="material-symbols-rounded text-primary">contact_support</span>
                         School Contact
                     </h3>
                 </div>
@@ -202,7 +202,7 @@
                     <ul class="space-y-4">
                         <li class="flex items-start gap-4">
                             <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined">phone</span>
+                                <span class="material-symbols-rounded">phone</span>
                             </div>
                             <div>
                                 <p class="text-label-md font-label-md text-secondary">Admin Office</p>
@@ -211,7 +211,7 @@
                         </li>
                         <li class="flex items-start gap-4">
                             <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined">email</span>
+                                <span class="material-symbols-rounded">email</span>
                             </div>
                             <div>
                                 <p class="text-label-md font-label-md text-secondary">Support Email</p>
@@ -220,7 +220,7 @@
                         </li>
                         <li class="flex items-start gap-4">
                             <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined">location_on</span>
+                                <span class="material-symbols-rounded">location_on</span>
                             </div>
                             <div>
                                 <p class="text-label-md font-label-md text-secondary">Address</p>

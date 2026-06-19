@@ -12,7 +12,7 @@
             <p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Track your upcoming examinations, timings, and subjects.</p>
         </div>
         <button onclick="window.print()" class="btn-outline flex items-center gap-2 hidden md:flex">
-            <span class="material-symbols-outlined text-[20px]">print</span>
+            <span class="material-symbols-rounded text-[20px]">print</span>
             Print Schedule
         </button>
     </div>
@@ -32,7 +32,7 @@
                 <div class="flex flex-col md:flex-row">
                     <div class="p-xl flex-1 flex flex-col justify-center">
                         <div class="flex items-center gap-2 font-label-md uppercase tracking-wider mb-sm opacity-80 font-bold">
-                            <span class="material-symbols-outlined text-[20px] animate-pulse">campaign</span>
+                            <span class="material-symbols-rounded text-[20px] animate-pulse">campaign</span>
                             Next Upcoming Exam
                         </div>
                         <h2 class="font-display-md text-display-md font-black mb-1">{{ $nextExam->subjectRelation->name ?? $nextExam->subject }}</h2>
@@ -40,11 +40,11 @@
                         
                         <div class="flex flex-wrap gap-md mt-auto">
                             <div class="flex items-center gap-2 bg-on-primary-container/10 px-md py-sm rounded-lg">
-                                <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                                <span class="material-symbols-rounded text-[20px]">calendar_today</span>
                                 <span class="font-label-lg font-bold">{{ \Carbon\Carbon::parse($nextExam->exam_date)->format('l, d F Y') }}</span>
                             </div>
                             <div class="flex items-center gap-2 bg-on-primary-container/10 px-md py-sm rounded-lg">
-                                <span class="material-symbols-outlined text-[20px]">schedule</span>
+                                <span class="material-symbols-rounded text-[20px]">schedule</span>
                                 <span class="font-label-lg font-bold">{{ $nextExam->exam_time }}</span>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
         {{-- Schedule Grid / Timeline --}}
         <div>
             <h3 class="font-title-lg text-title-lg font-bold text-on-surface mb-md flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">view_timeline</span>
+                <span class="material-symbols-rounded text-primary">view_timeline</span>
                 Full Examination Schedule
             </h3>
             
@@ -104,11 +104,11 @@
                     
                     <div class="mt-auto pt-md border-t border-outline-variant flex items-center justify-between text-on-surface-variant font-label-md">
                         <span class="flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[16px]">schedule</span>
+                            <span class="material-symbols-rounded text-[16px]">schedule</span>
                             {{ $schedule->exam_time }}
                         </span>
                         <span class="flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[16px]">meeting_room</span>
+                            <span class="material-symbols-rounded text-[16px]">meeting_room</span>
                             {{ $schedule->room_no ?? 'TBA' }}
                         </span>
                     </div>
@@ -120,7 +120,7 @@
     @else
         <div class="card p-2xl text-center border-dashed border-outline-variant bg-surface-container-lowest">
             <div class="flex flex-col items-center justify-center text-on-surface-variant">
-                <span class="material-symbols-outlined text-[64px] mb-md opacity-50">event_busy</span>
+                <span class="material-symbols-rounded text-[64px] mb-md opacity-50">event_busy</span>
                 <h3 class="font-headline-md text-headline-md text-on-surface font-bold">No Exams Scheduled</h3>
                 <p class="font-body-lg text-body-lg mt-sm max-w-md">There are no upcoming exams scheduled for your class at the moment. Take this time to prepare!</p>
             </div>
@@ -130,7 +130,7 @@
     {{-- Instructions Block --}}
     <div class="bg-tertiary-container text-on-tertiary-container rounded-xl p-lg border border-tertiary/20 shadow-sm print:hidden">
         <h3 class="font-title-md text-title-md font-bold mb-md flex items-center gap-2">
-            <span class="material-symbols-outlined">info</span>
+            <span class="material-symbols-rounded">info</span>
             Examination Instructions
         </h3>
         <ul class="list-disc list-inside space-y-sm font-body-md opacity-90">

@@ -13,10 +13,10 @@
             </div>
             <div class="flex flex-wrap gap-2">
                 <a href="{{ route('student.report-card.download') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-primary-fixed text-primary rounded-xl font-bold hover:bg-primary-fixed-dim transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">download</span> Download Report Card
+                    <span class="material-symbols-rounded text-[18px]">download</span> Download Report Card
                 </a>
                 <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high border border-outline-variant text-on-surface rounded-xl font-bold hover:bg-surface-container-highest transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">print</span> Print Result
+                    <span class="material-symbols-rounded text-[18px]">print</span> Print Result
                 </button>
             </div>
         </div>
@@ -42,13 +42,13 @@
                         </div>
                     </div>
                 </div>
-                <span class="material-symbols-outlined absolute -bottom-10 -right-10 text-[180px] opacity-10 group-hover:scale-110 transition-transform duration-500 z-0">school</span>
+                <span class="material-symbols-rounded absolute -bottom-10 -right-10 text-[180px] opacity-10 group-hover:scale-110 transition-transform duration-500 z-0">school</span>
             </div>
 
             {{-- Performance Analytics --}}
             <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl p-6">
                 <h3 class="text-headline-sm font-bold text-on-surface mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">insights</span> Performance Trend
+                    <span class="material-symbols-rounded text-primary">insights</span> Performance Trend
                 </h3>
                 <div class="flex h-[140px] items-end gap-4 relative mt-4">
                     <!-- Y Axis -->
@@ -139,11 +139,11 @@
                                     </td>
                                     <td class="px-6 py-4 text-secondary text-sm">
                                         @if($isExcellent)
-                                            <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-tertiary">star</span> Excellent</span>
+                                            <span class="inline-flex items-center gap-1"><span class="material-symbols-rounded text-[14px] text-tertiary">star</span> Excellent</span>
                                         @elseif($isPass)
-                                            <span class="inline-flex items-center gap-1 text-success"><span class="material-symbols-outlined text-[14px]">check_circle</span> Pass</span>
+                                            <span class="inline-flex items-center gap-1 text-success"><span class="material-symbols-rounded text-[14px]">check_circle</span> Pass</span>
                                         @else
-                                            <span class="inline-flex items-center gap-1 text-error"><span class="material-symbols-outlined text-[14px]">warning</span> Needs Work</span>
+                                            <span class="inline-flex items-center gap-1 text-error"><span class="material-symbols-rounded text-[14px]">warning</span> Needs Work</span>
                                         @endif
                                         <div class="mt-0.5">{{ $mark->remarks ?? '' }}</div>
                                     </td>
@@ -155,7 +155,7 @@
                 </div>
             @else
                 <div class="p-12 text-center text-secondary m-4">
-                    <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">assignment</span>
+                    <span class="material-symbols-rounded text-[48px] mb-2 opacity-50">assignment</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface mb-1">No Marks Found</h3>
                     <p class="text-body-lg font-body-lg">Your academic marks will appear here once published.</p>
                 </div>

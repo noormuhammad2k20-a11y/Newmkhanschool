@@ -11,7 +11,7 @@
                 <p class="text-body-md font-body-md text-secondary mt-1">Viewing fees for {{ $student->first_name }} {{ $student->last_name }}</p>
             </div>
         <a href="{{ route('parent.dashboard') }}" class="bg-surface border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center">
-            <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+            <span class="material-symbols-rounded text-[18px] mr-1">arrow_back</span>
             Back to Dashboard
         </a>
     </div>
@@ -19,7 +19,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
         <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm flex items-center gap-4 border-l-4 border-l-primary/30">
             <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
-                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="material-symbols-rounded">receipt_long</span>
             </div>
             <div>
                 <p class="font-label-md text-label-md text-on-surface-variant mb-1">Total Billed</p>
@@ -28,7 +28,7 @@
         </div>
         <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm flex items-center gap-4 border-l-4 border-l-emerald-500/30">
             <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700">
-                <span class="material-symbols-outlined">payments</span>
+                <span class="material-symbols-rounded">payments</span>
             </div>
             <div>
                 <p class="font-label-md text-label-md text-on-surface-variant mb-1">Total Paid</p>
@@ -37,7 +37,7 @@
         </div>
         <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm flex items-center gap-4 border-l-4 border-l-red-500/30">
             <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-700">
-                <span class="material-symbols-outlined">money_off</span>
+                <span class="material-symbols-rounded">money_off</span>
             </div>
             <div>
                 <p class="font-label-md text-label-md text-on-surface-variant mb-1">Total Due</p>
@@ -79,12 +79,12 @@
                         <td class="py-3 px-4 text-right">
                             @if($fee->status === 'Paid')
                                 <a href="{{ route('parent.child.fees.receipt', [$student->id, $fee->id]) }}" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-md text-sm font-medium transition-colors">
-                                    <span class="material-symbols-outlined text-[16px]">receipt</span>
+                                    <span class="material-symbols-rounded text-[16px]">receipt</span>
                                     Receipt
                                 </a>
                             @else
                                 <a href="{{ route('parent.child.fees.pay', [$student->id, $fee->id]) }}" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 bg-primary hover:bg-primary/90 text-on-primary rounded-md text-sm font-medium transition-colors shadow-sm">
-                                    <span class="material-symbols-outlined text-[16px]">payment</span>
+                                    <span class="material-symbols-rounded text-[16px]">payment</span>
                                     Pay Now
                                 </a>
                             @endif
@@ -97,7 +97,7 @@
     @else
         <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xl text-center shadow-sm">
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 text-secondary">
-                <span class="material-symbols-outlined text-3xl">receipt_long</span>
+                <span class="material-symbols-rounded text-3xl">receipt_long</span>
             </div>
             <h3 class="text-headline-md font-headline-md text-on-surface">No Fee Records</h3>
             <p class="text-body-md font-body-md text-secondary mt-1">There are no fee records available for this student.</p>

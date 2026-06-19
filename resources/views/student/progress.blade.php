@@ -8,7 +8,7 @@
         <!-- Page Header -->
         <div class="flex items-center gap-4">
             <a href="{{ route('student.dashboard') }}" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary hover:bg-surface-container-high transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
+                <span class="material-symbols-rounded">arrow_back</span>
             </a>
             <div>
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">My Progress Timeline</h2>
@@ -20,7 +20,7 @@
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-[22px]">show_chart</span>
+                    <span class="material-symbols-rounded text-[22px]">show_chart</span>
                 </div>
                 <h3 class="text-headline-md font-headline-md text-on-surface">Performance Chart</h3>
             </div>
@@ -29,7 +29,7 @@
                     <canvas id="progressChart" height="100"></canvas>
                 @else
                     <div class="text-center py-12">
-                        <span class="material-symbols-outlined text-[48px] text-secondary opacity-50">insert_chart_outlined</span>
+                        <span class="material-symbols-rounded text-[48px] text-secondary opacity-50">insert_chart_outlined</span>
                         <p class="text-body-lg font-body-lg text-secondary mt-3">No marks data available yet.</p>
                     </div>
                 @endif
@@ -40,7 +40,7 @@
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                    <span class="material-symbols-outlined text-[22px]">table_chart</span>
+                    <span class="material-symbols-rounded text-[22px]">table_chart</span>
                 </div>
                 <h3 class="text-headline-md font-headline-md text-on-surface">Marks Detail</h3>
             </div>
@@ -87,7 +87,7 @@
                 </table>
                 @else
                 <div class="text-center py-12">
-                    <span class="material-symbols-outlined text-[48px] text-secondary opacity-50">school</span>
+                    <span class="material-symbols-rounded text-[48px] text-secondary opacity-50">school</span>
                     <p class="text-body-lg font-body-lg text-secondary mt-3">No marks recorded yet.</p>
                 </div>
                 @endif

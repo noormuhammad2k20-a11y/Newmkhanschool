@@ -9,7 +9,7 @@
         <div>
             <div class="flex items-center gap-sm text-secondary mb-xs">
                 <a class="text-label-md font-label-md hover:underline" href="{{ route('students.index') }}">Students</a>
-                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                <span class="material-symbols-rounded text-sm">chevron_right</span>
                 <span class="text-label-md font-label-md text-on-surface">Bulk Import</span>
             </div>
             <h1 class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-on-surface">Import Students</h1>
@@ -17,7 +17,7 @@
         </div>
         <div class="flex gap-sm">
             <a href="#" onclick="downloadTemplate(event)" class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
-                <span class="material-symbols-outlined text-[18px]">download</span>
+                <span class="material-symbols-rounded text-[18px]">download</span>
                 Download CSV Template
             </a>
         </div>
@@ -26,7 +26,7 @@
     <!-- Instructions / Rules -->
     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md mb-lg flex flex-col gap-sm shadow-sm">
         <h3 class="text-headline-sm font-headline-sm text-on-surface flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary text-xl">info</span>
+            <span class="material-symbols-rounded text-primary text-xl">info</span>
             Import Instructions
         </h3>
         <ul class="list-disc pl-5 text-body-md font-body-md text-secondary space-y-2">
@@ -42,7 +42,7 @@
     <!-- Upload Area -->
     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl shadow-sm flex flex-col items-center text-center">
         <div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-md text-primary">
-            <span class="material-symbols-outlined text-3xl">upload_file</span>
+            <span class="material-symbols-rounded text-3xl">upload_file</span>
         </div>
         <h2 class="text-headline-md font-headline-md text-on-surface mb-xs">Upload your CSV file</h2>
         <p class="text-body-md font-body-md text-secondary mb-lg">Drag and drop your file here, or click to browse</p>
@@ -52,11 +52,11 @@
             <div class="relative border-2 border-dashed border-outline-variant rounded-xl p-xl hover:border-primary hover:bg-surface-container-low transition-colors group cursor-pointer" onclick="document.getElementById('csv_file').click()">
                 <input type="file" name="csv_file" id="csv_file" accept=".csv" class="hidden" onchange="handleFileSelect(event)">
                 <div class="flex flex-col items-center pointer-events-none" id="upload-state-empty">
-                    <span class="material-symbols-outlined text-secondary text-4xl mb-sm group-hover:text-primary transition-colors">add_circle</span>
+                    <span class="material-symbols-rounded text-secondary text-4xl mb-sm group-hover:text-primary transition-colors">add_circle</span>
                     <span class="text-label-md font-label-md text-on-surface">Select File</span>
                 </div>
                 <div class="hidden flex flex-col items-center pointer-events-none" id="upload-state-selected">
-                    <span class="material-symbols-outlined text-primary text-4xl mb-sm">description</span>
+                    <span class="material-symbols-rounded text-primary text-4xl mb-sm">description</span>
                     <span class="text-label-md font-label-md text-on-surface" id="selected-filename">filename.csv</span>
                 </div>
             </div>
@@ -117,7 +117,7 @@
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;
-        btn.innerHTML = 'Importing... <span class="material-symbols-outlined animate-spin text-sm ml-2">sync</span>';
+        btn.innerHTML = 'Importing... <span class="material-symbols-rounded animate-spin text-sm ml-2">sync</span>';
         
         // Simulate upload / process since API endpoint isn't fully defined yet
         setTimeout(() => {

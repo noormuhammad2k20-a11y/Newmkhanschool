@@ -13,10 +13,10 @@
             </div>
             <div class="flex flex-wrap gap-2">
                 <a href="{{ route('student.timetable') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-primary-fixed text-primary rounded-xl font-bold hover:bg-primary-fixed-dim transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">calendar_month</span> View Timetable
+                    <span class="material-symbols-rounded text-[18px]">calendar_month</span> View Timetable
                 </a>
                 <a href="{{ route('student.leave.index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high border border-outline-variant text-on-surface rounded-xl font-bold hover:bg-surface-container-highest transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">event_busy</span> Leave Request
+                    <span class="material-symbols-rounded text-[18px]">event_busy</span> Leave Request
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Attendance</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-[18px]">co_present</span>
+                        <span class="material-symbols-rounded text-[18px]">co_present</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2 mt-2">
@@ -46,14 +46,14 @@
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Pending Fees</h3>
                     <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
-                        <span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                        <span class="material-symbols-rounded text-[18px]">account_balance_wallet</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2 mt-2">
                     <span class="text-display-sm font-display-sm text-on-surface">Rs {{ number_format($pendingFees ?? 0, 0) }}</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1.5 text-label-md font-label-md text-error font-bold">
-                    <span class="material-symbols-outlined text-[14px]">warning</span>
+                    <span class="material-symbols-rounded text-[14px]">warning</span>
                     <span>Action Required</span>
                 </div>
                 <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-error-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -64,7 +64,7 @@
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Overall GPA</h3>
                     <div class="w-8 h-8 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
-                        <span class="material-symbols-outlined text-[18px]">school</span>
+                        <span class="material-symbols-rounded text-[18px]">school</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2 mt-2">
@@ -72,7 +72,7 @@
                     <span class="text-label-md text-secondary">/ 4.0</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1.5 text-label-md font-label-md text-tertiary font-bold">
-                    <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                    <span class="material-symbols-rounded text-[14px]">trending_up</span>
                     <span>Top 10% of class</span>
                 </div>
                 <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-tertiary-fixed rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -83,14 +83,14 @@
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Pending Tasks</h3>
                     <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                        <span class="material-symbols-outlined text-[18px]">assignment_late</span>
+                        <span class="material-symbols-rounded text-[18px]">assignment_late</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2 mt-2">
                     <span class="text-display-sm font-display-sm text-on-surface">3</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1.5 text-label-md font-label-md text-secondary">
-                    <span class="material-symbols-outlined text-[14px]">schedule</span>
+                    <span class="material-symbols-rounded text-[14px]">schedule</span>
                     <span>Due this week</span>
                 </div>
                 <div class="absolute -bottom-8 -right-8 w-24 h-24 bg-secondary-container rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -103,7 +103,7 @@
             <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                 <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
                     <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">monitoring</span>
+                        <span class="material-symbols-rounded text-primary">monitoring</span>
                         Performance Overview
                     </h3>
                 </div>
@@ -143,7 +143,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                 <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
                     <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-secondary">calendar_today</span>
+                        <span class="material-symbols-rounded text-secondary">calendar_today</span>
                         Today's Classes
                     </h3>
                     <a href="{{ route('student.timetable') }}" class="text-primary text-label-md font-label-md hover:underline">View All</a>
@@ -174,7 +174,7 @@
                         </div>
                     @else
                         <div class="p-10 text-center text-secondary">
-                            <span class="material-symbols-outlined text-[40px] mb-2 opacity-50">weekend</span>
+                            <span class="material-symbols-rounded text-[40px] mb-2 opacity-50">weekend</span>
                             <p class="text-body-md">No classes scheduled for today.</p>
                         </div>
                     @endif
@@ -185,7 +185,7 @@
         <!-- Learning Hub Section -->
         <div class="mt-xl">
             <div class="flex items-center gap-2 mb-md border-b border-outline-variant pb-2">
-                <span class="material-symbols-outlined text-primary text-[28px]">local_library</span>
+                <span class="material-symbols-rounded text-primary text-[28px]">local_library</span>
                 <h3 class="text-headline-lg font-headline-lg text-on-surface">Learning Hub</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
@@ -193,7 +193,7 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                     <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
                         <h4 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">menu_book</span>
+                            <span class="material-symbols-rounded text-primary">menu_book</span>
                             Recent Digital Notes
                         </h4>
                         <a href="{{ route('student.digital_learning.notes') }}" class="text-primary text-label-md hover:underline">View All</a>
@@ -202,7 +202,7 @@
                         @forelse($recentNotes ?? [] as $note)
                             <div class="flex items-center gap-3 border border-outline-variant rounded-lg p-3 bg-surface-container hover:border-primary transition-colors">
                                 <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                                    <span class="material-symbols-outlined text-[20px]">
+                                    <span class="material-symbols-rounded text-[20px]">
                                         @if($note->file_type == 'pdf') picture_as_pdf
                                         @elseif(in_array($note->file_type, ['doc', 'text'])) description
                                         @elseif($note->file_type == 'ppt') slides
@@ -215,7 +215,7 @@
                                 </div>
                                 @if($note->file_path)
                                     <a href="{{ Storage::url($note->file_path) }}" target="_blank" class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-colors shrink-0">
-                                        <span class="material-symbols-outlined text-[16px]">download</span>
+                                        <span class="material-symbols-rounded text-[16px]">download</span>
                                     </a>
                                 @endif
                             </div>
@@ -229,7 +229,7 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                     <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
                         <h4 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                            <span class="material-symbols-outlined text-secondary-container-on">quiz</span>
+                            <span class="material-symbols-rounded text-secondary-container-on">quiz</span>
                             Pending Quizzes
                         </h4>
                         <a href="{{ route('student.digital_learning.quizzes') }}" class="text-primary text-label-md hover:underline">View All</a>
@@ -238,7 +238,7 @@
                         @forelse($upcomingQuizzes ?? [] as $quiz)
                             <div class="flex items-center gap-3 border border-outline-variant rounded-lg p-3 bg-surface-container hover:border-primary transition-colors">
                                 <div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
-                                    <span class="material-symbols-outlined text-[20px]">timer</span>
+                                    <span class="material-symbols-rounded text-[20px]">timer</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
                                     <h5 class="font-bold text-body-md text-on-surface truncate">{{ $quiz->title }}</h5>
@@ -262,7 +262,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                 <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
                     <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-secondary-container-on">assignment</span>
+                        <span class="material-symbols-rounded text-secondary-container-on">assignment</span>
                         Assignments
                     </h3>
                     <a href="{{ route('student.assignments') }}" class="text-primary text-label-md hover:underline">View All</a>
@@ -291,7 +291,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
                 <div class="p-4 border-b border-outline-variant bg-surface-bright">
                     <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-error">edit_document</span>
+                        <span class="material-symbols-rounded text-error">edit_document</span>
                         Upcoming Exams
                     </h3>
                 </div>
@@ -305,7 +305,7 @@
                             <div class="flex-1 min-w-0">
                                 <h4 class="font-bold text-on-surface text-body-md truncate">{{ $exam->subjectRef->name ?? $exam->subject }}</h4>
                                 <p class="text-label-md text-secondary mt-0.5 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[12px]">schedule</span> 
+                                    <span class="material-symbols-rounded text-[12px]">schedule</span> 
                                     {{ $exam->exam_time ?? 'TBA' }}
                                 </p>
                             </div>

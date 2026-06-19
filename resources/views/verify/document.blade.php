@@ -16,7 +16,7 @@
     <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden">
         @if($status === 'valid')
             <div class="bg-green-600 text-white p-6 text-center">
-                <span class="material-symbols-outlined text-[64px] mb-2">verified</span>
+                <span class="material-symbols-rounded text-[64px] mb-2">verified</span>
                 <h1 class="text-2xl font-bold">Document Verified</h1>
                 <p class="text-green-100">This is an authentic document.</p>
             </div>
@@ -50,7 +50,7 @@
             </div>
         @else
             <div class="bg-red-600 text-white p-6 text-center">
-                <span class="material-symbols-outlined text-[64px] mb-2">error</span>
+                <span class="material-symbols-rounded text-[64px] mb-2">error</span>
                 <h1 class="text-2xl font-bold">Invalid Document</h1>
                 <p class="text-red-100">Verification Failed</p>
             </div>

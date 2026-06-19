@@ -13,11 +13,11 @@
                     </div>
                     <div class="flex gap-sm self-start sm:self-auto flex-wrap sm:flex-nowrap">
                         <a href="{{ route('admin.students.import') }}" class="bg-surface border border-outline-variant text-on-surface text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center justify-center gap-sm hover:bg-surface-container-low transition-colors shadow-sm whitespace-nowrap">
-                            <span class="material-symbols-outlined">upload_file</span>
+                            <span class="material-symbols-rounded">upload_file</span>
                             Bulk Import
                         </a>
                         <a href="{{ route('admin.students.create') }}" class="bg-primary text-on-primary text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center justify-center gap-sm hover:bg-primary-container transition-colors shadow-sm whitespace-nowrap">
-                            <span class="material-symbols-outlined">person_add</span>
+                            <span class="material-symbols-rounded">person_add</span>
                             Add New Student
                         </a>
                     </div>
@@ -28,7 +28,7 @@
                         <div class="lg:col-span-2">
                             <label class="block text-label-md font-label-md text-on-surface-variant mb-xs">Search</label>
                             <div class="flex items-center bg-surface-container-lowest rounded-DEFAULT px-md py-sm border border-outline-variant focus-within:border-primary focus-within:border-[2px] transition-all">
-                                <span class="material-symbols-outlined text-on-surface-variant mr-sm">search</span>
+                                <span class="material-symbols-rounded text-on-surface-variant mr-sm">search</span>
                                 <input id="filter-search" class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full text-on-surface p-0" placeholder="Search by Name, B-Form, or Admission No." type="text" />
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <label class="flex items-center gap-sm cursor-pointer group">
                                 <div class="relative flex items-center justify-center w-5 h-5">
                                     <input type="checkbox" id="filter-tuition" value="1" class="peer appearance-none w-5 h-5 border-2 border-outline rounded-[2px] checked:bg-primary checked:border-primary transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                                    <span class="material-symbols-outlined absolute text-on-primary text-[16px] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                    <span class="material-symbols-rounded absolute text-on-primary text-[16px] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
                                 </div>
                                 <span class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">Tuition Students Only</span>
                             </label>
@@ -152,9 +152,9 @@
                     <td class="py-sm px-md">${statusBadge}</td>
                     <td class="py-sm px-md text-right">
                         <div class="flex items-center justify-end gap-sm">
-                            <a href="/admin/students/${student.id}" class="text-primary hover:bg-primary-fixed p-xs rounded transition-colors" title="View Profile"><span class="material-symbols-outlined text-[20px]">visibility</span></a>
-                            <a href="/admin/students/${student.id}/edit" class="text-secondary hover:bg-surface-container-high p-xs rounded transition-colors" title="Edit Record"><span class="material-symbols-outlined text-[20px]">edit</span></a>
-                            <button onclick="removeStudent(${student.id})" class="text-secondary hover:bg-surface-container-high p-xs rounded transition-colors" title="Remove"><span class="material-symbols-outlined text-[20px]">directions_run</span></button>
+                            <a href="/admin/students/${student.id}" class="text-primary hover:bg-primary-fixed p-xs rounded transition-colors" title="View Profile"><span class="material-symbols-rounded text-[20px]">visibility</span></a>
+                            <a href="/admin/students/${student.id}/edit" class="text-secondary hover:bg-surface-container-high p-xs rounded transition-colors" title="Edit Record"><span class="material-symbols-rounded text-[20px]">edit</span></a>
+                            <button onclick="removeStudent(${student.id})" class="text-secondary hover:bg-surface-container-high p-xs rounded transition-colors" title="Remove"><span class="material-symbols-rounded text-[20px]">directions_run</span></button>
                         </div>
                     </td>
                 </tr>`;

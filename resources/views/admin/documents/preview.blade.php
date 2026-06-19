@@ -32,7 +32,7 @@
             <div class="flex justify-between items-center border-t border-outline-variant pt-md">
                 <a href="{{ route('admin.documents.select-template', $student->id) }}" class="px-md py-sm border border-outline text-on-surface rounded-lg font-label-md hover:bg-surface-container-high transition-colors">Back</a>
                 <button type="submit" class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-xs">
-                    Generate PDF <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                    Generate PDF <span class="material-symbols-rounded text-[18px]">picture_as_pdf</span>
                 </button>
             </div>
         </form>

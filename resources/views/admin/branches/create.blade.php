@@ -6,7 +6,7 @@
         <div>
             <div class="flex items-center gap-3 mb-1">
                 <div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
-                    <span class="material-symbols-outlined">add_business</span>
+                    <span class="material-symbols-rounded">add_business</span>
                 </div>
                 <h2 class="text-headline-lg font-headline-lg text-primary">Add New Branch</h2>
             </div>
@@ -14,7 +14,7 @@
         </div>
         <div>
             <a href="{{ route('admin.branches.index') }}" class="px-4 py-2 text-secondary hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors flex items-center gap-2 font-label-md">
-                <span class="material-symbols-outlined text-[18px]">arrow_back</span> Back to List
+                <span class="material-symbols-rounded text-[18px]">arrow_back</span> Back to List
             </a>
         </div>
     </div>
@@ -24,7 +24,7 @@
         
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden shadow-sm">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-3">
-                <span class="material-symbols-outlined text-secondary">domain_add</span>
+                <span class="material-symbols-rounded text-secondary">domain_add</span>
                 <h3 class="text-headline-md font-headline-md text-on-surface">Branch Information</h3>
             </div>
             
@@ -67,7 +67,7 @@
                     <label class="block text-label-md font-medium text-on-surface mb-3">Branch Logo (Optional)</label>
                     <div class="flex items-center gap-6">
                         <div class="w-20 h-20 bg-surface-container-low border border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center text-secondary">
-                            <span class="material-symbols-outlined text-[24px] mb-1">image</span>
+                            <span class="material-symbols-rounded text-[24px] mb-1">image</span>
                         </div>
                         <div class="flex-1">
                             <input type="file" name="logo" accept="image/*" class="block w-full text-sm text-secondary
@@ -86,7 +86,7 @@
             <div class="p-4 border-t border-outline-variant bg-surface-bright flex justify-end gap-3">
                 <a href="{{ route('admin.branches.index') }}" class="px-6 py-2.5 border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-colors">Cancel</a>
                 <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[18px]">add_circle</span> Save Branch
+                    <span class="material-symbols-rounded text-[18px]">add_circle</span> Save Branch
                 </button>
             </div>
         </div>

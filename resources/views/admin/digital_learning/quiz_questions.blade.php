@@ -4,7 +4,7 @@
 <div class="p-4 sm:p-6 md:p-8 space-y-6">
     <div class="flex items-center gap-4">
         <a href="{{ route('admin.digital_learning.quizzes') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface">
-            <span class="material-symbols-outlined">arrow_back</span>
+            <span class="material-symbols-rounded">arrow_back</span>
         </a>
         <div>
             <h1 class="font-headline-lg text-headline-lg text-on-surface">Manage Questions: {{ $quiz->title }}</h1>
@@ -12,11 +12,11 @@
         </div>
         <div class="ml-auto flex items-center gap-2">
             <button onclick="document.getElementById('bulkAddQuestionModal').classList.remove('hidden')" class="flex items-center gap-sm px-md py-sm border border-outline-variant bg-surface-container-low text-on-surface rounded-full hover:bg-surface-container transition-colors">
-                <span class="material-symbols-outlined text-[20px]">upload_file</span>
+                <span class="material-symbols-rounded text-[20px]">upload_file</span>
                 <span class="font-label-md font-semibold">Bulk Add</span>
             </button>
             <button onclick="document.getElementById('addQuestionModal').classList.remove('hidden')" class="flex items-center gap-sm px-md py-sm bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-colors">
-                <span class="material-symbols-outlined text-[20px]">add</span>
+                <span class="material-symbols-rounded text-[20px]">add</span>
                 <span class="font-label-md font-semibold">Add Question</span>
             </button>
         </div>
@@ -27,12 +27,12 @@
             <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 relative group">
                 <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onclick="openEditQuestionModal({{ json_encode($q) }})" class="text-primary hover:text-primary/80" title="Edit">
-                        <span class="material-symbols-outlined">edit</span>
+                        <span class="material-symbols-rounded">edit</span>
                     </button>
                     <form action="{{ route('admin.digital_learning.quizzes.questions.destroy', [$quiz->id, $q->id]) }}" method="POST" data-confirm="Delete this question?">
                         @csrf @method('DELETE')
                         <button type="submit" class="text-error hover:text-error/80" title="Delete">
-                            <span class="material-symbols-outlined">delete</span>
+                            <span class="material-symbols-rounded">delete</span>
                         </button>
                     </form>
                 </div>
@@ -63,7 +63,7 @@
             </div>
         @empty
             <div class="text-center py-12 bg-surface-container-lowest rounded-xl border border-outline-variant border-dashed">
-                <span class="material-symbols-outlined text-[48px] text-on-surface-variant mb-4">quiz</span>
+                <span class="material-symbols-rounded text-[48px] text-on-surface-variant mb-4">quiz</span>
                 <p class="font-body-lg text-on-surface-variant">No questions added yet.</p>
             </div>
         @endforelse
@@ -76,7 +76,7 @@
         <div class="p-6 border-b border-outline-variant flex justify-between items-center">
             <h2 class="font-headline-md text-on-surface">Add Question</h2>
             <button onclick="document.getElementById('addQuestionModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <form action="{{ route('admin.digital_learning.quizzes.questions.store', $quiz->id) }}" method="POST" class="p-6 space-y-4">
@@ -139,7 +139,7 @@
         <div class="p-6 border-b border-outline-variant flex justify-between items-center">
             <h2 class="font-headline-md text-on-surface">Bulk Add Questions</h2>
             <button onclick="document.getElementById('bulkAddQuestionModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <form action="{{ route('admin.digital_learning.quizzes.questions.bulk_store', $quiz->id) }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
@@ -155,7 +155,7 @@
                 </ol>
                 <div class="mt-4">
                     <a href="{{ asset('samples/sample_questions.csv') }}" download class="text-primary hover:underline font-label-md flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[18px]">download</span> Download Sample CSV
+                        <span class="material-symbols-rounded text-[18px]">download</span> Download Sample CSV
                     </a>
                 </div>
             </div>

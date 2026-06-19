@@ -13,7 +13,7 @@
 <style>
 /* ============ GLOBAL ============ */
 *{ margin:0; padding:0; box-sizing:border-box; }
-.material-symbols-outlined{ font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal; font-size:16px; line-height:1; vertical-align:middle; }
+.material-symbols-rounded{ font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal; font-size:16px; line-height:1; vertical-align:middle; }
 :focus-visible{ outline:2px solid #6C2BD9; outline-offset:2px; }
 
 body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
@@ -64,7 +64,7 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
   background:#F3EEFE; color:#7C3AED; font-size:10px; font-weight:700;
   padding:4px 8px; border-radius:12px; margin-bottom:6px;
 }
-.badge1 .material-symbols-outlined{ font-size:12px; }
+.badge1 .material-symbols-rounded{ font-size:12px; }
 
 .left1 h1{ font-size:20px; font-weight:800; color:#221F3B; margin-bottom:2px; letter-spacing:-.5px; }
 .left1 .sub{ font-size:11.5px; color:#9492AA; margin-bottom:10px; line-height:1.4; }
@@ -77,7 +77,7 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
   padding:8px 12px; transition:.2s;
 }
 .input-wrap1:focus-within{ border-color:#8B5CF6; background:#fff; box-shadow:0 0 0 4px #F3EEFE; }
-.input-wrap1 .material-symbols-outlined{ color:#A7A4C2; font-size:15px; }
+.input-wrap1 .material-symbols-rounded{ color:#A7A4C2; font-size:15px; }
 .input-wrap1 input{ border:none; outline:none; background:transparent; width:100%; font-size:12px; font-family:'Inter',sans-serif; color:#2D2A4A; }
 .input-wrap1 input::placeholder{ color:#BBB9D2; }
 .toggle-eye{ cursor:pointer; color:#A7A4C2; transition:.15s; }
@@ -92,9 +92,9 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
   display: flex; align-items: center; justify-content: center; background: transparent;
   transition: .2s;
 }
-.remember1 .check-box .material-symbols-outlined { opacity: 0; color: #fff; font-size: 11px; transition: .2s; }
+.remember1 .check-box .material-symbols-rounded { opacity: 0; color: #fff; font-size: 11px; transition: .2s; }
 .remember1 input[type="checkbox"]:checked + .check-box { background: #7C3AED; border-color: #7C3AED; }
-.remember1 input[type="checkbox"]:checked + .check-box .material-symbols-outlined { opacity: 1; }
+.remember1 input[type="checkbox"]:checked + .check-box .material-symbols-rounded { opacity: 1; }
 
 .row1 a{ color:#7C3AED; font-weight:700; text-decoration:none; }
 .row1 a:hover{ text-decoration:underline; }
@@ -111,7 +111,7 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
 /* Demo accounts */
 .demo1{ margin-top:10px; background:#F8F7FE; border:1px dashed #D9D5F2; border-radius:10px; padding:8px 12px; }
 .demo1 .demo-title{ display:flex; align-items:center; gap:6px; font-weight:700; font-size:10.5px; color:#5B5874; margin-bottom:6px; }
-.demo1 .demo-title .material-symbols-outlined{ color:#F5B500; font-size:13px; }
+.demo1 .demo-title .material-symbols-rounded{ color:#F5B500; font-size:13px; }
 .demo-grid1{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
 .demo-item1{ display:flex; align-items:center; gap:6px; background:#fff; border:1px solid #ECEAF6; border-radius:8px; padding:6px 8px; cursor:pointer; transition:.2s; }
 .demo-item1:hover{ border-color:#8B5CF6; }
@@ -164,7 +164,7 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
   background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18); border-radius:20px;
   padding:6px 12px; backdrop-filter:blur(6px);
 }
-.features1 .feature .material-symbols-outlined{ font-size:14px; color:#E4DBFB; }
+.features1 .feature .material-symbols-rounded{ font-size:14px; color:#E4DBFB; }
 .features1 .feature b{ font-size:10.5px; font-weight:600; color:#fff; letter-spacing:.3px; }
 
 /* =========================================================
@@ -217,20 +217,20 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
 
     <div class="left1">
       <div class="brand1">
-        <div class="logo-icon"><span class="material-symbols-outlined">school</span></div>
+        <div class="logo-icon"><span class="material-symbols-rounded">school</span></div>
         <div class="logo-text">
           <b>Campus<span>OS</span></b>
           <small>College Management System</small>
         </div>
       </div>
 
-      <span class="badge1"><span class="material-symbols-outlined">verified</span> Secure Campus Login</span>
+      <span class="badge1"><span class="material-symbols-rounded">verified</span> Secure Campus Login</span>
       <h1>Welcome Back</h1>
       <p class="sub">Please enter your credentials to access your account.</p>
 
       @if ($errors->any())
         <div class="alert-error">
-          <span class="material-symbols-outlined" style="font-size:16px;">error</span>
+          <span class="material-symbols-rounded" style="font-size:16px;">error</span>
           {{ $errors->first() }}
         </div>
       @endif
@@ -240,7 +240,7 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
         <div class="field1">
           <label>Email Address</label>
           <div class="input-wrap1">
-            <span class="material-symbols-outlined">mail</span>
+            <span class="material-symbols-rounded">mail</span>
             <input type="email" name="email" value="{{ old('email') }}" required autofocus placeholder="you@college.edu">
           </div>
         </div>
@@ -248,16 +248,16 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
         <div class="field1">
           <label>Password</label>
           <div class="input-wrap1">
-            <span class="material-symbols-outlined">lock</span>
+            <span class="material-symbols-rounded">lock</span>
             <input type="password" name="password" required placeholder="Enter your password" id="pass1">
-            <span class="material-symbols-outlined toggle-eye" onclick="togglePass('pass1', this)">visibility_off</span>
+            <span class="material-symbols-rounded toggle-eye" onclick="togglePass('pass1', this)">visibility_off</span>
           </div>
         </div>
 
         <div class="row1">
           <label class="remember1">
             <input type="checkbox" name="remember" id="remember">
-            <span class="check-box"><span class="material-symbols-outlined">check</span></span>
+            <span class="check-box"><span class="material-symbols-rounded">check</span></span>
             Remember me
           </label>
           <a href="#">Forgot?</a>
@@ -265,27 +265,27 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
 
         <button type="submit" class="btn-primary1">
           Sign In to Dashboard
-          <span class="material-symbols-outlined">arrow_forward</span>
+          <span class="material-symbols-rounded">arrow_forward</span>
         </button>
       </form>
 
       <div class="demo1">
-        <div class="demo-title"><span class="material-symbols-outlined">lightbulb</span> Demo Accounts (Pass: password)</div>
+        <div class="demo-title"><span class="material-symbols-rounded">lightbulb</span> Demo Accounts (Pass: password)</div>
         <div class="demo-grid1">
           <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='admin@school.com'; document.querySelector('input[name=password]').value='password';">
-            <div class="ic ic-admin"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+            <div class="ic ic-admin"><span class="material-symbols-rounded">admin_panel_settings</span></div>
             <div class="meta"><div class="role">Administrator</div><div class="mail">admin@school.com</div></div>
           </div>
           <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='teacher@school.com'; document.querySelector('input[name=password]').value='password';">
-            <div class="ic ic-teacher"><span class="material-symbols-outlined">person_play</span></div>
+            <div class="ic ic-teacher"><span class="material-symbols-rounded">person_play</span></div>
             <div class="meta"><div class="role">Teacher</div><div class="mail">teacher@school.com</div></div>
           </div>
           <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='student@school.com'; document.querySelector('input[name=password]').value='password';">
-            <div class="ic ic-student"><span class="material-symbols-outlined">school</span></div>
+            <div class="ic ic-student"><span class="material-symbols-rounded">school</span></div>
             <div class="meta"><div class="role">Student</div><div class="mail">student@school.com</div></div>
           </div>
           <div class="demo-item1" onclick="document.querySelector('input[name=email]').value='parent@school.com'; document.querySelector('input[name=password]').value='password';">
-            <div class="ic ic-parent"><span class="material-symbols-outlined">family_restroom</span></div>
+            <div class="ic ic-parent"><span class="material-symbols-rounded">family_restroom</span></div>
             <div class="meta"><div class="role">Parent</div><div class="mail">parent@school.com</div></div>
           </div>
         </div>
@@ -301,22 +301,22 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
 
       <div class="stack1">
         <div class="panel1 p-parent">
-          <div class="top"><div class="pic ic-parent"><span class="material-symbols-outlined">family_restroom</span></div>
+          <div class="top"><div class="pic ic-parent"><span class="material-symbols-rounded">family_restroom</span></div>
             <div class="txt"><b>Parent Portal</b><span>Track ward's progress</span></div></div>
           <div class="bar"><i style="width:55%; background:#FB923C;"></i></div>
         </div>
         <div class="panel1 p-student">
-          <div class="top"><div class="pic ic-student"><span class="material-symbols-outlined">school</span></div>
+          <div class="top"><div class="pic ic-student"><span class="material-symbols-rounded">school</span></div>
             <div class="txt"><b>Student Portal</b><span>Assignments & Results</span></div></div>
           <div class="bar"><i style="width:70%; background:#60A5FA;"></i></div>
         </div>
         <div class="panel1 p-teacher">
-          <div class="top"><div class="pic ic-teacher"><span class="material-symbols-outlined">person_play</span></div>
+          <div class="top"><div class="pic ic-teacher"><span class="material-symbols-rounded">person_play</span></div>
             <div class="txt"><b>Faculty Portal</b><span>Attendance & Grading</span></div></div>
           <div class="bar"><i style="width:80%; background:#34D399;"></i></div>
         </div>
         <div class="panel1 p-admin">
-          <div class="top"><div class="pic ic-admin"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+          <div class="top"><div class="pic ic-admin"><span class="material-symbols-rounded">admin_panel_settings</span></div>
             <div class="txt"><b>Admin Panel</b><span>Manage entire college</span></div></div>
           <div class="bar"><i style="width:90%; background:#8B5CF6;"></i></div>
         </div>
@@ -324,15 +324,15 @@ body{ font-family:'Inter', sans-serif; background:#EEF0FB; overflow-x: hidden; }
 
       <div class="features1">
         <div class="feature">
-          <span class="material-symbols-outlined">security</span>
+          <span class="material-symbols-rounded">security</span>
           <b>Secure</b>
         </div>
         <div class="feature">
-          <span class="material-symbols-outlined">bolt</span>
+          <span class="material-symbols-rounded">bolt</span>
           <b>Fast</b>
         </div>
         <div class="feature">
-          <span class="material-symbols-outlined">sync</span>
+          <span class="material-symbols-rounded">sync</span>
           <b>Real-time</b>
         </div>
       </div>

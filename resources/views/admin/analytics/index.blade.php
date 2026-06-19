@@ -15,11 +15,11 @@
             
             <div class="flex items-center gap-3">
                 <button class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    <span class="material-symbols-rounded text-[18px]">filter_list</span>
                     Filters
                 </button>
                 <button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:bg-primary-hover shadow-sm transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">download</span>
+                    <span class="material-symbols-rounded text-[18px]">download</span>
                     Export PDF
                 </button>
             </div>
@@ -64,7 +64,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Students</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-[18px]">group</span>
+                        <span class="material-symbols-rounded text-[18px]">group</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -78,7 +78,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Teachers</h3>
                     <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                        <span class="material-symbols-outlined text-[18px]">school</span>
+                        <span class="material-symbols-rounded text-[18px]">school</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -92,14 +92,14 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Attendance Rate</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <span class="material-symbols-outlined text-[18px]">fact_check</span>
+                        <span class="material-symbols-rounded text-[18px]">fact_check</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
                     <span id="stat-attendance-rate" class="text-headline-lg font-headline-lg text-on-surface">...</span>
                 </div>
                 <div class="mt-2 text-xs font-medium text-emerald-700 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px]">trending_up</span> +1.2%
+                    <span class="material-symbols-rounded text-[14px]">trending_up</span> +1.2%
                 </div>
                 <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
@@ -109,14 +109,14 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Fee Collection</h3>
                     <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700">
-                        <span class="material-symbols-outlined text-[18px]">payments</span>
+                        <span class="material-symbols-rounded text-[18px]">payments</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
                     <span id="stat-fee-rate" class="text-headline-lg font-headline-lg text-on-surface">...</span>
                 </div>
                  <div class="mt-2 text-xs font-medium text-emerald-700 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px]">trending_up</span> +5.4%
+                    <span class="material-symbols-rounded text-[14px]">trending_up</span> +5.4%
                 </div>
                 <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-blue-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
@@ -126,7 +126,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Avg Performance</h3>
                     <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-purple-700">
-                        <span class="material-symbols-outlined text-[18px]">analytics</span>
+                        <span class="material-symbols-rounded text-[18px]">analytics</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -140,7 +140,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Active Classes</h3>
                     <div class="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center text-orange-700">
-                        <span class="material-symbols-outlined text-[18px]">meeting_room</span>
+                        <span class="material-symbols-rounded text-[18px]">meeting_room</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -156,7 +156,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
                 <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
                     <h3 class="text-headline-md font-headline-md text-on-surface">Fee Collection Trends (6 Months)</h3>
-                    <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                    <button class="text-secondary hover:text-primary"><span class="material-symbols-rounded">more_horiz</span></button>
                 </div>
                 <div class="relative h-64 w-full">
                     <canvas id="feeTrendChart"></canvas>
@@ -167,7 +167,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col">
                 <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
                     <h3 class="text-headline-md font-headline-md text-on-surface">Weekly Attendance Trends</h3>
-                    <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                    <button class="text-secondary hover:text-primary"><span class="material-symbols-rounded">more_horiz</span></button>
                 </div>
                 <div class="relative h-64 w-full">
                     <canvas id="attendanceChart"></canvas>
@@ -191,7 +191,7 @@
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col lg:col-span-2">
                 <div class="flex justify-between items-center mb-6 pb-2 border-b border-outline-variant">
                     <h3 class="text-headline-md font-headline-md text-on-surface">Class-wise Academic Performance</h3>
-                    <button class="text-secondary hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+                    <button class="text-secondary hover:text-primary"><span class="material-symbols-rounded">more_horiz</span></button>
                 </div>
                 <div class="relative h-64 w-full">
                     <canvas id="performanceChart"></canvas>

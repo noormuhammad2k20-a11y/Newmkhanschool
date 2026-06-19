@@ -15,7 +15,7 @@
             
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.promotions.index') }}" class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                     Back to Dashboard
                 </a>
             </div>
@@ -82,7 +82,7 @@
                         </form>
                     @else
                         <div class="text-center py-8 text-secondary">
-                            <span class="material-symbols-outlined text-4xl mb-2 opacity-50">event_busy</span>
+                            <span class="material-symbols-rounded text-4xl mb-2 opacity-50">event_busy</span>
                             <p>No active academic year found.</p>
                         </div>
                     @endif
@@ -131,7 +131,7 @@
                                 <tr>
                                     <td colspan="4" class="py-12 text-center text-secondary">
                                         <div class="flex flex-col items-center justify-center">
-                                            <span class="material-symbols-outlined text-4xl mb-3 opacity-50">rule_settings</span>
+                                            <span class="material-symbols-rounded text-4xl mb-3 opacity-50">rule_settings</span>
                                             <p class="text-lg font-medium text-on-surface mb-1">No rules configured</p>
                                             <p class="text-sm">Use the form to set minimum passing criteria for each class.</p>
                                         </div>

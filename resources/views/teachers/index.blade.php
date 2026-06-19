@@ -12,11 +12,11 @@
                 </div>
                 <div class="flex items-center gap-md">
                     <button class="bg-surface-container-lowest border border-outline-variant text-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                        <span class="material-symbols-rounded text-[18px]" data-icon="download">download</span>
                         Export
                     </button>
                     <a href="{{ route('admin.teachers.create') }}" class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-2 shadow-sm">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                        <span class="material-symbols-rounded text-[18px]" data-icon="add">add</span>
                         Add New Teacher
                     </a>
                 </div>
@@ -26,7 +26,7 @@
                 <form id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
                     <div class="relative w-full col-span-1">
                         <label class="block text-label-md font-label-md text-secondary mb-1">Search</label>
-                        <span class="material-symbols-outlined absolute left-sm top-9 -translate-y-1/2 text-secondary" data-icon="search">search</span>
+                        <span class="material-symbols-rounded absolute left-sm top-9 -translate-y-1/2 text-secondary" data-icon="search">search</span>
                         <input id="filter-search" class="w-full bg-surface border border-outline-variant rounded-md py-2 pl-10 pr-4 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Search..." type="text" />
                     </div>
                     <div>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="flex items-center justify-end">
                         <button type="button" class="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+                            <span class="material-symbols-rounded text-[16px]" data-icon="filter_list">filter_list</span>
                             More Filters
                         </button>
                     </div>
@@ -131,10 +131,10 @@
                     <td class="py-3 px-4">${statusBadge}</td>
                     <td class="py-3 px-4">
                         <div class="flex items-center justify-end gap-2">
-                            <a href="/admin/teachers/${teacher.id}" class="text-secondary hover:text-primary transition-colors p-1.5 rounded-md hover:bg-surface-container-high flex items-center justify-center" title="View Profile"><span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span></a>
-                            <a href="/admin/teachers/${teacher.id}/edit" class="text-secondary hover:text-primary transition-colors p-1.5 rounded-md hover:bg-surface-container-high flex items-center justify-center" title="Edit"><span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span></a>
-                            <a href="/admin/teachers/${teacher.id}/permissions" class="text-secondary hover:text-primary transition-colors p-1.5 rounded-md hover:bg-surface-container-high flex items-center justify-center" title="Permissions"><span class="material-symbols-outlined text-[20px]" data-icon="security">security</span></a>
-                            <button onclick="deleteTeacher(${teacher.id})" class="text-[#b3261e] hover:bg-[#f9dedc] transition-colors p-1.5 rounded-md flex items-center justify-center" title="Delete"><span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span></button>
+                            <a href="/admin/teachers/${teacher.id}" class="text-secondary hover:text-primary transition-colors p-1.5 rounded-md hover:bg-surface-container-high flex items-center justify-center" title="View Profile"><span class="material-symbols-rounded text-[20px]" data-icon="visibility">visibility</span></a>
+                            <a href="/admin/teachers/${teacher.id}/edit" class="text-secondary hover:text-primary transition-colors p-1.5 rounded-md hover:bg-surface-container-high flex items-center justify-center" title="Edit"><span class="material-symbols-rounded text-[20px]" data-icon="edit">edit</span></a>
+                            <a href="/admin/teachers/${teacher.id}/permissions" class="text-secondary hover:text-primary transition-colors p-1.5 rounded-md hover:bg-surface-container-high flex items-center justify-center" title="Permissions"><span class="material-symbols-rounded text-[20px]" data-icon="security">security</span></a>
+                            <button onclick="deleteTeacher(${teacher.id})" class="text-[#b3261e] hover:bg-[#f9dedc] transition-colors p-1.5 rounded-md flex items-center justify-center" title="Delete"><span class="material-symbols-rounded text-[20px]" data-icon="delete">delete</span></button>
                         </div>
                     </td>
                 </tr>`;

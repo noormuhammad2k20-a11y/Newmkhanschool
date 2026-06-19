@@ -8,17 +8,17 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
             <div class="flex items-center gap-4">
                 <a href="{{ route('parent.child.fees', $student->id) }}" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary hover:bg-surface-container-high transition-colors print:hidden">
-                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span class="material-symbols-rounded">arrow_back</span>
                 </a>
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">Payment Receipt</h2>
             </div>
             <div class="flex items-center gap-3 print:hidden">
                 <a href="{{ route('parent.child.fees.receipt.pdf', ['student_id' => $student->id, 'fee_id' => $fee->id]) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-error text-on-error rounded-lg font-label-md hover:bg-error/90 transition-colors shadow-sm">
-                    <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                    <span class="material-symbols-rounded text-[18px]">picture_as_pdf</span>
                     Download PDF
                 </a>
                 <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors shadow-sm">
-                    <span class="material-symbols-outlined text-[18px]">print</span>
+                    <span class="material-symbols-rounded text-[18px]">print</span>
                     Print Receipt
                 </button>
             </div>
@@ -30,7 +30,7 @@
                 <div>
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 print:bg-white print:border print:border-emerald-600">
-                            <span class="material-symbols-outlined text-[28px]">check_circle</span>
+                            <span class="material-symbols-rounded text-[28px]">check_circle</span>
                         </div>
                         <h3 class="text-headline-md font-headline-md text-emerald-700">Payment Successful</h3>
                     </div>
@@ -101,7 +101,7 @@
             
             <!-- Watermark -->
             <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-5 overflow-hidden print:opacity-10">
-                <span class="material-symbols-outlined text-[300px] -rotate-12">verified</span>
+                <span class="material-symbols-rounded text-[300px] -rotate-12">verified</span>
             </div>
         </div>
     </div>

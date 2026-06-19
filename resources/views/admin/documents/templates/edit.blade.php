@@ -11,7 +11,7 @@
             <div>
                 <div class="flex items-center gap-sm mb-1">
                     <div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[22px]">design_services</span>
+                        <span class="material-symbols-rounded text-[22px]">design_services</span>
                     </div>
                     <h2 class="text-headline-xl font-headline-xl text-on-surface">Edit Template</h2>
                 </div>
@@ -19,7 +19,7 @@
             </div>
             <div class="flex items-center gap-sm flex-wrap">
                 <a href="{{ route('admin.documents.templates') }}" class="inline-flex items-center gap-xs px-md py-sm border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                     Back to Templates
                 </a>
             </div>
@@ -39,11 +39,11 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
                     <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center justify-between">
                         <div class="flex items-center gap-sm">
-                            <span class="material-symbols-outlined text-primary text-[20px]">code</span>
+                            <span class="material-symbols-rounded text-primary text-[20px]">code</span>
                             <h3 class="text-headline-md font-headline-md text-on-surface">Template Content (HTML)</h3>
                         </div>
                         <div class="flex items-center gap-xs text-xs text-secondary bg-surface-container px-2 py-1 rounded">
-                            <span class="material-symbols-outlined text-[14px]">html</span>
+                            <span class="material-symbols-rounded text-[14px]">html</span>
                             Accepts HTML & Inline CSS
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 {{-- Template Settings --}}
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
                     <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-sm">
-                        <span class="material-symbols-outlined text-primary text-[20px]">settings</span>
+                        <span class="material-symbols-rounded text-primary text-[20px]">settings</span>
                         <h3 class="text-headline-md font-headline-md text-on-surface">Template Settings</h3>
                     </div>
                     <div class="p-md space-y-md">
@@ -113,7 +113,7 @@
                         {{-- Submit Button --}}
                         <div class="pt-sm">
                             <button type="submit" class="w-full py-2.5 bg-primary text-on-primary hover:bg-on-primary-fixed-variant rounded-lg font-label-lg transition-colors flex items-center justify-center gap-xs shadow-sm">
-                                <span class="material-symbols-outlined text-[18px]">save</span> Save Changes
+                                <span class="material-symbols-rounded text-[18px]">save</span> Save Changes
                             </button>
                         </div>
                     </div>

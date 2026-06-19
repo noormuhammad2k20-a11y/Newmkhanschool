@@ -12,7 +12,7 @@
                 <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Manage salaries, allowances, and deductions</p>
             </div>
             <button onclick="openModal('generate-payroll-modal')" class="inline-flex items-center gap-sm px-lg py-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:opacity-90 transition-opacity shadow-[0_4px_12px_rgba(26,35,126,0.08)]">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_card</span>
+                <span class="material-symbols-rounded" style="font-variation-settings: 'FILL' 1;">add_card</span>
                 Generate Payroll
             </button>
         </div>
@@ -88,7 +88,7 @@
         <div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low rounded-t-lg">
             <h2 class="font-headline-md text-headline-md text-on-surface">Generate Payroll</h2>
             <button onclick="closeModal('generate-payroll-modal')" class="text-on-surface-variant hover:text-error transition-colors">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <form action="{{ route('admin.payroll.store') }}" method="POST">

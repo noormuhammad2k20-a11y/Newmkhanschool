@@ -7,14 +7,14 @@
         <div class="mb-lg flex items-center justify-between">
             <div>
                 <a href="{{ route('student.quizzes') }}" class="text-primary hover:underline font-label-md flex items-center gap-1 mb-sm">
-                    <span class="material-symbols-outlined text-[16px]">arrow_back</span> Back to Quizzes
+                    <span class="material-symbols-rounded text-[16px]">arrow_back</span> Back to Quizzes
                 </a>
                 <h2 class="font-headline-xl text-headline-xl font-bold text-on-surface">{{ $quiz->title }}</h2>
                 <p class="text-secondary font-body-md mt-1">{{ $quiz->subject->name ?? 'Subject' }} | Duration: {{ $quiz->duration_minutes }} mins | Total Marks: {{ $quiz->total_marks }}</p>
             </div>
             <div class="text-right">
                 <div class="inline-flex items-center gap-2 bg-error-container text-error px-4 py-2 rounded-full font-headline-sm shadow-sm" id="timer-display">
-                    <span class="material-symbols-outlined">timer</span>
+                    <span class="material-symbols-rounded">timer</span>
                     <span id="time-left">{{ sprintf('%02d:00', $quiz->duration_minutes) }}</span>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                     <div class="mt-2xl pt-lg border-t border-outline-variant flex justify-between items-center">
                         <p class="text-secondary font-body-sm">Ensure all questions are answered before submitting.</p>
                         <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-headline-sm py-3 px-8 rounded-full shadow-md transition-all transform hover:scale-105 flex items-center gap-2">
-                            <span class="material-symbols-outlined">send</span> Submit Quiz
+                            <span class="material-symbols-rounded">send</span> Submit Quiz
                         </button>
                     </div>
                 </form>

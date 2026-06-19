@@ -66,7 +66,7 @@
 
                             <div class="md:col-span-2 mt-xl flex justify-between gap-md border-t border-outline-variant pt-lg">
                                 <button type="submit" class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs ml-auto">
-                                    <span class="material-symbols-outlined text-[18px]">save</span>
+                                    <span class="material-symbols-rounded text-[18px]">save</span>
                                     Save Changes
                                 </button>
                             </div>
@@ -75,7 +75,7 @@
                     
                     <!-- Success/Error Overlay inside the card -->
                     <div id="form-overlay" class="hidden absolute inset-0 bg-surface/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center rounded-DEFAULT">
-                        <span id="overlay-icon" class="material-symbols-outlined text-[64px] text-[#137333] mb-md">check_circle</span>
+                        <span id="overlay-icon" class="material-symbols-rounded text-[64px] text-[#137333] mb-md">check_circle</span>
                         <h3 id="overlay-title" class="text-headline-md font-headline-md text-on-surface mb-xs">Success</h3>
                         <p id="overlay-msg" class="text-body-md text-on-surface-variant">Teacher updated successfully.</p>
                         <a href="{{ route('admin.teachers') }}" class="mt-lg bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm">
@@ -115,12 +115,12 @@
             
             if (response.status === 'success') {
                 icon.textContent = 'check_circle';
-                icon.className = 'material-symbols-outlined text-[64px] text-[#137333] mb-md';
+                icon.className = 'material-symbols-rounded text-[64px] text-[#137333] mb-md';
                 title.textContent = 'Success!';
                 msg.textContent = 'Teacher has been updated successfully.';
             } else {
                 icon.textContent = 'error';
-                icon.className = 'material-symbols-outlined text-[64px] text-[#c5221f] mb-md';
+                icon.className = 'material-symbols-rounded text-[64px] text-[#c5221f] mb-md';
                 title.textContent = 'Error';
                 msg.textContent = response.message || 'An error occurred while saving.';
             }

@@ -14,7 +14,7 @@
             <!-- Basic Information Section -->
             <section>
                 <h3 class="text-title-md font-semibold text-on-surface mb-md flex items-center gap-xs pb-sm border-b border-outline-variant">
-                    <span class="material-symbols-outlined text-[20px] text-primary">info</span>
+                    <span class="material-symbols-rounded text-[20px] text-primary">info</span>
                     Basic Information
                 </h3>
                 
@@ -45,7 +45,7 @@
             <!-- Grid Configuration Section -->
             <section>
                 <h3 class="text-title-md font-semibold text-on-surface mb-md flex items-center gap-xs pb-sm border-b border-outline-variant">
-                    <span class="material-symbols-outlined text-[20px] text-primary">grid_on</span>
+                    <span class="material-symbols-rounded text-[20px] text-primary">grid_on</span>
                     Grid Configuration
                 </h3>
                 
@@ -71,7 +71,7 @@
                 </div>
                 
                 <div class="mt-sm p-sm bg-surface-container-lowest rounded-lg border border-outline-variant text-body-sm text-secondary flex gap-sm">
-                    <span class="material-symbols-outlined text-[18px] text-primary shrink-0">lightbulb</span>
+                    <span class="material-symbols-rounded text-[18px] text-primary shrink-0">lightbulb</span>
                     <p>Exam mode will automatically attempt to place an empty seat between students when using the Auto Arrange feature.</p>
                 </div>
             </section>
@@ -83,7 +83,7 @@
             </a>
             <button type="submit" class="px-xl py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant shadow-sm transition-colors flex items-center gap-xs">
                 Create Grid & Continue
-                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <span class="material-symbols-rounded text-[18px]">arrow_forward</span>
             </button>
         </div>
     </form>

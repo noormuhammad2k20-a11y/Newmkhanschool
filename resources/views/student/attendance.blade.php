@@ -18,7 +18,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Present</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                        <span class="material-symbols-rounded text-[18px]">check_circle</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -35,7 +35,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Absent</h3>
                     <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
-                        <span class="material-symbols-outlined text-[18px]">cancel</span>
+                        <span class="material-symbols-rounded text-[18px]">cancel</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -52,7 +52,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Leave</h3>
                     <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                        <span class="material-symbols-outlined text-[18px]">flight_takeoff</span>
+                        <span class="material-symbols-rounded text-[18px]">flight_takeoff</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -69,14 +69,14 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Percentage</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <span class="material-symbols-outlined text-[18px]">analytics</span>
+                        <span class="material-symbols-rounded text-[18px]">analytics</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
                     <span class="text-headline-xl font-headline-xl text-on-surface">{{ $stats['percentage'] }}%</span>
                 </div>
                 <div class="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-700">
-                    <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                    <span class="material-symbols-rounded text-[14px]">trending_up</span>
                     <span>Overall Attendance</span>
                 </div>
                 <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -100,7 +100,7 @@
                                 <option value="Family Emergency">Family Emergency</option>
                                 <option value="Other">Other</option>
                             </select>
-                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">expand_more</span>
+                            <span class="material-symbols-rounded absolute right-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">expand_more</span>
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -126,13 +126,13 @@
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
                 <a href="?month={{ $month == 1 ? 12 : $month-1 }}&year={{ $month == 1 ? $year-1 : $year }}" class="py-1 px-3 border border-outline-variant rounded-lg text-label-md font-label-md text-secondary hover:bg-surface-container-low transition-colors flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                     Prev
                 </a>
                 <strong class="text-headline-md font-headline-md text-on-surface">{{ \Carbon\Carbon::createFromDate($year, $month, 1)->format('F Y') }}</strong>
                 <a href="?month={{ $month == 12 ? 1 : $month+1 }}&year={{ $month == 12 ? $year+1 : $year }}" class="py-1 px-3 border border-outline-variant rounded-lg text-label-md font-label-md text-secondary hover:bg-surface-container-low transition-colors flex items-center gap-1">
                     Next
-                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_forward</span>
                 </a>
             </div>
             <div class="p-xl">
@@ -183,7 +183,7 @@
                         <div class="relative flex flex-col items-center justify-center p-3 rounded-lg {{ $bgColor }} min-h-[80px] border {{ $borderColor }} shadow-sm">
                             @if($hasExam)
                                 <div class="absolute top-1 right-1 text-[10px] bg-orange-100 text-orange-800 px-1 rounded flex items-center border border-orange-200" title="Physical Exam Day">
-                                    <span class="material-symbols-outlined text-[10px]">campaign</span>
+                                    <span class="material-symbols-rounded text-[10px]">campaign</span>
                                 </div>
                             @endif
                             <span class="text-title-lg font-title-lg font-bold {{ $textColor }}">{{ $d }}</span>

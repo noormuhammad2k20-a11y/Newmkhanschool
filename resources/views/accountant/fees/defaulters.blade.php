@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Fee Management</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Fee Defaulters</span>
                         </div>
                     </li>
@@ -37,7 +37,7 @@
                 <form method="POST" action="{{ route('accountant.defaulters.remind-all') }}">
                     @csrf
                     <button type="submit" class="btn-primary bg-error hover:bg-error-container hover:text-error transition-colors shadow-sm flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+                        <span class="material-symbols-rounded text-[20px]">notifications_active</span>
                         Send Reminders to All
                     </button>
                 </form>
@@ -46,7 +46,7 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
@@ -79,7 +79,7 @@
                                         <div class="font-medium text-on-surface">{{ $fee->student->first_name }} {{ $fee->student->last_name }}</div>
                                         <div class="text-xs text-secondary mt-0.5">{{ $fee->student->currentClass->name ?? '' }} - {{ $fee->student->currentSection->name ?? '' }}</div>
                                         <div class="text-xs text-secondary flex items-center gap-1 mt-1">
-                                            <span class="material-symbols-outlined text-[14px]">call</span>
+                                            <span class="material-symbols-rounded text-[14px]">call</span>
                                             {{ $fee->student->phone ?? $fee->student->parent->phone ?? 'No Phone' }}
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@
                             <td class="py-4 px-6 text-secondary font-medium">{{ $fee->challan_no }}</td>
                             <td class="py-4 px-6">
                                 <div class="text-error font-medium flex items-center gap-1.5 bg-red-50 border border-red-100 px-2.5 py-1 rounded-md inline-flex">
-                                    <span class="material-symbols-outlined text-[16px]">warning</span>
+                                    <span class="material-symbols-rounded text-[16px]">warning</span>
                                     {{ \Carbon\Carbon::parse($fee->due_date)->format('d M, Y') }}
                                 </div>
                             </td>
@@ -104,7 +104,7 @@
                                     @csrf
                                     <input type="hidden" name="fee_id" value="{{ $fee->id }}">
                                     <button class="btn-outline text-sm py-2 px-5 text-error border-error/50 hover:border-error hover:bg-error hover:text-on-error transition-all shadow-sm flex items-center gap-2 ml-auto">
-                                        <span class="material-symbols-outlined text-[18px]">notifications</span>
+                                        <span class="material-symbols-rounded text-[18px]">notifications</span>
                                         Remind
                                     </button>
                                 </form>
@@ -114,7 +114,7 @@
                         <tr>
                             <td colspan="7" class="py-16 text-center text-secondary">
                                 <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-                                    <span class="material-symbols-outlined text-4xl">check_circle</span>
+                                    <span class="material-symbols-rounded text-4xl">check_circle</span>
                                 </div>
                                 <p class="text-body-lg font-medium text-on-surface mt-2">No defaulters found</p>
                                 <p class="text-body-md mt-1">All student fee collections are up to date.</p>

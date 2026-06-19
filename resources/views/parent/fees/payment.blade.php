@@ -7,7 +7,7 @@
     <div class="max-w-[800px] mx-auto space-y-xl">
         <div class="flex items-center gap-4 mb-8">
             <a href="{{ route('parent.child.fees', $student->id) }}" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary hover:bg-surface-container-high transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
+                <span class="material-symbols-rounded">arrow_back</span>
             </a>
             <div>
                 <h2 class="text-headline-lg font-headline-lg text-on-surface">Complete Payment</h2>
@@ -52,12 +52,12 @@
                     </div>
 
                     <div class="flex items-start gap-3 p-4 bg-surface-container-low rounded-lg mb-8">
-                        <span class="material-symbols-outlined text-secondary">info</span>
+                        <span class="material-symbols-rounded text-secondary">info</span>
                         <p class="text-body-md font-body-md text-secondary">By clicking "Pay Now", you will be redirected to the secure payment gateway to complete your transaction. Your payment details are encrypted and never stored on our servers.</p>
                     </div>
 
                     <button type="submit" class="w-full py-4 bg-primary text-on-primary rounded-xl font-label-lg hover:bg-primary/90 transition-colors shadow-sm flex justify-center items-center gap-2">
-                        <span class="material-symbols-outlined">lock</span>
+                        <span class="material-symbols-rounded">lock</span>
                         Pay Rs {{ number_format($fee->amount, 2) }} Securely
                     </button>
                 </form>

@@ -58,7 +58,7 @@
                             <input type="checkbox" name="ai_enhance" value="1" class="text-primary focus:ring-primary">
                             <div>
                                 <span class="font-headline-md block text-primary font-bold flex items-center gap-xs">
-                                    <span class="material-symbols-outlined text-[18px]">auto_awesome</span> AI Enhance Document
+                                    <span class="material-symbols-rounded text-[18px]">auto_awesome</span> AI Enhance Document
                                 </span>
                                 <span class="text-label-md text-secondary block mt-xs">Improves the tone and professionalism using OpenAI.</span>
                             </div>
@@ -68,7 +68,7 @@
                     <div class="flex justify-between items-center border-t border-outline-variant pt-md">
                         <a href="{{ route('admin.documents.create') }}" class="px-md py-sm border border-outline text-on-surface rounded-lg font-label-md hover:bg-surface-container-high transition-colors">Back</a>
                         <button type="submit" class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-xs">
-                            Preview Document <span class="material-symbols-outlined text-[18px]">visibility</span>
+                            Preview Document <span class="material-symbols-rounded text-[18px]">visibility</span>
                         </button>
                     </div>
                 </form>

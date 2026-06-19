@@ -34,7 +34,7 @@
                         @empty
                         <tr>
                             <td colspan="6" class="p-xl text-center text-secondary">
-                                <span class="material-symbols-outlined text-[48px] mb-sm opacity-50">event_note</span>
+                                <span class="material-symbols-rounded text-[48px] mb-sm opacity-50">event_note</span>
                                 <p class="font-body-lg">No exams scheduled for your classes.</p>
                             </td>
                         </tr>

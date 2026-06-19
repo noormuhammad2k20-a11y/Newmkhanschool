@@ -34,7 +34,7 @@
                         <p class="text-body-sm font-body-sm text-secondary mt-1">Manage classes and their assigned subjects</p>
                     </div>
                     <button onclick="openWizardModal()" type="button" class="bg-primary text-on-primary px-4 py-2 rounded-md text-label-sm font-semibold hover:bg-primary-dark transition-colors flex items-center gap-2 shadow-sm">
-                        <span class="material-symbols-outlined text-[18px]">account_tree</span> Create Academic Structure
+                        <span class="material-symbols-rounded text-[18px]">account_tree</span> Create Academic Structure
                     </button>
                 </div>
                 
@@ -80,13 +80,13 @@
                                         <td class="py-4 px-4 text-right">
                                             <div class="flex items-center justify-end gap-2">
                                                 <button type="button" onclick="openManageModal({{ $class->id }}, '{{ addslashes($class->name) }}')" class="text-secondary hover:text-primary p-1.5 rounded-md hover:bg-primary-container/20 transition-colors" title="Edit Class Structure">
-                                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                                    <span class="material-symbols-rounded text-[20px]">edit</span>
                                                 </button>
                                                 
                                                 <form action="{{ route('admin.academics.classes.destroy', $class->id) }}" id="delete-class-{{ $class->id }}" method="POST" class="inline-block">
                                                     @csrf @method('DELETE')
                                                     <button type="button" onclick="showCustomConfirm('WARNING: Are you sure you want to delete this class? This will also delete all its subjects and sections. This action cannot be undone.', 'delete-class-{{ $class->id }}', 'Delete Class')" class="text-secondary hover:text-error p-1.5 rounded-md hover:bg-error-container transition-colors" title="Delete Class">
-                                                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                                                        <span class="material-symbols-rounded text-[20px]">delete</span>
                                                     </button>
                                                 </form>
                                             </div>
@@ -226,7 +226,7 @@
                                         @if($subject)
                                             @if($teacherName)
                                                 <div class="flex items-center justify-center gap-1">
-                                                    <span class="material-symbols-outlined text-[14px] text-primary">person</span>
+                                                    <span class="material-symbols-rounded text-[14px] text-primary">person</span>
                                                     {{ $teacherName }}
                                                 </div>
                                             @else
@@ -243,7 +243,7 @@
                 </table>
             @else
                 <div class="py-8 text-center text-secondary">
-                    <span class="material-symbols-outlined text-4xl mb-2 text-outline">grid_off</span>
+                    <span class="material-symbols-rounded text-4xl mb-2 text-outline">grid_off</span>
                     <p>Add classes and subjects to view the matrix.</p>
                 </div>
             @endif
@@ -266,7 +266,7 @@
                 <p class="text-body-sm font-body-sm text-secondary">Bulk create class, sections, and subjects</p>
             </div>
             <button type="button" onclick="closeWizardModal()" class="text-secondary hover:text-on-surface p-2 rounded-full hover:bg-surface-container h-10 w-10 flex items-center justify-center transition-colors">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         
@@ -344,7 +344,7 @@
                 <p class="text-body-sm font-body-sm text-secondary">Manage subjects for this class</p>
             </div>
             <button type="button" onclick="closeManageModal()" class="text-secondary hover:text-on-surface p-2 rounded-full hover:bg-surface-container h-10 w-10 flex items-center justify-center transition-colors">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         
@@ -356,7 +356,7 @@
                 <!-- Add Subject Form (Horizontal) -->
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 mb-6 shadow-sm">
                     <h4 class="text-label-md font-label-md font-semibold mb-3 flex items-center gap-2 text-on-surface">
-                        <span class="material-symbols-outlined text-primary text-[18px]">add_circle</span> Quick Add Subject
+                        <span class="material-symbols-rounded text-primary text-[18px]">add_circle</span> Quick Add Subject
                     </h4>
                     <form action="{{ route('admin.academics.subjects.store') }}" method="POST" class="flex flex-col sm:flex-row gap-3 items-end">
                         @csrf
@@ -379,7 +379,7 @@
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <h4 class="text-label-lg font-label-lg font-semibold text-on-surface flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary text-[20px]">menu_book</span> Assigned Subjects
+                            <span class="material-symbols-rounded text-primary text-[20px]">menu_book</span> Assigned Subjects
                         </h4>
                         <span class="text-xs font-semibold bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full shadow-sm" id="modalSubjectCount">0</span>
                     </div>
@@ -437,7 +437,7 @@
         
         if (classSubjects.length === 0) {
             modalSubjectsList.innerHTML = `<div class="text-center py-6 bg-surface-container-lowest border border-outline-variant rounded-lg border-dashed">
-                <span class="material-symbols-outlined text-outline text-3xl mb-1">inbox</span>
+                <span class="material-symbols-rounded text-outline text-3xl mb-1">inbox</span>
                 <p class="text-secondary text-sm">No subjects assigned yet.</p>
             </div>`;
             return;
@@ -460,13 +460,13 @@
                     </div>
                     <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button type="button" onclick="toggleEditSubject(${subject.id})" class="text-secondary hover:text-primary p-1.5 rounded-md hover:bg-primary-container/20 transition-colors" title="Edit">
-                            <span class="material-symbols-outlined text-[18px]">edit</span>
+                            <span class="material-symbols-rounded text-[18px]">edit</span>
                         </button>
                         <form action="${deleteUrl}" id="delete-subject-${subject.id}" method="POST" class="inline">
                             <input type="hidden" name="_token" value="${csrfToken}">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="button" onclick="showCustomConfirm('Delete subject ${subject.name}?', 'delete-subject-${subject.id}', 'Delete Subject')" class="text-secondary hover:text-error p-1.5 rounded-md hover:bg-error-container transition-colors" title="Delete">
-                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                                <span class="material-symbols-rounded text-[18px]">delete</span>
                             </button>
                         </form>
                     </div>
@@ -632,7 +632,7 @@
                 
                 const btn = document.getElementById('customConfirmBtn');
                 const originalText = btn.innerHTML;
-                btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]" style="animation: spin 1s linear infinite;">autorenew</span> Processing...';
+                btn.innerHTML = '<span class="material-symbols-rounded animate-spin text-[18px]" style="animation: spin 1s linear infinite;">autorenew</span> Processing...';
                 btn.disabled = true;
 
                 try {
@@ -705,7 +705,7 @@
         
         toast.className = `flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg text-white ${bgColor} transform translate-y-10 opacity-0 transition-all duration-300 min-w-[250px]`;
         toast.innerHTML = `
-            <span class="material-symbols-outlined">${icon}</span>
+            <span class="material-symbols-rounded">${icon}</span>
             <span class="text-sm font-medium">${message}</span>
         `;
         
@@ -739,13 +739,13 @@
         <!-- Header -->
         <div class="px-6 py-4 border-b border-outline-variant flex items-center gap-3 bg-surface-container-lowest">
             <div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined">warning</span>
+                <span class="material-symbols-rounded">warning</span>
             </div>
             <div>
                 <h3 class="text-headline-sm font-headline-sm text-on-surface" id="customConfirmTitle">Confirm Action</h3>
             </div>
             <button type="button" onclick="closeCustomConfirm()" class="ml-auto text-secondary hover:text-on-surface p-1.5 rounded-full hover:bg-surface-container transition-colors">
-                <span class="material-symbols-outlined text-[20px]">close</span>
+                <span class="material-symbols-rounded text-[20px]">close</span>
             </button>
         </div>
         

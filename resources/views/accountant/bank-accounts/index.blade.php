@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Financial Operations</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Bank Accounts</span>
                         </div>
                     </li>
@@ -35,7 +35,7 @@
                     <p class="text-body-lg font-body-lg text-secondary mt-1">Manage school bank accounts and balances</p>
                 </div>
                 <button onclick="document.getElementById('addBankAccountModal').showModal()" class="btn-primary shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    <span class="material-symbols-rounded text-[20px]">add</span>
                     Add Bank Account
                 </button>
             </div>
@@ -49,7 +49,7 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
@@ -61,7 +61,7 @@
                 <div class="flex justify-between items-start mb-6 z-10">
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shadow-sm">
-                            <span class="material-symbols-outlined text-[24px]">account_balance</span>
+                            <span class="material-symbols-rounded text-[24px]">account_balance</span>
                         </div>
                         <div>
                             <h3 class="text-title-lg font-bold text-on-surface leading-tight">{{ $account->account_name }}</h3>
@@ -70,13 +70,13 @@
                     </div>
                     <div class="flex gap-1 z-10 opacity-80 group-hover:opacity-100 transition-opacity">
                         <button onclick="editAccount({{ $account->toJson() }})" class="text-secondary hover:text-primary p-2 bg-surface hover:bg-primary/10 border border-outline-variant hover:border-primary/30 rounded-lg transition-colors tooltip" data-tip="Edit">
-                            <span class="material-symbols-outlined text-[18px]">edit</span>
+                            <span class="material-symbols-rounded text-[18px]">edit</span>
                         </button>
                         <form method="POST" action="{{ route('accountant.bank-accounts.destroy', $account->id) }}" onsubmit="return confirm('Are you sure you want to delete this bank account?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-secondary hover:text-error p-2 bg-surface hover:bg-red-50 border border-outline-variant hover:border-red-200 rounded-lg transition-colors tooltip" data-tip="Delete">
-                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                                <span class="material-symbols-rounded text-[18px]">delete</span>
                             </button>
                         </form>
                     </div>
@@ -93,7 +93,7 @@
                         <p class="text-headline-md font-bold text-emerald-600">{{ number_format($account->current_balance, 2) }}</p>
                     </div>
                     <div class="text-label-sm font-medium text-secondary flex items-center gap-1.5 bg-surface px-2.5 py-1 rounded-md border border-outline-variant">
-                        <span class="material-symbols-outlined text-[14px]">location_on</span>
+                        <span class="material-symbols-rounded text-[14px]">location_on</span>
                         {{ $account->branch ?? 'Main Branch' }}
                     </div>
                 </div>
@@ -101,7 +101,7 @@
             @empty
             <div class="col-span-full py-16 text-center bg-surface-container-lowest border border-outline-variant rounded-2xl border-dashed">
                 <div class="w-16 h-16 rounded-full bg-surface-container-low text-secondary flex items-center justify-center mx-auto mb-4 border border-outline-variant">
-                    <span class="material-symbols-outlined text-4xl">account_balance</span>
+                    <span class="material-symbols-rounded text-4xl">account_balance</span>
                 </div>
                 <h3 class="text-title-lg font-bold text-on-surface">No Bank Accounts Found</h3>
                 <p class="text-body-md text-secondary mt-1">Add your first bank account to start tracking transactions.</p>
@@ -119,11 +119,11 @@
     <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-xl">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-                <span class="material-symbols-outlined text-[20px]">account_balance</span>
+                <span class="material-symbols-rounded text-[20px]">account_balance</span>
             </div>
             Add Bank Account
         </h3>
-        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
+        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-rounded">close</span></button></form>
     </div>
     <form method="POST" action="{{ route('accountant.bank-accounts.store') }}">
         @csrf
@@ -140,7 +140,7 @@
                 <div>
                     <label class="block text-label-md font-label-md text-on-surface mb-2">Account Number</label>
                     <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">numbers</span>
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">numbers</span>
                         <input type="text" name="account_number" class="input-field pl-10 bg-surface" required>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Branch (Optional)</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">location_on</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">location_on</span>
                     <input type="text" name="branch" class="input-field pl-10 bg-surface">
                 </div>
             </div>
@@ -172,11 +172,11 @@
     <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-xl">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-                <span class="material-symbols-outlined text-[20px]">edit_square</span>
+                <span class="material-symbols-rounded text-[20px]">edit_square</span>
             </div>
             Edit Bank Account
         </h3>
-        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
+        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-rounded">close</span></button></form>
     </div>
     <form id="editForm" method="POST" action="">
         @csrf
@@ -194,7 +194,7 @@
                 <div>
                     <label class="block text-label-md font-label-md text-on-surface mb-2">Account Number</label>
                     <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">numbers</span>
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">numbers</span>
                         <input type="text" name="account_number" id="edit_account_number" class="input-field pl-10 bg-surface" required>
                     </div>
                 </div>
@@ -202,12 +202,12 @@
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Branch (Optional)</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">location_on</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">location_on</span>
                     <input type="text" name="branch" id="edit_branch" class="input-field pl-10 bg-surface">
                 </div>
             </div>
             <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 flex gap-3 text-amber-800">
-                <span class="material-symbols-outlined text-amber-600">info</span>
+                <span class="material-symbols-rounded text-amber-600">info</span>
                 <span class="text-sm font-medium">Balances can only be modified via Ledger Entries or Fee Transactions.</span>
             </div>
         </div>

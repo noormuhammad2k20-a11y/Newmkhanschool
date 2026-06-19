@@ -67,7 +67,7 @@
                             </td>
                             <td class="py-3 px-4 text-center">
                                 <button class="text-primary hover:text-primary-dark" title="View Profile (Demo)">
-                                    <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                    <span class="material-symbols-rounded text-[20px]">visibility</span>
                                 </button>
                             </td>
                         </tr>

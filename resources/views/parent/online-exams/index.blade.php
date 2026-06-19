@@ -11,7 +11,7 @@
                 <p class="text-body-md font-body-md text-secondary mt-1">Viewing exam attempts for {{ $student->first_name }} {{ $student->last_name }}</p>
             </div>
             <a href="{{ route('parent.children') }}" class="bg-surface border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center shadow-sm">
-                <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+                <span class="material-symbols-rounded text-[18px] mr-1">arrow_back</span>
                 Back to Children
             </a>
         </div>
@@ -19,7 +19,7 @@
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex-1 flex flex-col mb-lg">
             <div class="p-6 border-b border-outline-variant bg-surface-bright">
                 <h3 class="text-title-lg font-title-lg text-on-surface flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">history</span>
+                    <span class="material-symbols-rounded text-primary">history</span>
                     Exam Attempts History
                 </h3>
             </div>
@@ -58,7 +58,7 @@
                                 <td class="py-4 px-6 text-body-md font-body-md text-on-surface-variant">{{ \Carbon\Carbon::parse($attempt->submitted_at)->format('d M Y, h:i A') }}</td>
                                 <td class="py-4 px-6 text-right">
                                     <a href="{{ route('parent.child.online-exams.result', [$student->id, $attempt->online_exam_id]) }}" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 bg-primary hover:bg-primary/90 text-on-primary rounded-md text-sm font-medium transition-colors shadow-sm">
-                                        <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                        <span class="material-symbols-rounded text-[16px]">visibility</span>
                                         View Result
                                     </a>
                                 </td>
@@ -70,7 +70,7 @@
             @else
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xl text-center shadow-sm m-6">
                     <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 text-secondary">
-                        <span class="material-symbols-outlined text-3xl">assignment_off</span>
+                        <span class="material-symbols-rounded text-3xl">assignment_off</span>
                     </div>
                     <h3 class="text-headline-md font-headline-md text-on-surface">No Exam Attempts</h3>
                     <p class="text-body-md font-body-md text-secondary mt-1">There are no online exam attempts recorded yet.</p>

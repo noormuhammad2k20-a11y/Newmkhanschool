@@ -9,7 +9,7 @@
         </div>
         <div>
             <a href="{{ route('admin.branches.create') }}" class="inline-flex items-center gap-xs px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors">
-                <span class="material-symbols-outlined" data-icon="add">add</span>
+                <span class="material-symbols-rounded" data-icon="add">add</span>
                 Add Branch
             </a>
         </div>
@@ -67,11 +67,11 @@
                                 @csrf
                                 <input type="hidden" name="branch_id" value="{{ $branch->id }}">
                                 <button type="submit" class="text-primary hover:text-on-primary-fixed-variant" title="Switch to this branch context">
-                                    <span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+                                    <span class="material-symbols-rounded text-[20px]">swap_horiz</span>
                                 </button>
                             </form>
-                            <a href="{{ route('admin.branches.show', $branch->id) }}" class="text-secondary hover:text-on-surface" title="View"><span class="material-symbols-outlined text-[20px]">visibility</span></a>
-                            <a href="{{ route('admin.branches.edit', $branch->id) }}" class="text-secondary hover:text-on-surface" title="Edit"><span class="material-symbols-outlined text-[20px]">edit</span></a>
+                            <a href="{{ route('admin.branches.show', $branch->id) }}" class="text-secondary hover:text-on-surface" title="View"><span class="material-symbols-rounded text-[20px]">visibility</span></a>
+                            <a href="{{ route('admin.branches.edit', $branch->id) }}" class="text-secondary hover:text-on-surface" title="Edit"><span class="material-symbols-rounded text-[20px]">edit</span></a>
                         </td>
                     </tr>
                     @empty

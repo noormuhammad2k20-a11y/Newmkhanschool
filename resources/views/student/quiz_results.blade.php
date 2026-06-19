@@ -8,7 +8,7 @@
         <!-- Page Header -->
         <div class="flex items-center gap-4">
             <a href="{{ route('student.dashboard') }}" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary hover:bg-surface-container-high transition-colors">
-                <span class="material-symbols-outlined">arrow_back</span>
+                <span class="material-symbols-rounded">arrow_back</span>
             </a>
             <div>
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">My Quiz Results</h2>
@@ -20,7 +20,7 @@
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
             <div class="p-md border-b border-outline-variant bg-surface-bright flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-[22px]">quiz</span>
+                    <span class="material-symbols-rounded text-[22px]">quiz</span>
                 </div>
                 <h3 class="text-headline-md font-headline-md text-on-surface">Quiz Attempts</h3>
             </div>
@@ -66,7 +66,7 @@
                 </table>
                 @else
                 <div class="text-center py-16">
-                    <span class="material-symbols-outlined text-[56px] text-secondary opacity-40">quiz</span>
+                    <span class="material-symbols-rounded text-[56px] text-secondary opacity-40">quiz</span>
                     <p class="text-body-lg font-body-lg text-secondary mt-4">No quiz attempts found yet.</p>
                     <p class="text-body-md font-body-md text-secondary mt-1">Complete quizzes to see your results here.</p>
                 </div>

@@ -12,11 +12,11 @@
                 </div>
                 <div class="flex items-center gap-md">
                     <button class="flex items-center gap-sm px-md py-sm bg-surface-container-lowest border border-outline-variant text-primary font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+                        <span class="material-symbols-rounded text-[18px]">swap_horiz</span>
                         Transfer Asset
                     </button>
                     <button class="flex items-center gap-sm px-md py-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-on-primary-fixed-variant transition-colors shadow-sm">
-                        <span class="material-symbols-outlined text-[18px]">add</span>
+                        <span class="material-symbols-rounded text-[18px]">add</span>
                         Log New Asset
                     </button>
                 </div>
@@ -27,12 +27,12 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col justify-between">
                     <div class="flex justify-between items-start">
                         <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Assets Managed</span>
-                        <span class="material-symbols-outlined text-outline">account_balance</span>
+                        <span class="material-symbols-rounded text-outline">account_balance</span>
                     </div>
                     <div class="mt-md">
                         <span class="font-headline-xl text-headline-xl text-on-surface">12,450</span>
                         <div class="flex items-center gap-xs mt-xs text-primary font-label-md text-label-md">
-                            <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            <span class="material-symbols-rounded text-[14px]">trending_up</span>
                             <span>+142 this month</span>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="absolute top-0 right-0 w-16 h-16 bg-error-container opacity-20 rounded-bl-full"></div>
                     <div class="flex justify-between items-start relative z-10">
                         <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Low Stock Alerts</span>
-                        <span class="material-symbols-outlined text-error">warning</span>
+                        <span class="material-symbols-rounded text-error">warning</span>
                     </div>
                     <div class="mt-md relative z-10">
                         <span class="font-headline-xl text-headline-xl text-error">18</span>
@@ -58,7 +58,7 @@
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-md flex-1">
                         <div>
                             <div class="flex items-center gap-xs mb-xs">
-                                <span class="material-symbols-outlined text-outline text-[16px]">chair</span>
+                                <span class="material-symbols-rounded text-outline text-[16px]">chair</span>
                                 <span class="font-label-md text-label-md text-on-surface">Furniture</span>
                             </div>
                             <div class="font-headline-md text-headline-md text-on-surface mb-xs">5,200</div>
@@ -68,7 +68,7 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-xs mb-xs">
-                                <span class="material-symbols-outlined text-outline text-[16px]">biotech</span>
+                                <span class="material-symbols-rounded text-outline text-[16px]">biotech</span>
                                 <span class="font-label-md text-label-md text-on-surface">Lab Eq.</span>
                             </div>
                             <div class="font-headline-md text-headline-md text-on-surface mb-xs">1,840</div>
@@ -78,7 +78,7 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-xs mb-xs">
-                                <span class="material-symbols-outlined text-outline text-[16px]">computer</span>
+                                <span class="material-symbols-rounded text-outline text-[16px]">computer</span>
                                 <span class="font-label-md text-label-md text-on-surface">IT Assets</span>
                             </div>
                             <div class="font-headline-md text-headline-md text-on-surface mb-xs">3,110</div>
@@ -88,7 +88,7 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-xs mb-xs">
-                                <span class="material-symbols-outlined text-error text-[16px]">edit</span>
+                                <span class="material-symbols-rounded text-error text-[16px]">edit</span>
                                 <span class="font-label-md text-label-md text-error">Stationery</span>
                             </div>
                             <div class="font-headline-md text-headline-md text-on-surface mb-xs">2,300</div>
@@ -106,10 +106,10 @@
                     <h3 class="font-headline-md text-headline-md text-on-surface">Recent Asset Records</h3>
                     <div class="flex gap-sm">
                         <button class="p-sm rounded border border-outline-variant text-secondary hover:bg-surface-container bg-surface-container-lowest flex items-center justify-center">
-                            <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                            <span class="material-symbols-rounded text-[18px]">filter_list</span>
                         </button>
                         <button class="p-sm rounded border border-outline-variant text-secondary hover:bg-surface-container bg-surface-container-lowest flex items-center justify-center">
-                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                            <span class="material-symbols-rounded text-[18px]">more_vert</span>
                         </button>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                                 <td class="p-md text-on-surface-variant">Oct 12, 2023</td>
                                 <td class="p-md text-right">
                                     <button class="text-primary hover:text-on-primary-fixed-variant p-sm rounded hover:bg-surface-container">
-                                        <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        <span class="material-symbols-rounded text-[20px]">edit</span>
                                     </button>
                                 </td>
                             </tr>
@@ -163,7 +163,7 @@
                                 <td class="p-md text-on-surface-variant">Sep 05, 2023</td>
                                 <td class="p-md text-right">
                                     <button class="text-primary hover:text-on-primary-fixed-variant p-sm rounded hover:bg-surface-container">
-                                        <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        <span class="material-symbols-rounded text-[20px]">edit</span>
                                     </button>
                                 </td>
                             </tr>
@@ -183,7 +183,7 @@
                                 <td class="p-md text-error">Aug 22, 2023</td>
                                 <td class="p-md text-right">
                                     <button class="text-primary hover:text-on-primary-fixed-variant p-sm rounded hover:bg-surface-container">
-                                        <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        <span class="material-symbols-rounded text-[20px]">edit</span>
                                     </button>
                                 </td>
                             </tr>
@@ -203,7 +203,7 @@
                                 <td class="p-md text-on-surface-variant">Nov 01, 2023</td>
                                 <td class="p-md text-right">
                                     <button class="text-primary hover:text-on-primary-fixed-variant p-sm rounded hover:bg-surface-container">
-                                        <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        <span class="material-symbols-rounded text-[20px]">edit</span>
                                     </button>
                                 </td>
                             </tr>

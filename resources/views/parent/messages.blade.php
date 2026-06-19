@@ -10,7 +10,7 @@
             <div>
                 <nav class="flex items-center gap-2 text-label-md font-label-md text-secondary mb-2">
                     <a href="{{ route('parent.dashboard') }}" class="hover:text-primary transition-colors">Dashboard</a>
-                    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                    <span class="material-symbols-rounded text-[16px]">chevron_right</span>
                     <span class="text-on-surface">Messages</span>
                 </nav>
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">Messages</h2>
@@ -18,7 +18,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <button type="button" onclick="document.getElementById('messageModal').classList.remove('hidden')" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors shadow-sm">
-                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    <span class="material-symbols-rounded text-[18px]">add</span>
                     Compose Message
                 </button>
             </div>
@@ -37,7 +37,7 @@
                             <div class="flex justify-between items-start mb-2">
                                 <div class="flex items-center gap-2">
                                     <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary text-xs font-bold">
-                                        <span class="material-symbols-outlined text-[16px]">person</span>
+                                        <span class="material-symbols-rounded text-[16px]">person</span>
                                     </div>
                                     <span class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">
                                         {{ $msg->sender_id == auth()->id() ? 'To: ' . (collect($teachers)->firstWhere('user_id', $msg->receiver_id)->first_name ?? 'Teacher') : 'From: Teacher' }}
@@ -54,7 +54,7 @@
                         </a>
                     @empty
                         <div class="p-xl text-center flex flex-col items-center justify-center h-full text-secondary">
-                            <span class="material-symbols-outlined text-[48px] mb-4 opacity-50">inbox</span>
+                            <span class="material-symbols-rounded text-[48px] mb-4 opacity-50">inbox</span>
                             <p class="font-body-lg text-body-lg text-on-surface mb-1">Your inbox is empty</p>
                             <p class="font-body-md text-body-md">You don't have any messages yet.</p>
                         </div>
@@ -66,7 +66,7 @@
             <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden p-0 flex items-center justify-center shadow-sm">
                 <div class="text-center text-secondary max-w-sm px-6">
                     <div class="w-20 h-20 mx-auto rounded-full bg-surface-container-low flex items-center justify-center mb-6">
-                        <span class="material-symbols-outlined text-[40px] text-outline">forum</span>
+                        <span class="material-symbols-rounded text-[40px] text-outline">forum</span>
                     </div>
                     <h3 class="text-headline-md font-headline-md text-on-surface mb-2">No Message Selected</h3>
                     <p class="text-body-lg font-body-lg text-secondary">Select a message from your inbox to view the conversation details or compose a new message.</p>
@@ -81,11 +81,11 @@
     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-lg w-full max-w-2xl transform transition-all">
         <div class="flex items-center justify-between p-xl border-b border-outline-variant bg-surface-bright">
             <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">edit_square</span>
+                <span class="material-symbols-rounded text-primary">edit_square</span>
                 Compose Message
             </h3>
             <button type="button" onclick="document.getElementById('messageModal').classList.add('hidden')" class="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center text-secondary hover:text-on-surface transition-colors">
-                <span class="material-symbols-outlined text-[20px]">close</span>
+                <span class="material-symbols-rounded text-[20px]">close</span>
             </button>
         </div>
         <form action="{{ route('parent.messages.send') }}" method="POST" class="p-xl">
@@ -102,8 +102,8 @@
                                 @endif
                             @endforeach
                         </select>
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">person_search</span>
-                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] pointer-events-none">arrow_drop_down</span>
+                        <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">person_search</span>
+                        <span class="material-symbols-rounded absolute right-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] pointer-events-none">arrow_drop_down</span>
                     </div>
                 </div>
                 <div>
@@ -118,7 +118,7 @@
             <div class="mt-8 pt-6 border-t border-outline-variant flex justify-end gap-3">
                 <button type="button" onclick="document.getElementById('messageModal').classList.add('hidden')" class="px-6 py-2.5 border border-outline-variant rounded-lg text-on-surface hover:bg-surface-container-low font-label-lg transition-colors">Cancel</button>
                 <button type="submit" class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-lg hover:bg-primary/90 transition-colors flex items-center justify-center shadow-sm">
-                    <span class="material-symbols-outlined text-[18px] mr-2">send</span>
+                    <span class="material-symbols-rounded text-[18px] mr-2">send</span>
                     Send Message
                 </button>
             </div>

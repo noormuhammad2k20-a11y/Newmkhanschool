@@ -9,10 +9,10 @@
         </div>
         <div class="flex flex-wrap gap-sm items-center w-full sm:w-auto">
             <button onclick="window.print()" class="flex-1 sm:flex-none justify-center px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-md hover:bg-surface-container-highest transition-colors flex items-center gap-xs print:hidden shadow-sm">
-                <span class="material-symbols-outlined text-[18px]">print</span> Print
+                <span class="material-symbols-rounded text-[18px]">print</span> Print
             </button>
             <a href="{{ route('teacher.seating.edit', $plan->id) }}" class="flex-1 sm:flex-none justify-center px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant flex items-center gap-xs print:hidden shadow-sm transition-colors">
-                <span class="material-symbols-outlined text-[18px]">edit</span> Edit Plan
+                <span class="material-symbols-rounded text-[18px]">edit</span> Edit Plan
             </a>
             <a href="{{ route('teacher.seating.index') }}" class="flex-1 sm:flex-none text-center px-md py-sm border border-outline text-secondary hover:text-on-surface rounded-lg font-label-md hover:bg-surface-container-highest transition-colors print:hidden">Back</a>
         </div>
@@ -22,7 +22,7 @@
     <div class="flex-1 min-h-0 bg-surface border border-outline-variant rounded-2xl p-md lg:p-xl shadow-sm flex flex-col relative print:shadow-none print:border-none print:p-0 print:overflow-visible">
         <div class="flex justify-center mb-xl shrink-0 print:mb-md">
             <div class="w-full max-w-lg h-12 bg-surface-container-highest rounded-xl border border-outline-variant flex items-center justify-center font-bold text-secondary uppercase tracking-widest text-sm print:border-black print:bg-white print:text-black">
-                <span class="material-symbols-outlined mr-2">cast_for_education</span>
+                <span class="material-symbols-rounded mr-2">cast_for_education</span>
                 Teacher's Desk / Whiteboard
             </div>
         </div>
@@ -48,7 +48,7 @@
                             </div>
                             @else
                             <div class="w-full h-full flex items-center justify-center text-outline-variant mt-2">
-                                <span class="material-symbols-outlined text-[28px] opacity-40">event_seat</span>
+                                <span class="material-symbols-rounded text-[28px] opacity-40">event_seat</span>
                             </div>
                             @endif
                         </div>

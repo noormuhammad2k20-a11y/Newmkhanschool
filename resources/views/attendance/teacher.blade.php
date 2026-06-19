@@ -13,7 +13,7 @@
             </div>
             <div class="flex items-center gap-sm">
                 <button class="inline-flex items-center gap-sm px-lg py-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:opacity-90 transition-opacity whitespace-nowrap shadow-[0_4px_12px_rgba(26,35,126,0.08)]">
-                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+                    <span class="material-symbols-rounded" style="font-variation-settings: 'FILL' 1;">description</span>
                     Generate Monthly Duty Report
                 </button>
             </div>
@@ -35,12 +35,12 @@
                     <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Total Staff Present</p>
                     <h3 id="stat-present" class="font-headline-xl text-headline-xl text-on-surface">--</h3>
                     <p class="font-body-md text-body-md text-secondary mt-xs flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-surface-tint" style="font-size: 16px;">trending_up</span>
+                        <span class="material-symbols-rounded text-surface-tint" style="font-size: 16px;">trending_up</span>
                         Today's Count
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined" style="font-size: 24px;">group</span>
+                    <span class="material-symbols-rounded" style="font-size: 24px;">group</span>
                 </div>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg flex items-center justify-between relative overflow-hidden">
@@ -51,7 +51,7 @@
                     <p class="font-body-md text-body-md text-secondary mt-xs">Approved leaves for today</p>
                 </div>
                 <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error relative z-10">
-                    <span class="material-symbols-outlined" style="font-size: 24px;">event_busy</span>
+                    <span class="material-symbols-rounded" style="font-size: 24px;">event_busy</span>
                 </div>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg flex items-center justify-between">
@@ -61,7 +61,7 @@
                     <p class="font-body-md text-body-md text-secondary mt-xs">Status = 'Late'</p>
                 </div>
                 <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
-                    <span class="material-symbols-outlined" style="font-size: 24px;">schedule</span>
+                    <span class="material-symbols-rounded" style="font-size: 24px;">schedule</span>
                 </div>
             </div>
         </div>
@@ -99,12 +99,12 @@
                 <div class="p-md border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
                     <h3 class="font-headline-md text-headline-md text-on-surface">Live Attendance Log</h3>
                     <span onclick="fetchDashboardData()" class="flex items-center justify-center w-6 h-6 rounded-full bg-secondary-container text-primary cursor-pointer hover:bg-primary-container hover:text-on-primary transition-colors" title="Refresh">
-                        <span class="material-symbols-outlined" style="font-size: 16px;">refresh</span>
+                        <span class="material-symbols-rounded" style="font-size: 16px;">refresh</span>
                     </span>
                 </div>
                 <div class="p-sm border-b border-outline-variant bg-surface-container-lowest">
                     <div class="relative">
-                        <span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline" style="font-size: 18px;">search</span>
+                        <span class="material-symbols-rounded absolute left-2 top-1/2 -translate-y-1/2 text-outline" style="font-size: 18px;">search</span>
                         <input id="log-search" class="w-full pl-8 pr-3 py-1.5 text-body-md font-body-md border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-surface-bright text-on-surface placeholder:text-outline transition-all" placeholder="Search staff..." type="text" />
                     </div>
                 </div>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="text-right">
                         <p class="font-label-md text-label-md flex items-center gap-1 justify-end ${timeColor}">
-                            <span class="material-symbols-outlined" style="font-size: 14px;">${statusIcon}</span>${log.time}
+                            <span class="material-symbols-rounded" style="font-size: 14px;">${statusIcon}</span>${log.time}
                         </p>
                     </div>
                 </div>

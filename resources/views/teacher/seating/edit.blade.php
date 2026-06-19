@@ -10,13 +10,13 @@
         <div class="flex flex-wrap gap-sm items-center w-full lg:w-auto">
             <span id="save-status" class="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-200 hidden transition-all">Saved!</span>
             <button id="auto-arrange-btn" class="flex-1 lg:flex-none justify-center px-md py-sm bg-secondary text-white rounded-lg font-label-md hover:bg-secondary-fixed-variant transition-colors flex items-center gap-xs shadow-sm">
-                <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Auto Arrange
+                <span class="material-symbols-rounded text-[18px]">auto_awesome</span> Auto Arrange
             </button>
             <button id="save-btn" class="flex-1 lg:flex-none justify-center px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-xs shadow-sm">
-                <span class="material-symbols-outlined text-[18px]">save</span> Save Plan
+                <span class="material-symbols-rounded text-[18px]">save</span> Save Plan
             </button>
             <button onclick="window.print()" class="flex-1 lg:flex-none justify-center px-md py-sm bg-surface-container-high border border-outline text-on-surface rounded-lg font-label-md hover:bg-surface-container-highest flex items-center gap-xs transition-colors">
-                <span class="material-symbols-outlined text-[18px]">print</span> Print
+                <span class="material-symbols-rounded text-[18px]">print</span> Print
             </button>
             <a href="{{ route('teacher.seating.index') }}" class="flex-1 lg:flex-none text-center px-md py-sm border border-outline text-on-surface rounded-lg font-label-md hover:bg-surface-container-high transition-colors">Back</a>
         </div>
@@ -26,7 +26,7 @@
         <!-- Unassigned Students Sidebar -->
         <div class="w-full lg:w-80 flex-shrink-0 bg-surface border border-outline-variant rounded-2xl p-md shadow-sm h-[400px] lg:h-[calc(100vh-220px)] flex flex-col">
             <h3 class="text-title-md font-semibold mb-1 text-on-surface flex items-center gap-xs">
-                <span class="material-symbols-outlined text-[20px] text-primary">group</span>
+                <span class="material-symbols-rounded text-[20px] text-primary">group</span>
                 Unassigned Students
             </h3>
             <p class="text-xs text-secondary mb-md pb-md border-b border-outline-variant">Drag students onto the seating grid.</p>
@@ -34,7 +34,7 @@
             <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar" id="unassigned-list" data-row="0" data-col="0">
                 @if($unassignedStudents->isEmpty())
                     <div class="h-full flex flex-col items-center justify-center text-secondary text-center opacity-70">
-                        <span class="material-symbols-outlined text-[48px] mb-2">check_circle</span>
+                        <span class="material-symbols-rounded text-[48px] mb-2">check_circle</span>
                         <p class="text-sm">All students assigned</p>
                     </div>
                 @else
@@ -47,7 +47,7 @@
                             <p class="text-label-md font-semibold truncate">{{ $student->first_name }} {{ $student->last_name }}</p>
                             <p class="text-xs text-secondary truncate">Adm: {{ $student->admission_no }}</p>
                         </div>
-                        <div class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors cursor-grab">drag_indicator</div>
+                        <div class="material-symbols-rounded text-outline-variant group-hover:text-primary transition-colors cursor-grab">drag_indicator</div>
                     </div>
                     @endforeach
                 @endif
@@ -58,7 +58,7 @@
         <div class="flex-1 min-w-0 bg-surface border border-outline-variant rounded-2xl p-md lg:p-xl shadow-sm flex flex-col relative h-[600px] lg:h-[calc(100vh-220px)]">
             <div class="flex justify-center mb-lg shrink-0">
                 <div class="w-full max-w-lg h-12 bg-surface-container-highest rounded-xl border border-outline-variant flex items-center justify-center font-bold text-secondary uppercase tracking-widest text-sm">
-                    <span class="material-symbols-outlined mr-2">cast_for_education</span>
+                    <span class="material-symbols-rounded mr-2">cast_for_education</span>
                     Teacher's Desk / Whiteboard
                 </div>
             </div>
@@ -81,12 +81,12 @@
                                     </div>
                                     <p class="text-xs font-semibold leading-tight line-clamp-2 px-1 w-full" title="{{ $student->first_name }} {{ $student->last_name }}">{{ $student->first_name }} {{ $student->last_name }}</p>
                                     <button type="button" class="remove-btn absolute -top-2 -right-2 w-6 h-6 rounded-full bg-error text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center shadow-md hover:bg-error-container hover:text-error">
-                                        <span class="material-symbols-outlined text-[14px]">close</span>
+                                        <span class="material-symbols-rounded text-[14px]">close</span>
                                     </button>
                                 </div>
                                 @else
                                 <div class="text-outline-variant flex flex-col items-center justify-center pointer-events-none mt-2">
-                                    <span class="material-symbols-outlined text-[24px] opacity-50">event_seat</span>
+                                    <span class="material-symbols-rounded text-[24px] opacity-50">event_seat</span>
                                 </div>
                                 @endif
                             </div>
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const btn = document.createElement('button');
                     btn.type = 'button';
                     btn.className = 'remove-btn absolute -top-2 -right-2 w-6 h-6 rounded-full bg-error text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center shadow-md hover:bg-error-container hover:text-error';
-                    btn.innerHTML = '<span class="material-symbols-outlined text-[14px]">close</span>';
+                    btn.innerHTML = '<span class="material-symbols-rounded text-[14px]">close</span>';
                     itemEl.appendChild(btn);
                     itemEl.classList.add('group');
                 }
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const btn = this;
         const status = document.getElementById('save-status');
         btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Saving...';
+        btn.innerHTML = '<span class="material-symbols-rounded text-[18px] animate-spin">refresh</span> Saving...';
 
         const assignments = [];
         seats.forEach(seat => {
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .finally(() => {
             btn.disabled = false;
-            btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">save</span> Save Plan';
+            btn.innerHTML = '<span class="material-symbols-rounded text-[18px]">save</span> Save Plan';
         });
     });
 
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const btn = this;
         btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Arranging...';
+        btn.innerHTML = '<span class="material-symbols-rounded text-[18px] animate-spin">refresh</span> Arranging...';
 
         fetch('{{ route('teacher.seating.auto-arrange', $plan->id) }}', {
             method: 'POST',
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .finally(() => {
             btn.disabled = false;
-            btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">auto_awesome</span> Auto Arrange';
+            btn.innerHTML = '<span class="material-symbols-rounded text-[18px]">auto_awesome</span> Auto Arrange';
         });
     });
 });

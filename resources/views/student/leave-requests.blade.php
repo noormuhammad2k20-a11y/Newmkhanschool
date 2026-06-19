@@ -13,7 +13,7 @@
                 <p class="text-body-lg font-body-lg text-secondary mt-1">Manage and apply for leaves</p>
             </div>
             <button type="button" onclick="document.getElementById('leaveModal').classList.remove('hidden')" class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container text-label-md font-label-md rounded-lg transition-colors shadow-sm">
-                <span class="material-symbols-outlined text-[20px]">add</span>
+                <span class="material-symbols-rounded text-[20px]">add</span>
                 Apply Leave
             </button>
         </div>
@@ -22,7 +22,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-md">
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-[24px]">event_available</span>
+                    <span class="material-symbols-rounded text-[24px]">event_available</span>
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Total Allowed</p>
@@ -31,7 +31,7 @@
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-[#ecfdf5] flex items-center justify-center text-[#10b981]">
-                    <span class="material-symbols-outlined text-[24px]">event_busy</span>
+                    <span class="material-symbols-rounded text-[24px]">event_busy</span>
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Leaves Taken</p>
@@ -40,7 +40,7 @@
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-[#fffbeb] flex items-center justify-center text-[#d97706]">
-                    <span class="material-symbols-outlined text-[24px]">pending_actions</span>
+                    <span class="material-symbols-rounded text-[24px]">pending_actions</span>
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Pending</p>
@@ -49,7 +49,7 @@
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
-                    <span class="material-symbols-outlined text-[24px]">balance</span>
+                    <span class="material-symbols-rounded text-[24px]">balance</span>
                 </div>
                 <div>
                     <p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Remaining</p>
@@ -101,7 +101,7 @@
                                 <td class="px-6 py-4 text-right">
                                     @if($leave->status === 'Pending')
                                         <button onclick="window.UI.confirm('Confirm Action', 'Are you sure you want to cancel this leave request?', 'Cancel Leave', 'error').then(c => { if(c) window.UI.alert('Notice', 'Cancel function not yet implemented.'); })" class="text-error hover:bg-error-container p-2 rounded-lg transition-colors text-sm font-bold flex items-center gap-1 ml-auto">
-                                            <span class="material-symbols-outlined text-[16px]">cancel</span> Cancel
+                                            <span class="material-symbols-rounded text-[16px]">cancel</span> Cancel
                                         </button>
                                     @else
                                         <span class="text-secondary text-sm">-</span>
@@ -114,7 +114,7 @@
                 </div>
             @else
                 <div class="p-12 text-center text-secondary border border-outline-variant border-dashed rounded-xl m-4">
-                    <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">event_busy</span>
+                    <span class="material-symbols-rounded text-[48px] mb-2 opacity-50">event_busy</span>
                     <h3 class="text-headline-md font-headline-md text-on-surface mb-1">No Leaves Found</h3>
                     <p class="text-body-lg font-body-lg">You haven't applied for any leaves yet.</p>
                 </div>
@@ -133,7 +133,7 @@
         <div class="flex items-center justify-between p-6 border-b border-outline-variant">
             <h3 class="text-headline-md font-headline-md font-bold text-on-surface">Apply for Leave</h3>
             <button type="button" onclick="document.getElementById('leaveModal').classList.add('hidden')" class="text-secondary hover:bg-surface-container w-8 h-8 rounded-full flex items-center justify-center transition-colors">
-                <span class="material-symbols-outlined text-[20px]">close</span>
+                <span class="material-symbols-rounded text-[20px]">close</span>
             </button>
         </div>
         <form action="{{ route('student.leave.store') }}" method="POST" class="p-6">

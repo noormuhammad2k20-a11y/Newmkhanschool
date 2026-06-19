@@ -10,7 +10,7 @@
             </div>
             <div class="flex gap-sm">
                 <button type="button" onclick="submitBulkGrading()" class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary-container hover:text-on-primary transition-colors flex items-center gap-xs shadow-sm">
-                    <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Bulk Grade Selected
+                    <span class="material-symbols-rounded text-[18px]">auto_awesome</span> Bulk Grade Selected
                 </button>
                 <a href="{{ route('teacher.assignments') }}" class="px-md py-sm border border-outline text-on-surface rounded-lg font-label-md hover:bg-surface-container-high transition-colors">Back</a>
             </div>
@@ -91,7 +91,7 @@
                             <form method="POST" action="{{ route('teacher.submissions.grade-ai', $submission->id) }}" class="m-0 p-0 flex">
                                 @csrf
                                 <button type="submit" class="px-3 py-1.5 bg-primary text-white rounded-lg border border-primary hover:bg-primary/90 text-sm font-medium inline-flex items-center gap-1 transition-colors whitespace-nowrap" title="Use AI to grade this submission">
-                                    <span class="material-symbols-outlined text-[16px]">auto_awesome</span> AI Grade
+                                    <span class="material-symbols-rounded text-[16px]">auto_awesome</span> AI Grade
                                 </button>
                             </form>
                         </div>
@@ -119,7 +119,7 @@
     <div class="bg-surface border border-outline-variant rounded-xl max-w-md w-full shadow-lg">
         <div class="p-md border-b border-outline-variant flex justify-between items-center">
             <h3 class="text-headline-sm font-semibold text-on-surface">Apply Final Grade</h3>
-            <button onclick="closeGradingModal()" class="text-secondary hover:text-on-surface"><span class="material-symbols-outlined">close</span></button>
+            <button onclick="closeGradingModal()" class="text-secondary hover:text-on-surface"><span class="material-symbols-rounded">close</span></button>
         </div>
         <form id="gradingForm" method="POST" action="" class="p-md space-y-md">
             @csrf

@@ -8,14 +8,14 @@
     <div class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
         <div>
             <h1 class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-on-surface flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-[32px] md:text-[40px]">calendar_month</span>
+                <span class="material-symbols-rounded text-primary text-[32px] md:text-[40px]">calendar_month</span>
                 AI Timetable Generator
             </h1>
             <p class="text-body-md font-body-md text-secondary mt-1">Automatically generate optimized class schedules using AI constraints logic.</p>
         </div>
         <div class="flex gap-sm">
             <button class="px-md py-sm border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-xs">
-                <span class="material-symbols-outlined text-[18px]">history</span>
+                <span class="material-symbols-rounded text-[18px]">history</span>
                 Generation History
             </button>
         </div>
@@ -65,7 +65,7 @@
                     </div>
 
                     <button type="submit" id="generateBtn" class="mt-4 px-md py-3 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 w-full shadow-sm">
-                        <span class="material-symbols-outlined text-[20px]">magic_button</span>
+                        <span class="material-symbols-rounded text-[20px]">magic_button</span>
                         Generate Timetable
                     </button>
                 </form>
@@ -74,7 +74,7 @@
             <!-- AI Feedback Panel -->
             <div id="aiFeedback" class="bg-primary-container text-on-primary-container rounded-xl shadow-sm p-md hidden">
                 <h3 class="text-title-md font-title-md mb-2 flex items-center gap-2">
-                    <span class="material-symbols-outlined">auto_awesome</span>
+                    <span class="material-symbols-rounded">auto_awesome</span>
                     AI Optimization Results
                 </h3>
                 <ul class="text-body-md font-body-md space-y-2 mt-3 list-disc pl-5">
@@ -91,7 +91,7 @@
                 <h3 class="text-headline-sm font-headline-sm text-on-surface">Generation Preview</h3>
                 <div class="flex gap-2">
                     <button id="saveBtn" class="hidden px-md py-sm bg-success text-on-success rounded font-label-md hover:bg-success/90 transition-colors shadow-sm flex items-center gap-xs" onclick="saveTimetable()">
-                        <span class="material-symbols-outlined text-[18px]">save</span>
+                        <span class="material-symbols-rounded text-[18px]">save</span>
                         Save & Publish
                     </button>
                 </div>
@@ -100,14 +100,14 @@
             <div id="previewArea" class="flex-grow flex items-center justify-center p-xl relative bg-surface-container-lowest">
                 <!-- Initial State -->
                 <div id="initialState" class="text-center text-secondary">
-                    <span class="material-symbols-outlined text-[64px] opacity-30 mb-4 block">event_note</span>
+                    <span class="material-symbols-rounded text-[64px] opacity-30 mb-4 block">event_note</span>
                     <p class="text-title-lg font-title-lg">Ready to Generate</p>
                     <p class="text-body-md mt-2">Configure constraints and click generate to see the AI output here.</p>
                 </div>
 
                 <!-- Loading State -->
                 <div id="loadingState" class="hidden text-center text-primary w-full max-w-md">
-                    <span class="material-symbols-outlined text-[48px] animate-spin mb-4 block mx-auto">sync</span>
+                    <span class="material-symbols-rounded text-[48px] animate-spin mb-4 block mx-auto">sync</span>
                     <p class="text-title-md font-title-md mb-2">AI is calculating optimal schedules...</p>
                     <div class="w-full bg-surface-container-high rounded-full h-2.5 mb-2 overflow-hidden">
                         <div class="bg-primary h-2.5 rounded-full animate-pulse" style="width: 100%"></div>
@@ -178,7 +178,7 @@
         
         const btn = document.getElementById('generateBtn');
         btn.disabled = true;
-        btn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin">sync</span> Generating...`;
+        btn.innerHTML = `<span class="material-symbols-rounded text-[20px] animate-spin">sync</span> Generating...`;
 
         setTimeout(() => {
             document.getElementById('loadingState').classList.add('hidden');
@@ -187,17 +187,17 @@
             document.getElementById('saveBtn').classList.remove('hidden');
             
             btn.disabled = false;
-            btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">magic_button</span> Re-Generate Timetable`;
+            btn.innerHTML = `<span class="material-symbols-rounded text-[20px]">magic_button</span> Re-Generate Timetable`;
         }, 3000); // simulate ML backend processing delay
     }
 
     function saveTimetable() {
         const btn = document.getElementById('saveBtn');
-        btn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">sync</span> Saving...`;
+        btn.innerHTML = `<span class="material-symbols-rounded text-[18px] animate-spin">sync</span> Saving...`;
         
         setTimeout(() => {
             alert("Timetable successfully saved and published.");
-            btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">check</span> Saved`;
+            btn.innerHTML = `<span class="material-symbols-rounded text-[18px]">check</span> Saved`;
             btn.classList.replace('bg-success', 'bg-surface-variant');
             btn.classList.replace('text-on-success', 'text-on-surface');
             btn.disabled = true;

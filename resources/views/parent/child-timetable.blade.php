@@ -11,7 +11,7 @@
                 <p class="text-body-md font-body-md text-secondary mt-1">Viewing schedule for {{ $student->first_name }} {{ $student->last_name }}</p>
             </div>
         <a href="{{ route('parent.dashboard') }}" class="bg-surface border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center">
-            <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+            <span class="material-symbols-rounded text-[18px] mr-1">arrow_back</span>
             Back to Dashboard
         </a>
     </div>
@@ -39,7 +39,7 @@
                             @foreach($dayRoutines as $routine)
                                 <div class="bg-surface border border-outline-variant hover:border-primary rounded-lg p-md transition-colors group shadow-sm">
                                     <div class="flex items-center gap-2 mb-2">
-                                        <span class="material-symbols-outlined text-primary text-[18px]">schedule</span>
+                                        <span class="material-symbols-rounded text-primary text-[18px]">schedule</span>
                                         <span class="font-label-md text-label-md text-on-surface-variant">
                                             {{ \Carbon\Carbon::parse($routine->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($routine->end_time)->format('h:i A') }}
                                         </span>
@@ -47,7 +47,7 @@
                                     <h4 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">{{ $routine->subject->name ?? 'N/A' }}</h4>
                                     <div class="mt-md pt-md border-t border-outline-variant flex items-center justify-between">
                                         <div class="flex items-center gap-1.5 text-secondary font-body-md text-body-md">
-                                            <span class="material-symbols-outlined text-[16px]">person</span>
+                                            <span class="material-symbols-rounded text-[16px]">person</span>
                                             <span>{{ $routine->teacher->first_name ?? '' }} {{ $routine->teacher->last_name ?? '' }}</span>
                                         </div>
                                         <div class="font-label-md text-label-md text-on-surface-variant">Room {{ $routine->room_no }}</div>
@@ -62,7 +62,7 @@
     @else
         <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xl text-center shadow-sm">
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 text-secondary">
-                <span class="material-symbols-outlined text-3xl">calendar_month</span>
+                <span class="material-symbols-rounded text-3xl">calendar_month</span>
             </div>
             <h3 class="text-headline-md font-headline-md text-on-surface">No Timetable Set</h3>
             <p class="text-body-md font-body-md text-secondary mt-1">The class timetable has not been published yet.</p>

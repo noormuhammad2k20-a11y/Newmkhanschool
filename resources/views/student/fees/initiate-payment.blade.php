@@ -12,7 +12,7 @@
             <!-- Header -->
             <div class="px-8 py-6 md:px-10 border-b border-outline-variant bg-surface-bright flex items-center gap-5">
                 <a href="{{ route('student.fees') }}" class="w-11 h-11 shrink-0 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-container hover:shadow-sm transition-all group">
-                    <span class="material-symbols-outlined text-[20px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="material-symbols-rounded text-[20px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
                 </a>
                 <div>
                     <h2 class="text-headline-sm font-headline-sm text-on-surface tracking-tight">Pay Fee Challan <span class="text-primary font-bold">#{{ $fee->challan_no }}</span></h2>
@@ -37,10 +37,10 @@
                             <div class="p-5 rounded-2xl border-2 border-outline-variant peer-checked:border-[#dc2626] peer-checked:bg-[#dc2626]/5 group-hover:border-outline peer-checked:group-hover:border-[#dc2626] transition-all flex flex-col items-center gap-3 text-center h-full relative">
                                 <!-- Checkmark indicator for selected state -->
                                 <div class="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#dc2626] text-white flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100">
-                                    <span class="material-symbols-outlined text-[14px] font-bold">check</span>
+                                    <span class="material-symbols-rounded text-[14px] font-bold">check</span>
                                 </div>
                                 <div class="w-14 h-14 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-[#dc2626] shadow-sm">
-                                    <span class="material-symbols-outlined text-[28px]">account_balance_wallet</span>
+                                    <span class="material-symbols-rounded text-[28px]">account_balance_wallet</span>
                                 </div>
                                 <div>
                                     <h4 class="text-title-md font-bold text-on-surface">JazzCash</h4>
@@ -53,10 +53,10 @@
                             <input type="radio" name="payment_method" value="easypaisa" class="peer sr-only" onchange="showForm('easypaisa')">
                             <div class="p-5 rounded-2xl border-2 border-outline-variant peer-checked:border-[#10b981] peer-checked:bg-[#10b981]/5 group-hover:border-outline peer-checked:group-hover:border-[#10b981] transition-all flex flex-col items-center gap-3 text-center h-full relative">
                                 <div class="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#10b981] text-white flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100">
-                                    <span class="material-symbols-outlined text-[14px] font-bold">check</span>
+                                    <span class="material-symbols-rounded text-[14px] font-bold">check</span>
                                 </div>
                                 <div class="w-14 h-14 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-[#10b981] shadow-sm">
-                                    <span class="material-symbols-outlined text-[28px]">payments</span>
+                                    <span class="material-symbols-rounded text-[28px]">payments</span>
                                 </div>
                                 <div>
                                     <h4 class="text-title-md font-bold text-on-surface">EasyPaisa</h4>
@@ -74,7 +74,7 @@
                     <!-- JazzCash Form -->
                     <div id="form-jazzcash" class="hidden">
                         <div class="p-4 mb-6 rounded-xl bg-[#dc2626]/5 border border-[#dc2626]/20 flex items-start gap-3">
-                            <span class="material-symbols-outlined text-[#dc2626] shrink-0 mt-0.5">info</span>
+                            <span class="material-symbols-rounded text-[#dc2626] shrink-0 mt-0.5">info</span>
                             <div class="text-sm text-on-surface">
                                 <p class="font-bold text-[#dc2626] mb-1">Important Step!</p>
                                 <p class="text-secondary leading-relaxed">After clicking 'Proceed', you will receive a prompt on your mobile screen. Enter your MPIN to authorize the transaction.</p>
@@ -85,19 +85,19 @@
                             <div>
                                 <label class="block text-label-sm uppercase tracking-wider font-bold text-on-surface mb-2">JazzCash Mobile Number</label>
                                 <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined">call</span>
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded">call</span>
                                     <input type="text" name="mobile_number" placeholder="03XXXXXXXXX" required pattern="^03[0-9]{9}$" class="w-full h-12 pl-12 pr-4 border-2 border-outline-variant rounded-xl bg-surface text-on-surface focus:outline-none focus:border-[#dc2626] focus:ring-4 focus:ring-[#dc2626]/10 transition-all text-body-lg font-medium tracking-wide">
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-label-sm uppercase tracking-wider font-bold text-on-surface mb-2">Last 6 digits of CNIC</label>
                                 <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined">badge</span>
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded">badge</span>
                                     <input type="text" name="cnic_last6" placeholder="XXXXXX" required pattern="[0-9]{6}" maxlength="6" class="w-full h-12 pl-12 pr-4 border-2 border-outline-variant rounded-xl bg-surface text-on-surface focus:outline-none focus:border-[#dc2626] focus:ring-4 focus:ring-[#dc2626]/10 transition-all text-body-lg font-medium tracking-widest">
                                 </div>
                             </div>
                             <button type="submit" class="w-full h-14 bg-[#dc2626] hover:bg-[#b91c1c] active:scale-[0.99] text-white font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-2 mt-4 shadow-lg shadow-[#dc2626]/30 hover:shadow-[#dc2626]/40">
-                                <span class="material-symbols-outlined text-[20px]">lock</span> Pay ₨ {{ number_format(max(0, $fee->amount + $fee->fine - $fee->discount - $fee->paid_amount), 2) }} securely
+                                <span class="material-symbols-rounded text-[20px]">lock</span> Pay ₨ {{ number_format(max(0, $fee->amount + $fee->fine - $fee->discount - $fee->paid_amount), 2) }} securely
                             </button>
                         </form>
                     </div>
@@ -105,7 +105,7 @@
                     <!-- EasyPaisa Form -->
                     <div id="form-easypaisa" class="hidden">
                         <div class="p-4 mb-6 rounded-xl bg-[#10b981]/5 border border-[#10b981]/20 flex items-start gap-3">
-                            <span class="material-symbols-outlined text-[#10b981] shrink-0 mt-0.5">info</span>
+                            <span class="material-symbols-rounded text-[#10b981] shrink-0 mt-0.5">info</span>
                             <div class="text-sm text-on-surface">
                                 <p class="font-bold text-[#10b981] mb-1">EasyPaisa Verification</p>
                                 <p class="text-secondary leading-relaxed">Ensure your phone is unlocked. You will receive an in-app notification or USSD prompt to approve this payment.</p>
@@ -116,19 +116,19 @@
                             <div>
                                 <label class="block text-label-sm uppercase tracking-wider font-bold text-on-surface mb-2">EasyPaisa Mobile Number</label>
                                 <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined">call</span>
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded">call</span>
                                     <input type="text" name="mobile_number" placeholder="03XXXXXXXXX" required pattern="^03[0-9]{9}$" class="w-full h-12 pl-12 pr-4 border-2 border-outline-variant rounded-xl bg-surface text-on-surface focus:outline-none focus:border-[#10b981] focus:ring-4 focus:ring-[#10b981]/10 transition-all text-body-lg font-medium tracking-wide">
                                 </div>
                             </div>
                             <button type="submit" class="w-full h-14 bg-[#10b981] hover:bg-[#059669] active:scale-[0.99] text-white font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-2 mt-4 shadow-lg shadow-[#10b981]/30 hover:shadow-[#10b981]/40">
-                                <span class="material-symbols-outlined text-[20px]">lock</span> Pay ₨ {{ number_format(max(0, $fee->amount + $fee->fine - $fee->discount - $fee->paid_amount), 2) }} securely
+                                <span class="material-symbols-rounded text-[20px]">lock</span> Pay ₨ {{ number_format(max(0, $fee->amount + $fee->fine - $fee->discount - $fee->paid_amount), 2) }} securely
                             </button>
                         </form>
                     </div>
                     
                     <!-- Initial Placeholder for Forms -->
                     <div id="form-placeholder" class="bg-surface-container-lowest border-2 border-outline-variant border-dashed rounded-2xl p-8 text-center flex flex-col items-center justify-center text-secondary h-[220px]">
-                        <span class="material-symbols-outlined text-[40px] opacity-30 mb-2">mouse</span>
+                        <span class="material-symbols-rounded text-[40px] opacity-30 mb-2">mouse</span>
                         <p class="text-body-md font-medium text-on-surface-variant">Click a payment provider above to<br>enter your account details.</p>
                     </div>
 
@@ -141,7 +141,7 @@
                     <div class="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-black/5 to-transparent opacity-0 md:opacity-50"></div>
 
                     <h3 class="text-title-lg font-bold text-on-surface mb-6 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">receipt_long</span> Summary
+                        <span class="material-symbols-rounded text-primary">receipt_long</span> Summary
                     </h3>
                     
                     <div class="space-y-4">
@@ -202,10 +202,10 @@
                         <!-- Security badges -->
                         <div class="mt-8 pt-6 flex items-center justify-center gap-6 opacity-60">
                             <div class="flex items-center gap-1.5 text-xs font-bold text-secondary uppercase tracking-wider">
-                                <span class="material-symbols-outlined text-[16px]">lock</span> SSL Secured
+                                <span class="material-symbols-rounded text-[16px]">lock</span> SSL Secured
                             </div>
                             <div class="flex items-center gap-1.5 text-xs font-bold text-secondary uppercase tracking-wider">
-                                <span class="material-symbols-outlined text-[16px]">verified_user</span> Safe Pay
+                                <span class="material-symbols-rounded text-[16px]">verified_user</span> Safe Pay
                             </div>
                         </div>
 

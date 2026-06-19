@@ -8,7 +8,7 @@
             <p class="font-body-md text-body-md text-on-surface-variant">Manage digital learning materials for students.</p>
         </div>
         <button onclick="document.getElementById('createNoteModal').classList.remove('hidden')" class="flex items-center gap-sm px-md py-sm bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-colors">
-            <span class="material-symbols-outlined text-[20px]">add</span>
+            <span class="material-symbols-rounded text-[20px]">add</span>
             <span class="font-label-md font-semibold">Upload Note</span>
         </button>
     </div>
@@ -48,12 +48,12 @@
                             </td>
                             <td class="p-md text-right">
                                 <button onclick="openEditNoteModal({{ $note->id }})" class="text-primary hover:text-primary/80 mr-2">
-                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                    <span class="material-symbols-rounded text-[20px]">edit</span>
                                 </button>
                                 <form action="{{ route('teacher.digital_learning.notes.destroy', $note->id) }}" method="POST" class="inline" data-confirm="Delete this note?">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="text-error hover:text-error/80">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                                        <span class="material-symbols-rounded text-[20px]">delete</span>
                                     </button>
                                 </form>
                             </td>
@@ -77,7 +77,7 @@
         <div class="p-6 border-b border-outline-variant flex justify-between items-center">
             <h2 class="font-headline-md text-on-surface">Upload Digital Note</h2>
             <button type="button" onclick="document.getElementById('createNoteModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <div class="p-6">

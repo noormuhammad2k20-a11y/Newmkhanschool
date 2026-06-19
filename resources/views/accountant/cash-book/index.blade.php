@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Financial Operations</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Cash Book</span>
                         </div>
                     </li>
@@ -35,7 +35,7 @@
                     <p class="text-body-lg font-body-lg text-secondary mt-1">Manage general ledger entries and cash flow</p>
                 </div>
                 <button onclick="document.getElementById('addEntryModal').showModal()" class="btn-primary shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    <span class="material-symbols-rounded text-[20px]">add</span>
                     Add Entry
                 </button>
             </div>
@@ -49,14 +49,14 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
 
         @if($errors->any())
         <div class="p-4 mb-4 text-sm text-error rounded-xl bg-error-container border border-error relative flex items-start gap-3">
-            <span class="material-symbols-outlined text-error">error</span>
+            <span class="material-symbols-rounded text-error">error</span>
             <ul class="list-disc ml-4">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -69,7 +69,7 @@
             <!-- Stats -->
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined">arrow_downward</span>
+                    <span class="material-symbols-rounded">arrow_downward</span>
                 </div>
                 <div>
                     <p class="text-label-md text-secondary uppercase font-semibold">Total Incoming (Credit)</p>
@@ -78,7 +78,7 @@
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined">arrow_upward</span>
+                    <span class="material-symbols-rounded">arrow_upward</span>
                 </div>
                 <div>
                     <p class="text-label-md text-secondary uppercase font-semibold">Total Outgoing (Debit)</p>
@@ -114,7 +114,7 @@
                             <td class="py-4 px-6 font-medium text-on-surface">{{ $entry->description }}</td>
                             <td class="py-4 px-6 text-secondary">
                                 @if($entry->bankAccount)
-                                    <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">account_balance</span> {{ $entry->bankAccount->account_name }}</span>
+                                    <span class="inline-flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">account_balance</span> {{ $entry->bankAccount->account_name }}</span>
                                 @else
                                     Cash / Manual
                                 @endif
@@ -129,7 +129,7 @@
                         @empty
                         <tr>
                             <td colspan="5" class="py-12 text-center text-secondary">
-                                <span class="material-symbols-outlined text-4xl mb-2 text-outline">receipt_long</span>
+                                <span class="material-symbols-rounded text-4xl mb-2 text-outline">receipt_long</span>
                                 <p class="text-body-lg font-medium">No ledger entries found for this month.</p>
                             </td>
                         </tr>
@@ -151,11 +151,11 @@
     <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-xl">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-                <span class="material-symbols-outlined text-[20px]">add_notes</span>
+                <span class="material-symbols-rounded text-[20px]">add_notes</span>
             </div>
             Add Ledger Entry
         </h3>
-        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
+        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-rounded">close</span></button></form>
     </div>
     <form method="POST" action="{{ route('accountant.cash-book.store') }}">
         @csrf

@@ -8,7 +8,7 @@
             <p class="font-body-md text-body-md text-on-surface-variant">Manage digital quizzes and assessments.</p>
         </div>
         <button onclick="document.getElementById('createQuizModal').classList.remove('hidden')" class="flex items-center gap-sm px-md py-sm bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-colors">
-            <span class="material-symbols-outlined text-[20px]">add</span>
+            <span class="material-symbols-rounded text-[20px]">add</span>
             <span class="font-label-md font-semibold">Create Quiz</span>
         </button>
     </div>
@@ -61,17 +61,17 @@
                             <td class="p-md">
                                 <div class="flex items-center justify-end gap-2">
                                     <a href="{{ route('teacher.digital_learning.quizzes.questions', $quiz->id) }}" class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100 hover:border-blue-200 rounded-lg transition-colors text-sm font-medium shadow-sm" title="Manage Questions">
-                                        <span class="material-symbols-outlined text-[18px]">quiz</span>
+                                        <span class="material-symbols-rounded text-[18px]">quiz</span>
                                         <span>Questions</span>
                                     </a>
                                     <a href="{{ route('teacher.digital_learning.quizzes.results', $quiz->id) }}" class="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-100 hover:border-purple-200 rounded-lg transition-colors text-sm font-medium shadow-sm" title="View Results">
-                                        <span class="material-symbols-outlined text-[18px]">analytics</span>
+                                        <span class="material-symbols-rounded text-[18px]">analytics</span>
                                         <span>Results</span>
                                     </a>
                                     <form action="{{ route('teacher.digital_learning.quizzes.destroy', $quiz->id) }}" method="POST" class="inline" data-confirm="Delete this quiz?">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="flex items-center justify-center w-8 h-8 bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 hover:border-red-200 rounded-lg transition-colors shadow-sm" title="Delete Quiz">
-                                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                                            <span class="material-symbols-rounded text-[18px]">delete</span>
                                         </button>
                                     </form>
                                 </div>
@@ -96,7 +96,7 @@
         <div class="p-6 border-b border-outline-variant flex justify-between items-center">
             <h2 class="font-headline-md text-on-surface">Create Quiz</h2>
             <button onclick="document.getElementById('createQuizModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <form action="{{ route('teacher.digital_learning.quizzes.store') }}" method="POST" class="p-6 space-y-4">

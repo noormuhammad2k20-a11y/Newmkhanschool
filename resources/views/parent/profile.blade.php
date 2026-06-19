@@ -10,7 +10,7 @@
             <div>
                 <nav class="flex items-center gap-2 text-label-md font-label-md text-secondary mb-2">
                     <a href="{{ route('parent.dashboard') }}" class="hover:text-primary transition-colors">Dashboard</a>
-                    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                    <span class="material-symbols-rounded text-[16px]">chevron_right</span>
                     <span class="text-on-surface">My Profile</span>
                 </nav>
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">My Profile</h2>
@@ -41,7 +41,7 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col">
                     <div class="p-xl border-b border-outline-variant bg-surface-bright">
                         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">manage_accounts</span>
+                            <span class="material-symbols-rounded text-primary">manage_accounts</span>
                             Update Information
                         </h3>
                     </div>
@@ -55,7 +55,7 @@
                                 <label class="block text-label-md font-label-md text-on-surface mb-2">Full Name <span class="text-error">*</span></label>
                                 <div class="relative">
                                     <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-body-lg font-body-lg focus:border-primary focus:ring-1 focus:ring-primary text-on-surface transition-colors" required>
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">person</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">person</span>
                                 </div>
                                 @error('name') <span class="text-error text-xs mt-1 block">{{ $message }}</span> @enderror
                             </div>
@@ -63,10 +63,10 @@
                                 <label class="block text-label-md font-label-md text-on-surface mb-2">Email Address</label>
                                 <div class="relative">
                                     <input type="email" value="{{ $user->email }}" disabled class="w-full bg-surface-container border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-body-lg font-body-lg text-secondary cursor-not-allowed border-dashed">
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] opacity-50">mail</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px] opacity-50">mail</span>
                                 </div>
                                 <p class="font-label-sm text-label-sm text-secondary mt-2 flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[14px]">info</span>
+                                    <span class="material-symbols-rounded text-[14px]">info</span>
                                     Contact administration to change email.
                                 </p>
                             </div>
@@ -76,7 +76,7 @@
                         
                         <div class="mb-6">
                             <h4 class="text-title-lg font-title-lg text-on-surface flex items-center gap-2 mb-2">
-                                <span class="material-symbols-outlined text-secondary">lock</span>
+                                <span class="material-symbols-rounded text-secondary">lock</span>
                                 Change Password
                             </h4>
                             <p class="text-body-md text-secondary">Leave the fields blank if you do not wish to change your password.</p>
@@ -87,7 +87,7 @@
                                 <label class="block text-label-md font-label-md text-on-surface mb-2">New Password</label>
                                 <div class="relative">
                                     <input type="password" name="password" class="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-body-lg font-body-lg focus:border-primary focus:ring-1 focus:ring-primary text-on-surface transition-colors" placeholder="••••••••">
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">key</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">key</span>
                                 </div>
                                 @error('password') <span class="text-error text-xs mt-1 block">{{ $message }}</span> @enderror
                             </div>
@@ -95,14 +95,14 @@
                                 <label class="block text-label-md font-label-md text-on-surface mb-2">Confirm Password</label>
                                 <div class="relative">
                                     <input type="password" name="password_confirmation" class="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-body-lg font-body-lg focus:border-primary focus:ring-1 focus:ring-primary text-on-surface transition-colors" placeholder="••••••••">
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">password</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">password</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="flex justify-end pt-6 border-t border-outline-variant">
                             <button type="submit" class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-lg hover:bg-primary/90 transition-colors flex items-center justify-center shadow-sm gap-2">
-                                <span class="material-symbols-outlined text-[18px]">save</span>
+                                <span class="material-symbols-rounded text-[18px]">save</span>
                                 Save Changes
                             </button>
                         </div>

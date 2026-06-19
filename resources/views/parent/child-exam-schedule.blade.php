@@ -10,9 +10,9 @@
             <div>
                 <nav class="flex items-center gap-2 text-label-md font-label-md text-secondary mb-2">
                     <a href="{{ route('parent.dashboard') }}" class="hover:text-primary transition-colors">Dashboard</a>
-                    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                    <span class="material-symbols-rounded text-[16px]">chevron_right</span>
                     <a href="{{ route('parent.children') }}" class="hover:text-primary transition-colors">My Children</a>
-                    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                    <span class="material-symbols-rounded text-[16px]">chevron_right</span>
                     <span class="text-on-surface">Exam Schedule</span>
                 </nav>
                 <h2 class="text-headline-xl font-headline-xl text-on-surface">Exam Schedule</h2>
@@ -20,11 +20,11 @@
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('parent.children') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-outline-variant text-on-surface rounded-lg font-label-md hover:bg-surface-container-low transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                     Back to Children
                 </a>
                 <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high text-on-surface rounded-lg font-label-md hover:bg-surface-container-highest transition-colors shadow-sm hidden sm:flex">
-                    <span class="material-symbols-outlined text-[18px]">print</span>
+                    <span class="material-symbols-rounded text-[18px]">print</span>
                     Print Schedule
                 </button>
             </div>
@@ -61,7 +61,7 @@
                                 <td class="py-4 px-6">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
-                                            <span class="material-symbols-outlined text-[20px]">menu_book</span>
+                                            <span class="material-symbols-rounded text-[20px]">menu_book</span>
                                         </div>
                                         <span class="text-title-md font-title-md text-on-surface">{{ $schedule->subjectRelation->name ?? 'N/A' }}</span>
                                     </div>
@@ -74,7 +74,7 @@
                                 </td>
                                 <td class="py-4 px-6">
                                     <div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant">
-                                        <span class="material-symbols-outlined text-[18px] text-secondary">schedule</span>
+                                        <span class="material-symbols-rounded text-[18px] text-secondary">schedule</span>
                                         {{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}
                                     </div>
                                 </td>
@@ -98,7 +98,7 @@
                                 <td colspan="5" class="py-20 text-center">
                                     <div class="flex flex-col items-center justify-center text-secondary">
                                         <div class="w-20 h-20 rounded-full bg-surface-container-low flex items-center justify-center mb-4">
-                                            <span class="material-symbols-outlined text-[40px] opacity-50">event_busy</span>
+                                            <span class="material-symbols-rounded text-[40px] opacity-50">event_busy</span>
                                         </div>
                                         <h3 class="text-headline-md font-headline-md text-on-surface mb-2">No Exam Schedule</h3>
                                         <p class="text-body-lg font-body-lg text-secondary">There are no upcoming exams scheduled for this student.</p>
@@ -123,7 +123,7 @@
         .print-show {
             display: flex !important;
         }
-        nav, .material-symbols-outlined:not(.print-show .material-symbols-outlined), button, a {
+        nav, .material-symbols-rounded:not(.print-show .material-symbols-rounded), button, a {
             display: none !important;
         }
     }

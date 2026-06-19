@@ -78,12 +78,12 @@ class FeeChallanController extends Controller
 
     private function getSchoolSettings($schoolId): array
     {
-        // Pull school info from schools/school_branches table or config
+        // Pull school info from centralized settings
         return [
-            'name'    => config('app.school_name', 'MKhan School'),
-            'address' => config('app.school_address', 'School Address'),
-            'phone'   => config('app.school_phone', ''),
-            'logo'    => config('app.school_logo', ''),
+            'name'    => setting('school.name', config('app.school_name', 'MKhan School')),
+            'address' => setting('general.address', config('app.school_address', 'School Address')),
+            'phone'   => setting('general.phone', config('app.school_phone', '')),
+            'logo'    => setting('general.system_logo', ''),
         ];
     }
 }

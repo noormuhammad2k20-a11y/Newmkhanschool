@@ -12,7 +12,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <div class="relative">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
+                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
                     <input type="text" placeholder="Search quizzes..." class="pl-10 pr-4 py-2 border border-outline-variant rounded-xl bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all w-64">
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Available</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-[18px]">quiz</span>
+                        <span class="material-symbols-rounded text-[18px]">quiz</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -41,7 +41,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Completed</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <span class="material-symbols-outlined text-[18px]">task_alt</span>
+                        <span class="material-symbols-rounded text-[18px]">task_alt</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -55,7 +55,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Avg Score</h3>
                     <div class="w-8 h-8 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
-                        <span class="material-symbols-outlined text-[18px]">monitoring</span>
+                        <span class="material-symbols-rounded text-[18px]">monitoring</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -69,7 +69,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending</h3>
                     <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
-                        <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                        <span class="material-symbols-rounded text-[18px]">pending_actions</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -96,8 +96,8 @@
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-headline-md font-headline-md text-on-surface">Your Quizzes</h3>
                 <div class="flex items-center gap-2">
-                    <button class="w-8 h-8 flex items-center justify-center rounded bg-primary-fixed text-primary"><span class="material-symbols-outlined text-[20px]">grid_view</span></button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">view_list</span></button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-primary-fixed text-primary"><span class="material-symbols-rounded text-[20px]">grid_view</span></button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-rounded text-[20px]">view_list</span></button>
                 </div>
             </div>
 
@@ -140,14 +140,14 @@
                                 <div class="flex flex-col gap-1">
                                     <span class="text-[10px] text-secondary uppercase tracking-wider">Duration</span>
                                     <span class="font-bold text-body-lg text-on-surface flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-[16px] text-primary">timer</span>
+                                        <span class="material-symbols-rounded text-[16px] text-primary">timer</span>
                                         {{ $quiz->duration_minutes }}m
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1">
                                     <span class="text-[10px] text-secondary uppercase tracking-wider">Passing</span>
                                     <span class="font-bold text-body-lg text-on-surface flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-[16px] text-secondary-container-on">rule</span>
+                                        <span class="material-symbols-rounded text-[16px] text-secondary-container-on">rule</span>
                                         {{ $quiz->passing_marks }}/{{ $quiz->total_marks }}
                                     </span>
                                 </div>
@@ -155,7 +155,7 @@
                                 <div class="flex flex-col gap-1 col-span-2">
                                     <span class="text-[10px] text-secondary uppercase tracking-wider">Due Date</span>
                                     <span class="font-bold text-body-sm text-on-surface flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-[16px] text-error">event</span>
+                                        <span class="material-symbols-rounded text-[16px] text-error">event</span>
                                         {{ \Carbon\Carbon::parse($quiz->end_at)->format('M d, Y h:i A') }}
                                     </span>
                                 </div>
@@ -181,7 +181,7 @@
                         <div class="bg-surface-bright border-t border-outline-variant p-3 flex gap-2">
                             @if($attempt)
                                 <button class="flex-1 py-2 bg-surface-container border border-outline-variant text-on-surface rounded-lg font-bold text-label-md hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2" disabled>
-                                    <span class="material-symbols-outlined text-[18px]">done_all</span> Completed
+                                    <span class="material-symbols-rounded text-[18px]">done_all</span> Completed
                                 </button>
                             @else
                                 @php
@@ -198,11 +198,11 @@
 
                                 @if($isLocked)
                                     <button class="flex-1 py-2 bg-surface-container border border-outline-variant text-on-surface-variant rounded-lg font-bold text-label-md flex items-center justify-center gap-2 cursor-not-allowed opacity-75" title="{{ $lockReason }}" disabled>
-                                        <span class="material-symbols-outlined text-[18px]">lock</span> {{ $lockReason }}
+                                        <span class="material-symbols-rounded text-[18px]">lock</span> {{ $lockReason }}
                                     </button>
                                 @else
                                     <a href="{{ route('student.digital_learning.quizzes.take', $quiz->id) }}" class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
-                                        <span class="material-symbols-outlined text-[18px]">play_arrow</span> Start Quiz
+                                        <span class="material-symbols-rounded text-[18px]">play_arrow</span> Start Quiz
                                     </a>
                                 @endif
                             @endif
@@ -211,7 +211,7 @@
                 @empty
                     <div class="col-span-full py-16 flex flex-col items-center justify-center bg-surface-container-lowest border border-outline-variant border-dashed rounded-xl">
                         <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center text-secondary mb-4">
-                            <span class="material-symbols-outlined text-[32px]">quiz</span>
+                            <span class="material-symbols-rounded text-[32px]">quiz</span>
                         </div>
                         <h4 class="text-headline-md font-headline-md text-on-surface mb-1">No Quizzes Available</h4>
                         <p class="text-body-md text-secondary text-center max-w-md">There are currently no active quizzes assigned to your class.</p>

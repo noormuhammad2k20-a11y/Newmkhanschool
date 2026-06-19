@@ -14,11 +14,11 @@
             </div>
             <div class="flex items-center gap-sm">
                 <a href="{{ route('admin.teachers') }}" class="bg-surface border border-outline-variant text-on-surface text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center gap-sm hover:bg-surface-container-high transition-colors shadow-sm">
-                    <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[20px]">arrow_back</span>
                     Back
                 </a>
                 <a href="{{ route('admin.teachers.edit', $teacher->id) }}" class="bg-primary text-on-primary text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center gap-sm hover:opacity-90 transition-opacity shadow-sm">
-                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                    <span class="material-symbols-rounded text-[20px]">edit</span>
                     Edit Profile
                 </a>
             </div>
@@ -41,11 +41,11 @@
                 <h3 class="text-display-sm font-headline-lg text-on-background mb-xs">{{ $teacher->full_name }}</h3>
                 <div class="flex flex-wrap items-center justify-center md:justify-start gap-md mt-sm">
                     <span class="inline-flex items-center gap-xs px-sm py-xs bg-surface-container-high text-on-surface-variant rounded-md text-label-md">
-                        <span class="material-symbols-outlined text-[16px]">badge</span>
+                        <span class="material-symbols-rounded text-[16px]">badge</span>
                         Emp ID: {{ $teacher->employee_number ?? 'N/A' }}
                     </span>
                     <span class="inline-flex items-center gap-xs px-sm py-xs bg-[#e6f4ea] text-[#137333] rounded-md text-label-md font-bold">
-                        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                        <span class="material-symbols-rounded text-[16px]">check_circle</span>
                         Active
                     </span>
                 </div>
@@ -58,7 +58,7 @@
             <!-- Academic Information -->
             <div class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex items-center gap-sm mb-lg border-b border-outline-variant pb-sm">
-                    <span class="material-symbols-outlined text-primary text-[24px]">school</span>
+                    <span class="material-symbols-rounded text-primary text-[24px]">school</span>
                     <h4 class="text-title-lg font-headline-md text-on-background">Professional Details</h4>
                 </div>
                 <div class="space-y-md">
@@ -80,7 +80,7 @@
             <!-- Personal Information -->
             <div class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex items-center gap-sm mb-lg border-b border-outline-variant pb-sm">
-                    <span class="material-symbols-outlined text-primary text-[24px]">person</span>
+                    <span class="material-symbols-rounded text-primary text-[24px]">person</span>
                     <h4 class="text-title-lg font-headline-md text-on-background">Contact & Personal Information</h4>
                 </div>
                 <div class="space-y-md">

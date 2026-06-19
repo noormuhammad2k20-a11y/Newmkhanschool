@@ -174,6 +174,17 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
         Route::post('/roles/{id}/permissions', [\App\Http\Controllers\RoleController::class, 'updatePermissions'])->name('admin.roles.permissions.update');
     });
 
+    // Settings Management (Super Admin Only)
+    Route::middleware('role:Super Admin')->prefix('settings')->name('admin.settings.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('index');
+        Route::post('/update', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('update');
+        Route::post('/group/{slug}', [\App\Http\Controllers\Admin\SettingController::class, 'updateGroup'])->name('update-group');
+        Route::post('/upload', [\App\Http\Controllers\Admin\SettingController::class, 'uploadFile'])->name('upload');
+        Route::post('/clear-cache', [\App\Http\Controllers\Admin\SettingController::class, 'clearCache'])->name('clear-cache');
+        Route::get('/export', [\App\Http\Controllers\Admin\SettingController::class, 'export'])->name('export');
+        Route::post('/import', [\App\Http\Controllers\Admin\SettingController::class, 'import'])->name('import');
+    });
+
     // Digital Learning Routes
     Route::prefix('digital-learning')->name('admin.digital_learning.')->group(function() {
         Route::get('/notes', [\App\Http\Controllers\Admin\DigitalLearningController::class, 'notesIndex'])->name('notes');

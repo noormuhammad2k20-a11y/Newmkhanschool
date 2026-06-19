@@ -12,10 +12,10 @@
                 </div>
                 <div class="flex gap-sm">
                     <button class="px-md py-sm border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface bg-surface hover:bg-surface-container-highest transition-colors flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]">download</span> Export Report
+                        <span class="material-symbols-rounded text-[18px]">download</span> Export Report
                     </button>
                     <button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors shadow-sm flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]">bolt</span> Generate Payroll
+                        <span class="material-symbols-rounded text-[18px]">bolt</span> Generate Payroll
                     </button>
                 </div>
             </div>
@@ -27,12 +27,12 @@
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-md">
                             <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Gross Salaries</span>
-                            <span class="material-symbols-outlined text-primary bg-primary-fixed-dim bg-opacity-20 p-xs rounded-md">account_balance</span>
+                            <span class="material-symbols-rounded text-primary bg-primary-fixed-dim bg-opacity-20 p-xs rounded-md">account_balance</span>
                         </div>
                         <div>
                             <div class="font-headline-xl text-headline-xl text-on-background">1,245,000</div>
                             <div class="font-label-md text-label-md text-secondary mt-xs flex items-center gap-xs">
-                                <span class="material-symbols-outlined text-[14px] text-green-600">trending_up</span>
+                                <span class="material-symbols-rounded text-[14px] text-green-600">trending_up</span>
                                 +2.4% from last month
                             </div>
                         </div>
@@ -41,12 +41,12 @@
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-md">
                             <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Taxes &amp; Deductions</span>
-                            <span class="material-symbols-outlined text-error bg-error-container p-xs rounded-md">receipt_long</span>
+                            <span class="material-symbols-rounded text-error bg-error-container p-xs rounded-md">receipt_long</span>
                         </div>
                         <div>
                             <div class="font-headline-xl text-headline-xl text-on-background">210,500</div>
                             <div class="font-label-md text-label-md text-secondary mt-xs flex items-center gap-xs">
-                                <span class="material-symbols-outlined text-[14px] text-error">trending_down</span>
+                                <span class="material-symbols-rounded text-[14px] text-error">trending_down</span>
                                 -0.5% from last month
                             </div>
                         </div>
@@ -57,12 +57,12 @@
                         <div class="absolute -right-8 -top-8 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
                         <div class="flex justify-between items-start mb-md relative z-10">
                             <span class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-wider">Total Net Paid</span>
-                            <span class="material-symbols-outlined text-on-primary">price_check</span>
+                            <span class="material-symbols-rounded text-on-primary">price_check</span>
                         </div>
                         <div class="relative z-10">
                             <div class="font-headline-xl text-headline-xl">1,034,500</div>
                             <div class="font-label-md text-label-md text-primary-fixed-dim mt-xs flex items-center gap-xs">
-                                <span class="material-symbols-outlined text-[14px]">check_circle</span> 245 Staff Processed
+                                <span class="material-symbols-rounded text-[14px]">check_circle</span> 245 Staff Processed
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                     <div class="flex justify-between items-center mb-md border-b border-surface-variant pb-xs">
                         <h3 class="font-headline-md text-headline-md text-on-background">Payment Status</h3>
                         <button class="text-primary hover:bg-surface-container-highest p-xs rounded-full transition-colors">
-                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                            <span class="material-symbols-rounded text-[20px]">more_vert</span>
                         </button>
                     </div>
                     <div class="space-y-md mt-md">
@@ -125,11 +125,11 @@
                     <!-- Table Filters/Search -->
                     <div class="flex gap-sm">
                         <div class="relative">
-                            <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px]">search</span>
+                            <span class="material-symbols-rounded absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px]">search</span>
                             <input class="pl-8 pr-sm py-xs text-body-md border border-outline-variant rounded-md bg-surface w-48 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Search staff ID..." type="text" />
                         </div>
                         <button class="px-sm py-xs border border-outline-variant rounded-md font-label-md text-label-md bg-surface flex items-center gap-xs hover:bg-surface-container-high">
-                            <span class="material-symbols-outlined text-[16px]">filter_list</span> Filter
+                            <span class="material-symbols-rounded text-[16px]">filter_list</span> Filter
                         </button>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                                 </td>
                                 <td class="py-sm px-md text-center">
                                     <button class="text-primary hover:bg-primary-fixed-dim hover:bg-opacity-20 p-xs rounded-full transition-colors" title="Download Slip">
-                                        <span class="material-symbols-outlined text-[18px]">receipt</span>
+                                        <span class="material-symbols-rounded text-[18px]">receipt</span>
                                     </button>
                                 </td>
                             </tr>
@@ -198,7 +198,7 @@
                                 </td>
                                 <td class="py-sm px-md text-center">
                                     <button class="text-primary hover:bg-primary-fixed-dim hover:bg-opacity-20 p-xs rounded-full transition-colors" title="Preview Slip">
-                                        <span class="material-symbols-outlined text-[18px]">visibility</span>
+                                        <span class="material-symbols-rounded text-[18px]">visibility</span>
                                     </button>
                                 </td>
                             </tr>
@@ -225,7 +225,7 @@
                                 </td>
                                 <td class="py-sm px-md text-center">
                                     <button class="text-primary hover:bg-primary-fixed-dim hover:bg-opacity-20 p-xs rounded-full transition-colors" title="Review">
-                                        <span class="material-symbols-outlined text-[18px]">edit_document</span>
+                                        <span class="material-symbols-rounded text-[18px]">edit_document</span>
                                     </button>
                                 </td>
                             </tr>

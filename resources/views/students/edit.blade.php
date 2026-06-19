@@ -17,9 +17,9 @@
                 <div>
                     <div class="flex items-center text-label-md font-label-md text-secondary mb-xs">
                         <a class="hover:text-primary transition-colors" href="{{ route('admin.students') }}">Students</a>
-                        <span class="material-symbols-outlined text-[14px] mx-xs">chevron_right</span>
+                        <span class="material-symbols-rounded text-[14px] mx-xs">chevron_right</span>
                         <a class="hover:text-primary transition-colors" href="{{ route('admin.students.show', $student->id) }}">{{ $student->first_name }}</a>
-                        <span class="material-symbols-outlined text-[14px] mx-xs">chevron_right</span>
+                        <span class="material-symbols-rounded text-[14px] mx-xs">chevron_right</span>
                         <span class="text-on-surface">Edit Record</span>
                     </div>
                     <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface">
@@ -30,11 +30,11 @@
                 </div>
                 <div class="mt-sm sm:mt-0 flex gap-sm">
                     <a href="{{ route('admin.students.show', $student->id) }}" class="px-md py-sm rounded border border-outline-variant bg-surface-container-lowest text-primary text-label-md font-label-md hover:bg-surface transition-colors flex items-center">
-                        <span class="material-symbols-outlined mr-xs text-[18px]">close</span>
+                        <span class="material-symbols-rounded mr-xs text-[18px]">close</span>
                         Cancel
                     </a>
                     <button class="px-md py-sm rounded bg-primary text-on-primary text-label-md font-label-md hover:opacity-90 transition-opacity flex items-center" form="editStudentForm" type="submit">
-                        <span class="material-symbols-outlined mr-xs text-[18px]">save</span>
+                        <span class="material-symbols-rounded mr-xs text-[18px]">save</span>
                         Save Changes
                     </button>
                 </div>
@@ -46,14 +46,14 @@
                 <!-- 1. Personal Section -->
                 <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg md:p-xl">
                     <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
-                        <span class="material-symbols-outlined text-primary mr-sm text-[24px]">person</span>
+                        <span class="material-symbols-rounded text-primary mr-sm text-[24px]">person</span>
                         <h3 class="text-headline-md font-headline-md text-on-surface">Personal Information</h3>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
                         <!-- Photo Placeholder -->
                         <div class="lg:col-span-3 flex flex-col items-center justify-start">
                             <div class="w-32 h-32 md:w-40 md:h-40 rounded border-2 border-dashed border-outline-variant bg-surface-container-low flex flex-col items-center justify-center text-secondary relative overflow-hidden group cursor-pointer hover:border-primary hover:bg-primary-fixed transition-colors">
-                                <span class="material-symbols-outlined text-[32px] mb-xs group-hover:text-primary">person</span>
+                                <span class="material-symbols-rounded text-[32px] mb-xs group-hover:text-primary">person</span>
                                 <span class="text-label-md font-label-md text-center px-2 group-hover:text-primary">Change Photo</span>
                                 <input name="photo" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" type="file" />
                             </div>
@@ -86,7 +86,7 @@
                                         <option value="Female" {{ $student->gender == 'Female' ? 'selected' : '' }}>Female</option>
                                         <option value="Other" {{ $student->gender == 'Other' ? 'selected' : '' }}>Other</option>
                                     </select>
-                                    <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                    <span class="material-symbols-rounded absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
                                 </div>
                             </div>
                             <div>
@@ -108,7 +108,7 @@
                 <!-- 2. Academic Section -->
                 <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg md:p-xl">
                     <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
-                        <span class="material-symbols-outlined text-primary mr-sm text-[24px]">school</span>
+                        <span class="material-symbols-rounded text-primary mr-sm text-[24px]">school</span>
                         <h3 class="text-headline-md font-headline-md text-on-surface">Academic Details</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
@@ -139,7 +139,7 @@
                                         <option value="{{ $class->id }}" {{ $student->current_class_id == $class->id ? 'selected' : '' }}>{{ $class->name }}</option>
                                     @endforeach
                                 </select>
-                                <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                <span class="material-symbols-rounded absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
                             </div>
                         </div>
                         <div>
@@ -151,7 +151,7 @@
                                         <option value="{{ $section->id }}" {{ $student->current_section_id == $section->id ? 'selected' : '' }}>{{ $section->name }}</option>
                                     @endforeach
                                 </select>
-                                <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                <span class="material-symbols-rounded absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
                             </div>
                         </div>
                         <div>
@@ -170,7 +170,7 @@
                     <!-- Parent Details -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg md:p-xl">
                         <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
-                            <span class="material-symbols-outlined text-primary mr-sm text-[24px]">family_restroom</span>
+                            <span class="material-symbols-rounded text-primary mr-sm text-[24px]">family_restroom</span>
                             <h3 class="text-headline-md font-headline-md text-on-surface">Parent / Guardian Details</h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
@@ -194,7 +194,7 @@
                     <!-- Address Details -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded p-lg md:p-xl">
                         <div class="border-b border-outline-variant pb-sm mb-lg flex items-center">
-                            <span class="material-symbols-outlined text-primary mr-sm text-[24px]">location_on</span>
+                            <span class="material-symbols-rounded text-primary mr-sm text-[24px]">location_on</span>
                             <h3 class="text-headline-md font-headline-md text-on-surface">Address & Status</h3>
                         </div>
                         <div class="space-y-lg">
@@ -210,7 +210,7 @@
                                         <option value="Irregular" {{ $student->status == 'Irregular' ? 'selected' : '' }}>Irregular</option>
                                         <option value="Transferred" {{ $student->status == 'Transferred' ? 'selected' : '' }}>Transferred</option>
                                     </select>
-                                    <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+                                    <span class="material-symbols-rounded absolute right-sm top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
                                 </div>
                             </div>
                             <div class="pt-sm border-t border-outline-variant">
@@ -218,7 +218,7 @@
                                     <div class="relative flex items-center justify-center w-5 h-5">
                                         <input type="hidden" name="is_tuition" value="0">
                                         <input type="checkbox" name="is_tuition" value="1" {{ $student->is_tuition ? 'checked' : '' }} class="peer appearance-none w-5 h-5 border-2 border-outline rounded-[2px] checked:bg-primary checked:border-primary transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                                        <span class="material-symbols-outlined absolute text-on-primary text-[16px] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+                                        <span class="material-symbols-rounded absolute text-on-primary text-[16px] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
                                     </div>
                                     <div>
                                         <div class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">Tuition Student</div>

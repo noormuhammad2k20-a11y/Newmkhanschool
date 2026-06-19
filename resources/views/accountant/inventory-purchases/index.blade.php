@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Financial Operations</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Inventory Purchases</span>
                         </div>
                     </li>
@@ -35,7 +35,7 @@
                     <p class="text-body-lg font-body-lg text-secondary mt-1">Record purchases and automatically update ledger</p>
                 </div>
                 <button onclick="document.getElementById('addPurchaseModal').showModal()" class="btn-primary shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    <span class="material-symbols-rounded text-[20px]">add</span>
                     Record Purchase
                 </button>
             </div>
@@ -43,7 +43,7 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
@@ -68,7 +68,7 @@
                             <td class="py-4 px-6 font-medium text-on-surface">
                                 <div class="flex items-center gap-2">
                                     <div class="w-8 h-8 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant">
-                                        <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                        <span class="material-symbols-rounded text-[16px]">calendar_today</span>
                                     </div>
                                     {{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M, Y') }}
                                 </div>
@@ -96,7 +96,7 @@
                             <td class="py-4 px-6 text-right">
                                 <div class="flex justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
                                     <button class="text-secondary bg-surface hover:text-primary hover:bg-primary/10 border border-outline-variant hover:border-primary/30 p-2 rounded-lg transition-colors tooltip" data-tip="View Details">
-                                        <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                        <span class="material-symbols-rounded text-[20px]">visibility</span>
                                     </button>
                                 </div>
                             </td>
@@ -104,7 +104,7 @@
                         @empty
                         <tr>
                             <td colspan="6" class="py-16 text-center text-secondary">
-                                <span class="material-symbols-outlined text-5xl mb-3 text-outline">shopping_cart</span>
+                                <span class="material-symbols-rounded text-5xl mb-3 text-outline">shopping_cart</span>
                                 <p class="text-body-lg font-medium text-on-surface">No inventory purchases recorded yet.</p>
                                 <p class="text-body-md mt-1">Click "Record Purchase" to add a new inventory order.</p>
                             </td>
@@ -127,11 +127,11 @@
     <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-xl">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
-                <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+                <span class="material-symbols-rounded text-[20px]">shopping_cart</span>
             </div>
             Record Purchase
         </h3>
-        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
+        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-rounded">close</span></button></form>
     </div>
     <form method="POST" action="{{ route('accountant.inventory-purchases.store') }}">
         @csrf
@@ -144,7 +144,7 @@
                 <div>
                     <label class="block text-label-md font-label-md text-on-surface mb-2">Invoice Number</label>
                     <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">tag</span>
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">tag</span>
                         <input type="text" name="invoice_number" class="input-field pl-10 bg-surface" required>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Supplier Name</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">store</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">store</span>
                     <input type="text" name="supplier_name" class="input-field pl-10 bg-surface" required>
                 </div>
             </div>
@@ -166,7 +166,7 @@
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Payment Status</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">payments</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">payments</span>
                     <select name="payment_status" class="input-field pl-10 bg-surface" required>
                         <option value="Paid">Paid</option>
                         <option value="Unpaid">Unpaid</option>
@@ -179,7 +179,7 @@
                 <textarea name="notes" class="input-field bg-surface" rows="2"></textarea>
             </div>
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 flex gap-3 text-blue-800 mt-2">
-                <span class="material-symbols-outlined text-blue-600">info</span>
+                <span class="material-symbols-rounded text-blue-600">info</span>
                 <span class="text-sm font-medium">Recording this purchase will automatically create a Ledger Entry for expense tracking.</span>
             </div>
         </div>

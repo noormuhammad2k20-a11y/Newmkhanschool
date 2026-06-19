@@ -11,7 +11,7 @@
                 <p class="text-body-lg font-body-lg text-secondary mt-1">Access and download your course materials, slides, and references.</p>
             </div>
             <div class="flex items-center gap-3 w-full md:w-auto relative">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
+                <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
                 <input type="text" id="searchInput" placeholder="Search notes..." class="w-full md:w-72 pl-10 pr-4 py-2 border border-outline-variant rounded-xl bg-surface-container-lowest text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Notes</h3>
                     <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-[18px]">library_books</span>
+                        <span class="material-symbols-rounded text-[18px]">library_books</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -37,7 +37,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Downloaded</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <span class="material-symbols-outlined text-[18px]">download_done</span>
+                        <span class="material-symbols-rounded text-[18px]">download_done</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -51,7 +51,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending</h3>
                     <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
-                        <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                        <span class="material-symbols-rounded text-[18px]">pending_actions</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -65,7 +65,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Subjects Covered</h3>
                     <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                        <span class="material-symbols-outlined text-[18px]">category</span>
+                        <span class="material-symbols-rounded text-[18px]">category</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -80,7 +80,7 @@
             <!-- Header & Filter Row -->
             <div class="p-4 border-b border-outline-variant flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-surface-bright">
                 <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">folder_open</span>
+                    <span class="material-symbols-rounded text-primary">folder_open</span>
                     Available Resources
                 </h3>
                 
@@ -112,7 +112,7 @@
                                         @elseif($note->file_type == 'image') bg-purple-100 text-purple-600
                                         @else bg-surface-variant text-on-surface-variant @endif
                                     ">
-                                        <span class="material-symbols-outlined text-[24px]">
+                                        <span class="material-symbols-rounded text-[24px]">
                                             @if($note->file_type == 'pdf') picture_as_pdf
                                             @elseif(in_array($note->file_type, ['doc', 'docx', 'text'])) description
                                             @elseif($note->file_type == 'ppt') slides
@@ -137,12 +137,12 @@
                                 <!-- Card Meta -->
                                 <div class="mt-auto pt-4 border-t border-outline-variant border-dashed flex flex-col gap-2">
                                     <div class="flex items-center gap-2 text-label-sm font-label-sm text-secondary">
-                                        <span class="material-symbols-outlined text-[16px]">person</span>
+                                        <span class="material-symbols-rounded text-[16px]">person</span>
                                         <span class="truncate">{{ $note->uploader->name ?? 'Teacher' }}</span>
                                     </div>
                                     <div class="flex justify-between items-center text-label-sm font-label-sm text-secondary">
                                         <div class="flex items-center gap-1.5">
-                                            <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                            <span class="material-symbols-rounded text-[16px]">calendar_today</span>
                                             <span>{{ $note->created_at->format('M d, Y') }}</span>
                                         </div>
                                         <span class="font-bold uppercase text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">{{ $note->file_type }}</span>
@@ -154,18 +154,18 @@
                             <div class="p-4 bg-surface-container-lowest border-t border-outline-variant">
                                 @if($note->file_path)
                                     <a href="{{ Storage::url($note->file_path) }}" target="_blank" class="w-full py-2 bg-primary-fixed text-primary rounded-lg font-bold text-label-md hover:bg-primary hover:text-on-primary transition-colors flex items-center justify-center gap-2">
-                                        <span class="material-symbols-outlined text-[18px]">download</span> Download File
+                                        <span class="material-symbols-rounded text-[18px]">download</span> Download File
                                     </a>
                                 @elseif($note->external_url)
                                     <a href="{{ $note->external_url }}" target="_blank" class="w-full py-2 bg-secondary-container text-on-secondary-container rounded-lg font-bold text-label-md hover:bg-secondary hover:text-on-secondary transition-colors flex items-center justify-center gap-2">
-                                        <span class="material-symbols-outlined text-[18px]">open_in_new</span> Open Link
+                                        <span class="material-symbols-rounded text-[18px]">open_in_new</span> Open Link
                                     </a>
                                 @endif
                             </div>
                         </div>
                     @empty
                         <div class="col-span-full py-16 flex flex-col items-center justify-center border border-outline-variant border-dashed rounded-xl bg-surface-container-lowest">
-                            <span class="material-symbols-outlined text-[48px] text-secondary mb-4">folder_off</span>
+                            <span class="material-symbols-rounded text-[48px] text-secondary mb-4">folder_off</span>
                             <h4 class="text-headline-md font-headline-md text-on-surface mb-1">No Notes Available</h4>
                             <p class="text-body-md font-body-md text-secondary text-center max-w-sm">No digital notes have been uploaded for your current subjects.</p>
                         </div>
@@ -174,7 +174,7 @@
                 
                 <!-- No Results Message -->
                 <div id="noResultsMsg" class="hidden py-16 flex-col items-center justify-center border border-outline-variant border-dashed rounded-xl bg-surface-container-lowest">
-                    <span class="material-symbols-outlined text-[48px] text-secondary mb-4">search_off</span>
+                    <span class="material-symbols-rounded text-[48px] text-secondary mb-4">search_off</span>
                     <h4 class="text-headline-md font-headline-md text-on-surface mb-1">No matching notes</h4>
                     <p class="text-body-md font-body-md text-secondary">Try adjusting your filters or search query.</p>
                 </div>

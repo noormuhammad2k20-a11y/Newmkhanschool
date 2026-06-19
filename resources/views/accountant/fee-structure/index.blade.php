@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Fee Management</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Fee Structure</span>
                         </div>
                     </li>
@@ -39,14 +39,14 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
 
         @if($errors->any())
         <div class="p-4 mb-4 text-sm text-error rounded-xl bg-error-10 border border-error-container relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-error">error</span>
+            <span class="material-symbols-rounded text-error">error</span>
             <div><span class="font-semibold">Error!</span> Please check the validation issues.</div>
         </div>
         @endif
@@ -68,7 +68,7 @@
                             <td class="py-4 px-6">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant">
-                                        <span class="material-symbols-outlined text-[20px]">meeting_room</span>
+                                        <span class="material-symbols-rounded text-[20px]">meeting_room</span>
                                     </div>
                                     <div>
                                         <div class="font-semibold text-on-surface text-body-lg">{{ $structure->class->name ?? 'N/A' }}</div>
@@ -111,7 +111,7 @@
                         @empty
                         <tr>
                             <td colspan="3" class="py-16 text-center text-secondary">
-                                <span class="material-symbols-outlined text-5xl mb-3 text-outline">account_tree</span>
+                                <span class="material-symbols-rounded text-5xl mb-3 text-outline">account_tree</span>
                                 <p class="text-body-lg font-medium text-on-surface">No fee structures configured yet</p>
                                 <p class="text-body-md mt-1">Please ask the administrator to configure fee structures from the Admin Portal.</p>
                             </td>

@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Financial Operations</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Expenses</span>
                         </div>
                     </li>
@@ -35,7 +35,7 @@
                     <p class="text-body-lg font-body-lg text-secondary mt-1">Record and track school expenditures</p>
                 </div>
                 <button onclick="document.getElementById('addExpenseModal').showModal()" class="btn-primary shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    <span class="material-symbols-rounded text-[20px]">add</span>
                     Record Expense
                 </button>
             </div>
@@ -43,7 +43,7 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
@@ -68,7 +68,7 @@
                             <td class="py-4 px-6 font-medium text-on-surface">
                                 <div class="flex items-center gap-2">
                                     <div class="w-8 h-8 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant">
-                                        <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                        <span class="material-symbols-rounded text-[16px]">calendar_today</span>
                                     </div>
                                     {{ \Carbon\Carbon::parse($expense->expense_date)->format('d M, Y') }}
                                 </div>
@@ -82,20 +82,20 @@
                             <td class="py-4 px-6 text-secondary truncate max-w-xs">{{ $expense->description }}</td>
                             <td class="py-4 px-6 font-bold text-error text-body-lg">
                                 <div class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+                                    <span class="material-symbols-rounded text-[16px]">arrow_downward</span>
                                     {{ number_format($expense->amount, 2) }}
                                 </div>
                             </td>
                             <td class="py-4 px-6 text-right">
                                 <div class="flex justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
                                     <button onclick="editExpense({{ $expense->toJson() }})" class="text-secondary bg-surface hover:text-primary hover:bg-primary/10 border border-outline-variant hover:border-primary/30 p-2 rounded-lg transition-colors tooltip" data-tip="Edit">
-                                        <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        <span class="material-symbols-rounded text-[20px]">edit</span>
                                     </button>
                                     <form method="POST" action="{{ route('accountant.expenses.destroy', $expense->id) }}" onsubmit="return confirm('Delete this expense? This will also remove the ledger entry.');" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-secondary bg-surface hover:text-error hover:bg-red-50 border border-outline-variant hover:border-red-200 p-2 rounded-lg transition-colors tooltip" data-tip="Delete">
-                                            <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            <span class="material-symbols-rounded text-[20px]">delete</span>
                                         </button>
                                     </form>
                                 </div>
@@ -104,7 +104,7 @@
                         @empty
                         <tr>
                             <td colspan="6" class="py-16 text-center text-secondary">
-                                <span class="material-symbols-outlined text-5xl mb-3 text-outline">receipt_long</span>
+                                <span class="material-symbols-rounded text-5xl mb-3 text-outline">receipt_long</span>
                                 <p class="text-body-lg font-medium text-on-surface">No expenses recorded yet.</p>
                                 <p class="text-body-md mt-1">Click "Record Expense" to add a new expenditure.</p>
                             </td>
@@ -127,11 +127,11 @@
     <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-xl">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
-                <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+                <span class="material-symbols-rounded text-[20px]">receipt_long</span>
             </div>
             Record Expense
         </h3>
-        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
+        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-rounded">close</span></button></form>
     </div>
     <form method="POST" action="{{ route('accountant.expenses.store') }}" enctype="multipart/form-data">
         @csrf
@@ -160,7 +160,7 @@
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Voucher / Receipt No (Optional)</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">tag</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">tag</span>
                     <input type="text" name="voucher_no" class="input-field pl-10 bg-surface">
                 </div>
             </div>
@@ -210,11 +210,11 @@
     <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-xl">
         <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
-                <span class="material-symbols-outlined text-[20px]">edit_square</span>
+                <span class="material-symbols-rounded text-[20px]">edit_square</span>
             </div>
             Edit Expense
         </h3>
-        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button></form>
+        <form method="dialog"><button class="text-secondary hover:bg-surface-container p-1 rounded-full transition-colors"><span class="material-symbols-rounded">close</span></button></form>
     </div>
     <form id="editForm" method="POST" action="" enctype="multipart/form-data">
         @csrf
@@ -244,7 +244,7 @@
             <div>
                 <label class="block text-label-md font-label-md text-on-surface mb-2">Voucher / Receipt No</label>
                 <div class="relative">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">tag</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">tag</span>
                     <input type="text" name="voucher_no" id="edit_voucher" class="input-field pl-10 bg-surface">
                 </div>
             </div>

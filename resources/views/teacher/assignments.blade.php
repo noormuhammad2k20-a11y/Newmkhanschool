@@ -11,7 +11,7 @@
                 <p class="text-body-lg font-body-lg text-secondary mt-1">Manage class assignments and track submissions.</p>
             </div>
             <button onclick="document.getElementById('createModal').classList.remove('hidden'); document.body.style.overflow = 'hidden';" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-primary-dark flex items-center gap-2">
-                <span class="material-symbols-outlined">add</span> Create
+                <span class="material-symbols-rounded">add</span> Create
             </button>
         </div>
 
@@ -44,7 +44,7 @@
                             </td>
                             <td class="py-3 px-4 text-center">
                                 <a href="{{ route('teacher.assignments.submissions', $assignment->id) }}" class="bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded-lg text-xs font-medium transition-colors inline-flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">visibility</span> View
+                                    <span class="material-symbols-rounded text-[16px]">visibility</span> View
                                 </a>
                             </td>
                         </tr>
@@ -67,7 +67,7 @@
             <div class="p-6 border-b border-outline-variant flex justify-between items-center">
                 <h3 class="text-headline-sm font-headline-sm text-on-surface">Create Assignment</h3>
                 <button onclick="document.getElementById('createModal').classList.add('hidden'); document.body.style.overflow = '';" class="text-secondary hover:text-on-surface">
-                    <span class="material-symbols-outlined">close</span>
+                    <span class="material-symbols-rounded">close</span>
                 </button>
             </div>
             <form action="{{ route('teacher.assignments.store') }}" method="POST" class="p-6 space-y-4">

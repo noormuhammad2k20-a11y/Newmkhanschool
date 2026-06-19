@@ -13,7 +13,7 @@
                 <form action="{{ route('parent.notifications.read-all') }}" method="POST">
                     @csrf
                     <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-high text-on-surface rounded-lg font-label-md hover:bg-surface-container-highest transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">done_all</span>
+                        <span class="material-symbols-rounded text-[18px]">done_all</span>
                         Mark All Read
                     </button>
                 </form>
@@ -25,7 +25,7 @@
                 @forelse($notifications as $notification)
                     <div class="p-4 {{ $notification->is_read ? 'bg-surface-container-lowest' : 'bg-surface-container-low' }} hover:bg-surface-container-high transition-colors flex gap-4 items-start" id="notif-{{ $notification->id }}">
                         <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $notification->is_read ? 'bg-surface-container text-secondary' : 'bg-primary-fixed text-primary' }}">
-                            <span class="material-symbols-outlined">
+                            <span class="material-symbols-rounded">
                                 {{ $notification->type === 'attendance' ? 'event_busy' : ($notification->type === 'fee_overdue' ? 'account_balance_wallet' : ($notification->type === 'leave_update' ? 'event_available' : 'notifications')) }}
                             </span>
                         </div>
@@ -48,7 +48,7 @@
                     </div>
                 @empty
                     <div class="p-8 text-center text-secondary">
-                        <span class="material-symbols-outlined text-[48px] mb-4 opacity-50">notifications_off</span>
+                        <span class="material-symbols-rounded text-[48px] mb-4 opacity-50">notifications_off</span>
                         <p class="text-title-md font-title-md">No Notifications</p>
                         <p class="text-body-md font-body-md mt-1">You're all caught up!</p>
                     </div>

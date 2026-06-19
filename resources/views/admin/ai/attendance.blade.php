@@ -13,7 +13,7 @@
                 <form action="{{ route('admin.ai.attendance.predict') }}" method="POST">
                     @csrf
                     <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md py-2 px-4 rounded-full shadow transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined">auto_awesome</span>
+                        <span class="material-symbols-rounded">auto_awesome</span>
                         Run AI Analysis
                     </button>
                 </form>
@@ -28,7 +28,7 @@
                 @forelse($patterns as $pattern)
                 <div class="bg-surface rounded-lg p-md border border-outline-variant">
                     <div class="flex items-center gap-sm mb-sm">
-                        <span class="material-symbols-outlined text-primary">insights</span>
+                        <span class="material-symbols-rounded text-primary">insights</span>
                         <h4 class="font-label-md text-label-md text-on-surface">{{ ucfirst($pattern->entity_type) }} Pattern</h4>
                     </div>
                     <p class="font-body-md text-body-md text-on-surface-variant mb-sm">{{ $pattern->pattern_key }} ({{ str_replace('_', ' ', $pattern->pattern_type) }})</p>
@@ -86,11 +86,11 @@
                             </td>
                             <td class="p-md">
                                 @if($anomaly->severity === 'high')
-                                    <span class="text-error font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">warning</span> High</span>
+                                    <span class="text-error font-semibold flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">warning</span> High</span>
                                 @elseif($anomaly->severity === 'medium')
-                                    <span class="text-[#b26b00] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">error</span> Medium</span>
+                                    <span class="text-[#b26b00] font-semibold flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">error</span> Medium</span>
                                 @else
-                                    <span class="text-primary font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">info</span> Low</span>
+                                    <span class="text-primary font-semibold flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">info</span> Low</span>
                                 @endif
                             </td>
                             <td class="p-md text-on-surface-variant">
@@ -98,9 +98,9 @@
                             </td>
                             <td class="p-md">
                                 @if($anomaly->resolved)
-                                    <span class="text-[#006e1c] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> Resolved</span>
+                                    <span class="text-[#006e1c] font-semibold flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">check_circle</span> Resolved</span>
                                 @else
-                                    <span class="text-secondary font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">pending</span> Pending</span>
+                                    <span class="text-secondary font-semibold flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">pending</span> Pending</span>
                                 @endif
                             </td>
                             <td class="p-md text-right">
@@ -108,7 +108,7 @@
                                 <form action="{{ route('admin.ai.attendance.resolve', $anomaly->id) }}" method="POST" class="inline">
                                     @csrf
                                     <button type="submit" class="text-primary hover:text-primary-container font-label-md flex items-center gap-1 ml-auto">
-                                        <span class="material-symbols-outlined text-[18px]">done_all</span> Mark Resolved
+                                        <span class="material-symbols-rounded text-[18px]">done_all</span> Mark Resolved
                                     </button>
                                 </form>
                                 @else

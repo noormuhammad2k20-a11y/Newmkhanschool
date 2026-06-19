@@ -19,7 +19,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">My Classes</h3>
                             <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined text-[18px]">class</span>
+                                <span class="material-symbols-rounded text-[18px]">class</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -35,7 +35,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Total Students</h3>
                             <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                                <span class="material-symbols-outlined text-[18px]">groups</span>
+                                <span class="material-symbols-rounded text-[18px]">groups</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -51,14 +51,14 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Assignments Pending</h3>
                             <div class="w-8 h-8 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
-                                <span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+                                <span class="material-symbols-rounded text-[18px]">assignment_turned_in</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
                             <span class="text-headline-xl font-headline-xl text-on-surface">{{ $pendingAssignments ?? 12 }}</span>
                         </div>
                         <div class="mt-2 flex items-center gap-1 text-xs font-medium text-error">
-                            <span class="material-symbols-outlined text-[14px]">priority_high</span>
+                            <span class="material-symbols-rounded text-[14px]">priority_high</span>
                             <span>Needs grading</span>
                         </div>
                         <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-surface-variant rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -68,7 +68,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Today's Timetable</h3>
                             <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                                <span class="material-symbols-outlined text-[18px]">schedule</span>
+                                <span class="material-symbols-rounded text-[18px]">schedule</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -88,7 +88,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">AI Graded</h3>
                             <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                                <span class="material-symbols-rounded text-[18px]">auto_awesome</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -103,7 +103,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Seating Plans</h3>
                             <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
-                                <span class="material-symbols-outlined text-[18px]">grid_view</span>
+                                <span class="material-symbols-rounded text-[18px]">grid_view</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -118,7 +118,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending Submissions</h3>
                             <div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error">
-                                <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                                <span class="material-symbols-rounded text-[18px]">pending_actions</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -133,7 +133,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Class Performance</h3>
                             <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                                <span class="material-symbols-outlined text-[18px]">trending_up</span>
+                                <span class="material-symbols-rounded text-[18px]">trending_up</span>
                             </div>
                         </div>
                         <div class="flex items-baseline gap-2">
@@ -170,7 +170,7 @@
                                         <td class="py-3 px-4">Mathematics</td>
                                         <td class="py-3 px-4">
                                             <a href="{{ route('teacher.attendance') }}" class="inline-flex items-center gap-1 text-primary hover:underline font-medium text-sm">
-                                                <span class="material-symbols-outlined text-[16px]">how_to_reg</span> Mark Attendance
+                                                <span class="material-symbols-rounded text-[16px]">how_to_reg</span> Mark Attendance
                                             </a>
                                         </td>
                                     </tr>
@@ -180,7 +180,7 @@
                                         <td class="py-3 px-4">Physics</td>
                                         <td class="py-3 px-4">
                                             <a href="{{ route('teacher.attendance') }}" class="inline-flex items-center gap-1 text-primary hover:underline font-medium text-sm">
-                                                <span class="material-symbols-outlined text-[16px]">how_to_reg</span> Mark Attendance
+                                                <span class="material-symbols-rounded text-[16px]">how_to_reg</span> Mark Attendance
                                             </a>
                                         </td>
                                     </tr>
@@ -197,7 +197,7 @@
                     <div class="p-md border-b border-outline-variant bg-surface-bright flex justify-between items-center">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-                                <span class="material-symbols-outlined text-[22px]">warning</span>
+                                <span class="material-symbols-rounded text-[22px]">warning</span>
                             </div>
                             <div>
                                 <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Alert — {{ now()->format('F Y') }}</h3>
@@ -226,7 +226,7 @@
                                     <td class="py-3 px-4 text-secondary">{{ $row->class_name ?? '—' }}</td>
                                     <td class="py-3 px-4">
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold {{ $row->absent_count >= 5 ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700' }}">
-                                            <span class="material-symbols-outlined text-[14px]">event_busy</span>
+                                            <span class="material-symbols-rounded text-[14px]">event_busy</span>
                                             {{ $row->absent_count }} days
                                         </span>
                                     </td>

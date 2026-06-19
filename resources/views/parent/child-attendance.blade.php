@@ -11,7 +11,7 @@
                 <p class="text-body-md font-body-md text-secondary mt-1">Viewing attendance for {{ $student->first_name }} {{ $student->last_name }}</p>
             </div>
         <a href="{{ route('parent.dashboard') }}" class="bg-surface border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center">
-            <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+            <span class="material-symbols-rounded text-[18px] mr-1">arrow_back</span>
             Back to Dashboard
         </a>
     </div>
@@ -56,7 +56,7 @@
     @else
         <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xl text-center shadow-sm">
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 text-secondary">
-                <span class="material-symbols-outlined text-3xl">event_busy</span>
+                <span class="material-symbols-rounded text-3xl">event_busy</span>
             </div>
             <h3 class="text-headline-md font-headline-md text-on-surface">No Attendance Records</h3>
             <p class="text-body-md font-body-md text-secondary mt-1">There are no attendance records for this student yet.</p>

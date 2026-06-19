@@ -16,12 +16,12 @@
             <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
                 <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
                     <h3 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">shield_person</span>
+                        <span class="material-symbols-rounded text-primary">shield_person</span>
                         {{ $role->name }}
                     </h3>
                     @if($role->name === 'Super Admin')
                         <span class="bg-error-container text-error px-3 py-1 rounded-full text-label-sm font-semibold flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[16px]">warning</span> Careful: Core Role
+                            <span class="material-symbols-rounded text-[16px]">warning</span> Careful: Core Role
                         </span>
                     @endif
                 </div>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="mt-lg pt-md border-t border-outline-variant text-right">
                         <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md py-2 px-6 rounded-full shadow transition-colors flex items-center justify-center gap-2 ml-auto">
-                            <span class="material-symbols-outlined text-[20px]">save</span> Save {{ $role->name }} Permissions
+                            <span class="material-symbols-rounded text-[20px]">save</span> Save {{ $role->name }} Permissions
                         </button>
                     </div>
                 </form>

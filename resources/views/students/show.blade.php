@@ -14,11 +14,11 @@
             </div>
             <div class="flex items-center gap-sm">
                 <a href="{{ route('admin.students') }}" class="bg-surface border border-outline-variant text-on-surface text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center gap-sm hover:bg-surface-container-high transition-colors shadow-sm">
-                    <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    <span class="material-symbols-rounded text-[20px]">arrow_back</span>
                     Back
                 </a>
                 <a href="{{ route('admin.students.edit', $student->id) }}" class="bg-primary text-on-primary text-label-md font-label-md py-sm px-md rounded-DEFAULT flex items-center gap-sm hover:opacity-90 transition-opacity shadow-sm">
-                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                    <span class="material-symbols-rounded text-[20px]">edit</span>
                     Edit Profile
                 </a>
             </div>
@@ -40,11 +40,11 @@
                 <h3 class="text-display-sm font-headline-lg text-on-background mb-xs">{{ $student->first_name }} {{ $student->last_name }}</h3>
                 <div class="flex flex-wrap items-center justify-center md:justify-start gap-md mt-sm">
                     <span class="inline-flex items-center gap-xs px-sm py-xs bg-surface-container-high text-on-surface-variant rounded-md text-label-md">
-                        <span class="material-symbols-outlined text-[16px]">badge</span>
+                        <span class="material-symbols-rounded text-[16px]">badge</span>
                         Adm No: {{ $student->admission_no }}
                     </span>
                     <span class="inline-flex items-center gap-xs px-sm py-xs {{ strtolower($student->status) === 'regular' ? 'bg-[#e6f4ea] text-[#137333]' : 'bg-[#fce8e6] text-[#c5221f]' }} rounded-md text-label-md font-bold">
-                        <span class="material-symbols-outlined text-[16px]">
+                        <span class="material-symbols-rounded text-[16px]">
                             {{ strtolower($student->status) === 'regular' ? 'check_circle' : 'cancel' }}
                         </span>
                         {{ ucfirst($student->status) }}
@@ -59,7 +59,7 @@
             <!-- Academic Information -->
             <div class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex items-center gap-sm mb-lg border-b border-outline-variant pb-sm">
-                    <span class="material-symbols-outlined text-primary text-[24px]">school</span>
+                    <span class="material-symbols-rounded text-primary text-[24px]">school</span>
                     <h4 class="text-title-lg font-headline-md text-on-background">Academic Details</h4>
                 </div>
                 <div class="space-y-md">
@@ -77,7 +77,7 @@
             <!-- Personal Information -->
             <div class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex items-center gap-sm mb-lg border-b border-outline-variant pb-sm">
-                    <span class="material-symbols-outlined text-primary text-[24px]">person</span>
+                    <span class="material-symbols-rounded text-primary text-[24px]">person</span>
                     <h4 class="text-title-lg font-headline-md text-on-background">Personal Information</h4>
                 </div>
                 <div class="grid grid-cols-2 gap-md">
@@ -99,7 +99,7 @@
             <!-- Parent/Guardian Information -->
             <div class="bg-surface border border-outline-variant rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow md:col-span-2">
                 <div class="flex items-center gap-sm mb-lg border-b border-outline-variant pb-sm">
-                    <span class="material-symbols-outlined text-primary text-[24px]">family_restroom</span>
+                    <span class="material-symbols-rounded text-primary text-[24px]">family_restroom</span>
                     <h4 class="text-title-lg font-headline-md text-on-background">Parent / Guardian Information</h4>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
@@ -114,7 +114,7 @@
                     <div>
                         <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Emergency Contact</p>
                         <div class="flex items-center gap-sm text-body-lg font-medium text-on-background">
-                            <span class="material-symbols-outlined text-[18px] text-secondary">phone</span>
+                            <span class="material-symbols-rounded text-[18px] text-secondary">phone</span>
                             <a href="tel:{{ $student->mobile_number }}" class="hover:text-primary transition-colors">{{ $student->mobile_number ?? 'N/A' }}</a>
                         </div>
                     </div>

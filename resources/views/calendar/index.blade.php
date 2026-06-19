@@ -12,10 +12,10 @@
                 </div>
                 <div class="flex gap-sm">
                     <button class="px-md py-sm border border-outline-variant text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container-lowest bg-surface transition-colors flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="download">download</span> Export PDF
+                        <span class="material-symbols-rounded text-[18px]" data-icon="download">download</span> Export PDF
                     </button>
                     <button class="px-md py-sm bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-fixed-variant transition-colors flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="add">add</span> New Event
+                        <span class="material-symbols-rounded text-[18px]" data-icon="add">add</span> New Event
                     </button>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                             <h3 class="font-headline-lg text-headline-lg text-on-surface">October 2024</h3>
                             <div class="flex gap-xs">
                                 <button class="p-xs border border-outline-variant rounded hover:bg-surface-container-low text-secondary">
-                                    <span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+                                    <span class="material-symbols-rounded" data-icon="chevron_left">chevron_left</span>
                                 </button>
                                 <button class="px-sm py-xs border border-outline-variant rounded hover:bg-surface-container-low text-secondary font-label-md text-label-md">
                                     Today
                                 </button>
                                 <button class="p-xs border border-outline-variant rounded hover:bg-surface-container-low text-secondary">
-                                    <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+                                    <span class="material-symbols-rounded" data-icon="chevron_right">chevron_right</span>
                                 </button>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                     <!-- Upcoming Gazetted Holidays -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md">
                         <h3 class="font-headline-md text-headline-md text-on-surface mb-md border-b border-outline-variant pb-xs flex items-center gap-sm">
-                            <span class="material-symbols-outlined text-secondary" data-icon="celebration">celebration</span>
+                            <span class="material-symbols-rounded text-secondary" data-icon="celebration">celebration</span>
                             Upcoming Holidays
                         </h3>
                         <ul class="flex flex-col gap-sm font-body-md text-body-md">
@@ -186,7 +186,7 @@
                     <!-- Term Milestones -->
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md">
                         <h3 class="font-headline-md text-headline-md text-on-surface mb-md border-b border-outline-variant pb-xs flex items-center gap-sm">
-                            <span class="material-symbols-outlined text-secondary" data-icon="flag">flag</span>
+                            <span class="material-symbols-rounded text-secondary" data-icon="flag">flag</span>
                             Term 1 Milestones
                         </h3>
                         <div class="relative pl-md border-l-2 border-outline-variant ml-sm flex flex-col gap-md py-sm">

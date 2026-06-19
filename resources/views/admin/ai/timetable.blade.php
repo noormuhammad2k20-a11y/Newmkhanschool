@@ -12,22 +12,22 @@
             
             <div class="flex flex-wrap items-center gap-3 shrink-0 bg-surface-container-lowest p-2 rounded-xl border border-outline-variant shadow-sm w-full 2xl:w-auto overflow-x-auto">
                 <button id="approveBtn" class="hidden px-4 py-2 rounded-lg bg-blue-600 text-white font-label-md hover:bg-blue-700 transition-colors shadow-sm items-center justify-center gap-2 whitespace-nowrap min-w-[160px] h-[40px]">
-                    <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                    <span class="material-symbols-rounded text-[18px]">check_circle</span>
                     Approve Timetable
                 </button>
                 
                 <button id="historyBtn" class="px-4 py-2 rounded-lg border border-outline text-secondary font-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center justify-center gap-2 whitespace-nowrap min-w-[140px] h-[40px]">
-                    <span class="material-symbols-outlined text-[18px]">history</span>
+                    <span class="material-symbols-rounded text-[18px]">history</span>
                     View History
                 </button>
                 
                 <button id="editBtn" class="hidden px-4 py-2 rounded-lg border border-outline text-primary font-label-md hover:bg-surface-container transition-colors shadow-sm items-center justify-center gap-2 whitespace-nowrap min-w-[160px] h-[40px]">
-                    <span class="material-symbols-outlined text-[18px]">edit</span>
+                    <span class="material-symbols-rounded text-[18px]">edit</span>
                     Edit AI Timetable
                 </button>
                 
                 <button id="generateBtn" class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-2 whitespace-nowrap min-w-[200px] h-[40px]">
-                    <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                    <span class="material-symbols-rounded text-[18px]">auto_awesome</span>
                     1-Click Generate Timetable
                 </button>
             </div>
@@ -37,7 +37,7 @@
         <div id="initialState" class="bento-grid mb-xl">
             <div class="bento-item-large bg-surface-container-lowest p-xl rounded-xl border border-outline-variant shadow-sm text-center py-20">
                 <div class="w-20 h-20 bg-primary-container text-primary rounded-full flex items-center justify-center mx-auto mb-md">
-                    <span class="material-symbols-outlined text-[40px]">calendar_month</span>
+                    <span class="material-symbols-rounded text-[40px]">calendar_month</span>
                 </div>
                 <h3 class="font-headline-md text-on-surface mb-sm">No Timetable Found</h3>
                 <p class="text-body-md text-on-surface-variant max-w-md mx-auto mb-lg">
@@ -45,15 +45,15 @@
                 </p>
                 <div class="flex justify-center gap-md text-sm text-secondary">
                     <div class="flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[16px] text-green-600">check_circle</span>
+                        <span class="material-symbols-rounded text-[16px] text-green-600">check_circle</span>
                         Avoids Teacher Conflicts
                     </div>
                     <div class="flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[16px] text-green-600">check_circle</span>
+                        <span class="material-symbols-rounded text-[16px] text-green-600">check_circle</span>
                         Avoids Room Conflicts
                     </div>
                     <div class="flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[16px] text-green-600">check_circle</span>
+                        <span class="material-symbols-rounded text-[16px] text-green-600">check_circle</span>
                         Optimizes Subject Distribution
                     </div>
                 </div>
@@ -75,15 +75,15 @@
                     <div>
                         <div class="flex flex-wrap items-center gap-4 text-sm text-secondary mb-2">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">person</span>
+                                <span class="material-symbols-rounded text-[16px]">person</span>
                                 <span id="infoCreatedBy">Created By</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                <span class="material-symbols-rounded text-[16px]">calendar_today</span>
                                 <span id="infoCreatedAt">Date</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">update</span>
+                                <span class="material-symbols-rounded text-[16px]">update</span>
                                 <span id="infoUpdatedAt">Last Updated</span>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
             </div>
 
             <div class="p-sm bg-green-100 text-green-800 rounded-lg border border-green-200 flex items-center gap-sm mb-lg shadow-sm">
-                <span class="material-symbols-outlined">check_circle</span>
+                <span class="material-symbols-rounded">check_circle</span>
                 <span id="resultMessage" class="font-medium text-sm">Timetable loaded.</span>
             </div>
 
@@ -109,7 +109,7 @@
     <div class="bg-surface p-lg rounded-xl shadow-lg w-full max-w-md border border-outline-variant">
         <h3 class="font-headline-md text-primary mb-md flex justify-between">
             Edit Timetable Slot
-            <button onclick="closeEditModal()" class="text-secondary hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+            <button onclick="closeEditModal()" class="text-secondary hover:text-primary"><span class="material-symbols-rounded">close</span></button>
         </h3>
         
         <form id="editSlotForm" class="space-y-sm">
@@ -119,8 +119,8 @@
             <input type="hidden" id="editEndTime" name="end_time">
             
             <div class="bg-surface-container p-3 rounded-lg border border-outline-variant mb-4 text-sm text-on-surface-variant flex flex-col gap-1">
-                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">school</span> <strong id="editClassSectionLabel">Class</strong></div>
-                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">schedule</span> <strong id="editTimeLabel">Time</strong></div>
+                <div class="flex items-center gap-2"><span class="material-symbols-rounded text-[16px]">school</span> <strong id="editClassSectionLabel">Class</strong></div>
+                <div class="flex items-center gap-2"><span class="material-symbols-rounded text-[16px]">schedule</span> <strong id="editTimeLabel">Time</strong></div>
             </div>
             
             <div>
@@ -143,11 +143,11 @@
 
             <div class="mt-md flex flex-col gap-2">
                 <button type="button" id="aiSuggestBtn" class="w-full py-2 bg-secondary-container text-on-secondary-container rounded-md flex justify-center items-center gap-1 hover:bg-opacity-80 transition-colors">
-                    <span class="material-symbols-outlined text-[16px]">psychology</span>
+                    <span class="material-symbols-rounded text-[16px]">psychology</span>
                     Suggest AI Alternatives
                 </button>
                 <button type="submit" class="w-full py-2 bg-primary text-on-primary rounded-md flex justify-center items-center gap-1 hover:bg-primary-container transition-colors">
-                    <span class="material-symbols-outlined text-[16px]">save</span>
+                    <span class="material-symbols-rounded text-[16px]">save</span>
                     Save Changes
                 </button>
             </div>
@@ -161,7 +161,7 @@
     <div class="bg-surface p-lg rounded-xl shadow-lg w-full max-w-2xl border border-outline-variant max-h-[80vh] flex flex-col">
         <h3 class="font-headline-md text-primary mb-md flex justify-between">
             Timetable Change History
-            <button onclick="closeHistoryModal()" class="text-secondary hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+            <button onclick="closeHistoryModal()" class="text-secondary hover:text-primary"><span class="material-symbols-rounded">close</span></button>
         </h3>
         <div class="overflow-y-auto flex-1 pr-2 space-y-sm" id="historyContainer">
             <!-- History items here -->
@@ -353,7 +353,7 @@
                     <div class="p-lg border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
                         <h3 class="font-headline-md text-headline-md font-semibold text-primary">Class: {className}</h3>
                         <button class="text-secondary hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">download</span>
+                            <span class="material-symbols-rounded">download</span>
                         </button>
                     </div>
                     <div class="overflow-x-auto w-full">
@@ -379,10 +379,10 @@
                                                 <td class="p-sm border-r border-outline-variant align-top min-w-[160px] w-40 ${cursorClass}" ${onClick}>
                                                     <div class="font-body-md font-bold text-on-surface mb-1 text-sm">{cell.subject}</div>
                                                     <div class="text-xs text-on-surface-variant flex items-center gap-1 mb-1">
-                                                        <span class="material-symbols-outlined text-[12px]">person</span>{cell.teacher}
+                                                        <span class="material-symbols-rounded text-[12px]">person</span>{cell.teacher}
                                                     </div>
                                                     <div class="text-xs text-secondary flex items-center gap-1">
-                                                        <span class="material-symbols-outlined text-[12px]">room</span>{cell.room}
+                                                        <span class="material-symbols-rounded text-[12px]">room</span>{cell.room}
                                                     </div>
                                                 </td>
                                             `;
@@ -430,7 +430,7 @@
 
     function fetchSuggestions(isInitialLoad = false) {
         const aiSuggestBtn = document.getElementById('aiSuggestBtn');
-        aiSuggestBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Loading...';
+        aiSuggestBtn.innerHTML = '<span class="material-symbols-rounded animate-spin">sync</span> Loading...';
         
         fetch("{{ route('admin.ai.timetable.suggestions') }}", {
             method: 'POST',
@@ -448,7 +448,7 @@
         })
         .then(res => res.json())
         .then(data => {
-            aiSuggestBtn.innerHTML = '<span class="material-symbols-outlined">psychology</span> Suggest AI Alternatives';
+            aiSuggestBtn.innerHTML = '<span class="material-symbols-rounded">psychology</span> Suggest AI Alternatives';
             if (data.status === 'success') {
                 populateDropdowns(data.data);
                 if (!isInitialLoad) {

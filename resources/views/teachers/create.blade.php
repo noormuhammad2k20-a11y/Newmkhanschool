@@ -166,7 +166,7 @@
                                         <div class="md:col-span-2 mt-xl flex justify-end gap-md border-t border-outline-variant pt-lg">
                                             <button type="button" onclick="nextStep(2)" class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
                                                 Next Step
-                                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                                <span class="material-symbols-rounded text-[18px]">arrow_forward</span>
                                             </button>
                                         </div>
                                     </div>
@@ -214,12 +214,12 @@
                                         
                                         <div class="md:col-span-2 mt-xl flex justify-between gap-md border-t border-outline-variant pt-lg">
                                             <button type="button" onclick="prevStep(1)" class="bg-surface border border-outline-variant text-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-surface-container-low transition-colors shadow-sm flex items-center gap-xs">
-                                                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                                                <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                                                 Back
                                             </button>
                                             <button type="button" onclick="nextStep(3)" class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
                                                 Next Step
-                                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                                <span class="material-symbols-rounded text-[18px]">arrow_forward</span>
                                             </button>
                                         </div>
                                     </div>
@@ -232,7 +232,7 @@
                                     </div>
                                     <div class="flex flex-col gap-lg">
                                         <div class="w-full rounded border-2 border-dashed border-outline-variant bg-surface-container-low flex flex-col items-center justify-center text-secondary relative p-xl group cursor-pointer hover:border-primary hover:bg-primary-fixed transition-colors">
-                                            <span class="material-symbols-outlined text-[48px] mb-sm group-hover:text-primary">upload_file</span>
+                                            <span class="material-symbols-rounded text-[48px] mb-sm group-hover:text-primary">upload_file</span>
                                             <h4 class="text-title-md font-bold text-on-surface group-hover:text-primary">Upload Resume / CV</h4>
                                             <p class="text-body-sm mt-xs">PDF or Word Document (Max 5MB)</p>
                                             <input name="resume" accept=".pdf,.doc,.docx" class="absolute inset-0 opacity-0 cursor-pointer" type="file" />
@@ -240,11 +240,11 @@
                                         
                                         <div class="mt-xl flex justify-between gap-md border-t border-outline-variant pt-lg relative">
                                             <button type="button" onclick="prevStep(2)" class="bg-surface border border-outline-variant text-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-surface-container-low transition-colors shadow-sm flex items-center gap-xs">
-                                                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                                                <span class="material-symbols-rounded text-[18px]">arrow_back</span>
                                                 Back
                                             </button>
                                             <button type="submit" class="bg-[#137333] text-white font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:opacity-90 transition-opacity shadow-sm flex items-center gap-xs">
-                                                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                                <span class="material-symbols-rounded text-[18px]">check_circle</span>
                                                 Complete Registration
                                             </button>
                                         </div>
@@ -254,7 +254,7 @@
                             
                             <!-- Success/Error Overlay inside the card -->
                             <div id="form-overlay" class="hidden absolute inset-0 bg-surface/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center rounded-DEFAULT">
-                                <span id="overlay-icon" class="material-symbols-outlined text-[64px] text-[#137333] mb-md">check_circle</span>
+                                <span id="overlay-icon" class="material-symbols-rounded text-[64px] text-[#137333] mb-md">check_circle</span>
                                 <h3 id="overlay-title" class="text-headline-md font-headline-md text-on-surface mb-xs">Success</h3>
                                 <p id="overlay-msg" class="text-body-md text-on-surface-variant">Teacher registered successfully.</p>
                                 <button onclick="window.location.reload()" class="mt-lg bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm">
@@ -358,12 +358,12 @@
             
             if (response.status === 'success') {
                 icon.textContent = 'check_circle';
-                icon.className = 'material-symbols-outlined text-[64px] text-[#137333] mb-md';
+                icon.className = 'material-symbols-rounded text-[64px] text-[#137333] mb-md';
                 title.textContent = 'Success!';
                 msg.textContent = 'Teacher has been registered successfully.';
             } else {
                 icon.textContent = 'error';
-                icon.className = 'material-symbols-outlined text-[64px] text-[#c5221f] mb-md';
+                icon.className = 'material-symbols-rounded text-[64px] text-[#c5221f] mb-md';
                 title.textContent = 'Error';
                 msg.textContent = response.message || 'An error occurred while saving.';
             }

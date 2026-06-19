@@ -11,7 +11,7 @@
                 <p class="text-body-lg font-body-lg text-secondary mt-1">Communicate with administration and staff.</p>
             </div>
             <button onclick="document.getElementById('createModal').classList.remove('hidden'); document.body.style.overflow = 'hidden';" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-primary-dark flex items-center gap-2">
-                <span class="material-symbols-outlined">edit</span> Compose
+                <span class="material-symbols-rounded">edit</span> Compose
             </button>
         </div>
 
@@ -59,7 +59,7 @@
                 </div>
                 @else
                 <div class="flex-1 flex items-center justify-center text-secondary flex-col">
-                    <span class="material-symbols-outlined text-6xl mb-4 opacity-50">mail</span>
+                    <span class="material-symbols-rounded text-6xl mb-4 opacity-50">mail</span>
                     <p>Select a message to read</p>
                 </div>
                 @endif
@@ -73,7 +73,7 @@
             <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-xl">
                 <h3 class="text-headline-sm font-headline-sm text-on-surface">New Message</h3>
                 <button onclick="document.getElementById('createModal').classList.add('hidden'); document.body.style.overflow = '';" class="text-secondary hover:text-on-surface">
-                    <span class="material-symbols-outlined">close</span>
+                    <span class="material-symbols-rounded">close</span>
                 </button>
             </div>
             <form action="{{ route('teacher.messages.store') }}" method="POST" class="p-6 space-y-4">
@@ -101,7 +101,7 @@
                 <div class="pt-4 flex justify-end gap-2">
                     <button type="button" onclick="document.getElementById('createModal').classList.add('hidden'); document.body.style.overflow = '';" class="px-4 py-2 border border-outline-variant rounded text-on-surface hover:bg-surface-container-low transition-colors">Discard</button>
                     <button type="submit" class="px-4 py-2 bg-primary text-on-primary rounded hover:bg-primary-dark flex items-center gap-2 transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">send</span> Send
+                        <span class="material-symbols-rounded text-[18px]">send</span> Send
                     </button>
                 </div>
             </form>

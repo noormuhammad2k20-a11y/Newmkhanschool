@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Settings</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">My Profile</span>
                         </div>
                     </li>
@@ -39,7 +39,7 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
@@ -54,7 +54,7 @@
                     <h3 class="text-headline-md font-headline-md text-on-surface mb-1">{{ $user->name }}</h3>
                     <p class="text-body-lg text-secondary mb-4">{{ $user->email }}</p>
                     <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary border border-primary/20">
-                        <span class="material-symbols-outlined text-[16px] mr-1.5">verified_user</span>
+                        <span class="material-symbols-rounded text-[16px] mr-1.5">verified_user</span>
                         Accountant
                     </span>
 
@@ -88,7 +88,7 @@
                                 <div>
                                     <label class="block text-label-md font-label-md text-on-surface mb-2">Full Name</label>
                                     <div class="relative">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">person</span>
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">person</span>
                                         <input type="text" name="name" class="input-field pl-10 bg-surface" value="{{ old('name', $user->name) }}" required>
                                     </div>
                                     @error('name') <span class="text-error text-xs mt-1 block">{{ $message }}</span> @enderror
@@ -97,7 +97,7 @@
                                 <div>
                                     <label class="block text-label-md font-label-md text-on-surface mb-2">Email Address</label>
                                     <div class="relative">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">mail</span>
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">mail</span>
                                         <input type="email" name="email" class="input-field pl-10 bg-surface" value="{{ old('email', $user->email) }}" required>
                                     </div>
                                     @error('email') <span class="text-error text-xs mt-1 block">{{ $message }}</span> @enderror
@@ -108,7 +108,7 @@
                             <div class="bg-surface border border-outline-variant rounded-xl p-6">
                                 <h4 class="text-title-md font-title-md text-on-surface mb-6 flex items-center">
                                     <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center mr-3">
-                                        <span class="material-symbols-outlined text-[20px]">lock</span>
+                                        <span class="material-symbols-rounded text-[20px]">lock</span>
                                     </div>
                                     Security Settings
                                 </h4>
@@ -117,7 +117,7 @@
                                     <div>
                                         <label class="block text-label-md font-label-md text-on-surface mb-2">Current Password</label>
                                         <div class="relative">
-                                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">key</span>
+                                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">key</span>
                                             <input type="password" name="current_password" class="input-field pl-10 bg-background" placeholder="Leave blank to keep current password">
                                         </div>
                                     </div>
@@ -126,14 +126,14 @@
                                         <div>
                                             <label class="block text-label-md font-label-md text-on-surface mb-2">New Password</label>
                                             <div class="relative">
-                                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">password</span>
+                                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">password</span>
                                                 <input type="password" name="password" class="input-field pl-10 bg-background" placeholder="Minimum 8 characters">
                                             </div>
                                         </div>
                                         <div>
                                             <label class="block text-label-md font-label-md text-on-surface mb-2">Confirm New Password</label>
                                             <div class="relative">
-                                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-[20px]">password</span>
+                                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-rounded text-[20px]">password</span>
                                                 <input type="password" name="password_confirmation" class="input-field pl-10 bg-background" placeholder="Repeat new password">
                                             </div>
                                         </div>
@@ -145,7 +145,7 @@
                             <div class="flex justify-end gap-4 pt-4 border-t border-outline-variant">
                                 <button type="reset" class="btn-outline px-6">Discard Changes</button>
                                 <button type="submit" class="btn-primary px-6 shadow-sm flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[20px]">save</span>
+                                    <span class="material-symbols-rounded text-[20px]">save</span>
                                     Save Profile
                                 </button>
                             </div>

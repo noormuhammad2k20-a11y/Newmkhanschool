@@ -27,7 +27,7 @@
                             </div>
                         @endif
                         <button class="absolute bottom-0 right-0 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center shadow-md border-2 border-surface-container-lowest hover:bg-primary-container hover:text-on-primary-container transition-colors" title="Change Photo" onclick="document.getElementById('photoInput').click()">
-                            <span class="material-symbols-outlined text-[16px]">photo_camera</span>
+                            <span class="material-symbols-rounded text-[16px]">photo_camera</span>
                         </button>
                     </div>
                     <h2 class="text-headline-lg font-headline-lg text-on-surface mb-1 font-bold">{{ $student->first_name }} {{ $student->last_name }}</h2>
@@ -48,7 +48,7 @@
                 <!-- School Details -->
                 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
                     <div class="p-4 border-b border-outline-variant bg-surface-bright flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary text-[20px]">school</span>
+                        <span class="material-symbols-rounded text-primary text-[20px]">school</span>
                         <h3 class="text-headline-sm font-bold text-on-surface">Academic Info</h3>
                     </div>
                     <ul class="p-4 space-y-4 text-body-md">
@@ -79,7 +79,7 @@
                 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
                     <div class="p-5 border-b border-outline-variant bg-surface-bright flex justify-between items-center">
                         <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary text-[20px]">person</span>
+                            <span class="material-symbols-rounded text-primary text-[20px]">person</span>
                             <h3 class="text-headline-sm font-bold text-on-surface">Personal Information</h3>
                         </div>
                         <span class="text-[11px] text-secondary bg-surface-container px-2 py-1 rounded-md font-bold uppercase tracking-wider">Editable</span>
@@ -94,7 +94,7 @@
                             <div>
                                 <label class="block text-label-sm font-bold text-secondary uppercase tracking-wider mb-2">Mobile Number</label>
                                 <div class="relative">
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">phone</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">phone</span>
                                     <input type="text" name="mobile_number" value="{{ old('mobile_number', $student->mobile_number) }}" class="w-full bg-surface-container-lowest text-on-surface border border-outline-variant rounded-lg shadow-sm py-2 px-3 pl-10 focus:border-primary focus:ring-primary text-sm transition-colors">
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                             <div>
                                 <label class="block text-label-sm font-bold text-secondary uppercase tracking-wider mb-2">Date of Birth</label>
                                 <div class="relative">
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">calendar_month</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">calendar_month</span>
                                     <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $student->date_of_birth ? \Carbon\Carbon::parse($student->date_of_birth)->format('Y-m-d') : '') }}" class="w-full bg-surface-container-lowest text-on-surface border border-outline-variant rounded-lg shadow-sm py-2 px-3 pl-10 focus:border-primary focus:ring-primary text-sm transition-colors">
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
                             <div class="md:col-span-2">
                                 <label class="block text-label-sm font-bold text-secondary uppercase tracking-wider mb-2">Residential Address</label>
                                 <div class="relative">
-                                    <span class="material-symbols-outlined absolute left-3 top-3 text-secondary text-[18px]">home</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-3 text-secondary text-[18px]">home</span>
                                     <textarea name="address" rows="3" class="w-full bg-surface-container-lowest text-on-surface border border-outline-variant rounded-lg shadow-sm py-2 px-3 pl-10 focus:border-primary focus:ring-primary text-sm transition-colors">{{ old('address', $student->address) }}</textarea>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
 
                         <div class="flex justify-end mt-4 pt-4 border-t border-outline-variant/50">
                             <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container font-bold text-sm py-2 px-6 rounded-lg transition-colors shadow-sm flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[18px]">save</span>
+                                <span class="material-symbols-rounded text-[18px]">save</span>
                                 Save Changes
                             </button>
                         </div>
@@ -129,7 +129,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
                     <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
                         <div class="p-4 border-b border-outline-variant bg-surface-bright flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary text-[20px]">family_restroom</span>
+                            <span class="material-symbols-rounded text-primary text-[20px]">family_restroom</span>
                             <h3 class="text-headline-sm font-bold text-on-surface">Parent/Guardian</h3>
                         </div>
                         <div class="p-5">
@@ -145,11 +145,11 @@
                                 </div>
                                 <div class="space-y-3">
                                     <div class="flex items-center gap-3 text-sm text-secondary">
-                                        <span class="material-symbols-outlined text-[16px]">call</span>
+                                        <span class="material-symbols-rounded text-[16px]">call</span>
                                         <span>{{ $student->parent->mobile_number ?? 'Not provided' }}</span>
                                     </div>
                                     <div class="flex items-center gap-3 text-sm text-secondary">
-                                        <span class="material-symbols-outlined text-[16px]">mail</span>
+                                        <span class="material-symbols-rounded text-[16px]">mail</span>
                                         <span class="truncate">{{ $student->parent->user->email ?? 'Not provided' }}</span>
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@
                     <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
                         <div class="p-4 border-b border-outline-variant bg-surface-bright flex justify-between items-center">
                             <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-error text-[20px]">health_and_safety</span>
+                                <span class="material-symbols-rounded text-error text-[20px]">health_and_safety</span>
                                 <h3 class="text-headline-sm font-bold text-on-surface">Emergency</h3>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                                 <div>
                                     <span class="block text-[10px] font-bold uppercase tracking-wider text-secondary mb-1">Emergency Contact</span>
                                     <p class="text-sm font-bold text-on-surface flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-[16px] text-secondary">contact_phone</span>
+                                        <span class="material-symbols-rounded text-[16px] text-secondary">contact_phone</span>
                                         {{ $student->parent->mobile_number ?? 'Please update in office' }}
                                     </p>
                                 </div>
@@ -189,7 +189,7 @@
                 <!-- Security -->
                 <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
                     <div class="p-5 border-b border-outline-variant bg-surface-bright flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+                        <span class="material-symbols-rounded text-primary text-[20px]">lock</span>
                         <h3 class="text-headline-sm font-bold text-on-surface">Security Settings</h3>
                     </div>
                     
@@ -200,14 +200,14 @@
                             <div>
                                 <label class="block text-label-sm font-bold text-secondary uppercase tracking-wider mb-2">New Password</label>
                                 <div class="relative">
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">key</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">key</span>
                                     <input type="password" name="password" class="w-full bg-surface-container-lowest text-on-surface border border-outline-variant rounded-lg shadow-sm py-2 px-3 pl-10 focus:border-primary focus:ring-primary text-sm" placeholder="Leave blank to keep current">
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-label-sm font-bold text-secondary uppercase tracking-wider mb-2">Confirm Password</label>
                                 <div class="relative">
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">key</span>
+                                    <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">key</span>
                                     <input type="password" name="password_confirmation" class="w-full bg-surface-container-lowest text-on-surface border border-outline-variant rounded-lg shadow-sm py-2 px-3 pl-10 focus:border-primary focus:ring-primary text-sm" placeholder="Confirm new password">
                                 </div>
                             </div>

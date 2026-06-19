@@ -11,19 +11,19 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2">
                     <li class="inline-flex items-center">
                         <a href="{{ route('accountant.dashboard') }}" class="inline-flex items-center hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            <span class="material-symbols-rounded text-[16px] mr-1">home</span>
                             Accountant Portal
                         </a>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Financial Operations</span>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+                            <span class="material-symbols-rounded text-[16px] mx-1">chevron_right</span>
                             <span class="text-on-surface">Payroll</span>
                         </div>
                     </li>
@@ -35,7 +35,7 @@
                     <p class="text-body-lg font-body-lg text-secondary mt-1">Manage staff salaries and payments</p>
                 </div>
                 <button class="btn-primary shadow-sm flex items-center gap-2" onclick="openModal('generate-payroll-modal')">
-                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    <span class="material-symbols-rounded text-[20px]">add</span>
                     Generate Payroll
                 </button>
             </div>
@@ -43,7 +43,7 @@
 
         @if(session('success'))
         <div class="p-4 mb-4 text-sm text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 relative flex items-center gap-3" role="alert">
-            <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <span class="material-symbols-rounded text-emerald-600">check_circle</span>
             <div><span class="font-semibold">Success!</span> {{ session('success') }}</div>
         </div>
         @endif
@@ -72,7 +72,7 @@
                                     <div>
                                         <div class="font-semibold text-on-surface text-body-lg">{{ $payroll->name }}</div>
                                         <div class="text-xs text-secondary flex items-center gap-1 mt-0.5">
-                                            <span class="material-symbols-outlined text-[14px]">badge</span>
+                                            <span class="material-symbols-rounded text-[14px]">badge</span>
                                             {{ $payroll->role ?? 'Staff' }} - {{ $payroll->emp_id }}
                                         </div>
                                     </div>
@@ -82,7 +82,7 @@
                             <td class="py-4 px-6">{{ number_format($payroll->basic_pay, 2) }}</td>
                             <td class="py-4 px-6 text-error font-medium">
                                 <div class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">remove</span>
+                                    <span class="material-symbols-rounded text-[16px]">remove</span>
                                     {{ number_format($payroll->deductions, 2) }}
                                 </div>
                             </td>
@@ -104,7 +104,7 @@
                                         <form method="POST" action="{{ route('accountant.payroll.mark-paid', $payroll->id) }}">
                                             @csrf
                                             <button class="text-emerald-600 bg-surface hover:text-emerald-700 hover:bg-emerald-50 border border-outline-variant hover:border-emerald-200 p-2 rounded-lg transition-colors tooltip" data-tip="Mark as Paid">
-                                                <span class="material-symbols-outlined text-[20px]">payments</span>
+                                                <span class="material-symbols-rounded text-[20px]">payments</span>
                                             </button>
                                         </form>
                                     @endif
@@ -114,7 +114,7 @@
                         @empty
                         <tr>
                             <td colspan="7" class="py-16 text-center text-secondary">
-                                <span class="material-symbols-outlined text-5xl mb-3 text-outline">account_balance_wallet</span>
+                                <span class="material-symbols-rounded text-5xl mb-3 text-outline">account_balance_wallet</span>
                                 <p class="text-body-lg font-medium text-on-surface">No payroll records found.</p>
                                 <p class="text-body-md mt-1">Click "Generate Payroll" to create a new batch.</p>
                             </td>
@@ -138,7 +138,7 @@
         <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low rounded-t-xl">
             <h2 class="font-headline-md text-headline-md text-on-surface">Generate Payroll</h2>
             <button onclick="closeModal('generate-payroll-modal')" class="text-on-surface-variant hover:text-error transition-colors">
-                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <form action="{{ route('accountant.payroll.generate') }}" method="POST">

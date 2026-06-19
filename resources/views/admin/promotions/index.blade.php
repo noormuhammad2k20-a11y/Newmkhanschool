@@ -15,11 +15,11 @@
             
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.promotions.rules') }}" class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface hover:bg-surface-container-high transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">rule_settings</span>
+                    <span class="material-symbols-rounded text-[18px]">rule_settings</span>
                     Promotion Rules
                 </a>
                 <button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:bg-primary-hover shadow-sm transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">history</span>
+                    <span class="material-symbols-rounded text-[18px]">history</span>
                     Promotion History
                 </button>
             </div>
@@ -32,7 +32,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Eligible Students</h3>
                     <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700">
-                        <span class="material-symbols-outlined text-[18px]">school</span>
+                        <span class="material-symbols-rounded text-[18px]">school</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -49,7 +49,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Pending Promotions</h3>
                     <div class="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center text-orange-700">
-                        <span class="material-symbols-outlined text-[18px]">hourglass_empty</span>
+                        <span class="material-symbols-rounded text-[18px]">hourglass_empty</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -66,14 +66,14 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Promoted</h3>
                     <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
-                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                        <span class="material-symbols-rounded text-[18px]">verified</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
                     <span class="text-headline-lg font-headline-lg text-on-surface">210</span>
                 </div>
                 <div class="mt-2 text-xs font-medium text-emerald-700 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px]">check_circle</span> Successfully processed
+                    <span class="material-symbols-rounded text-[14px]">check_circle</span> Successfully processed
                 </div>
                 <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-100 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             </div>
@@ -83,7 +83,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-label-md font-label-md text-secondary uppercase tracking-wider">Retained</h3>
                     <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-700">
-                        <span class="material-symbols-outlined text-[18px]">block</span>
+                        <span class="material-symbols-rounded text-[18px]">block</span>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
@@ -131,7 +131,7 @@
 
                             <div class="bg-surface-variant p-4 rounded-lg mt-4">
                                 <h4 class="text-label-md font-label-md text-on-surface-variant flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[16px]">info</span>
+                                    <span class="material-symbols-rounded text-[16px]">info</span>
                                     How it works
                                 </h4>
                                 <p class="text-xs text-secondary mt-2 leading-relaxed">
@@ -196,7 +196,7 @@
                                 <tr>
                                     <td colspan="5" class="py-8 text-center text-secondary">
                                         <div class="flex flex-col items-center justify-center">
-                                            <span class="material-symbols-outlined text-4xl mb-2 opacity-50">rule_settings</span>
+                                            <span class="material-symbols-rounded text-4xl mb-2 opacity-50">rule_settings</span>
                                             <p>No promotion rules defined for this academic year.</p>
                                             <a href="{{ route('admin.promotions.rules') }}" class="text-primary hover:underline mt-2">Setup Rules</a>
                                         </div>

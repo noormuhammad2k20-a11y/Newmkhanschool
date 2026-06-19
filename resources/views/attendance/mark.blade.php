@@ -62,7 +62,7 @@
                         </div>
                         <div class="flex justify-end">
                             <button id="apply-filters" class="bg-surface-container-high text-on-surface border border-outline-variant px-md py-sm rounded text-label-md font-label-md hover:bg-surface-variant transition-colors flex items-center gap-xs w-full justify-center">
-                                <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                <span class="material-symbols-rounded text-[18px]">filter_list</span>
                                 Apply Filters
                             </button>
                         </div>
@@ -74,7 +74,7 @@
                     <div class="p-md border-b border-outline-variant bg-surface-container-lowest flex justify-between items-center">
                         <h3 class="text-headline-md font-headline-md text-on-surface">Attendance Roster</h3>
                         <button class="bg-primary-fixed text-on-primary-fixed px-md py-sm rounded border border-primary/20 text-label-md font-label-md hover:bg-primary-fixed-dim transition-colors flex items-center gap-xs" onclick="markAllPresent()">
-                            <span class="material-symbols-outlined text-[18px]">done_all</span>
+                            <span class="material-symbols-rounded text-[18px]">done_all</span>
                             Mark All Present
                         </button>
                     </div>
@@ -109,7 +109,7 @@
                         Cancel
                     </button>
                     <button id="save-attendance" class="px-lg py-sm bg-primary text-on-primary rounded text-label-md font-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]">save</span>
+                        <span class="material-symbols-rounded text-[18px]">save</span>
                         Save Attendance
                     </button>
                 </div>
@@ -177,7 +177,7 @@
                     </td>
                     <td class="py-sm px-md text-right">
                         <button class="text-secondary hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                            <span class="material-symbols-rounded text-[20px]">more_vert</span>
                         </button>
                     </td>
                 </tr>`;
