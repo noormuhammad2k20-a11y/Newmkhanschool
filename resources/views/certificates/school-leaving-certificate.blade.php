@@ -54,42 +54,42 @@
         transform: translate(-50%, -50%);
         opacity: 0.12; z-index: 0; pointer-events: none;
     }
-    .content-container {
+        .content-container {
         position: relative; padding: 16mm 22mm 18mm 22mm;
         z-index: 5; height: 100%;
-        display: flex; flex-direction: column;
+        display: flex; flex-direction: column; justify-content: flex-start;
         font-family: 'Montserrat', sans-serif; color: var(--text-main);
     }
-    .header-section { text-align: center; position: relative; margin-bottom: 2px; }
+    .header-section { text-align: center; position: relative; margin-bottom: 10px; }
     .meta-tags {
         display: flex; justify-content: space-between;
         font-size: 11px; font-weight: 700; color: var(--royal-blue);
-        letter-spacing: 1px; margin-bottom: 2px;
+        letter-spacing: 1px; margin-bottom: 5px;
     }
-    .header-logo { width: 120px; height: auto; max-height: 120px; object-fit: contain; margin-bottom: 2px; }
+    .header-logo { width: 140px; height: auto; max-height: 140px; object-fit: contain; margin-bottom: 8px; }
     .school-title {
         font-family: 'Cinzel', serif; font-size: 23px; font-weight: 800;
         color: var(--royal-blue); margin: 0; line-height: 1.2; text-transform: uppercase;
     }
     .school-address {
         font-size: 11px; font-weight: 700; color: #555;
-        letter-spacing: 3px; text-transform: uppercase; margin: 4px 0 6px 0;
+        letter-spacing: 3px; text-transform: uppercase; margin: 6px 0 15px 0;
     }
-    .certificate-title-wrapper { text-align: center; margin-bottom: 4px; }
+    .certificate-title-wrapper { text-align: center; margin-bottom: 15px; }
     .certificate-title {
         display: inline-block; background-color: var(--royal-blue); color: #fff;
         font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700;
-        padding: 4px 30px; border: 2px solid var(--rich-gold);
+        padding: 6px 30px; border: 2px solid var(--rich-gold);
         letter-spacing: 3px; text-transform: uppercase;
     }
-    .form-section { margin-bottom: 4px; }
+    .form-section { margin-bottom: 15px; }
     .section-heading {
         font-family: 'Cinzel', serif; font-size: 14px; font-weight: 800;
         color: var(--royal-blue); border-left: 4px solid var(--rich-gold);
-        background: rgba(10, 25, 49, 0.05); padding: 3px 10px;
-        margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;
+        background: rgba(10, 25, 49, 0.05); padding: 5px 10px;
+        margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
     }
-    .form-table { width: 100%; border-collapse: separate; border-spacing: 0 1px; }
+    .form-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
     .form-table td { vertical-align: bottom; }
     .label-cell {
         font-size: 11px; font-weight: 700; color: var(--royal-blue);
@@ -97,14 +97,14 @@
     }
     .value-cell {
         font-size: 13px; font-weight: 600; color: #111;
-        border-bottom: 2px dotted #888; padding-bottom: 1px; padding-left: 5px;
+        border-bottom: 2px dotted #888; padding-bottom: 3px; padding-left: 5px;
     }
     .footer-area {
         display: flex; justify-content: space-around; align-items: flex-end;
-        margin-top: 40px; padding-bottom: 0mm;
+        margin-top: 30px; padding-bottom: 0mm;
     }
     .signature-block { text-align: center; width: 35%; }
-    .sign-line { border-top: 1px solid var(--royal-blue); margin-bottom: 4px; }
+    .sign-line { border-top: 1px solid var(--royal-blue); margin-bottom: 8px; }
     .sign-text {
         font-family: 'Cinzel', serif; font-weight: 700; font-size: 12px;
         color: var(--royal-blue); letter-spacing: 1px;
@@ -202,7 +202,7 @@
 
             <img src="{{ $logoBase64 }}" alt="" class="header-logo">
 
-            <h1 class="school-title">{{ $school_name }}</h1>
+            <h1 class="school-title">{!! nl2br(e($school_name ?? setting('general.organization_name', 'Galaxy Academy'))) !!}</h1>
             <p class="school-address">{{ $school_address }}</p>
         </div>
 
@@ -295,7 +295,7 @@
                 <div class="seal-placeholder">
                     <div class="inner-wrapper">
                         <div class="stamp-indicator">Place Official Stamp Here</div>
-                        <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                        <div class="school-name">{{ $school_name ?? setting('general.organization_name', 'Galaxy Academy') }}</div>
                     </div>
                 </div>
             @endif
@@ -321,8 +321,12 @@
         'use strict';
 
         /* ══ MASTER CONFIG ══════════════════════════════════════════════ */
-        var TEXT_A   = 'GALAXY PUBLIC SCHOOL';           /* primary track   */
-        var TEXT_B   = 'COLLEGE UMERKOT';                /* secondary track */
+        var fullSchoolName = {!! json_encode(strtoupper($school_name ?? setting('general.organization_name', 'Galaxy Academy'))) !!};
+        var nameParts = fullSchoolName.split(' ');
+        var halfLen = Math.ceil(nameParts.length / 2);
+        var TEXT_A   = nameParts.slice(0, halfLen).join(' ') || 'GALAXY PUBLIC SCHOOL';
+        var TEXT_B   = nameParts.slice(halfLen).join(' ') || 'COLLEGE UMERKOT';
+        if (!TEXT_B) TEXT_B = TEXT_A;
         var SEP_STAR = '  \u2736  ';                     /* ✶ star          */
         var SEP_DIAM = '  \u25C6  ';                     /* ◆ diamond       */
 

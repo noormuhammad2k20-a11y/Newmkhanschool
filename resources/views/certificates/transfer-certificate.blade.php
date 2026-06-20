@@ -26,44 +26,179 @@
         --bg-color: #525659;
     }
 
-    body {
+    html, body {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        padding: 0;
         background-color: var(--paper-white);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
         font-family: 'Montserrat', sans-serif;
         color: var(--text-main);
-        padding: 0;
+        overflow: hidden;
+    }
+
+    body {
+        display: block;
     }
 
     /* ── A4 PAGE CONTAINER ── */
     .a4-page {
         width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
+        margin: 0;
         background-color: var(--paper-white);
         position: relative;
+        overflow: hidden;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
     }
 
+    /* ── PREMIUM OUTER PAGE BORDER ──
+       This is a second professional border near the page edge.
+       It stays separate from the main certificate border. */
+    .edge-frame {
+        position: absolute;
+        top: 1.2mm;
+        left: 1.2mm;
+        right: 1.2mm;
+        bottom: 1.2mm;
+        border: 2px solid rgba(10, 25, 49, 0.92);
+        box-shadow:
+            inset 0 0 0 1px rgba(197, 160, 89, 0.82),
+            inset 0 0 0 5px rgba(197, 160, 89, 0.035),
+            inset 0 0 18px rgba(10, 25, 49, 0.035),
+            0 0 0 0.6px rgba(197, 160, 89, 0.55);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .edge-frame::before {
+        content: "";
+        position: absolute;
+        top: 2.6mm;
+        left: 2.6mm;
+        right: 2.6mm;
+        bottom: 2.6mm;
+        border: 1px solid rgba(197, 160, 89, 0.52);
+        pointer-events: none;
+    }
+
+    .edge-frame::after {
+        content: "";
+        position: absolute;
+        top: 5.4mm;
+        left: 5.4mm;
+        right: 5.4mm;
+        bottom: 5.4mm;
+        border: 1px solid rgba(10, 25, 49, 0.18);
+        pointer-events: none;
+    }
+
+    .edge-corner {
+        position: absolute;
+        width: 31mm;
+        height: 31mm;
+        pointer-events: none;
+    }
+
+    .edge-top-left {
+        top: -1px;
+        left: -1px;
+        border-top: 3.2px solid var(--rich-gold);
+        border-left: 3.2px solid var(--rich-gold);
+    }
+
+    .edge-top-right {
+        top: -1px;
+        right: -1px;
+        border-top: 3.2px solid var(--rich-gold);
+        border-right: 3.2px solid var(--rich-gold);
+    }
+
+    .edge-bottom-left {
+        bottom: -1px;
+        left: -1px;
+        border-bottom: 3.2px solid var(--rich-gold);
+        border-left: 3.2px solid var(--rich-gold);
+    }
+
+    .edge-bottom-right {
+        bottom: -1px;
+        right: -1px;
+        border-bottom: 3.2px solid var(--rich-gold);
+        border-right: 3.2px solid var(--rich-gold);
+    }
+
+    .edge-decor-top,
+    .edge-decor-bottom {
+        position: absolute;
+        left: 27mm;
+        right: 27mm;
+        height: 1.2px;
+        background: linear-gradient(90deg, transparent, rgba(197,160,89,0.95), rgba(10,25,49,0.55), rgba(197,160,89,0.95), transparent);
+        pointer-events: none;
+    }
+
+    .edge-decor-left,
+    .edge-decor-right {
+        position: absolute;
+        top: 31mm;
+        bottom: 31mm;
+        width: 1.2px;
+        background: linear-gradient(180deg, transparent, rgba(197,160,89,0.95), rgba(10,25,49,0.55), rgba(197,160,89,0.95), transparent);
+        pointer-events: none;
+    }
+
+    .edge-decor-top { top: 5.4mm; }
+    .edge-decor-bottom { bottom: 5.4mm; }
+    .edge-decor-left { left: 5.4mm; }
+    .edge-decor-right { right: 5.4mm; }
+
     /* ── PRINT RULES ── */
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
     @media print {
-        @page { size: A4 portrait; margin: 0; }
-        body { background-color: transparent; margin: 0; padding: 0; display: block; }
-        .a4-page { margin: 0; box-shadow: none; width: 210mm; page-break-after: avoid; }
+        html, body {
+            width: 210mm;
+            height: 297mm;
+            min-height: 297mm;
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: transparent;
+            overflow: hidden;
+        }
+
+        body {
+            display: block;
+        }
+
+        .a4-page {
+            width: 210mm;
+            height: 297mm;
+            min-height: 297mm;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-shadow: none;
+            overflow: hidden;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
     }
 
     /* ── ELEGANT DOUBLE FRAME ── */
     .frame-outer {
         position: absolute;
-        top: 12mm; left: 12mm; right: 12mm; bottom: 8mm;
+        top: 14mm; left: 8mm; right: 8mm; bottom: 14mm;
         border: 4px solid var(--royal-blue);
         z-index: 1;
         pointer-events: none;
     }
     .frame-inner {
         position: absolute;
-        top: calc(12mm + 6px); left: calc(12mm + 6px); right: calc(12mm + 6px); bottom: calc(8mm + 6px);
+        top: calc(14mm + 6px); left: calc(8mm + 6px); right: calc(8mm + 6px); bottom: calc(14mm + 6px);
         border: 1px solid var(--rich-gold);
         z-index: 1;
         pointer-events: none;
@@ -84,7 +219,7 @@
     .watermark {
         position: absolute;
         top: 50%; left: 50%;
-        width: 450px; height: auto; max-height: 450px; object-fit: contain;
+        width: 515px; height: auto; max-height: 515px; object-fit: contain;
         transform: translate(-50%, -50%);
         opacity: 0.12;
         z-index: 0;
@@ -94,7 +229,7 @@
     /* ── CONTENT CONTAINER ── */
     .content-container {
         position: relative;
-        padding: 16mm 22mm 75mm 22mm;
+        padding: 18mm 12.5mm 36mm 12.5mm;
         z-index: 5;
         height: 100%;
         display: flex;
@@ -105,13 +240,13 @@
     .header-section {
         text-align: center;
         position: relative;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
     }
 
     .meta-tags {
         display: flex;
         justify-content: space-between;
-        font-size: 11px;
+        font-size: 12.1px;
         font-weight: 700;
         color: var(--royal-blue);
         letter-spacing: 1px;
@@ -120,40 +255,40 @@
 
     .header-logo {
         width: 120px; height: auto; max-height: 120px; object-fit: contain;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
 
     .school-title {
         font-family: 'Cinzel', serif;
-        font-size: 24px;
+        font-size: 26.3px;
         font-weight: 800;
         color: var(--royal-blue);
         margin: 0;
-        line-height: 1.3;
+        line-height: 1.25;
         text-transform: uppercase;
         padding: 0 10px;
         word-wrap: break-word;
     }
 
     .school-address {
-        font-size: 11px;
+        font-size: 12.1px;
         font-weight: 700;
         color: #555;
         letter-spacing: 3px;
         text-transform: uppercase;
-        margin: 4px 0 10px 0;
+        margin: 3px 0 7px 0;
     }
 
-    .certificate-title-wrapper { text-align: center; margin-bottom: 4px; }
+    .certificate-title-wrapper { text-align: center; margin-bottom: 9px; }
 
     .certificate-title {
         display: inline-block;
         background-color: var(--royal-blue);
         color: #fff;
         font-family: 'Cinzel', serif;
-        font-size: 20px;
+        font-size: 22px;
         font-weight: 700;
-        padding: 8px 40px;
+        padding: 9px 54px;
         border: 2px solid var(--rich-gold);
         letter-spacing: 3px;
         text-transform: uppercase;
@@ -163,7 +298,7 @@
     .form-table {
         width: 100%;
         border-collapse: separate;
-        border-spacing: 0 8px; /* Compressed spacing to fit one page */
+        border-spacing: 0 10.5px; /* Balanced professional spacing for one A4 page */
     }
 
     .form-table td {
@@ -171,7 +306,7 @@
     }
 
     .label-cell {
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 700;
         color: var(--royal-blue);
         white-space: nowrap;
@@ -185,7 +320,7 @@
     }
 
     .value-cell {
-        font-size: 13px;
+        font-size: 14.5px;
         font-weight: 600;
         color: #111;
         border-bottom: 1px dotted #888;
@@ -196,18 +331,18 @@
 
     .footer-area {
         position: absolute;
-        bottom: 25mm;
-        left: 20mm;
-        right: 20mm;
+        bottom: 34mm;
+        left: 23mm;
+        right: 23mm;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: flex-end;
         width: auto;
     }
 
     .signature-block {
         text-align: center;
-        width: 35%;
+        width: 40%;
         position: relative;
     }
 
@@ -220,7 +355,7 @@
     .sign-text {
         font-family: 'Cinzel', serif;
         font-weight: 700;
-        font-size: 11px;
+        font-size: 12.1px;
         color: var(--royal-blue);
         letter-spacing: 1px;
         text-transform: uppercase;
@@ -280,7 +415,7 @@
     /* Generated Fake Signatures using Dancing Script Font */
     .fake-signature {
         font-family: 'Dancing Script', cursive;
-        font-size: 24px;
+        font-size: 28px;
         color: #000080;
         position: absolute;
         bottom: 20px; 
@@ -291,7 +426,7 @@
         pointer-events: none;
     }
     .fake-signature.sig2 {
-        font-size: 26px;
+        font-size: 30px;
         transform: rotate(2deg);
         color: #1a1a1a;
     }
@@ -299,7 +434,7 @@
     /* ── Canvas Watermark Container ── */
     .text-watermark-pattern {
         position: absolute;
-        top: 12mm; left: 12mm; right: 12mm; bottom: 8mm;
+        top: 14mm; left: 8mm; right: 8mm; bottom: 14mm;
         z-index: 0;
         pointer-events: none;
         overflow: hidden;
@@ -314,6 +449,18 @@
 
 <!-- Certificate Box -->
 <div class="a4-page">
+
+    <!-- PREMIUM OUTER PAGE BORDER -->
+    <div class="edge-frame">
+        <span class="edge-corner edge-top-left"></span>
+        <span class="edge-corner edge-top-right"></span>
+        <span class="edge-corner edge-bottom-left"></span>
+        <span class="edge-corner edge-bottom-right"></span>
+        <span class="edge-decor-top"></span>
+        <span class="edge-decor-bottom"></span>
+        <span class="edge-decor-left"></span>
+        <span class="edge-decor-right"></span>
+    </div>
 
     <!-- ABSOLUTE FRAMES -->
     
@@ -343,7 +490,7 @@
             
             <img src="{{ $logoBase64 }}" alt="" class="header-logo">
             
-            <h1 class="school-title">{!! nl2br(e($school_name)) !!}</h1>
+            <h1 class="school-title">{!! nl2br(e($school_name ?? setting('general.organization_name', 'Galaxy Academy'))) !!}</h1>
             <p class="school-address">{{ $school_address }}</p>
         </div>
 
@@ -420,12 +567,12 @@
             
             <div class="signature-block" style="padding-bottom: 10px;">
                 @if($stampBase64)
-                    <img src="{{ $stampBase64 }}" alt="Official Stamp" style="max-width: 110px; height: auto; object-fit: contain; transform: translateY(0px) rotate(-2deg); opacity: 0.95; margin-bottom: 0px;">
+                    <img src="{{ $stampBase64 }}" alt="Official Stamp" style="max-width: 132px; height: auto; object-fit: contain; transform: translateY(0px) rotate(-2deg); opacity: 0.95; margin-bottom: 0px;">
                 @else
                     <div class="seal-placeholder">
                         <div class="inner-wrapper">
                             <div class="stamp-indicator">Place Official Stamp Here</div>
-                            <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                            <div class="school-name">{{ $school_name ?? setting('general.organization_name', 'Galaxy Academy') }}</div>
                         </div>
                     </div>
                 @endif
@@ -458,8 +605,12 @@
         'use strict';
 
         /* ══ MASTER CONFIG ══════════════════════════════════════════════ */
-        var TEXT_A   = 'GALAXY PUBLIC SCHOOL';           /* primary track   */
-        var TEXT_B   = 'COLLEGE UMERKOT';                /* secondary track */
+        var fullSchoolName = {!! json_encode(strtoupper($school_name ?? setting('general.organization_name', 'Galaxy Academy'))) !!};
+        var nameParts = fullSchoolName.split(' ');
+        var halfLen = Math.ceil(nameParts.length / 2);
+        var TEXT_A   = nameParts.slice(0, halfLen).join(' ') || 'GALAXY PUBLIC SCHOOL';
+        var TEXT_B   = nameParts.slice(halfLen).join(' ') || 'COLLEGE UMERKOT';
+        if (!TEXT_B) TEXT_B = TEXT_A;
         var SEP_STAR = '  \u2736  ';                     /* ✶ star          */
         var SEP_DIAM = '  \u25C6  ';                     /* ◆ diamond       */
 

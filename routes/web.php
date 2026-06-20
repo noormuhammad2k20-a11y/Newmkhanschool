@@ -109,8 +109,12 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
 
         // Student Promotions
         Route::get('/promotions', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'index'])->name('promotions.index');
-        Route::get('/promotions/preview', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'preview'])->name('promotions.preview');
+        Route::get('/promotions/load-students', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'loadStudents'])->name('promotions.load-students');
+        Route::get('/promotions/get-sections', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'getSections'])->name('promotions.get-sections');
         Route::post('/promotions/execute', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'execute'])->name('promotions.execute');
+        Route::get('/promotions/history', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'history'])->name('promotions.history');
+        Route::get('/promotions/export-history', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'exportHistory'])->name('promotions.export-history');
+        Route::get('/promotions/help', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'help'])->name('promotions.help');
         Route::get('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'rules'])->name('promotions.rules');
         Route::post('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'saveRule'])->name('promotions.rules.save');
 

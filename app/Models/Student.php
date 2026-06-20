@@ -37,5 +37,6 @@ class Student extends Model
     public function submissions()   { return $this->hasMany(AssignmentSubmission::class); }
     public function leaveRequests() { return $this->hasMany(StudentLeaveRequest::class); }
     public function reportCards()   { return $this->hasMany(ReportCard::class); }
+    public function promotions()    { return $this->hasMany(StudentPromotion::class); }
     public function user()          { return $this->belongsTo(User::class); }
 }

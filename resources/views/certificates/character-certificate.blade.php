@@ -402,7 +402,7 @@
 
             <div class="header-section">
                 <img src="{{ $logoBase64 }}" alt="" class="header-logo">
-                <h1 class="school-title">{{ $school_name }}</h1>
+                <h1 class="school-title">{{ $school_name ?? setting('general.organization_name', 'Galaxy Academy') }}</h1>
                 <p class="school-address">{{ $school_address }}</p>
             </div>
 
@@ -448,7 +448,7 @@
                     <div class="seal-placeholder">
                         <div class="inner-wrapper">
                             <div class="stamp-indicator">Place Official Stamp Here</div>
-                            <div class="school-name">{{ $school_name ?? 'Galaxy Public School & College Umerkot' }}</div>
+                            <div class="school-name">{{ $school_name ?? setting('general.organization_name', 'Galaxy Academy') }}</div>
                         </div>
                     </div>
                 @endif
@@ -477,8 +477,12 @@
     (function () {
         'use strict';
 
-        var TEXT_A   = '{{ strtoupper($school_name ?? "GALAXY PUBLIC SCHOOL") }}';
-        var TEXT_B   = 'CHARACTER CERTIFICATE';
+        var fullSchoolName = {!! json_encode(strtoupper($school_name ?? setting('general.organization_name', 'Galaxy Academy'))) !!};
+        var nameParts = fullSchoolName.split(' ');
+        var halfLen = Math.ceil(nameParts.length / 2);
+        var TEXT_A   = nameParts.slice(0, halfLen).join(' ') || 'GALAXY PUBLIC SCHOOL';
+        var TEXT_B   = nameParts.slice(halfLen).join(' ') || 'COLLEGE UMERKOT';
+        if (!TEXT_B) TEXT_B = TEXT_A;
         var SEP_STAR = '  \u2736  ';
         var SEP_DIAM = '  \u25C6  ';
 

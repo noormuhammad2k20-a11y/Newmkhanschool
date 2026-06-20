@@ -22,7 +22,7 @@
 <body>
 
 <div class="header">
-    <div class="school-name">{{ $payroll->teacher->school->name ?? 'New Mkhan School' }}</div>
+    <div class="school-name">{{ $payroll->teacher->school->name ?? setting('general.organization_name', 'Galaxy Academy') }}</div>
     <div class="title">Salary Slip for {{ \Carbon\Carbon::parse($payroll->month_year)->format('F Y') }}</div>
 </div>
 

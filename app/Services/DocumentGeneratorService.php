@@ -18,7 +18,7 @@ class DocumentGeneratorService
      */
     public function buildVariables(Student $student, array $extra = []): array
     {
-        $schoolName = setting('school.name', config('app.school_name', 'Government Boys Higher Secondary School Dhilyar'));
+        $schoolName = setting('general.organization_name', setting('school.name', config('app.school_name', 'Galaxy Academy')));
         $schoolAddress = setting('general.address', config('app.school_address', 'Taluka Khipro, District Sanghar'));
 
         $studentName = trim($student->first_name . ' ' . $student->last_name);
@@ -126,7 +126,7 @@ class DocumentGeneratorService
             ->setOption('isHtml5ParserEnabled', true)
             ->setOption('isRemoteEnabled', true)
             ->setOption('isPhpEnabled', false)
-            ->setOption('isFontSubsettingEnabled', true)
+            ->setOption('isFontSubsettingEnabled', false) // Disabled to speed up generation
             ->setOption('defaultFont', 'helvetica');
 
         $path = "documents/{$filename}.pdf";

@@ -104,11 +104,11 @@ body { font-family: 'Helvetica', 'Arial', sans-serif; font-size: 11px; color: #0
 
         <div class="school-header">
             @if(file_exists(public_path('logo.png')))
-                <img src="{{ public_path('logo.png') }}" style="height: 45px; margin-bottom: 4px;" alt="Galaxy Coaching Academy">
+                <img src="{{ public_path('logo.png') }}" style="height: 45px; margin-bottom: 4px;" alt="{{ setting('general.organization_name', 'Galaxy Academy') }}">
             @elseif(file_exists(public_path('images/logo.png')))
-                <img src="{{ public_path('images/logo.png') }}" style="height: 45px; margin-bottom: 4px;" alt="Galaxy Coaching Academy">
+                <img src="{{ public_path('images/logo.png') }}" style="height: 45px; margin-bottom: 4px;" alt="{{ setting('general.organization_name', 'Galaxy Academy') }}">
             @else
-                <h1 class="school-name">Galaxy Coaching Academy</h1>
+                <h1 class="school-name">{{ setting('general.organization_name', 'Galaxy Academy') }}</h1>
             @endif
             <p class="school-address">Umerkot, Sindh, Pakistan &nbsp;•&nbsp; Official Financial Record</p>
             <div class="receipt-title">FEE PAYMENT RECEIPT</div>

@@ -716,19 +716,24 @@ function generateDocument() {
                 iframe.style.border = 'none';
                 document.body.appendChild(iframe);
 
+                iframe.onload = function() {
+                    // Short delay to ensure canvas watermark or final fonts are ready
+                    setTimeout(() => {
+                        iframe.contentWindow.focus();
+                        iframe.contentWindow.print();
+                        setTimeout(() => {
+                            if (document.body.contains(iframe)) {
+                                document.body.removeChild(iframe);
+                            }
+                            refreshDashboardData();
+                        }, 1000);
+                    }, 200);
+                };
+
                 const iframeDoc = iframe.contentWindow.document;
                 iframeDoc.open();
                 iframeDoc.write(decodedHtml);
                 iframeDoc.close();
-
-                setTimeout(() => {
-                    iframe.contentWindow.focus();
-                    iframe.contentWindow.print();
-                    setTimeout(() => {
-                        document.body.removeChild(iframe);
-                        refreshDashboardData();
-                    }, 1000);
-                }, 500);
             } else {
                 refreshDashboardData();
             }
@@ -1144,19 +1149,24 @@ async function generateBulkDocuments() {
         iframe.style.border = 'none';
         document.body.appendChild(iframe);
 
+        iframe.onload = function() {
+            // Short delay to ensure canvas watermark or final fonts are ready
+            setTimeout(() => {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+                setTimeout(() => {
+                    if (document.body.contains(iframe)) {
+                        document.body.removeChild(iframe);
+                    }
+                    refreshDashboardData();
+                }, 1000);
+            }, 200);
+        };
+
         const iframeDoc = iframe.contentWindow.document;
         iframeDoc.open();
         iframeDoc.write(finalHtml);
         iframeDoc.close();
-
-        setTimeout(() => {
-            iframe.contentWindow.focus();
-            iframe.contentWindow.print();
-            setTimeout(() => {
-                document.body.removeChild(iframe);
-                refreshDashboardData();
-            }, 1000);
-        }, 500);
     } else {
         refreshDashboardData();
     }

@@ -26,7 +26,7 @@
 <body>
     <div class="id-card">
         <div class="header">STUDENT ID CARD</div>
-        <div class="school-name">{{ $school->name ?? 'New Mkhan School' }}</div>
+        <div class="school-name">{{ $school->name ?? setting('general.organization_name', 'Galaxy Academy') }}</div>
         
         <div class="photo">
             @if($student->photo)
