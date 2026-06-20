@@ -39,24 +39,35 @@ class StudentPromotionService
      */
     public function getDashboardStats(?int $academicYearId = null): array
     {
-        $totalStudents = Student::whereIn('status', ['Active', 'Regular'])->count();
+        $cacheKey = 'promotion_dashboard_stats_' . ($academicYearId ?? 'all') . '_school_' . (auth()->user()->school_id ?? 'global');
 
-        $baseQuery = StudentPromotion::query();
-        if ($academicYearId) {
-            $baseQuery->where('academic_year_id', $academicYearId);
-        }
+        return cache()->remember($cacheKey, now()->addMinutes(5), function () use ($academicYearId) {
+            $totalStudents = Student::whereIn('status', ['Active', 'Regular'])->count();
 
-        $promoted   = (clone $baseQuery)->where('status', 'success')->count();
-        $failed     = (clone $baseQuery)->where('status', 'failed')->count();
-        $total      = (clone $baseQuery)->count();
-        $rate       = $total > 0 ? round(($promoted / $total) * 100, 1) : 0;
+            $query = StudentPromotion::query();
+            if ($academicYearId) {
+                $query->where('academic_year_id', $academicYearId);
+            }
 
-        return [
-            'total_students'  => $totalStudents,
-            'promoted'        => $promoted,
-            'failed'          => $failed,
-            'completion_rate' => $rate,
-        ];
+            // Optimized: single query to count statuses
+            $counts = $query->toBase()
+                ->select('status', DB::raw('count(*) as count'))
+                ->groupBy('status')
+                ->pluck('count', 'status');
+
+            $promoted = $counts['success'] ?? 0;
+            $failed   = $counts['failed'] ?? 0;
+            $total    = $counts->sum();
+            
+            $rate = $total > 0 ? round(($promoted / $total) * 100, 1) : 0;
+
+            return [
+                'total_students'  => $totalStudents,
+                'promoted'        => $promoted,
+                'failed'          => $failed,
+                'completion_rate' => $rate,
+            ];
+        });
     }
 
     /**
@@ -287,5 +298,156 @@ class StudentPromotionService
         }
 
         return $query->paginate($perPage)->withQueryString();
+    }
+
+    /**
+     * Generate an Auto Promotion Batch with Intelligence
+     */
+    public function generateBatch(array $data): \App\Models\PromotionBatch
+    {
+        $schoolId = auth()->user()->school_id ?? null;
+
+        DB::beginTransaction();
+        try {
+            $batch = \App\Models\PromotionBatch::create([
+                'school_id' => $schoolId,
+                'from_session_id' => $data['from_academic_year_id'],
+                'to_session_id' => $data['to_academic_year_id'],
+                'from_class_id' => $data['from_class_id'],
+                'to_class_id' => $data['to_class_id'],
+                'from_section_id' => $data['from_section_id'] ?? null,
+                'to_section_id' => $data['to_section_id'] ?? null,
+                'status' => 'pending_approval',
+                'created_by' => auth()->id(),
+            ]);
+
+            $students = $this->getEligibleStudents($data['from_class_id'], $data['from_section_id'] ?? null);
+            $batch->update(['total_students' => $students->count()]);
+
+            $analyzer = new \App\Services\PromotionEligibilityAnalyzer();
+
+            foreach ($students as $student) {
+                // Check if already promoted
+                $exists = StudentPromotion::where('student_id', $student->id)
+                    ->where('to_academic_year_id', $data['to_academic_year_id'])
+                    ->where('to_class_id', $data['to_class_id'])
+                    ->where('status', 'success')
+                    ->exists();
+
+                $errors = $this->validatePromotionRequest(
+                    [$student->id],
+                    $data['from_class_id'],
+                    $data['to_class_id'],
+                    $data['to_section_id'] ?? null,
+                    $data['from_academic_year_id'],
+                    $data['to_academic_year_id']
+                );
+
+                if ($exists) {
+                    $errors[] = 'Already promoted to this destination.';
+                }
+
+                $analysis = $analyzer->analyze($student, $data['from_academic_year_id']);
+
+                \App\Models\PromotionBatchStudent::create([
+                    'batch_id' => $batch->id,
+                    'student_id' => $student->id,
+                    'status' => empty($errors) ? 'pending' : 'failed',
+                    'error_message' => empty($errors) ? null : implode(' | ', $errors),
+                    'eligibility_score' => $analysis['eligibility_score'],
+                    'category' => $analysis['category'],
+                    'risk_flags' => $analysis['risk_flags'],
+                ]);
+            }
+
+            DB::commit();
+            return $batch;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * Execute an approved batch
+     */
+    public function executeBatch(int $batchId, int $approvedBy): \App\Models\PromotionBatch
+    {
+        $batch = \App\Models\PromotionBatch::with('students.student')->findOrFail($batchId);
+        if ($batch->status !== 'approved') {
+            throw new \Exception("Batch is not in an approved state.");
+        }
+
+        $schoolId = $batch->school_id;
+
+        DB::beginTransaction();
+        try {
+            foreach ($batch->students as $batchStudent) {
+                if ($batchStudent->status === 'failed') {
+                    continue; // Skip those already failed validation
+                }
+
+                $student = $batchStudent->student;
+                if (!$student) continue;
+
+                try {
+                    StudentPromotion::create([
+                        'student_id'          => $student->id,
+                        'academic_year_id'    => $batch->from_session_id,
+                        'to_academic_year_id' => $batch->to_session_id,
+                        'from_class_id'       => $batch->from_class_id,
+                        'from_section_id'     => $student->current_section_id,
+                        'to_class_id'         => $batch->to_class_id,
+                        'to_section_id'       => $batch->to_section_id ?? null,
+                        'promotion_type'      => 'Promoted',
+                        'status'              => 'success',
+                        'promoted_by'         => $approvedBy,
+                        'remarks'             => 'Auto-Batch Promotion Execution',
+                        'batch_id'            => (string)$batch->id,
+                        'school_id'           => $schoolId,
+                    ]);
+
+                    $student->update([
+                        'current_class_id'   => $batch->to_class_id,
+                        'current_section_id' => $batch->to_section_id ?? $student->current_section_id,
+                    ]);
+
+                    $batchStudent->update(['status' => 'success']);
+
+                } catch (\Exception $e) {
+                    $batchStudent->update([
+                        'status' => 'failed',
+                        'error_message' => $e->getMessage()
+                    ]);
+
+                    StudentPromotion::create([
+                        'student_id'          => $student->id,
+                        'academic_year_id'    => $batch->from_session_id,
+                        'to_academic_year_id' => $batch->to_session_id,
+                        'from_class_id'       => $batch->from_class_id,
+                        'from_section_id'     => $student->current_section_id,
+                        'to_class_id'         => $batch->to_class_id,
+                        'to_section_id'       => $batch->to_section_id ?? null,
+                        'promotion_type'      => 'Promoted',
+                        'status'              => 'failed',
+                        'promoted_by'         => $approvedBy,
+                        'error_message'       => $e->getMessage(),
+                        'batch_id'            => (string)$batch->id,
+                        'school_id'           => $schoolId,
+                    ]);
+                }
+            }
+
+            $batch->update([
+                'status' => 'executed',
+                'approved_by' => $approvedBy,
+            ]);
+
+            DB::commit();
+            return $batch;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

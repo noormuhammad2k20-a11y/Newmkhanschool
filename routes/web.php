@@ -118,6 +118,15 @@ Route::middleware(['auth:admin', 'same_school', 'role:Super Admin,School Admin']
         Route::get('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'rules'])->name('promotions.rules');
         Route::post('/promotions/rules', [\App\Http\Controllers\Admin\StudentPromotionController::class, 'saveRule'])->name('promotions.rules.save');
 
+        // Auto Promotion Batch System
+        Route::get('/promotions/ai-dashboard', [\App\Http\Controllers\Admin\PromotionBatchController::class, 'aiDashboard'])->name('promotions.ai-dashboard');
+        Route::get('/promotions/batches', [\App\Http\Controllers\Admin\PromotionBatchController::class, 'index'])->name('promotions.batches.index');
+        Route::get('/promotions/batches/create', [\App\Http\Controllers\Admin\PromotionBatchController::class, 'create'])->name('promotions.batches.create');
+        Route::post('/promotions/batches', [\App\Http\Controllers\Admin\PromotionBatchController::class, 'store'])->name('promotions.batches.store');
+        Route::get('/promotions/batches/{id}', [\App\Http\Controllers\Admin\PromotionBatchController::class, 'show'])->name('promotions.batches.show');
+        Route::post('/promotions/batches/{id}/approve', [\App\Http\Controllers\Admin\PromotionBatchController::class, 'approve'])->name('promotions.batches.approve');
+        Route::post('/promotions/batches/{id}/reject', [\App\Http\Controllers\Admin\PromotionBatchController::class, 'reject'])->name('promotions.batches.reject');
+
 
 
         // Document Generation

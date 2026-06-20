@@ -22,6 +22,10 @@
                     <span class="material-symbols-rounded text-[18px]">rule_settings</span>
                     Promotion Rules
                 </a>
+                <a href="{{ route('admin.promotions.batches.index') }}" class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface hover:bg-surface-container-high transition-colors">
+                    <span class="material-symbols-rounded text-[18px]">view_list</span>
+                    Batch Promotions
+                </a>
                 <a href="{{ route('admin.promotions.history') }}" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:bg-primary-hover shadow-sm transition-colors">
                     <span class="material-symbols-rounded text-[18px]">history</span>
                     Promotion History
